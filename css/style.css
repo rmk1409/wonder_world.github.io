@@ -1,5 +1,5 @@
 body {
-    background: url("../img/background-village2.jpg") no-repeat;
+    background: url("../res/img/background-village2.jpg") no-repeat;
     background-size: 100%;
 }
 
@@ -8,11 +8,14 @@ header img {
 }
 
 button {
-    padding: 15px;
+    padding: 7px;
+    width: 145px;
+    border-radius: 30%;
+    background-color: white;
+    height: auto;
 }
 
 table {
-    border-collapse: separate;
     border: 3px solid black;
     border-spacing: 5px;
     border-collapse: collapse;
@@ -40,10 +43,6 @@ table img {
     height: 50px;
 }
 
-button {
-    width: 200px;
-}
-
 #left-block,
 #middle-block,
 #right-block {
@@ -55,35 +54,26 @@ button {
     margin-right: 0px;
 }
 
-#middle-block button {
+#work-table button {
     width: 40px;
-    height: 20px;
     padding: 0px;
 }
 
-#empty-td {
+#people-table button {
+  width: 200px;
+  }
+
+.empty-td {
     border: 0px;
 }
 
-#build button {
-    padding: 10px;
-    width: 200px;
-
-    height: auto;
-}
-
-button {
-    border: px solid black;
-    border-radius: 30%;
-    background-color: white;
-    height: auto;
-}
-
 #goal {
-    border: 1px solid red;
+    border: 5px solid green;
+    color: white;
+    background-color: black;
 }
 
-#in-librarie-row,
+#in-libraries-row,
 #start-again-button,
 #starvation,
 #thought-row,
@@ -121,14 +111,11 @@ button {
 
 #start-again-button {
     position: absolute;
-    left: 550;
-    top: 450;
-}
-
-#start-again-button {
-    margin-left: 200px;
-    color: white;
+    left: 750px;
+    top: 450px;
     background-color: green;
+    color: white;
+    padding: 3px;
 }
 
 #starvation {

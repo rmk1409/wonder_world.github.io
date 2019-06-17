@@ -13,12 +13,12 @@
 
 <body>
     <header>
-        <img src="img/header.jpg" opacity=".2">
+        <img src="res/img/header.jpg" opacity=".2">
     </header>
     <h2><i>Master is : </i><span id="user-name"></span>
     </h2>
     <hr>
-    <span id="goal"><b>!!! Your today's goal is to archieve any 1 target (a or b): a) Have a palace for yourself; b) Collect 10_000 thoughts</b></span>
+    <span id="goal"><b>!!! Your today's goal is target: a) Have a palace for yourself; b) Collect 10_000 thoughts. </b></span>
     <br>
     <br>
     <hr>
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img id="food-img" src="img/cherries.png">
+                        <img id="food-img" src="res/img/cherries.png">
                     </td>
                     <td>
                         <button id="food-button">Collect Food</button>
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img src="img/wood.png">
+                        <img src="res/img/wood.png">
                     </td>
                     <td>
                         <button id="wood-button">Collect Woods</button>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img src="img/stone.png">
+                        <img src="res/img/stone.png">
                     </td>
                     <td>
                         <button id="stone-button">Collect Stones</button>
@@ -80,10 +80,10 @@
                 </tr>
                 <tr id="thought-row">
                     <td>
-                        <img src="img/thought.png">
+                        <img src="res/img/thought.png">
                     </td>
                     <td>
-                        <p>Only citizens can produce it.</p>
+                        <p><i>Citizens produce it</i></p>
                     </td>
                     <td>
                         <span id="thought-quantity">0</span>
@@ -99,7 +99,7 @@
         <br>
         <hr>
 
-        <table>
+        <table id="people-table">
             <caption>People</caption>
             <tbody>
                 <tr>
@@ -110,7 +110,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img src="img/people.png">
+                        <img src="res/img/people.png">
                     </td>
                     <td>
                         <button id="create-worker-button">Create new citizen</button>
@@ -129,7 +129,7 @@
                 </tr>
                 <tr id="corpse-row">
                     <td>
-                        <img src="img/corpse.png" />
+                        <img src="res/img/corpse.png" />
                     </td>
                     <td>Corpses</td>
                     <td>-</td>
@@ -143,28 +143,28 @@
                 </tr>
                 <tr id="happiness-row">
                     <td>
-                        <img src="img/happy.png" />
+                        <img src="res/img/happy.png" />
                     </td>
-                    <td>Hapiness</td>
+                    <td>Happiness</td>
                     <td>-</td>
-                    <td><span id="current-happy-people">0</span> / <span id="max-happy-people">0</span></td>
+                    <td><span id="current-happy-people">0</span>/<span id="max-happy-people">0</span></td>
                 </tr>
                 <tr id="health-row">
                     <td>
-                        <img src="img/warrior.png" />
+                        <img src="res/img/warrior.png" />
                     </td>
                     <td>Health</td>
                     <td>-</td>
-                    <td><span id="current-health-quantity">0</span> / <span id="max-health-quantity">0</span></td>
+                    <td><span id="current-health-quantity">0</span>/<span id="max-health-quantity">0</span></td>
                 </tr>
                 <tr>
                     <td colspan="4"></td>
                 </tr>
                 <tr id="productivity-row">
                     <td>
-                        <img src="img/ai.png" />
+                        <img src="res/img/ai.png" />
                     </td>
-                    <td>Enough food, health, happiness</td>
+                    <td>Productivity</td>
                     <td>-</td>
                     <td><span id="productivity-quantity">100</span>%</td>
                 </tr>
@@ -173,8 +173,9 @@
         <br>
         <button id="start-again-button">Start again</button>
     </div>
+
     <div id="middle-block">
-        <table>
+        <table id="work-table">
             <caption>Work</caption>
             <tr>
                 <th></th>
@@ -183,9 +184,10 @@
                 <th></th>
             </tr>
             <tr>
-                <td id="empty-td"></td>
+                <td class="empty-td"></td>
                 <td>Free</td>
                 <td id="free-quantity">0</td>
+                <td class="empty-td"></td>
             </tr>
             <tr>
                 <td colspan="4"></td>
@@ -225,12 +227,12 @@
             </tr>
             <tr id="in-libraries-row">
                 <td>
-                    <button id="remove-schollar-button">&lt;</button>
+                    <button id="remove-scholar-button">&lt;</button>
                 </td>
                 <td>In Libraries:</td>
-                <td id="schollar-quantity">0</td>
+                <td><span id="scholar-quantity">0</span>/<span id="max-scholar-quantity">0</span></td>
                 <td>
-                    <button id="add-schollar-button">&gt;</button>
+                    <button id="add-scholar-button">&gt;</button>
                 </td>
             </tr>
             <tr>
@@ -241,7 +243,7 @@
 <!--                    <button id="remove-dj-button">&lt;</button>-->
                 </td>
                 <td>Ancient Djs:</td>
-                <td id="dj-quantity">0</td>
+                <td><span id="dj-quantity">0</span>/<span id="max-dj-quantity">0</span></td>
                 <td>
                     <button id="add-dj-button">&gt;</button>
                 </td>
@@ -251,7 +253,7 @@
 <!--                    <button id="remove-instructor-button">&lt;</button>-->
                 </td>
                 <td>Instructors:</td>
-                <td id="instructor-quantity">0</td>
+                <td><span id="instructor-quantity">0</span>/<span id="max-instructor-quantity">0</span></td>
                 <td>
                     <button id="add-instructor-button">&gt;</button>
                 </td>
@@ -268,11 +270,11 @@
                 <th>Type</th>
                 <th>Quantity</th>
                 <th>Cost</th>
-                <th>Descr</th>
+                <th>Description</th>
             </tr>
             <tr>
                 <td>
-                    <img src="img/camping-tent.png" />
+                    <img src="res/img/camping-tent.png" />
                 </td>
                 <td>
                     <button id="build-tent-button">Tent</button>
@@ -283,22 +285,9 @@
                 <td>20 wood</td>
                 <td>+2 max population</td>
             </tr>
-            <tr id="library-row">
-                <td>
-                    <img src="img/library.png" />
-                </td>
-                <td>
-                    <button id="build-library-button">Library</button>
-                </td>
-                <td>
-                    <span id="library-quantity">0</span>
-                </td>
-                <td>20 wood 20 stone</td>
-                <td>+3 spaces in library</td>
-            </tr>
             <tr id="hut-row">
                 <td>
-                    <img src="img/hut.png" />
+                    <img src="res/img/hut.png" />
                 </td>
                 <td>
                     <button id="build-hut-button">Hut</button>
@@ -309,9 +298,22 @@
                 <td>40 wood 20 stone</td>
                 <td>+5 max population</td>
             </tr>
+            <tr id="library-row">
+                <td>
+                    <img src="res/img/library.png" />
+                </td>
+                <td>
+                    <button id="build-library-button">Library</button>
+                </td>
+                <td>
+                    <span id="library-quantity">0</span>
+                </td>
+                <td>20 wood 20 stone</td>
+                <td>+3 spaces in library</td>
+            </tr>
             <tr id="music-club-row">
                 <td>
-                    <img src="img/guitar.png" />
+                    <img src="res/img/guitar.png" />
                 </td>
                 <td>
                     <button id="build-music-club-button">Music club</button>
@@ -324,7 +326,7 @@
             </tr>
             <tr id="yoga-club-row">
                 <td>
-                    <img src="img/yoga.png" />
+                    <img src="res/img/yoga.png" />
                 </td>
                 <td>
                     <button id="build-yoga-club-button">Yoga club</button>
@@ -337,7 +339,7 @@
             </tr>
             <tr id="palace-row">
                 <td>
-                    <img src="img/castle.png" />
+                    <img src="res/img/castle.png" />
                 </td>
                 <td>
                     <button id="build-palace-button">Palace</button>
@@ -358,21 +360,21 @@
                 <th></th>
                 <th>Idea</th>
                 <th>Cost</th>
-                <th>Descr</th>
+                <th>Description</th>
             </tr>
             <tr id="changes-row">
                 <td>
-                    <img src="img/project-management%20(1).png" />
+                    <img src="res/img/project-management%20(1).png" />
                 </td>
                 <td>
                     <button id="changes-button">Changes</button>
                 </td>
-                <td>10 woods, 20 stones</td>
+                <td>10 woods, 10 stones</td>
                 <td>Unlock buildings and upgrades</td>
             </tr>
             <tr id="architecture-row">
                 <td>
-                    <img src="img/sketch.png" />
+                    <img src="res/img/sketch.png" />
                 </td>
                 <td><button id="architecture-button">Architecture</button></td>
                 <td>30 thoughts</td>
@@ -380,7 +382,7 @@
             </tr>
             <tr id="agriculture-row">
                 <td>
-                    <img src="img/agriculture.png" />
+                    <img src="res/img/agriculture.png" />
                 </td>
                 <td><button id="agriculture-button">Agriculture</button></td>
                 <td>30 thoughts</td>
@@ -388,7 +390,7 @@
             </tr>
             <tr id="change2-row">
                 <td>
-                    <img src="img/project-management%20(1).png" />
+                    <img src="res/img/project-management%20(1).png" />
                 </td>
                 <td>
                     <button id="change2-button">Changes II</button>
@@ -398,7 +400,7 @@
             </tr>
             <tr id="agriculture2-row">
                 <td>
-                    <img src="img/agriculture.png" />
+                    <img src="res/img/agriculture.png" />
                 </td>
                 <td><button id="agriculture2-button">Agriculture II</button></td>
                 <td>100 thoughts</td>
@@ -406,7 +408,7 @@
             </tr>
             <tr id="music-row">
                 <td>
-                    <img src="img/music.png" />
+                    <img src="res/img/music.png" />
                 </td>
                 <td><button id="music-button">Music</button></td>
                 <td>100 thoughts</td>
@@ -414,7 +416,7 @@
             </tr>
             <tr id="sport-row">
                 <td>
-                    <img src="img/stretching-exercises.png" />
+                    <img src="res/img/stretching-exercises.png" />
                 </td>
                 <td><button id="sport-button">Sport</button></td>
                 <td>100 thoughts</td>
@@ -422,7 +424,7 @@
             </tr>
             <tr id="architecture2-row">
                 <td>
-                    <img src="img/architecture.png" />
+                    <img src="res/img/architecture.png" />
                 </td>
                 <td><button id="architecture2-button">Architecture II</button></td>
                 <td>500 thoughts</td>
@@ -430,7 +432,7 @@
             </tr>
             <tr id="changes3-row">
                 <td>
-                    <img src="img/project-management%20(1).png" />
+                    <img src="res/img/project-management%20(1).png" />
                 </td>
                 <td>
                     <button id="changes3-button">Changes III</button>
@@ -453,6 +455,6 @@
         <p id="architecture2-p"><b>Architechure II</b> <i>More buildings (II)</i></p>
     </div>
 
-        <embed src="sound/erik-jackson-with-new-eyes-original-mix(mp3novinki.net).mp3" width="180" height="90" loop autostart="true" hidden="true" />
+        <embed src="res/music/erik-jackson-with-new-eyes-original-mix(mp3novinki.net).mp3" width="180" height="90" loop autostart="true" hidden="true" />
 
 </body></html>
