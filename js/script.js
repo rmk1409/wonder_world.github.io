@@ -337,7 +337,7 @@ $(function () {
         if ($currentThoughtQuantity >= $thoughtPrice) {
             changeFloatNumber("#thought-quantity", -$thoughtPrice);
 
-            $("#food-img").attr("src", "../img/grapes.png");
+            $("#food-img").attr("src", "img/grapes.png");
 
             recalculateFoodProduction();
 
@@ -370,7 +370,7 @@ $(function () {
         if ($currentThoughtQuantity >= $thoughtPrice) {
             changeFloatNumber("#thought-quantity", -$thoughtPrice);
 
-            $("#food-img").attr("src", "../img/food.png");
+            $("#food-img").attr("src", "img/food.png");
             recalculateFoodProduction();
             $("#agriculture2-row").css("display", "none");
 
@@ -500,6 +500,7 @@ $(function () {
         changeNumber("#productivity-quantity", 25);
 
         var $kofficient = 1.25;
+        
         foodProduction *= $kofficient;
         var $workerAmount = parseInt($("#farmer-quantity").text());
         var $currentPopulation = parseInt($("#current-population").text());
@@ -514,6 +515,8 @@ $(function () {
         $("#stone-quantity-produce").text(($workerAmount * stone_production).toFixed(1));
 
         thought_production *= $kofficient;
+        //TODO why it doesn't work?
+//        thought_production = thought_production.toFixed(2);
         $workerAmount = parseInt($("#schollar-quantity").text());
         $("#thought-quantity-produce").text(($workerAmount * thought_production).toFixed(1));
     }
