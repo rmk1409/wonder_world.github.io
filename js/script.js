@@ -15,7 +15,7 @@ $(function () {
     $("#user-name").text(userName);
 
     var citizenCost = 2,
-        buster = 10,
+        buster = 1,
         wood_production = 0.5 * buster,
         stone_production = 0.2 * buster,
         thought_production = 0.1 * buster,
