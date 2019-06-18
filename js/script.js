@@ -497,7 +497,7 @@ $(function () {
                 changeIntNumber("#current-health-people", -1);
             }
         } else {
-            // $("#starvation-warning").css("display", "none");
+             $("#starvation-warning").css("display", "none");
         }
 
         //check food production
