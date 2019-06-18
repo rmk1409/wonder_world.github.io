@@ -7,12 +7,34 @@ header img {
     opacity: 0.7
 }
 
+table img {
+    height: 50px;
+}
+
 button {
     padding: 7px;
     width: 145px;
     border-radius: 30%;
     background-color: white;
     height: auto;
+}
+
+#people-productivity-table button {
+    width: 200px;
+}
+
+#work-table button {
+    width: 40px;
+    padding: 0px;
+}
+
+#start-again-button {
+    position: absolute;
+    left: 750px;
+    top: 450px;
+    background-color: green;
+    color: white;
+    padding: 3px;
 }
 
 table {
@@ -35,63 +57,61 @@ td {
     text-align: right;
 }
 
-#build td {
-    text-align: left;
-}
-
-table img {
-    height: 50px;
-}
-
-#left-block,
-#middle-block,
-#right-block {
-    float: left;
-    margin-right: 45px;
-}
-
-#right-block {
-    margin-right: 0px;
-}
-
-#work-table button {
-    width: 40px;
-    padding: 0px;
-}
-
-#people-table button {
-  width: 200px;
-  }
-
 .empty-td {
     border: 0px;
 }
 
+#building-table td {
+    text-align: left;
+}
+
+#building-table td:last-child,
+#technology-table td:last-child {
+    font-style: italic;
+}
+
+#click-people-block,
+#work-building-block,
+#achievement-technology-block {
+    float: left;
+    margin-right: 45px;
+}
+
+#achievement-technology-block {
+    margin-right: 0px;
+}
+
 #goal {
-    border: 5px solid green;
+    border: 5px solid black;
     color: white;
     background-color: black;
 }
 
-#in-libraries-row,
+#in-schools-row,
 #start-again-button,
-#starvation,
-#thought-row,
+#starvation-warning,
+#knowledge-row,
 #corpse-row,
 #happiness-row,
 #health-row,
 #productivity-row,
-#in-libraries-row,
+#in-schools-row,
 #in-dj-row,
 #in-instructor-row,
-#library-row,
+#school-row,
 #hut-row,
 #music-club-row,
 #yoga-club-row,
 #palace-row,
+#achievement-section,
+#die-of-hunger-achievement,
+#first-research-achievement,
+#max-productivity-achievement,
+#build-palace-achievement,
+#ufo-achievement,
 #architecture-row,
 #agriculture-row,
-#change2-row,
+#changes2-row,
 #agriculture2-row,
 #music-row,
 #sport-row,
@@ -109,16 +129,7 @@ table img {
     display: none;
 }
 
-#start-again-button {
-    position: absolute;
-    left: 750px;
-    top: 450px;
-    background-color: green;
-    color: white;
-    padding: 3px;
-}
-
-#starvation {
+#starvation-warning {
     color: white;
     background: red;
     font-weight: bold;
@@ -127,11 +138,12 @@ table img {
     margin-left: 250px;
 }
 
-#build td:last-child,
-#technologies td:last-child {
-    font-style: italic;
+#work-building-block {
+    margin-bottom: 300px
 }
 
-#middle-block {
-    margin-bottom: 300px
+#achievement-section {
+    border: 3px solid black;
+    padding: 10px;
+    border-radius: 20%;
 }

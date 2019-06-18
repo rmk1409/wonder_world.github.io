@@ -1,459 +1,345 @@
 <html>
-
-<head>
-    <meta charset="UTF-8" />
+    <head>
+    <meta charset="UTF-8"/>
     <title>Wonder World</title>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="js/script.js"></script>
 </head>
-
-<body>
-    <header>
-        <img src="res/img/header.jpg" opacity=".2">
-    </header>
-    <h2><i>Master is : </i><span id="user-name"></span>
-    </h2>
-    <hr>
-    <span id="goal"><b>!!! Your today's goal is target: a) Have a palace for yourself; b) Collect 10_000 thoughts. </b></span>
-    <br>
-    <hr>
-    <div id="left-block">
-        <span id="starvation">!!! ГОЛОДОМОР !!!</span>
-        <table id="resources">
-            <caption>Resources</caption>
-            <tbody>
-                <tr>
-                    <th></th>
-                    <th>Click</th>
-                    <th>Quantity</th>
-                    <th>Workers</th>
-                </tr>
-                <tr>
-                    <td>
-                        <img id="food-img" src="res/img/cherries.png">
-                    </td>
-                    <td>
-                        <button id="food-button">Collect Food</button>
-                    </td>
-                    <td>
-                        <span id="food-quantity">0</span>
-                    </td>
-                    <td>
-                        <span id="food-quantity-produce">0.0</span>/sec
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="res/img/wood.png">
-                    </td>
-                    <td>
-                        <button id="wood-button">Collect Woods</button>
-                    </td>
-                    <td>
-                        <span id="wood-quantity">0</span>
-                    </td>
-                    <td>
-                        <span id="wood-quantity-produce">0.0</span>/sec
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="res/img/stone.png">
-                    </td>
-                    <td>
-                        <button id="stone-button">Collect Stones</button>
-                    </td>
-                    <td>
-                        <span id="stone-quantity">0</span>
-                    </td>
-                    <td>
-                        <span id="stone-quantity-produce">0.0</span>/sec
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-                <tr id="thought-row">
-                    <td>
-                        <img src="res/img/thought.png">
-                    </td>
-                    <td>
-                        <p><i>Citizens produce it</i></p>
-                    </td>
-                    <td>
-                        <span id="thought-quantity">0</span>
-                    </td>
-                    <td>
-                        <span id="thought-quantity-produce">0.0</span>/sec
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-
+    <body>
+        <header>
+            <img src="res/img/header.jpg" opacity=".2">
+        </header>
+        <h2><i>Master is : </i><span id="user-name"></span>
+        </h2>
+        <hr>
+        <span id="goal"><b>!!! Your today's goal is target: a) Have a palace for yourself; b) Collect 10_000 knowledge. </b></span>
         <br>
         <hr>
+        <div id="click-people-block">
+            <span id="starvation-warning">!!! ГОЛОДОМОР !!!</span>
+            <table id="resources-table">
+                <caption>Resources</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Click</th>
+                        <th>Quantity</th>
+                        <th>Workers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img id="food-img" src="res/img/cherries.png"></td>
+                        <td><button title="click to get some food" id="food-click-button">Collect Food</button></td>
+                        <td><span id="food-quantity">0.0</span></td>
+                        <td><span id="food-production-quantity">0.0</span>/sec</td>
+                    </tr>
+                    <tr>
+                        <td><img src="res/img/wood.png"></td>
+                        <td><button title="click to get some wood" id="wood-click-button">Collect Woods</button></td>
+                        <td><span id="wood-quantity">0.0</span></td>
+                        <td><span id="wood-production-quantity">0.0</span>/sec</td>
+                    </tr>
+                    <tr>
+                        <td><img src="res/img/stone.png"></td>
+                        <td><button  title="click to get some stones"id="stone-click-button">Collect Stones</button></td>
+                        <td><span id="stone-quantity">0.0</span></td>
+                        <td><span id="stone-production-quantity">0.0</span>/sec</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="knowledge-row">
+                        <td><img src="res/img/thought.png"></td>
+                        <td><p><i>Citizens produce it</i></p></td>
+                        <td><span id="knowledge-quantity">0.0</span></td>
+                        <td><span id="knowledge-production-quantity">0.0</span>/sec</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><hr>
+            <table id="people-productivity-table">
+                <caption>People</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Cost</th>
+                        <th>Min/Max</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="res/img/people.png"></td>
+                        <td><button title="2 food" id="create-worker-button">Create new citizen</button></td>
+                        <td><span>10 </span>food</td>
+                        <td><span id="current-population">0</span>/<span id="max-population">5</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="corpse-row">
+                        <td><img src="res/img/corpse.png"/></td>
+                        <td>Corpses</td>
+                        <td>-</td>
+                        <td id="corpse-quantity">0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="happiness-row">
+                        <td><img src="res/img/happy.png"/></td>
+                        <td>Happiness</td>
+                        <td>-</td>
+                        <td><span id="current-happy-people">0</span>/<span id="max-happy-people">0</span></td>
+                    </tr>
+                    <tr id="health-row">
+                        <td><img src="res/img/warrior.png"/></td>
+                        <td>Health</td>
+                        <td>-</td>
+                        <td><span id="current-health-people">0</span>/<span id="max-health-people">0</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="productivity-row">
+                        <td><img src="res/img/ai.png"/></td>
+                        <td>Productivity</td>
+                        <td>-</td>
+                        <td><span id="productivity-quantity">100</span>%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="start-again-button">Start again</button>
+        </div>
 
-        <table id="people-table">
-            <caption>People</caption>
-            <tbody>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Cost</th>
-                    <th>Min/Max</th>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="res/img/people.png">
-                    </td>
-                    <td>
-                        <button id="create-worker-button">Create new citizen</button>
-                    </td>
-                    <td>
-                        <span>2 </span>food
-                    </td>
-                    <td>
-                        <span id="current-population">0</span>
-                        <span>/</span>
-                        <span id="max-population">5</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-                <tr id="corpse-row">
-                    <td>
-                        <img src="res/img/corpse.png" />
-                    </td>
-                    <td>Corpses</td>
-                    <td>-</td>
-                    <td id="corpse-quantity">0</td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-                <tr id="happiness-row">
-                    <td>
-                        <img src="res/img/happy.png" />
-                    </td>
-                    <td>Happiness</td>
-                    <td>-</td>
-                    <td><span id="current-happy-people">0</span>/<span id="max-happy-people">0</span></td>
-                </tr>
-                <tr id="health-row">
-                    <td>
-                        <img src="res/img/warrior.png" />
-                    </td>
-                    <td>Health</td>
-                    <td>-</td>
-                    <td><span id="current-health-quantity">0</span>/<span id="max-health-quantity">0</span></td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-                <tr id="productivity-row">
-                    <td>
-                        <img src="res/img/ai.png" />
-                    </td>
-                    <td>Productivity</td>
-                    <td>-</td>
-                    <td><span id="productivity-quantity">100</span>%</td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <button id="start-again-button">Start again</button>
-    </div>
+        <div id="work-building-block">
+            <table id="work-table">
+                <caption>Work</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Speciality</th>
+                        <th>Quantity</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="empty-td"></td>
+                        <td>Free</td>
+                        <td id="free-people-quantity">0</td>
+                        <td class="empty-td"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td><button title="remove a worker" id="remove-farmer-button">&lt;</button></td>
+                        <td>In Fields:</td>
+                        <td id="farmer-quantity">0</td>
+                        <td><button title="add a worker" id="add-farmer-button">&gt;</button></td>
+                    </tr>
+                    <tr>
+                        <td><button title="remove a worker" id="remove-woodcutter-button">&lt;</button></td>
+                        <td>In Forests:</td>
+                        <td id="woodcutter-quantity">0</td>
+                        <td><button title="add a worker" id="add-woodcutter-button">&gt;</button></td>
+                    </tr>
+                    <tr>
+                        <td><button title="remove a worker" id="remove-miner-button">&lt;</button></td>
+                        <td>In Mines:</td>
+                        <td id="miner-quantity">0</td>
+                        <td><button title="add a worker" id="add-miner-button">&gt;</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="in-schools-row">
+                        <td><button title="remove a worker" id="remove-scholar-button">&lt;</button></td>
+                        <td>In schools:</td>
+                        <td><span id="scholar-quantity">0</span>/<span id="max-scholar-quantity">0</span></td>
+                        <td><button title="add a worker" id="add-scholar-button">&gt;</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr id="in-dj-row">
+                        <td></td>
+                        <td>Ancient Djs:</td>
+                        <td><span id="dj-quantity">0</span>/<span id="max-dj-quantity">0</span></td>
+                        <td><button title="add a worker" id="add-dj-button">&gt;</button></td>
+                    </tr>
+                    <tr id="in-instructor-row">
+                        <td></td>
+                        <td>Instructors:</td>
+                        <td><span id="instructor-quantity">0</span>/<span id="max-instructor-quantity">0</span></td>
+                        <td><button title="add a worker" id="add-instructor-button">&gt;</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <hr>
+            <table id="building-table">
+                <caption>Build</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Cost</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="res/img/camping-tent.png"/></td>
+                        <td><button title="20 wood" id="build-tent-button">Tent</button></td>
+                        <td><span id="tent-quantity">0</span></td>
+                        <td>20 wood</td>
+                        <td>+2 max population</td>
+                    </tr>
+                    <tr id="hut-row">
+                        <td><img src="res/img/hut.png"/></td>
+                        <td><button title="40 wood 20 stones" id="build-hut-button">Hut</button></td>
+                        <td><span id="hut-quantity">0</span></td>
+                        <td>40 wood 20 stone</td>
+                        <td>+5 max population</td>
+                    </tr>
+                    <tr id="school-row">
+                        <td><img src="res/img/school.png"/></td>
+                        <td><button title="20 wood 20 stones" id="build-school-button">School</button></td>
+                        <td><span id="school-quantity">0</span></td>
+                        <td>20 wood 20 stone</td>
+                        <td>+5 spaces in school</td>
+                    </tr>
+                    <tr id="music-club-row">
+                        <td><img src="res/img/guitar.png"/></td>
+                        <td><button title="75 wood 75 stones" id="build-music-club-button">Music club</button></td>
+                        <td><span id="music-club-quantity">0</span></td>
+                        <td>75 wood 75 stone</td>
+                        <td>1 dj(25 happy people)</td>
+                    </tr>
+                    <tr id="yoga-club-row">
+                        <td><img src="res/img/yoga.png"/></td>
+                        <td><button title="75 wood 75 stones" id="build-yoga-club-button">Yoga club</button></td>
+                        <td><span id="yoga-club-quantity">0</span></td>
+                        <td>75 wood 75 stone</td>
+                        <td>1 instructor(25 healthy people)</td>
+                    </tr>
+                    <tr id="palace-row">
+                        <td><img src="res/img/castle.png"/></td>
+                        <td><button title="1000 wood 1000 stones" id="build-palace-button">Palace</button></td>
+                        <td><span id="palace-quantity">0</span></td>
+                        <td>1000 wood 1000 stone</td>
+                        <td>+10 sport/music clubs, +5 schools</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <div id="middle-block">
-        <table id="work-table">
-            <caption>Work</caption>
-            <tr>
-                <th></th>
-                <th>Speciality</th>
-                <th>Quantity</th>
-                <th></th>
-            </tr>
-            <tr>
-                <td class="empty-td"></td>
-                <td>Free</td>
-                <td id="free-quantity">0</td>
-                <td class="empty-td"></td>
-            </tr>
-            <tr>
-                <td colspan="4"></td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="remove-farmer-button">&lt;</button>
-                </td>
-                <td>In Fields:</td>
-                <td id="farmer-quantity">0</td>
-                <td>
-                    <button id="add-farmer-button">&gt;</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="remove-wood-button">&lt;</button>
-                </td>
-                <td>In Forests:</td>
-                <td id="woodcutter-quantity">0</td>
-                <td>
-                    <button id="add-wood-button">&gt;</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="remove-stone-button">&lt;</button>
-                </td>
-                <td>In Mines:</td>
-                <td id="miner-quantity">0</td>
-                <td>
-                    <button id="add-stone-button">&gt;</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4"></td>
-            </tr>
-            <tr id="in-libraries-row">
-                <td>
-                    <button id="remove-scholar-button">&lt;</button>
-                </td>
-                <td>In Libraries:</td>
-                <td><span id="scholar-quantity">0</span>/<span id="max-scholar-quantity">0</span></td>
-                <td>
-                    <button id="add-scholar-button">&gt;</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4"></td>
-            </tr>
-            <tr id="in-dj-row">
-                <td>
-<!--                    <button id="remove-dj-button">&lt;</button>-->
-                </td>
-                <td>Ancient Djs:</td>
-                <td><span id="dj-quantity">0</span>/<span id="max-dj-quantity">0</span></td>
-                <td>
-                    <button id="add-dj-button">&gt;</button>
-                </td>
-            </tr>
-            <tr id="in-instructor-row">
-                <td>
-<!--                    <button id="remove-instructor-button">&lt;</button>-->
-                </td>
-                <td>Instructors:</td>
-                <td><span id="instructor-quantity">0</span>/<span id="max-instructor-quantity">0</span></td>
-                <td>
-                    <button id="add-instructor-button">&gt;</button>
-                </td>
-            </tr>
-        </table>
+        <div id="achievement-technology-block">
+            <section id="achievement-section">
+                <span>Achievements:</span><hr>
+                <img id="die-of-hunger-achievement" src="res/img/reaper.png" title="Die of hunger"/>
+                <img id="first-research-achievement" src="res/img/knowledge.png" title="First research"/>
+                <img id="max-productivity-achievement" src="res/img/speedometer.png" title="Achieve max productivity (175%)"/>
+                <img id="build-palace-achievement" src="res/img/blueprint.png" title="Build a palace"/>
+                <img id="ufo-achievement" src="res/img/alien.png" title="Player is alien"/>
+            </section>
+            <br>
+            <hr>
+            <table id="technology-table">
+                <caption>New ideas/Technologies</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Idea</th>
+                        <th>Cost</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="changes-row">
+                        <td><img src="res/img/project-management%20(1).png"/></td>
+                        <td><button title="Unlock buildings and upgrades" id="changes-button">Changes</button></td>
+                        <td>10 woods, 10 stones</td>
+                        <td>Unlock buildings and upgrades</td>
+                    </tr>
+                    <tr id="architecture-row">
+                        <td><img src="res/img/sketch.png"/></td>
+                        <td><button title="Unlock new place for sleeping" id="architecture-button">Architecture</button></td>
+                        <td>30 knowledge</td>
+                        <td>Unlock new place for sleeping</td>
+                    </tr>
+                    <tr id="agriculture-row">
+                        <td><img src="res/img/agriculture.png"/></td>
+                        <td><button title="Improve ways to get food" id="agriculture-button">Agriculture</button></td>
+                        <td>30 knowledge</td>
+                        <td>Improve ways to get food</td>
+                    </tr>
+                    <tr id="changes2-row">
+                        <td><img src="res/img/project-management%20(1).png"/></td>
+                        <td><button title="More buildings and upgrades (II)" id="changes2-button">Changes II</button></td>
+                        <td>75 knowledge</td>
+                        <td>More buildings and upgrades (II)</td>
+                    </tr>
+                    <tr id="agriculture2-row">
+                        <td><img src="res/img/agriculture.png"/></td>
+                        <td><button title="Improve ways to get food (II)" id="agriculture2-button">Agriculture II</button></td>
+                        <td>100 knowledge</td>
+                        <td>Improve ways to get food (II)</td>
+                    </tr>
+                    <tr id="music-row">
+                        <td><img src="res/img/music.png"/></td>
+                        <td><button title="Unlock musical instruments" id="music-button">Music</button></td>
+                        <td>100 knowledge</td>
+                        <td>Unlock musical instruments</td>
+                    </tr>
+                    <tr id="sport-row">
+                        <td><img src="res/img/stretching-exercises.png"/></td>
+                        <td><button title="Unlock ways to increase health" id="sport-button">Sport</button></td>
+                        <td>100 knowledge</td>
+                        <td>Unlock ways to increase health</td>
+                    </tr>
+                    <tr id="architecture2-row">
+                        <td><img src="res/img/architecture.png"/></td>
+                        <td><button title="More buildings (II)" id="architecture2-button">Architecture II</button></td>
+                        <td>500 knowledge</td>
+                        <td>More buildings (II)</td>
+                    </tr>
+                    <tr id="changes3-row">
+                        <td><img src="res/img/project-management%20(1).png"/></td>
+                        <td><button title="Coming soon" id="changes3-button">Changes III</button></td>
+                        <td>10_000 knowledge</td>
+                        <td>Coming soon</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <hr>
+            <section>
+                <p id="already-known-p">Already known: </p>
+                <p id="changes-p"><b>Changes</b> <i>Unlock new buildings and upgrades</i></p>
+                <p id="architecture-p"><b>Architecture</b> <i>Unlock new place for sleeping</i></p>
+                <p id="agriculture-p"><b>Agriculture</b> <i>Improve ways to get food</i></p>
+                <p id="changes2-p"><b>Changes II</b> <i>More buildings and upgrades (II)</i></p>
+                <p id="agriculture2-p"><b>Agriculture II</b> <i>Improve ways to get food (II)</i></p>
+                <p id="music-p"><b>Music</b> <i>Unlock musical instruments</i></p>
+                <p id="sport-p"><b>Sport</b> <i>Unlock ways to increase health</i></p>
+                <p id="architecture2-p"><b>Architechure II</b> <i>More buildings (II)</i></p>
+            </section>
+        </div>
 
-        <br>
-        <hr>
-
-        <table id="build">
-            <caption>Build</caption>
-            <tr>
-                <th></th>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Cost</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td>
-                    <img src="res/img/camping-tent.png" />
-                </td>
-                <td>
-                    <button id="build-tent-button">Tent</button>
-                </td>
-                <td>
-                    <span id="tent-quantity">0</span>
-                </td>
-                <td>20 wood</td>
-                <td>+2 max population</td>
-            </tr>
-            <tr id="hut-row">
-                <td>
-                    <img src="res/img/hut.png" />
-                </td>
-                <td>
-                    <button id="build-hut-button">Hut</button>
-                </td>
-                <td>
-                    <span id="hut-quantity">0</span>
-                </td>
-                <td>40 wood 20 stone</td>
-                <td>+5 max population</td>
-            </tr>
-            <tr id="library-row">
-                <td>
-                    <img src="res/img/library.png" />
-                </td>
-                <td>
-                    <button id="build-library-button">Library</button>
-                </td>
-                <td>
-                    <span id="library-quantity">0</span>
-                </td>
-                <td>20 wood 20 stone</td>
-                <td>+3 spaces in library</td>
-            </tr>
-            <tr id="music-club-row">
-                <td>
-                    <img src="res/img/guitar.png" />
-                </td>
-                <td>
-                    <button id="build-music-club-button">Music club</button>
-                </td>
-                <td>
-                    <span id="music-club-quantity">0</span>
-                </td>
-                <td>75 wood 75 stone</td>
-                <td>+25 happy people (++productive)</td>
-            </tr>
-            <tr id="yoga-club-row">
-                <td>
-                    <img src="res/img/yoga.png" />
-                </td>
-                <td>
-                    <button id="build-yoga-club-button">Yoga club</button>
-                </td>
-                <td>
-                    <span id="yoga-club-quantity">0</span>
-                </td>
-                <td>75 wood 75 stone</td>
-                <td>+25 healthy people (++productive)</td>
-            </tr>
-            <tr id="palace-row">
-                <td>
-                    <img src="res/img/castle.png" />
-                </td>
-                <td>
-                    <button id="build-palace-button">Palace</button>
-                </td>
-                <td>
-                    <span id="palace-quantity">0</span>
-                </td>
-                <td>1000 wood 1000 stone</td>
-                <td>+10 sport/music clubs, +10 libs</td>
-            </tr>
-        </table>
-    </div>
-    <div id="right-block">
-        <p>Achievements(5): none</p>
-        <table id="technologies">
-            <caption>New ideas/Technologies</caption>
-            <tr>
-                <th></th>
-                <th>Idea</th>
-                <th>Cost</th>
-                <th>Description</th>
-            </tr>
-            <tr id="changes-row">
-                <td>
-                    <img src="res/img/project-management%20(1).png" />
-                </td>
-                <td>
-                    <button id="changes-button">Changes</button>
-                </td>
-                <td>10 woods, 10 stones</td>
-                <td>Unlock buildings and upgrades</td>
-            </tr>
-            <tr id="architecture-row">
-                <td>
-                    <img src="res/img/sketch.png" />
-                </td>
-                <td><button id="architecture-button">Architecture</button></td>
-                <td>30 thoughts</td>
-                <td>Unlock new place for sleeping</td>
-            </tr>
-            <tr id="agriculture-row">
-                <td>
-                    <img src="res/img/agriculture.png" />
-                </td>
-                <td><button id="agriculture-button">Agriculture</button></td>
-                <td>30 thoughts</td>
-                <td>Improve ways to get food</td>
-            </tr>
-            <tr id="change2-row">
-                <td>
-                    <img src="res/img/project-management%20(1).png" />
-                </td>
-                <td>
-                    <button id="change2-button">Changes II</button>
-                </td>
-                <td>75 thoughts</td>
-                <td>More buildings and upgrades (II)</td>
-            </tr>
-            <tr id="agriculture2-row">
-                <td>
-                    <img src="res/img/agriculture.png" />
-                </td>
-                <td><button id="agriculture2-button">Agriculture II</button></td>
-                <td>100 thoughts</td>
-                <td>Improve ways to get food (II)</td>
-            </tr>
-            <tr id="music-row">
-                <td>
-                    <img src="res/img/music.png" />
-                </td>
-                <td><button id="music-button">Music</button></td>
-                <td>100 thoughts</td>
-                <td>Unlock musical instruments</td>
-            </tr>
-            <tr id="sport-row">
-                <td>
-                    <img src="res/img/stretching-exercises.png" />
-                </td>
-                <td><button id="sport-button">Sport</button></td>
-                <td>100 thoughts</td>
-                <td>Unlock ways to increase health</td>
-            </tr>
-            <tr id="architecture2-row">
-                <td>
-                    <img src="res/img/architecture.png" />
-                </td>
-                <td><button id="architecture2-button">Architecture II</button></td>
-                <td>500 thoughts</td>
-                <td>More buildings (II)</td>
-            </tr>
-            <tr id="changes3-row">
-                <td>
-                    <img src="res/img/project-management%20(1).png" />
-                </td>
-                <td>
-                    <button id="changes3-button">Changes III</button>
-                </td>
-                <td>10_000 thoughts</td>
-                <td>Coming soon</td>
-            </tr>
-        </table>
-
-        <br>
-        <hr>
-        <p id="already-known-p">Already known: </p>
-        <p id="changes-p"><b>Changes</b> <i>Unlock new buildings and upgrades</i></p>
-        <p id="architecture-p"><b>Architecture</b> <i>Unlock new place for sleeping</i></p>
-        <p id="agriculture-p"><b>Agriculture</b> <i>Improve ways to get food</i></p>
-        <p id="changes2-p"><b>Changes II</b> <i>More buildings and upgrades (II)</i></p>
-        <p id="agriculture2-p"><b>Agriculture II</b> <i>Improve ways to get food (II)</i></p>
-        <p id="music-p"><b>Music</b> <i>Unlock musical instruments</i></p>
-        <p id="sport-p"><b>Sport</b> <i>Unlock ways to increase health</i></p>
-        <p id="architecture2-p"><b>Architechure II</b> <i>More buildings (II)</i></p>
-    </div>
-
-        <embed src="res/music/erik-jackson-with-new-eyes-original-mix(mp3novinki.net).mp3" width="180" height="90" loop autostart="true" hidden="true" />
-
-</body></html>
+        <embed src="res/music/erik-jackson-with-new-eyes-original-mix(mp3novinki.net).mp3" width="180" height="90" loop="true"
+               autostart="true" hidden="true"/>
+    </body>
+</html>

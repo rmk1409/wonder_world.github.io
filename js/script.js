@@ -1,60 +1,65 @@
 $(function () {
     "use strict";
     let WINNER_REQUIREMENTS = 100000;
-
-    var currentSpaceInLibraries = 0,
+    var currentSpaceInSchools = 0,
         currentDjSpaces = 0,
         currentInstructorSpaces = 0;
-
     var djProductivity = false,
-        healthProductivity = false;
-
-    //    var userName = "Goblin";
-    var userName = prompt("Великий человек, как тебя зовут?");
-    userName = userName || "UFO alien";
+        healthProductivity = false,
+        abundance = false;
+    var userName = prompt("Великий человек, как тебя зовут?") || "UFO Alien";
     $("#user-name").text(userName);
+    if (userName == "UFO Alien") {
+        $("#ufo-achievement").css("display", "inline-block");
+        $("#achievement-section").css("display", "block");
+    }
 
-    var citizenCost = 2,
-        buster = 1,
-        wood_production = 0.5 * buster,
-        stone_production = 0.2 * buster,
-        thought_production = 0.1 * buster,
-        foodProduction = 1.2 * buster,
+    var citizenCost = 10,
+        booster = 1,
+        wood_production = 0.5 * booster,
+        stone_production = 0.2 * booster,
+        knowledge_production = 0.1 * booster,
+        foodProduction = 1.2 * booster,
         productivity = 1.0;
 
-    //clicker events
-    $("#food-button").click(function () {
-        changeFloatNumber("#food-quantity", 1);
+    //CLICK EVENTS
+    // 1. CLICK TO THE RESOURCES
+    $("#food-click-button").click(function () {
+        changeFloatNumber("#food-quantity", 1 * booster);
     });
-    $("#wood-button").click(function () {
-        changeFloatNumber("#wood-quantity", 0.5);
+    $("#wood-click-button").click(function () {
+        changeFloatNumber("#wood-quantity", 1 * booster);
     });
-    $("#stone-button").click(function () {
-        changeFloatNumber("#stone-quantity", 0.2);
+    $("#stone-click-button").click(function () {
+        changeFloatNumber("#stone-quantity", 1 * booster);
     });
-    $("#thought-button").click(function () {
-        changeFloatNumber("#thought-quantity", 0.1);
+    // 2. START AGAIN
+    $("#start-again-button").click(function reloadSite() {
+        document.location.reload(true);
     });
-
-    //create-worker event
-    $("#create-worker-button").click(function () {
-        var $foodQuantity = parseFloat($("#food-quantity").text());
-        var $currentPopulationQuantity = parseInt($("#current-population").text());
-        var $maxPopulationQuantity = parseInt($("#max-population").text());
+    // 3. CREATE WORKER
+    $("#create-worker-button").click(function createWorker() {
+        let $foodQuantity = parseFloat($("#food-quantity").text());
+        let $currentPopulationQuantity = parseInt($("#current-population").text());
+        let $maxPopulationQuantity = parseInt($("#max-population").text());
 
         if ($foodQuantity >= citizenCost && $currentPopulationQuantity < $maxPopulationQuantity) {
             changeFloatNumber("#food-quantity", -citizenCost);
             changeIntNumber("#current-population", 1);
-            changeFloatNumber("#food-quantity-produce", -1);
-            changeIntNumber("#free-quantity", 1);
+            changeFloatNumber("#food-production-quantity", -1);
+            changeIntNumber("#free-people-quantity", 1);
+
+            if (parseInt($("#current-happy-people").text()) < parseInt($("#max-happy-people").text()) && $("#dj-quantity").text()) {
+                changeIntNumber("#current-happy-people", 1);
+            }
+            if (parseInt($("#current-health-people").text()) < parseInt($("#max-health-people").text()) && $("#instructor-quantity").text()) {
+                changeIntNumber("#current-health-people", 1);
+            }
         }
 
-        //TODO add happiness settings
-        //TODO add health settings
     });
-
-    //build event
-    $("#build-tent-button").click(function () {
+    // 4. BUILD
+    $("#build-tent-button").click(function buildTent() {
         let $currentWoodQuantity = $("#wood-quantity").text();
 
         let $woodPrice = 20;
@@ -64,28 +69,11 @@ $(function () {
             changeIntNumber("#max-population", 2);
         }
     });
-    $("#build-library-button").click(function () {
+    $("#build-hut-button").click(function buildHut() {
         let $currentWoodQuantity = $("#wood-quantity").text();
         let $currentStoneQuantity = $("#stone-quantity").text();
 
-        let $woodPrice = 20;
-        let $stonePrice = 20;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-            changeIntNumber("#library-quantity", 1);
-            currentSpaceInLibraries += 3;
-            $("#in-libraries-row").css("display", "table-row");
-            $("#thought-row").css("display", "table-row");
-
-            changeIntNumber("#max-scholar-quantity", 3);
-        }
-    });
-    $("#build-hut-button").click(function () {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
         let $woodPrice = 40;
-
         let $stonePrice = 20;
         if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
@@ -94,11 +82,28 @@ $(function () {
             changeIntNumber("#max-population", 5);
         }
     });
-    $("#build-music-club-button").click(function () {
+    $("#build-school-button").click(function buildSchool() {
         let $currentWoodQuantity = $("#wood-quantity").text();
         let $currentStoneQuantity = $("#stone-quantity").text();
-        let $woodPrice = 75;
 
+        let $woodPrice = 20;
+        let $stonePrice = 20;
+        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+            changeFloatNumber("#wood-quantity", -$woodPrice);
+            changeFloatNumber("#stone-quantity", -$stonePrice);
+            changeIntNumber("#school-quantity", 1);
+            currentSpaceInSchools += 5;
+            $("#in-schools-row").css("display", "table-row");
+            $("#knowledge-row").css("display", "table-row");
+
+            changeIntNumber("#max-scholar-quantity", 5);
+        }
+    });
+    $("#build-music-club-button").click(function buildMusicClub() {
+        let $currentWoodQuantity = $("#wood-quantity").text();
+        let $currentStoneQuantity = $("#stone-quantity").text();
+
+        let $woodPrice = 75;
         let $stonePrice = 75;
         if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
@@ -113,11 +118,11 @@ $(function () {
             changeIntNumber("#max-dj-quantity", 1);
         }
     });
-    $("#build-yoga-club-button").click(function () {
+    $("#build-yoga-club-button").click(function buildSportClub() {
         let $currentWoodQuantity = $("#wood-quantity").text();
         let $currentStoneQuantity = $("#stone-quantity").text();
-        let $woodPrice = 75;
 
+        let $woodPrice = 75;
         let $stonePrice = 75;
         if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
@@ -128,35 +133,37 @@ $(function () {
 
             $("#health-row").css("display", "table-row");
             $("#productivity-row").css("display", "table-row");
-            changeIntNumber("#max-health-quantity", 25);
+            changeIntNumber("#max-health-people", 25);
             changeIntNumber("#max-instructor-quantity", 1);
         }
     });
-    $("#build-palace-button").click(function () {
+    $("#build-palace-button").click(function buildPalace() {
         let $currentWoodQuantity = $("#wood-quantity").text();
         let $currentStoneQuantity = $("#stone-quantity").text();
-        let $woodPrice = 1000;
 
+        let $woodPrice = 1000;
         let $stonePrice = 1000;
         if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
+            $("#build-palace-achievement").css("display", "inline-block");
 
+            changeFloatNumber("#wood-quantity", -$woodPrice);
+
+            changeFloatNumber("#stone-quantity", -$stonePrice);
             changeIntNumber("#palace-quantity", 1);
             changeIntNumber("#music-club-quantity", 10);
             changeIntNumber("#yoga-club-quantity", 10);
-            changeIntNumber("#library-quantity", 10);
 
+            changeIntNumber("#school-quantity", 5);
             changeIntNumber("#max-happy-people", 250);
-            changeIntNumber("#max-health-quantity", 250);
 
+            changeIntNumber("#max-health-people", 250);
             changeIntNumber("#max-scholar-quantity", 30);
-            currentSpaceInLibraries += 30;
+            currentSpaceInSchools += 25;
             changeIntNumber("#max-dj-quantity", 10);
             currentDjSpaces += 10;
             changeIntNumber("#max-instructor-quantity", 10);
-            currentInstructorSpaces += 10;
 
+            currentInstructorSpaces += 10;
             if (confirm("Congratulations!!! You built a palace for yourself!!! \n\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
             } else {
@@ -165,92 +172,81 @@ $(function () {
         }
     });
 
-    //worker setting
-    //1. farmer
-    $("#remove-farmer-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#farmer-quantity", true)) {
+    //WORK SETTING
+    // 1. FARMER
+    $("#remove-farmer-button").click(function removeFarmer() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", true)) {
             changeIntNumber("#farmer-quantity", -1);
-            changeIntNumber("#free-quantity", 1);
+            changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#food-quantity-produce", -foodProduction);
+            changeFloatNumber("#food-production-quantity", -foodProduction);
         }
     });
-    $("#add-farmer-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#farmer-quantity", false)) {
+    $("#add-farmer-button").click(function addFarmer() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", false)) {
             changeIntNumber("#farmer-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
+            changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#food-quantity-produce", foodProduction);
+            changeFloatNumber("#food-production-quantity", foodProduction);
         }
     });
-    //2. woodcutter
-    $("#remove-wood-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#woodcutter-quantity", true)) {
+    // 2. WOODCUTTER
+    $("#remove-woodcutter-button").click(function removeWoodcutter() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", true)) {
             changeIntNumber("#woodcutter-quantity", -1);
-            changeIntNumber("#free-quantity", 1);
+            changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#wood-quantity-produce", -wood_production);
+            changeFloatNumber("#wood-production-quantity", -wood_production);
         }
     });
-    $("#add-wood-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#woodcutter-quantity", false)) {
+    $("#add-woodcutter-button").click(function addWoodcutter() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", false)) {
             changeIntNumber("#woodcutter-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
+            changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#wood-quantity-produce", wood_production);
+            changeFloatNumber("#wood-production-quantity", wood_production);
         }
     });
-    //3. stone
-    $("#remove-stone-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#miner-quantity", true)) {
+    // 3. MINER
+    $("#remove-miner-button").click(function removeMiner() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", true)) {
             changeIntNumber("#miner-quantity", -1);
-            changeIntNumber("#free-quantity", 1);
+            changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#stone-quantity-produce", -stone_production);
+            changeFloatNumber("#stone-production-quantity", -stone_production);
 
         }
     });
-    $("#add-stone-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#miner-quantity", false)) {
+    $("#add-miner-button").click(function addMiner() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", false)) {
             changeIntNumber("#miner-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
-            changeFloatNumber("#stone-quantity-produce", stone_production);
+            changeIntNumber("#free-people-quantity", -1);
+            changeFloatNumber("#stone-production-quantity", stone_production);
         }
     });
-    //4. scholar
-    $("#remove-scholar-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#scholar-quantity", true)) {
+    // 4. SCHOLAR
+    $("#remove-scholar-button").click(function removeScholar() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", true)) {
             changeIntNumber("#scholar-quantity", -1);
-            changeIntNumber("#free-quantity", 1);
+            changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#thought-quantity-produce", -thought_production);
-            currentSpaceInLibraries++;
+            changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
+            currentSpaceInSchools++;
         }
     });
-    $("#add-scholar-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#scholar-quantity", false) && currentSpaceInLibraries) {
+    $("#add-scholar-button").click(function addScholar() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", false) && currentSpaceInSchools) {
             changeIntNumber("#scholar-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
+            changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#thought-quantity-produce", thought_production);
-            currentSpaceInLibraries--;
+            changeFloatNumber("#knowledge-production-quantity", knowledge_production);
+            currentSpaceInSchools--;
         }
     });
-    //5. dj
-    //    $("#remove-dj-button").click(function () {
-    //        if (checkIsThereFreeCitizen("#free-quantity", "#dj-quantity", true)) {
-    //            changeIntNumber("#dj-quantity", -1);
-    //            changeIntNumber("#free-quantity", 1);
-    //
-    //            //            changeFloatNumber("#thought-quantity-produce", -THOUGHT_PRODUCTION);
-    //            //TODO fix hapiness
-    //            currentDjSpaces++;
-    //        }
-    //    });
-    $("#add-dj-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#dj-quantity", false) && currentDjSpaces) {
+    $("#add-dj-button").click(function addDj() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#dj-quantity", false) && currentDjSpaces) {
             changeIntNumber("#dj-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
+            changeIntNumber("#free-people-quantity", -1);
 
             currentDjSpaces--;
 
@@ -269,30 +265,19 @@ $(function () {
             }
         }
     });
-    //6. instructor
-    //    $("#remove-instructor-button").click(function () {
-    //        if (checkIsThereFreeCitizen("#free-quantity", "#instructor-quantity", true)) {
-    //            changeIntNumber("#instructor-quantity", -1);
-    //            changeIntNumber("#free-quantity", 1);
-    //
-    //            //            changeFloatNumber("#thought-quantity-produce", -THOUGHT_PRODUCTION);
-    //            //TODO fix health
-    //            currentInstructorSpaces++;
-    //        }
-    //    });
-    $("#add-instructor-button").click(function () {
-        if (checkIsThereFreeCitizen("#free-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
+    $("#add-instructor-button").click(function addInstructor() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
             changeIntNumber("#instructor-quantity", 1);
-            changeIntNumber("#free-quantity", -1);
+            changeIntNumber("#free-people-quantity", -1);
 
             currentInstructorSpaces--;
 
             let $peopleAmount = parseInt($("#current-population").text());
             let $instructorAmount = parseInt($("#instructor-quantity").text());
             if (($peopleAmount - $instructorAmount * 25) <= 0) {
-                $("#current-health-quantity").text($peopleAmount);
+                $("#current-health-people").text($peopleAmount);
             } else {
-                changeIntNumber("#current-health-quantity", 25);
+                changeIntNumber("#current-health-people", 25);
             }
 
             if (!healthProductivity) {
@@ -303,8 +288,8 @@ $(function () {
         }
     });
 
-    //TECHNOLOGIES
-    $("#changes-button").click(function () {
+    // TECHNOLOGIES
+    $("#changes-button").click(function researchChanges() {
         let $currentWoodQuantity = parseFloat($("#wood-quantity").text());
         let $currentStoneQuantity = parseFloat($("#stone-quantity").text());
 
@@ -314,69 +299,71 @@ $(function () {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
 
+            $("#first-research-achievement").css("display", "inline-block");
+            $("#achievement-section").css("display", "block");
             $("#architecture-row").css("display", "table-row");
             $("#agriculture-row").css("display", "table-row");
-            $("#library-row").css("display", "table-row");
+            $("#school-row").css("display", "table-row");
             $("#changes-row").css("display", "none");
 
             $("#already-known-p").css("display", "block");
             $("#changes-p").css("display", "block");
         }
     });
-    $("#architecture-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#architecture-button").click(function researchArchitecture() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 30.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 30.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#hut-row").css("display", "table-row");
-            $("#change2-row").css("display", "table-row");
+            $("#changes2-row").css("display", "table-row");
 
             $("#architecture-row").css("display", "none");
 
             $("#architecture-p").css("display", "block");
         }
     });
-    $("#agriculture-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#agriculture-button").click(function researchAgriculture() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 30.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 30.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#food-img").attr("src", "res/img/grapes.png");
 
             recalculateFoodProduction();
 
-            $("#change2-row").css("display", "table-row");
+            $("#changes2-row").css("display", "table-row");
 
             $("#agriculture-row").css("display", "none");
 
             $("#agriculture-p").css("display", "block");
         }
     });
-    $("#change2-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#changes2-button").click(function researchChanges2() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 75.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 75.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#agriculture2-row").css("display", "table-row");
             $("#music-row").css("display", "table-row");
             $("#sport-row").css("display", "table-row");
-            $("#change2-row").css("display", "none");
+            $("#changes2-row").css("display", "none");
 
             $("#changes2-p").css("display", "block");
         }
     });
-    $("#agriculture2-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#agriculture2-button").click(function researchAgriculture2() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 100.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 100.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#food-img").attr("src", "res/img/food.png");
             recalculateFoodProduction();
@@ -385,12 +372,12 @@ $(function () {
             $("#agriculture2-p").css("display", "block");
         }
     });
-    $("#music-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#music-button").click(function researchMusic() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 100.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 100.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#music-club-row").css("display", "table-row");
             $("#music-row").css("display", "none");
@@ -398,12 +385,12 @@ $(function () {
             $("#music-p").css("display", "block");
         }
     });
-    $("#sport-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#sport-button").click(function researchSport() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 100.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 100.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#yoga-club-row").css("display", "table-row");
             $("#architecture2-row").css("display", "table-row");
@@ -413,12 +400,12 @@ $(function () {
             $("#sport-p").css("display", "block");
         }
     });
-    $("#architecture2-button").click(function () {
-        let $currentThoughtQuantity = parseFloat($("#thought-quantity").text());
+    $("#architecture2-button").click(function researchArchitecture2() {
+        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
 
-        let $thoughtPrice = 500.0;
-        if ($currentThoughtQuantity >= $thoughtPrice) {
-            changeFloatNumber("#thought-quantity", -$thoughtPrice);
+        let $knowledgePrice = 500.0;
+        if ($currentknowledgeQuantity >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#changes3-row").css("display", "table-row");
             $("#palace-row").css("display", "table-row");
@@ -445,53 +432,24 @@ $(function () {
         $(elementName).text($oldQuantity.toFixed(1));
     }
 
-    //one step
-    setInterval(function () {
-        changeFloatNumber("#food-quantity", parseFloat($("#food-quantity-produce").text()));
-        changeFloatNumber("#wood-quantity", parseFloat($("#wood-quantity-produce").text()));
-        changeFloatNumber("#stone-quantity", parseFloat($("#stone-quantity-produce").text()));
-        changeFloatNumber("#thought-quantity", parseFloat($("#thought-quantity-produce").text()));
-
-        //starvation process
-        if (parseFloat($("#food-quantity").text()) < 0 && parseFloat($("#current-population").text()) > 0) {
-            changeIntNumber("#current-population", -1);
-            changeFloatNumber("#food-quantity-produce", 1);
-            findPersonToKill();
-            $("#starvation").css("display", "inline");
-        } else {
-            $("#starvation").css("display", "none");
-        }
-
-        if ($("#food-quantity-produce").text() < 0) {
-            $("#food-quantity-produce").css("background-color", "red");
-            $("#food-quantity-produce").css("color", "white");
-        } else {
-            $("#food-quantity-produce").css("background-color", "");
-            $("#food-quantity-produce").css("color", "black");
-        }
-
-        //abundance of food
-        //TODO
-    }, 1000);
-
     function findPersonToKill() {
         $("#corpse-row").css("display", "table-row");
         changeIntNumber("#corpse-quantity", 1);
 
-        if ($("#free-quantity").text()) {
-            changeIntNumber("#free-quantity", -1);
+        if ($("#free-people-quantity").text()) {
+            changeIntNumber("#free-people-quantity", -1);
         } else if ($("#woodcutter-quantity").text()) {
             changeIntNumber("#woodcutter-quantity", -1);
-            changeFloatNumber("#wood-quantity-produce", -wood_production);
+            changeFloatNumber("#wood-production-quantity", -wood_production);
         } else if ($("#miner-quantity").text()) {
             changeIntNumber("#miner-quantity", -1);
-            changeFloatNumber("#stone-quantity-produce", -stone_production);
+            changeFloatNumber("#stone-production-quantity", -stone_production);
         } else if ($("#farmer-quantity").text()) {
             changeIntNumber("#farmer-quantity", -1);
-            changeFloatNumber("#food-quantity-produce", -foodProduction);
+            changeFloatNumber("#food-production-quantity", -foodProduction);
         } else if ($("#scholar-quantity").text()) {
             changeIntNumber("#scholar-quantity", -1);
-            changeFloatNumber("#thought-quantity-produce", -thought_production);
+            changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
         }
     }
 
@@ -499,7 +457,7 @@ $(function () {
         foodProduction += 0.15;
         let $farmers = parseInt($("#farmer-quantity").text());
         let $currentPopulation = parseInt($("#current-population").text());
-        $("#food-quantity-produce").text(($farmers * foodProduction - $currentPopulation).toFixed(1));
+        $("#food-production-quantity").text(($farmers * foodProduction - $currentPopulation).toFixed(1));
     }
 
     function increaseAllProduction() {
@@ -511,37 +469,75 @@ $(function () {
         foodProduction *= 1.1;
         let $workerAmount = parseInt($("#farmer-quantity").text());
         let $currentPopulation = parseInt($("#current-population").text());
-        $("#food-quantity-produce").text(($workerAmount * foodProduction - $currentPopulation).toFixed(1));
+        $("#food-production-quantity").text(($workerAmount * foodProduction - $currentPopulation).toFixed(1));
 
         wood_production *= $index;
         $workerAmount = parseInt($("#woodcutter-quantity").text());
-        $("#wood-quantity-produce").text(($workerAmount * wood_production).toFixed(1));
+        $("#wood-production-quantity").text(($workerAmount * wood_production).toFixed(1));
 
         stone_production *= $index;
         $workerAmount = parseInt($("#miner-quantity").text());
-        $("#stone-quantity-produce").text(($workerAmount * stone_production).toFixed(1));
+        $("#stone-production-quantity").text(($workerAmount * stone_production).toFixed(1));
 
-        thought_production *= $index;
+        knowledge_production *= $index;
         //TODO why it doesn't work?
-//        thought_production = thought_production.toFixed(2);
+//        knowledge_production = knowledge_production.toFixed(2);
         $workerAmount = parseInt($("#scholar-quantity").text());
-        $("#thought-quantity-produce").text(($workerAmount * thought_production).toFixed(1));
+        $("#knowledge-production-quantity").text(($workerAmount * knowledge_production).toFixed(1));
     }
 
-    //winner function
-    let winInterval = setInterval(function () {
-        if (parseFloat($("#thought-quantity").text()) >= WINNER_REQUIREMENTS) {
+
+    //ONE STEP
+    setInterval(function oneStep() {
+        // get resources
+        changeFloatNumber("#food-quantity", parseFloat($("#food-production-quantity").text()));
+        changeFloatNumber("#wood-quantity", parseFloat($("#wood-production-quantity").text()));
+        changeFloatNumber("#stone-quantity", parseFloat($("#stone-production-quantity").text()));
+        changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
+
+        //starvation process
+        if (parseFloat($("#food-quantity").text()) < 0 && parseFloat($("#current-population").text()) > 0) {
+            changeIntNumber("#current-population", -1);
+            changeFloatNumber("#food-production-quantity", 1);
+            findPersonToKill();
+            $("#starvation-warning").css("display", "inline");
+            $("#die-of-hunger-achievement").css("display", "inline-block");
+            $("#achievement-section").css("display", "block");
+            //decrease quantity of health and happy people
+
+            if (parseInt($("#current-happy-people").text()) > $("#current-population")) {
+                changeIntNumber("#current-happy-people", -1);
+            }
+            if (parseInt($("#current-health-people").text()) > $("#current-population")) {
+                changeIntNumber("#current-health-people", -1);
+            }
+        } else {
+            $("#starvation-warning").css("display", "none");
+        }
+        if ($("#food-production-quantity").text() < 0) {
+            $("#food-production-quantity").css("background-color", "red");
+            $("#food-production-quantity").css("color", "white");
+        } else {
+            $("#food-production-quantity").css("background-color", "");
+            $("#food-production-quantity").css("color", "black");
+        }
+
+        //TODO abundance of food
+        if (parseInt($("#productivity-quantity").text()) == 175) {
+            $("#max-productivity-achievement").css("display", "inline-block");
+        }
+    }, 1000);
+
+    //WINNER FUNCTION
+    let winInterval = setInterval(function checkWinCondition() {
+        if (parseFloat($("#knowledge-quantity").text()) >= WINNER_REQUIREMENTS) {
             if (confirm("Congratulations!!! You collected a lot of knowledge!!! \n\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
-                changeFloatNumber("#thought-quantity", WINNER_REQUIREMENTS);
+                changeFloatNumber("#knowledge-quantity", WINNER_REQUIREMENTS);
             } else {
                 $("#start-again-button").css("display", "block");
                 clearInterval(winInterval);
             }
         }
     }, 4000);
-
-    $("#start-again-button").click(function () {
-        document.location.reload(true);
-    });
 });
