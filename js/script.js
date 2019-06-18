@@ -520,7 +520,7 @@ $(function () {
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
         if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
-            if (confirm("Congratulations!!! You collected a lot of knowledge!!! \n\n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations! You collected a lot of knowledge!! \n\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
                 changeFloatNumber("#knowledge-quantity", WINNER_REQUIREMENTS);
             } else {
