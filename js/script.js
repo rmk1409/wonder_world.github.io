@@ -21,7 +21,7 @@ $(function () {
     }
     // Game variables
     var citizenCost = 10,
-        booster = 10,
+        booster = 1,
         wood_production = 0.5 * booster,
         stone_production = 0.2 * booster,
         knowledge_production = 0.1 * booster,
