@@ -1,21 +1,27 @@
 $(function () {
     "use strict";
-    let WINNER_REQUIREMENTS = 100000;
-    var currentSpaceInSchools = 0,
+    // VARIABLES
+    // 1.Win
+    let WINNER_REQUIREMENTS = 1e6;
+    // 2.Spaces
+    var currentSpaceInSchool = 0,
         currentDjSpaces = 0,
-        currentInstructorSpaces = 0;
+        currentInstructorSpaces = 0,
+        spaceInOneClub = 25,
+        spaceInOneSchool = 5;
+    // 3.Productivity flags
     var djProductivity = false,
         healthProductivity = false,
         abundance = false;
+    // 4. User name
     var userName = prompt("Великий человек, как тебя зовут?") || "UFO Alien";
     $("#user-name").text(userName);
     if (userName == "UFO Alien") {
-        $("#ufo-achievement").css("display", "inline-block");
-        $("#achievement-section").css("display", "block");
+        unlockAchievement("UFO Alien");
     }
-
+    // Game variables
     var citizenCost = 10,
-        booster = 1,
+        booster = 10,
         wood_production = 0.5 * booster,
         stone_production = 0.2 * booster,
         knowledge_production = 0.1 * booster,
@@ -24,13 +30,13 @@ $(function () {
 
     //CLICK EVENTS
     // 1. CLICK TO THE RESOURCES
-    $("#food-click-button").click(function () {
+    $("#food-click-button").click(function clickFoodButton() {
         changeFloatNumber("#food-quantity", 1 * booster);
     });
-    $("#wood-click-button").click(function () {
+    $("#wood-click-button").click(function clickWoodButton() {
         changeFloatNumber("#wood-quantity", 1 * booster);
     });
-    $("#stone-click-button").click(function () {
+    $("#stone-click-button").click(function clickStoneButton() {
         changeFloatNumber("#stone-quantity", 1 * booster);
     });
     // 2. START AGAIN
@@ -39,132 +45,122 @@ $(function () {
     });
     // 3. CREATE WORKER
     $("#create-worker-button").click(function createWorker() {
-        let $foodQuantity = parseFloat($("#food-quantity").text());
-        let $currentPopulationQuantity = parseInt($("#current-population").text());
-        let $maxPopulationQuantity = parseInt($("#max-population").text());
-
-        if ($foodQuantity >= citizenCost && $currentPopulationQuantity < $maxPopulationQuantity) {
+        if ($("#food-quantity").text() >= citizenCost && +$("#current-population").text() < $("#max-population").text()) {
             changeFloatNumber("#food-quantity", -citizenCost);
             changeIntNumber("#current-population", 1);
-            changeFloatNumber("#food-production-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
+            changeFloatNumber("#food-production-quantity", -1);
 
-            if (parseInt($("#current-happy-people").text()) < parseInt($("#max-happy-people").text()) && $("#dj-quantity").text()) {
-                changeIntNumber("#current-happy-people", 1);
+            if (+$("#current-population").text() <= +$("#dj-quantity").text() * spaceInOneClub) {
+                $("#current-happy-people").text($("#current-population").text());
             }
-            if (parseInt($("#current-health-people").text()) < parseInt($("#max-health-people").text()) && $("#instructor-quantity").text()) {
-                changeIntNumber("#current-health-people", 1);
+            if (+$("#current-population").text() <= +$("#instructor-quantity").text() * spaceInOneClub) {
+                $("#current-health-people").text($("#current-population").text());
             }
         }
 
     });
     // 4. BUILD
     $("#build-tent-button").click(function buildTent() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-
         let $woodPrice = 20;
-        if ($currentWoodQuantity >= $woodPrice) {
+        if ($("#wood-quantity").text() >= $woodPrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
+
             changeIntNumber("#tent-quantity", 1);
             changeIntNumber("#max-population", 2);
         }
     });
     $("#build-hut-button").click(function buildHut() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
-
-        let $woodPrice = 40;
+        let $woodPrice = 20;
         let $stonePrice = 20;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
+
             changeIntNumber("#hut-quantity", 1);
             changeIntNumber("#max-population", 5);
         }
     });
     $("#build-school-button").click(function buildSchool() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
-
         let $woodPrice = 20;
         let $stonePrice = 20;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
-            changeIntNumber("#school-quantity", 1);
-            currentSpaceInSchools += 5;
-            $("#in-schools-row").css("display", "table-row");
+
+            //TODO how to invoke next 2 lines just once?
+            $("#in-school-row").css("display", "table-row");
             $("#knowledge-row").css("display", "table-row");
 
-            changeIntNumber("#max-scholar-quantity", 5);
+            changeIntNumber("#school-quantity", 1);
+            currentSpaceInSchool += spaceInOneSchool;
+            changeIntNumber("#max-scholar-quantity", spaceInOneSchool);
         }
     });
     $("#build-music-club-button").click(function buildMusicClub() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
-
         let $woodPrice = 75;
         let $stonePrice = 75;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
-            changeIntNumber("#music-club-quantity", 1);
-            currentDjSpaces++;
-            $("#in-dj-row").css("display", "table-row");
 
+            //TODO how to invoke next 3 lines just once?
+            $("#in-dj-row").css("display", "table-row");
             $("#happiness-row").css("display", "table-row");
             $("#productivity-row").css("display", "table-row");
-            changeIntNumber("#max-happy-people", 25);
+
+            changeIntNumber("#music-club-quantity", 1);
+            currentDjSpaces++;
             changeIntNumber("#max-dj-quantity", 1);
+            changeIntNumber("#max-happy-people", spaceInOneClub);
         }
     });
     $("#build-yoga-club-button").click(function buildSportClub() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
-
         let $woodPrice = 75;
         let $stonePrice = 75;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
-            changeIntNumber("#yoga-club-quantity", 1);
-            currentInstructorSpaces++;
-            $("#in-instructor-row").css("display", "table-row");
 
+            //TODO how to invoke next 3 lines just once?
+            $("#in-instructor-row").css("display", "table-row");
             $("#health-row").css("display", "table-row");
             $("#productivity-row").css("display", "table-row");
-            changeIntNumber("#max-health-people", 25);
+
+            changeIntNumber("#yoga-club-quantity", 1);
+            currentInstructorSpaces++;
             changeIntNumber("#max-instructor-quantity", 1);
+            changeIntNumber("#max-health-people", spaceInOneClub);
         }
     });
     $("#build-palace-button").click(function buildPalace() {
-        let $currentWoodQuantity = $("#wood-quantity").text();
-        let $currentStoneQuantity = $("#stone-quantity").text();
-
         let $woodPrice = 1000;
         let $stonePrice = 1000;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
-            $("#build-palace-achievement").css("display", "inline-block");
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
+            unlockAchievement("Palace");
 
             changeFloatNumber("#wood-quantity", -$woodPrice);
-
             changeFloatNumber("#stone-quantity", -$stonePrice);
+
             changeIntNumber("#palace-quantity", 1);
-            changeIntNumber("#music-club-quantity", 10);
-            changeIntNumber("#yoga-club-quantity", 10);
+            let schoolInOnePalace = 5;
+            let musicClubInOnePalace = 10;
+            let sportClubInOnePalace = 10;
+            changeIntNumber("#school-quantity", schoolInOnePalace);
+            changeIntNumber("#music-club-quantity", musicClubInOnePalace);
+            changeIntNumber("#yoga-club-quantity", sportClubInOnePalace);
 
-            changeIntNumber("#school-quantity", 5);
-            changeIntNumber("#max-happy-people", 250);
+            changeIntNumber("#max-scholar-quantity", spaceInOneSchool * schoolInOnePalace);
+            changeIntNumber("#max-happy-people", spaceInOneClub * musicClubInOnePalace);
+            changeIntNumber("#max-health-people", spaceInOneClub * sportClubInOnePalace);
+            currentSpaceInSchool += spaceInOneSchool * schoolInOnePalace;
+            changeIntNumber("#max-dj-quantity", musicClubInOnePalace);
+            currentDjSpaces += musicClubInOnePalace;
+            changeIntNumber("#max-instructor-quantity", sportClubInOnePalace);
+            currentInstructorSpaces += sportClubInOnePalace;
 
-            changeIntNumber("#max-health-people", 250);
-            changeIntNumber("#max-scholar-quantity", 30);
-            currentSpaceInSchools += 25;
-            changeIntNumber("#max-dj-quantity", 10);
-            currentDjSpaces += 10;
-            changeIntNumber("#max-instructor-quantity", 10);
-
-            currentInstructorSpaces += 10;
-            if (confirm("Congratulations!!! You built a palace for yourself!!! \n\n" + userName + ", do you wanna play again?")) {
+            //TODO How to invoke this just once?
+            if (confirm("Congratulations!!! You built a palace for yourself!!! \n\n You're the BEST!!!\n\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
             } else {
                 $("#start-again-button").css("display", "block");
@@ -221,6 +217,7 @@ $(function () {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", false)) {
             changeIntNumber("#miner-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
+
             changeFloatNumber("#stone-production-quantity", stone_production);
         }
     });
@@ -231,18 +228,19 @@ $(function () {
             changeIntNumber("#free-people-quantity", 1);
 
             changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
-            currentSpaceInSchools++;
+            currentSpaceInSchool++;
         }
     });
     $("#add-scholar-button").click(function addScholar() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", false) && currentSpaceInSchools) {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", false) && currentSpaceInSchool) {
             changeIntNumber("#scholar-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
             changeFloatNumber("#knowledge-production-quantity", knowledge_production);
-            currentSpaceInSchools--;
+            currentSpaceInSchool--;
         }
     });
+    // 5. Dj
     $("#add-dj-button").click(function addDj() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#dj-quantity", false) && currentDjSpaces) {
             changeIntNumber("#dj-quantity", 1);
@@ -250,21 +248,22 @@ $(function () {
 
             currentDjSpaces--;
 
-            let $peopleAmount = parseInt($("#current-population").text());
-            let $djAmount = parseInt($("#dj-quantity").text());
-            if (($peopleAmount - $djAmount * 25) <= 0) {
+            let $peopleAmount = +$("#current-population").text();
+            let $totalAvailableSpaceInClub = +$("#dj-quantity").text() * spaceInOneClub;
+
+            if ($peopleAmount <= $totalAvailableSpaceInClub) {
                 $("#current-happy-people").text($peopleAmount);
             } else {
-                changeIntNumber("#current-happy-people", 25);
+                changeIntNumber("#current-happy-people", spaceInOneClub);
             }
 
             if (!djProductivity) {
                 increaseAllProduction();
-
                 djProductivity = !djProductivity;
             }
         }
     });
+    // 6. Instructor
     $("#add-instructor-button").click(function addInstructor() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
             changeIntNumber("#instructor-quantity", 1);
@@ -272,17 +271,17 @@ $(function () {
 
             currentInstructorSpaces--;
 
-            let $peopleAmount = parseInt($("#current-population").text());
-            let $instructorAmount = parseInt($("#instructor-quantity").text());
-            if (($peopleAmount - $instructorAmount * 25) <= 0) {
+            let $peopleAmount = +$("#current-population").text();
+            let $totalAvailableSpaceInClub = +$("#instructor-quantity").text() * spaceInOneClub;
+
+            if ($peopleAmount <= $totalAvailableSpaceInClub) {
                 $("#current-health-people").text($peopleAmount);
             } else {
-                changeIntNumber("#current-health-people", 25);
+                changeIntNumber("#current-health-people", spaceInOneClub);
             }
 
             if (!healthProductivity) {
                 increaseAllProduction();
-
                 healthProductivity = !healthProductivity;
             }
         }
@@ -290,17 +289,14 @@ $(function () {
 
     // TECHNOLOGIES
     $("#changes-button").click(function researchChanges() {
-        let $currentWoodQuantity = parseFloat($("#wood-quantity").text());
-        let $currentStoneQuantity = parseFloat($("#stone-quantity").text());
-
         let $woodPrice = 10;
         let $stonePrice = 10;
-        if ($currentWoodQuantity >= $woodPrice && $currentStoneQuantity >= $stonePrice) {
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
 
-            $("#first-research-achievement").css("display", "inline-block");
-            $("#achievement-section").css("display", "block");
+            unlockAchievement("First Research");
+
             $("#architecture-row").css("display", "table-row");
             $("#agriculture-row").css("display", "table-row");
             $("#school-row").css("display", "table-row");
@@ -311,124 +307,109 @@ $(function () {
         }
     });
     $("#architecture-button").click(function researchArchitecture() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 30.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#hut-row").css("display", "table-row");
-            $("#changes2-row").css("display", "table-row");
-
             $("#architecture-row").css("display", "none");
+            $("#changes2-row").css("display", "table-row");
 
             $("#architecture-p").css("display", "block");
         }
     });
     $("#agriculture-button").click(function researchAgriculture() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 30.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#food-img").attr("src", "res/img/grapes.png");
-
             recalculateFoodProduction();
-
-            $("#changes2-row").css("display", "table-row");
+            //TODO add achievement "More food, hurray!!! :)"
 
             $("#agriculture-row").css("display", "none");
+            $("#changes2-row").css("display", "table-row");
 
             $("#agriculture-p").css("display", "block");
         }
     });
     $("#changes2-button").click(function researchChanges2() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 75.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
+            $("#changes2-row").css("display", "none");
             $("#agriculture2-row").css("display", "table-row");
             $("#music-row").css("display", "table-row");
             $("#sport-row").css("display", "table-row");
-            $("#changes2-row").css("display", "none");
 
             $("#changes2-p").css("display", "block");
         }
     });
     $("#agriculture2-button").click(function researchAgriculture2() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 100.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#food-img").attr("src", "res/img/food.png");
             recalculateFoodProduction();
+            //TODO add achievement "Even more food, hurray!!! :)"
             $("#agriculture2-row").css("display", "none");
 
             $("#agriculture2-p").css("display", "block");
         }
     });
     $("#music-button").click(function researchMusic() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 100.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#music-club-row").css("display", "table-row");
             $("#music-row").css("display", "none");
+            $("#music-club-row").css("display", "table-row");
 
             $("#music-p").css("display", "block");
         }
     });
     $("#sport-button").click(function researchSport() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 100.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
+            $("#sport-row").css("display", "none");
             $("#yoga-club-row").css("display", "table-row");
             $("#architecture2-row").css("display", "table-row");
             $("#change3-row").css("display", "table-row");
-            $("#sport-row").css("display", "none");
 
             $("#sport-p").css("display", "block");
         }
     });
     $("#architecture2-button").click(function researchArchitecture2() {
-        let $currentknowledgeQuantity = parseFloat($("#knowledge-quantity").text());
-
         let $knowledgePrice = 500.0;
-        if ($currentknowledgeQuantity >= $knowledgePrice) {
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#changes3-row").css("display", "table-row");
-            $("#palace-row").css("display", "table-row");
             $("#architecture2-row").css("display", "none");
+            $("#palace-row").css("display", "table-row");
+            $("#changes3-row").css("display", "table-row");
 
             $("#architecture2-p").css("display", "block");
         }
     });
 
-    function checkIsThereFreeCitizen(free, work, remove) {
-        return remove ? $(work).text() > 0 : $(free).text() > 0;
+    function checkIsThereFreeCitizen(free, work, checkWorker) {
+        return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
 
     }
 
     function changeIntNumber(elementName, quantity) {
-        let $oldQuantity = parseInt($(elementName).text());
-        $oldQuantity += quantity;
+        let $oldQuantity = +$(elementName).text();
+        $oldQuantity += +quantity;
         $(elementName).text($oldQuantity);
     }
 
     function changeFloatNumber(elementName, quantity) {
         let $oldQuantity = parseFloat($(elementName).text());
-        $oldQuantity += quantity;
+        $oldQuantity = Math.round($oldQuantity * 100 + quantity * 100) / 100;
         $(elementName).text($oldQuantity.toFixed(1));
     }
 
@@ -436,50 +417,54 @@ $(function () {
         $("#corpse-row").css("display", "table-row");
         changeIntNumber("#corpse-quantity", 1);
 
-        if ($("#free-people-quantity").text()) {
+        if (+$("#free-people-quantity").text()) {
             changeIntNumber("#free-people-quantity", -1);
-        } else if ($("#woodcutter-quantity").text()) {
+        } else if (+$("#woodcutter-quantity").text()) {
             changeIntNumber("#woodcutter-quantity", -1);
             changeFloatNumber("#wood-production-quantity", -wood_production);
-        } else if ($("#miner-quantity").text()) {
+        } else if (+$("#miner-quantity").text()) {
             changeIntNumber("#miner-quantity", -1);
             changeFloatNumber("#stone-production-quantity", -stone_production);
-        } else if ($("#farmer-quantity").text()) {
+        } else if (+$("#farmer-quantity").text()) {
             changeIntNumber("#farmer-quantity", -1);
             changeFloatNumber("#food-production-quantity", -foodProduction);
-        } else if ($("#scholar-quantity").text()) {
+        } else if (+$("#scholar-quantity").text()) {
             changeIntNumber("#scholar-quantity", -1);
             changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
+        } else if (+$("#dj-quantity").text()) {
+            changeIntNumber("#dj-quantity", -1);
+            changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub-1)));
+        } else if (+$("#instructor-quantity").text()) {
+            changeIntNumber("#instructor-quantity", -1);
+            changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub-1)));
         }
     }
 
     function recalculateFoodProduction() {
-        foodProduction += 0.15;
-        let $farmers = parseInt($("#farmer-quantity").text());
-        let $currentPopulation = parseInt($("#current-population").text());
-        $("#food-production-quantity").text(($farmers * foodProduction - $currentPopulation).toFixed(1));
+        foodProduction = Math.round(foodProduction * 100 + 0.15 * 100) / 100;
+        let $farmers = +$("#farmer-quantity").text();
+        let $currentPopulation = +$("#current-population").text();
+        $("#food-production-quantity").text((Math.round($farmers * (foodProduction * 100) - $currentPopulation * 100) / 100).toFixed(1));
     }
 
     function increaseAllProduction() {
-        productivity += 0.25;
+        productivity = Math.round(productivity * 100 + 0.25 * 100) / 100;
         changeIntNumber("#productivity-quantity", 25);
-
-        let $index = 1.25;
 
         foodProduction *= 1.1;
         let $workerAmount = parseInt($("#farmer-quantity").text());
         let $currentPopulation = parseInt($("#current-population").text());
         $("#food-production-quantity").text(($workerAmount * foodProduction - $currentPopulation).toFixed(1));
 
-        wood_production *= $index;
+        wood_production = Math.round(wood_production * 100 + 0.125 * 100) / 100;
         $workerAmount = parseInt($("#woodcutter-quantity").text());
         $("#wood-production-quantity").text(($workerAmount * wood_production).toFixed(1));
 
-        stone_production *= $index;
+        stone_production = Math.round(stone_production * 100 + 0.05 * 100) / 100;
         $workerAmount = parseInt($("#miner-quantity").text());
         $("#stone-production-quantity").text(($workerAmount * stone_production).toFixed(1));
 
-        knowledge_production *= $index;
+        knowledge_production = Math.round(knowledge_production * 100 + 0.025 * 100) / 100;
         //TODO why it doesn't work?
 //        knowledge_production = knowledge_production.toFixed(2);
         $workerAmount = parseInt($("#scholar-quantity").text());
@@ -496,24 +481,26 @@ $(function () {
         changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
 
         //starvation process
-        if (parseFloat($("#food-quantity").text()) < 0 && parseFloat($("#current-population").text()) > 0) {
+        if ($("#food-quantity").text() < 0 && $("#current-population").text() > 0) {
             changeIntNumber("#current-population", -1);
             changeFloatNumber("#food-production-quantity", 1);
             findPersonToKill();
             $("#starvation-warning").css("display", "inline");
-            $("#die-of-hunger-achievement").css("display", "inline-block");
-            $("#achievement-section").css("display", "block");
-            //decrease quantity of health and happy people
+            unlockAchievement("Starvation");
 
-            if (parseInt($("#current-happy-people").text()) > $("#current-population")) {
+            // Decrease quantity of happy
+            if (+$("#current-happy-people").text() > $("#current-population").text()) {
                 changeIntNumber("#current-happy-people", -1);
             }
-            if (parseInt($("#current-health-people").text()) > $("#current-population")) {
+            // and health people
+            if (+$("#current-health-people").text() > $("#current-population").text()) {
                 changeIntNumber("#current-health-people", -1);
             }
         } else {
             $("#starvation-warning").css("display", "none");
         }
+
+        //check food production
         if ($("#food-production-quantity").text() < 0) {
             $("#food-production-quantity").css("background-color", "red");
             $("#food-production-quantity").css("color", "white");
@@ -523,21 +510,43 @@ $(function () {
         }
 
         //TODO abundance of food
-        if (parseInt($("#productivity-quantity").text()) == 175) {
-            $("#max-productivity-achievement").css("display", "inline-block");
+        //
+
+        if ($("#productivity-quantity").text() == 175) {
+            unlockAchievement("Productivity");
         }
     }, 1000);
 
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
-        if (parseFloat($("#knowledge-quantity").text()) >= WINNER_REQUIREMENTS) {
+        if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
             if (confirm("Congratulations!!! You collected a lot of knowledge!!! \n\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
                 changeFloatNumber("#knowledge-quantity", WINNER_REQUIREMENTS);
             } else {
                 $("#start-again-button").css("display", "block");
-                clearInterval(winInterval);
             }
+            clearInterval(winInterval);
         }
     }, 4000);
+
+    function unlockAchievement(achievementName) {
+        switch (achievementName) {
+            case "UFO Alien":
+                $("<img id=\"ufo-achievement\" src=\"res/img/alien.png\" title=\"Player is alien\"/>").appendTo("#achievement-section");
+                break;
+            case "Palace":
+                $("<img id=\"build-palace-achievement\" src=\"res/img/blueprint.png\" title=\"Build a palace\"/>").appendTo("#achievement-section");
+                break;
+            case "First Research":
+                $("<img id=\"first-research-achievement\" src=\"res/img/knowledge.png\" title=\"First research\"/>").appendTo("#achievement-section");
+                break;
+            case "Starvation":
+                $("<img id=\"die-of-hunger-achievement\" src=\"res/img/reaper.png\" title=\"Die of hunger\"/>").appendTo("#achievement-section");
+                break;
+            case "Productivity":
+                $("<img id=\"max-productivity-achievement\" src=\"res/img/speedometer.png\" title=\"Achieve max productivity (175%)\"/>").appendTo("#achievement-section");
+                break;
+        }
+    }
 });
