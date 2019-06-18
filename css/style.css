@@ -136,6 +136,12 @@ td {
     margin-left: 250px;
 }
 
+#starvation-warning img {
+    position: absolute;
+    top: 385px;
+    left: 380px;
+}
+
 #work-building-block {
     margin-bottom: 300px
 }
