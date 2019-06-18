@@ -93,7 +93,7 @@ td {
 }
 
 #start-again-button,
-#starvation-warning,
+/*#starvation-warning,*/
 #knowledge-row,
 #corpse-row,
 #happiness-row,
@@ -127,18 +127,18 @@ td {
     display: none;
 }
 
-#starvation-warning {
+#starvation-warning span{
     color: white;
     background: red;
     font-weight: bold;
     border: 3px solid black;
-    border-radius: 50%;
-    margin-left: 250px;
+    border-radius: 40%;
+    margin-left: 230px;
 }
 
 #starvation-warning img {
     position: absolute;
-    top: 385px;
+    top: 420px;
     left: 380px;
 }
 

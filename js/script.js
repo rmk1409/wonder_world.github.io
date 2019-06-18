@@ -485,7 +485,7 @@ $(function () {
             changeIntNumber("#current-population", -1);
             changeFloatNumber("#food-production-quantity", 1);
             findPersonToKill();
-            $("#starvation-warning").css("display", "inline");
+            $("#starvation-warning").css("display", "block");
             unlockAchievement("Starvation");
 
             // Decrease quantity of happy
@@ -497,7 +497,7 @@ $(function () {
                 changeIntNumber("#current-health-people", -1);
             }
         } else {
-            $("#starvation-warning").css("display", "none");
+            // $("#starvation-warning").css("display", "none");
         }
 
         //check food production
