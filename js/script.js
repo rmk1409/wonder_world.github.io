@@ -61,6 +61,21 @@ $(function () {
 
     });
     // 4. BUILD
+    $("#build-grave-button").click(function buildGrave() {
+        let $woodPrice = 5;
+        let $stonePrice = 5;
+        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
+            changeFloatNumber("#wood-quantity", -$woodPrice);
+            changeFloatNumber("#stone-quantity", -$stonePrice);
+
+            //TODO how to invoke next 2 lines just once?
+            $("#funeral-process-job-row").css("display", "table-row");
+            $("#in-graves-row").css("display", "table-row");
+
+            changeIntNumber("#grave-quantity", 1);
+            changeIntNumber("#max-in-graves-quantity", 1);
+        }
+    });
     $("#build-tent-button").click(function buildTent() {
         let $woodPrice = 20;
         if ($("#wood-quantity").text() >= $woodPrice) {
@@ -160,7 +175,7 @@ $(function () {
             currentInstructorSpaces += sportClubInOnePalace;
 
             //TODO How to invoke this just once?
-            if (confirm("Congratulations!!! You built a palace for yourself!!! \n\n You're the BEST!!!\n\n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + +userName + ", do you wanna play again?")) {
                 document.location.reload(true);
             } else {
                 $("#start-again-button").css("display", "block");
@@ -221,7 +236,19 @@ $(function () {
             changeFloatNumber("#stone-production-quantity", stone_production);
         }
     });
-    // 4. SCHOLAR
+    // 4. FUNERAL
+    $("#remove-funeral-process-button").click(function removeFuneralProcess() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#funeral-process-quantity", true)) {
+            changeIntNumber("#funeral-process-quantity", -1);
+            changeIntNumber("#free-people-quantity", 2);
+        }
+    });
+    $("#add-funeral-process-button").click(function addFuneralProcess() {
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#funeral-process-quantity", false, 2)) {
+            changeIntNumber("#funeral-process-quantity", 1);
+            changeIntNumber("#free-people-quantity", -2);
+        }
+    });// 4. SCHOLAR
     $("#remove-scholar-button").click(function removeScholar() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", true)) {
             changeIntNumber("#scholar-quantity", -1);
@@ -299,23 +326,12 @@ $(function () {
 
             $("#architecture-row").css("display", "table-row");
             $("#agriculture-row").css("display", "table-row");
+            $("#funeral-tech-row").css("display", "table-row");
             $("#school-row").css("display", "table-row");
             $("#changes-row").css("display", "none");
 
             $("#already-known-p").css("display", "block");
             $("#changes-p").css("display", "block");
-        }
-    });
-    $("#architecture-button").click(function researchArchitecture() {
-        let $knowledgePrice = 30.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#hut-row").css("display", "table-row");
-            $("#architecture-row").css("display", "none");
-            $("#changes2-row").css("display", "table-row");
-
-            $("#architecture-p").css("display", "block");
         }
     });
     $("#agriculture-button").click(function researchAgriculture() {
@@ -331,6 +347,29 @@ $(function () {
             $("#changes2-row").css("display", "table-row");
 
             $("#agriculture-p").css("display", "block");
+        }
+    });
+    $("#funeral-tech-button").click(function researchFuneralProcess() {
+        let $knowledgePrice = 30.0;
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
+
+            $("#grave-build-row").css("display", "table-row");
+            $("#funeral-tech-row").css("display", "none");
+
+            $("#funeral-p").css("display", "block");
+        }
+    });
+    $("#architecture-button").click(function researchArchitecture() {
+        let $knowledgePrice = 30.0;
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
+
+            $("#hut-row").css("display", "table-row");
+            $("#architecture-row").css("display", "none");
+            $("#changes2-row").css("display", "table-row");
+
+            $("#architecture-p").css("display", "block");
         }
     });
     $("#changes2-button").click(function researchChanges2() {
@@ -351,9 +390,9 @@ $(function () {
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#food-img").attr("src", "res/img/food.png");
+            $("#food-img").attr("src", "res/img/field.png");
             recalculateFoodProduction();
-            //TODO add achievement "Even more food, hurray!!! :)"
+            unlockAchievement("More Food")
             $("#agriculture2-row").css("display", "none");
 
             $("#agriculture2-p").css("display", "block");
@@ -396,8 +435,12 @@ $(function () {
         }
     });
 
-    function checkIsThereFreeCitizen(free, work, checkWorker) {
-        return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
+    function checkIsThereFreeCitizen(free, work, checkWorker, number) {
+        if (number) {
+            return checkWorker ? $(work).text() > 0 : $(free).text() >= number;
+        } else {
+            return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
+        }
 
     }
 
@@ -425,18 +468,21 @@ $(function () {
         } else if (+$("#miner-quantity").text()) {
             changeIntNumber("#miner-quantity", -1);
             changeFloatNumber("#stone-production-quantity", -stone_production);
-        } else if (+$("#farmer-quantity").text()) {
-            changeIntNumber("#farmer-quantity", -1);
-            changeFloatNumber("#food-production-quantity", -foodProduction);
         } else if (+$("#scholar-quantity").text()) {
             changeIntNumber("#scholar-quantity", -1);
             changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
         } else if (+$("#dj-quantity").text()) {
             changeIntNumber("#dj-quantity", -1);
-            changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub-1)));
+            changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
         } else if (+$("#instructor-quantity").text()) {
             changeIntNumber("#instructor-quantity", -1);
-            changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub-1)));
+            changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
+        } else if (+$("#funeral-process-quantity").text()) {
+            changeIntNumber("#funeral-process-quantity", -1);
+            changeIntNumber("#free-people-quantity", 1);
+        } else if (+$("#farmer-quantity").text()) {
+            changeIntNumber("#farmer-quantity", -1);
+            changeFloatNumber("#food-production-quantity", -foodProduction);
         }
     }
 
@@ -450,6 +496,8 @@ $(function () {
     function increaseAllProduction() {
         productivity = Math.round(productivity * 100 + 0.25 * 100) / 100;
         changeIntNumber("#productivity-quantity", 25);
+
+        recalculateFoodProduction();
 
         foodProduction *= 1.1;
         let $workerAmount = parseInt($("#farmer-quantity").text());
@@ -497,16 +545,16 @@ $(function () {
                 changeIntNumber("#current-health-people", -1);
             }
         } else {
-             $("#starvation-warning").css("display", "none");
+            $("#starvation-warning").css("display", "none");
         }
 
         //check food production
         if ($("#food-production-quantity").text() < 0) {
-            $("#food-production-quantity").css("background-color", "red");
-            $("#food-production-quantity").css("color", "white");
+            $("#food-production-span").css("background-color", "red");
+            $("#food-production-span").css("color", "white");
         } else {
-            $("#food-production-quantity").css("background-color", "");
-            $("#food-production-quantity").css("color", "black");
+            $("#food-production-span").css("background-color", "");
+            $("#food-production-span").css("color", "black");
         }
 
         //TODO abundance of food
@@ -515,12 +563,37 @@ $(function () {
         if ($("#productivity-quantity").text() == 175) {
             unlockAchievement("Productivity");
         }
+
+        if (+$("#free-people-quantity").text()) {
+            $("#free-people-quantity").css("background-color", "red");
+            $("#free-people-quantity").css("color", "white");
+        } else {
+            $("#free-people-quantity").css("background-color", "");
+            $("#free-people-quantity").css("color", "black");
+
+        }
     }, 1000);
+
+    //FUNERAL PROCESS
+    setInterval(function funeralProcess() {
+        let $funeralProcesses = +$("#funeral-process-quantity").text();
+        let $corpses = +$("#corpse-quantity").text();
+        let $graves = +$("#max-in-graves-quantity").text();
+        let $inGraves = +$("#in-graves-quantity").text();
+
+        if ($funeralProcesses && $corpses && ($inGraves < $graves)) {
+            changeIntNumber("#corpse-quantity", -1);
+            changeIntNumber("#in-graves-quantity", 1);
+            $("#funeral-process-img").css("display","inline-block");
+        } else {
+            $("#funeral-process-img").css("display","none");
+        }
+    }, 5000);
 
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
         if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
-            if (confirm("Congratulations! You collected a lot of knowledge!! \n\n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
                 changeFloatNumber("#knowledge-quantity", WINNER_REQUIREMENTS);
             } else {
@@ -546,6 +619,9 @@ $(function () {
                 break;
             case "Productivity":
                 $("<img id=\"max-productivity-achievement\" src=\"res/img/speedometer.png\" title=\"Achieve max productivity (175%)\"/>").appendTo("#achievement-section");
+                break;
+            case "More Food":
+                $("<img id=\"more-food-achievement\" src=\"res/img/food.png\" title=\"Even more food, hurray!!! :)\"/>").appendTo("#achievement-section");
                 break;
         }
     }

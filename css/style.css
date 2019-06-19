@@ -1,6 +1,6 @@
 body {
     background: url("../res/img/background-village2.jpg") no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 header img {
@@ -16,16 +16,18 @@ table img {
     margin-right: 5px;
 }
 
+#funeral-process-img {
+    position: absolute;
+    top: 550px;
+    left: 750px;
+}
+
 button {
     padding: 7px;
     width: 145px;
     border-radius: 30%;
     background-color: white;
     height: auto;
-}
-
-#people-productivity-table button {
-    width: 200px;
 }
 
 #work-table button {
@@ -66,10 +68,6 @@ td {
     border: 0px;
 }
 
-#building-table td {
-    text-align: left;
-}
-
 #building-table td:last-child,
 #technology-table td:last-child {
     font-style: italic;
@@ -93,22 +91,27 @@ td {
 }
 
 #start-again-button,
+#funeral-process-img,
 #starvation-warning,
 #knowledge-row,
 #corpse-row,
+#in-graves-row,
 #happiness-row,
 #health-row,
 #productivity-row,
+#funeral-process-job-row,
 #in-school-row,
 #in-dj-row,
 #in-instructor-row,
-#school-row,
+#grave-build-row,
 #hut-row,
+#school-row,
 #music-club-row,
 #yoga-club-row,
 #palace-row,
-#architecture-row,
 #agriculture-row,
+#architecture-row,
+#funeral-tech-row,
 #changes2-row,
 #agriculture2-row,
 #music-row,
@@ -117,6 +120,7 @@ td {
 #changes3-row,
 #already-known-p,
 #changes-p,
+#funeral-p,
 #architecture-p,
 #agriculture-p,
 #changes2-p,
@@ -124,10 +128,10 @@ td {
 #music-p,
 #sport-p,
 #architecture2-p {
-    display: none;
+display: none;
 }
 
-#starvation-warning span{
+#starvation-warning span {
     color: white;
     background: red;
     font-weight: bold;
@@ -151,4 +155,10 @@ td {
     padding: 10px;
     border-radius: 20%;
     max-width: 600px;
+}
+
+#author {
+    position: absolute;
+    left: 555px;
+    top: 210px;
 }
