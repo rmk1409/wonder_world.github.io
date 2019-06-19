@@ -552,9 +552,13 @@ $(function () {
         if ($("#food-production-quantity").text() < 0) {
             $("#food-production-span").css("background-color", "red");
             $("#food-production-span").css("color", "white");
+            $("#farmer-quantity").css("background-color", "green");
+            $("#farmer-quantity").css("color", "white");
         } else {
             $("#food-production-span").css("background-color", "");
             $("#food-production-span").css("color", "black");
+            $("#farmer-quantity").css("background-color", "");
+            $("#farmer-quantity").css("color", "black");
         }
 
         //TODO abundance of food
