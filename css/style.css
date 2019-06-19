@@ -148,7 +148,7 @@ display: none;
 }
 
 #work-building-block {
-    margin-bottom: 300px
+    margin-bottom: 30px
 }
 
 #achievement-section {
@@ -160,6 +160,7 @@ display: none;
 
 #author {
     position: absolute;
-    left: 555px;
-    top: 210px;
+    left: 535px;
+    top: 185px;
+    font-style: italic;
 }
