@@ -175,7 +175,7 @@ $(function () {
             currentInstructorSpaces += sportClubInOnePalace;
 
             //TODO How to invoke this just once?
-            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + +userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity")) + " people. No so bad..\n" +userName + ", do you wanna play again?")) {
                 document.location.reload(true);
             } else {
                 $("#start-again-button").css("display", "block");
@@ -190,7 +190,7 @@ $(function () {
             changeIntNumber("#farmer-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#food-production-quantity", -foodProduction);
+            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
         }
     });
     $("#add-farmer-button").click(function addFarmer() {
@@ -198,7 +198,7 @@ $(function () {
             changeIntNumber("#farmer-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#food-production-quantity", foodProduction);
+            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
         }
     });
     // 2. WOODCUTTER
@@ -207,7 +207,7 @@ $(function () {
             changeIntNumber("#woodcutter-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#wood-production-quantity", -wood_production);
+            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
         }
     });
     $("#add-woodcutter-button").click(function addWoodcutter() {
@@ -215,7 +215,7 @@ $(function () {
             changeIntNumber("#woodcutter-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#wood-production-quantity", wood_production);
+            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
         }
     });
     // 3. MINER
@@ -224,8 +224,7 @@ $(function () {
             changeIntNumber("#miner-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#stone-production-quantity", -stone_production);
-
+            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
         }
     });
     $("#add-miner-button").click(function addMiner() {
@@ -233,7 +232,7 @@ $(function () {
             changeIntNumber("#miner-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#stone-production-quantity", stone_production);
+            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
         }
     });
     // 4. FUNERAL
@@ -254,7 +253,7 @@ $(function () {
             changeIntNumber("#scholar-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
+            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
             currentSpaceInSchool++;
         }
     });
@@ -263,7 +262,7 @@ $(function () {
             changeIntNumber("#scholar-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            changeFloatNumber("#knowledge-production-quantity", knowledge_production);
+            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
             currentSpaceInSchool--;
         }
     });
@@ -344,7 +343,6 @@ $(function () {
             //TODO add achievement "More food, hurray!!! :)"
 
             $("#agriculture-row").css("display", "none");
-            $("#changes2-row").css("display", "table-row");
 
             $("#agriculture-p").css("display", "block");
         }
@@ -464,13 +462,13 @@ $(function () {
             changeIntNumber("#free-people-quantity", -1);
         } else if (+$("#woodcutter-quantity").text()) {
             changeIntNumber("#woodcutter-quantity", -1);
-            changeFloatNumber("#wood-production-quantity", -wood_production);
+            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
         } else if (+$("#miner-quantity").text()) {
             changeIntNumber("#miner-quantity", -1);
-            changeFloatNumber("#stone-production-quantity", -stone_production);
+            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
         } else if (+$("#scholar-quantity").text()) {
             changeIntNumber("#scholar-quantity", -1);
-            changeFloatNumber("#knowledge-production-quantity", -knowledge_production);
+            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
         } else if (+$("#dj-quantity").text()) {
             changeIntNumber("#dj-quantity", -1);
             changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
@@ -482,7 +480,7 @@ $(function () {
             changeIntNumber("#free-people-quantity", 1);
         } else if (+$("#farmer-quantity").text()) {
             changeIntNumber("#farmer-quantity", -1);
-            changeFloatNumber("#food-production-quantity", -foodProduction);
+            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
         }
     }
 
@@ -499,20 +497,19 @@ $(function () {
 
         recalculateFoodProduction();
 
-        foodProduction *= 1.1;
         let $workerAmount = parseInt($("#farmer-quantity").text());
         let $currentPopulation = parseInt($("#current-population").text());
         $("#food-production-quantity").text(($workerAmount * foodProduction - $currentPopulation).toFixed(1));
 
-        wood_production = Math.round(wood_production * 100 + 0.125 * 100) / 100;
+        wood_production = Math.round(wood_production * 1000 + 0.125 * 1000) / 1000;
         $workerAmount = parseInt($("#woodcutter-quantity").text());
         $("#wood-production-quantity").text(($workerAmount * wood_production).toFixed(1));
 
-        stone_production = Math.round(stone_production * 100 + 0.05 * 100) / 100;
+        stone_production = Math.round(stone_production * 1000 + 0.05 * 1000) / 1000;
         $workerAmount = parseInt($("#miner-quantity").text());
         $("#stone-production-quantity").text(($workerAmount * stone_production).toFixed(1));
 
-        knowledge_production = Math.round(knowledge_production * 100 + 0.025 * 100) / 100;
+        knowledge_production = Math.round(knowledge_production * 1000 + 0.025 * 1000) / 1000;
         //TODO why it doesn't work?
 //        knowledge_production = knowledge_production.toFixed(2);
         $workerAmount = parseInt($("#scholar-quantity").text());
@@ -602,7 +599,7 @@ $(function () {
         if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
             if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
-                changeFloatNumber("#knowledge-quantity", WINNER_REQUIREMENTS);
+                changeFloatNumber("#knowledge-quantity", -WINNER_REQUIREMENTS);
             } else {
                 $("#start-again-button").css("display", "block");
             }
