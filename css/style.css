@@ -52,6 +52,7 @@ table {
     border: 3px solid black;
     border-spacing: 5px;
     border-collapse: collapse;
+    font-size: 14px;
 }
 
 caption {
@@ -105,19 +106,27 @@ td {
 #start-again-button,
 #funeral-process-img,
 #starvation-warning,
+#empty-row-before-knowledge,
 #knowledge-row,
 #corpse-row,
 #in-graves-row,
+#empty-row-before-happiness,
 #happiness-row,
 #health-row,
+#empty-row-before-productivity,
 #productivity-row,
+#empty-row-before-funeral,
 #funeral-process-job-row,
+#empty-row-before-scholar,
 #in-school-row,
+#empty-row-before-dj,
 #in-dj-row,
 #in-instructor-row,
 #grave-build-row,
 #hut-row,
+#empty-row-before-school,
 #school-row,
+#empty-row-before-music-club,
 #music-club-row,
 #yoga-club-row,
 #palace-row,

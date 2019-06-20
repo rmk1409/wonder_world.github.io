@@ -4,8 +4,9 @@
     <title>Wonder World</title>
 
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="shortcut icon" href="res/img/title/torch.png" type="image/png">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="js/script.js"></script>
 </head>
@@ -45,15 +46,15 @@
                     <td><img src="res/img/branch.png"></td>
                     <td><button title="click to get some wood" id="wood-click-button">Get Woods</button></td>
                     <td><span id="wood-quantity">0.0</span></td>
-                    <td><span id="wood-production-quantity">0.0</span>/sec</td>
+                    <td><span id="wood-production-span"><span id="wood-production-quantity">0.0</span>/sec</span></td>
                 </tr>
                 <tr>
                     <td><img src="res/img/stone.png"></td>
                     <td><button title="click to get some stones" id="stone-click-button">Get Stones</button></td>
                     <td><span id="stone-quantity">0.0</span></td>
-                    <td><span id="stone-production-quantity">0.0</span>/sec</td>
+                    <td><span id="stone-production-span"><span id="stone-production-quantity">0.0</span>/sec</span></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-knowledge">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="knowledge-row">
@@ -62,7 +63,7 @@
                         <p><i>Citizens produce it</i></p>
                     </td>
                     <td><span id="knowledge-quantity">0.0</span></td>
-                    <td><span id="knowledge-production-quantity">0.0</span>/sec</td>
+                    <td><span id="knowledge-production-span"><span id="knowledge-production-quantity">0.0</span>/sec</span></td>
                 </tr>
             </tbody>
         </table>
@@ -97,7 +98,7 @@
                     <td>-</td>
                     <td><span id="in-graves-quantity">0</span>/<span id="max-in-graves-quantity">0</span></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-happiness">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="happiness-row">
@@ -112,7 +113,7 @@
                     <td>-</td>
                     <td><span id="current-health-people">0</span>/<span id="max-health-people">0</span></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-productivity">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="productivity-row">
@@ -167,7 +168,7 @@
                     <td id="miner-quantity">0</td>
                     <td><button title="add a worker" id="add-miner-button">&gt;</button></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-funeral">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="funeral-process-job-row">
@@ -176,7 +177,7 @@
                     <td id="funeral-process-quantity">0</td>
                     <td><button title="Needs 2 free people" id="add-funeral-process-button">&gt;</button></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-scholar">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="in-school-row">
@@ -185,7 +186,7 @@
                     <td><span id="scholar-quantity">0</span>/<span id="max-scholar-quantity">0</span></td>
                     <td><button title="add a worker" id="add-scholar-button">&gt;</button></td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-dj">
                     <td colspan="4"></td>
                 </tr>
                 <tr id="in-dj-row">
@@ -240,7 +241,7 @@
                     <td>20 wood 20 stone</td>
                     <td>+5 max population</td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-school">
                     <td colspan="5"></td>
                 </tr>
                 <tr id="school-row">
@@ -250,7 +251,7 @@
                     <td>20 wood 20 stone</td>
                     <td>+5 spaces in school</td>
                 </tr>
-                <tr>
+                <tr id="empty-row-before-music-club">
                     <td colspan="5"></td>
                 </tr>
                 <tr id="music-club-row">
