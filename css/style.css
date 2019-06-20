@@ -150,3 +150,7 @@ td {
     margin: 0px;
 
 }
+
+.build-empty-row {
+    background-color: grey;
+}

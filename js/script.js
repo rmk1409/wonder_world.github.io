@@ -24,7 +24,7 @@ $(function () {
     }
     // Game variables
     var citizenCost = 10,
-        booster = 1,
+        booster = 10,
         wood_production = 0.5 * booster,
         stone_production = 0.2 * booster,
         knowledge_production = 0.1 * booster,
@@ -275,9 +275,7 @@ $(function () {
             changeFloatNumber("#stone-quantity", -$stonePrice);
 
             //TODO how to invoke next 2 lines just once?
-            $("#empty-row-before-war").show("slow", function () {
-                $("#work-war-warriors-row").show("slow");
-            });
+            $("#work-warrior-row").show("slow");
 
             changeIntNumber("#barrack-quantity", 1);
             changeIntNumber("#max-warrior-quantity", 10);
@@ -396,7 +394,7 @@ $(function () {
             changeIntNumber("#funeral-process-quantity", 1);
             changeIntNumber("#free-people-quantity", -2);
         }
-    });// 4. SCIENTIST
+    }); // 4. SCIENTIST
     $("#remove-10-scientist-button").click(function () {
         for (var i = 0; i < 10; i++) {
             removeScientist();
@@ -609,7 +607,9 @@ $(function () {
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#in-work-leader-row").toggle("slow");
+            $("#tech-leadership-row").toggle("slow", function () {
+                $("#in-work-leader-row").toggle("slow");
+            });
         }
     });
     $("#tech-stone-age-button").click(function researchStoneAge() {
@@ -623,12 +623,12 @@ $(function () {
                 $("#tech-architecture-3-row").toggle("slow");
                 $("#tech-music-row").toggle("slow");
                 $("#tech-sport-row").toggle("slow");
-                $("#tools").toggle("slow");
+                $("#tech-tools-row").toggle("slow");
             });
         }
     });
     $("#tech-architecture-3-button").click(function researchArchitecture3() {
-        let $knowledgePrice = 500.0;
+        let $knowledgePrice = 250.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
@@ -638,7 +638,7 @@ $(function () {
         }
     });
     $("#tech-music-button").click(function researchMusic() {
-        let $knowledgePrice = 100.0;
+        let $knowledgePrice = 250.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
@@ -650,7 +650,7 @@ $(function () {
         }
     });
     $("#tech-sport-button").click(function researchSport() {
-        let $knowledgePrice = 100.0;
+        let $knowledgePrice = 250.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
@@ -665,7 +665,7 @@ $(function () {
         }
     });
     $("#tech-tools-button").click(function researchTools() {
-        let $knowledgePrice = 500.0;
+        let $knowledgePrice = 250.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
@@ -678,12 +678,14 @@ $(function () {
         }
     });
     $("#tech-weapon-row").click(function researchWeapon() {
-        let $knowledgePrice = 500.0;
+        let $knowledgePrice = 300.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#tech-weapon-row").toggle("slow", function () {
+                $("#empty-row-before-war").toggle("slow");
                 $("#build-war-barrack-row").toggle("slow");
+                $("#tech-architecture-4-row").toggle("slow");
             });
         }
     });

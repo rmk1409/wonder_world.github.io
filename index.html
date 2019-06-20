@@ -224,11 +224,11 @@
                 </tr>
                 <tr id="in-work-leader-row">
                     <td class="empty-td ten-work-td"></td>
-                    <td class="empty-td ten-work-td"></td>
+                    <td class="empty-td"></td>
                     <td title="Allows to group people">Leaders:</td>
                     <td><span id="leader-quantity">0</span></td>
                     <td><button title="add a leader" id="add-leader-button">&gt;</button></td>
-                    <td class="empty-td"></td>
+                    <td class="empty-td ten-work-td"></td>
                     <!--<td><button title="add 10 worker" id="add-10-dj-button">&gt;&gt;</button></td>-->
                 </tr>
                 <tr id="work-warrior-row">
@@ -305,7 +305,7 @@
                     <td>50 wood 50 stone</td>
                     <td>+50 max for wood/stone</td>
                 </tr>
-                <tr>
+                <tr class="build-empty-row">
                     <td colspan="5"></td>
                 </tr>
                 <tr>
@@ -322,7 +322,7 @@
                     <td>20 wood 20 stone</td>
                     <td>+5 max population</td>
                 </tr>
-                <tr id="empty-row-before-knowledge-building">
+                <tr id="empty-row-before-knowledge-building" class="build-empty-row">
                     <td colspan="5"></td>
                 </tr>
                 <tr id="campfire-build-row">
@@ -346,7 +346,7 @@
                     <td>75 wood 75 stone</td>
                     <td>+12 scientists</td>
                 </tr>
-                <tr id="empty-row-before-music-club">
+                <tr id="empty-row-before-music-club" class="build-empty-row">
                     <td colspan="5"></td>
                 </tr>
                 <tr id="music-club-row">
@@ -369,6 +369,9 @@
                     <td><span id="palace-quantity">0</span></td>
                     <td>1000 wood 1000 stone</td>
                     <td>+5 schools, +10 sport/music clubs</td>
+                </tr>
+                <tr id="empty-row-before-build-war" class="build-empty-row">
+                    <td colspan="5"></td>
                 </tr>
                 <tr id="build-war-barrack-row">
                     <td><img src="res/img/stone%20age/barrack.png" /></td>
@@ -463,31 +466,31 @@
                 <tr id="tech-architecture-3-row">
                     <td><img src="res/img/sketch.png" /></td>
                     <td><button title="Unlock new place for sleeping" id="tech-architecture-3-button">Architecture III</button></td>
-                    <td>500 knowledge</td>
-                    <td>Unlock new place for sleeping</td>
+                    <td>250 knowledge</td>
+                    <td>Unlock new buildings (III)</td>
                 </tr>
                 <tr id="tech-music-row">
                     <td><img src="res/img/music.png" /></td>
                     <td><button title="Unlock musical instruments" id="tech-music-button">Music</button></td>
-                    <td>500 knowledge</td>
+                    <td>250 knowledge</td>
                     <td>Unlock musical instruments</td>
                 </tr>
                 <tr id="tech-sport-row">
                     <td><img src="res/img/stretching-exercises.png" /></td>
                     <td><button title="Unlock ways to increase health" id="tech-sport-button">Sport</button></td>
-                    <td>500 knowledge</td>
+                    <td>250 knowledge</td>
                     <td>Unlock ways to increase health</td>
                 </tr>
                 <tr id="tech-tools-row">
                     <td><img src="res/img/stone%20age/tools.png" /></td>
                     <td><button title="Unlock different tools/gadgets" id="tech-tools-button">Tools</button></td>
-                    <td>500 knowledge</td>
+                    <td>250 knowledge</td>
                     <td>Unlock different tools/gadgets</td>
                 </tr>
                 <tr id="tech-weapon-row">
                     <td><img src="res/img/stone%20age/spear.png" /></td>
                     <td><button title="Unlock ancient weapon" id="tech-ancient-weapon-button">Ancient weapon</button></td>
-                    <td>500 knowledge</td>
+                    <td>350 knowledge</td>
                     <td>Unlock weapons to protect and to fight</td>
                 </tr>
                 <tr id="tech-hoe-row">
@@ -508,6 +511,7 @@
                     <td>300 knowledge</td>
                     <td>Increase stone production</td>
                 </tr>
+<!--                TODO add scroll improvements x2-->
                 <tr id="tech-architecture-4-row">
                     <td><img src="res/img/architecture.png" /></td>
                     <td><button title="More buildings (IV)" id="tech-architecture-4-button">Architecture IV</button></td>
