@@ -14,7 +14,7 @@ $(function () {
         healthProductivity = false,
         abundance = false;
     // 4. User name
-    var userName = prompt("Великий человек, как тебя зовут?") || "UFO Alien";
+    var userName = prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
     $("#user-name").text(userName);
     if (userName == "UFO Alien") {
         unlockAchievement("UFO Alien");
@@ -201,7 +201,7 @@ $(function () {
             $(this).prop("disabled", true);
 
             //TODO How to invoke this just once?
-            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. Great job!! \n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノGreat job!! \n" + userName + ", do you wanna play again?")) {
                 document.location.reload(true);
             } else {
                 $("#start-again-button").toggle("slow");
@@ -586,7 +586,19 @@ $(function () {
         if ($("#productivity-quantity").text() == 175) {
             unlockAchievement("Productivity");
         }
+
+        console.log(document.hasFocus());
+        funnyThings();
     }, 1000);
+
+    function funnyThings() {
+        var funnyChance = 2;
+        if (! document.hasFocus()){
+            funnyChance = 10;
+        }
+
+        //TODO wolves(-citizen), thieves(stones), storm(wood), crazy rabbits(food), woman rapes(increased citizen cost)
+    }
 
     function productionColor() {
         // FOOD
