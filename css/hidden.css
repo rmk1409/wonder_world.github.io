@@ -1,0 +1,94 @@
+#start-again-button,
+#funeral-process-img,
+#starvation-warning,
+#events-div {
+    display: none;
+}
+
+#max-food-quantity-span,
+#max-wood-quantity-span,
+#max-stone-quantity-span,
+#max-knowledge-quantity-span,
+#empty-row-before-knowledge,
+#knowledge-row {
+    display: none;
+}
+
+#corpse-row,
+#in-graves-row,
+#empty-row-before-happiness,
+#happiness-row,
+#health-row,
+#empty-row-before-productivity,
+#productivity-row {
+    display: none;
+}
+
+/* WORKERS*/
+.ten-work-td,
+#empty-row-before-funeral,
+#funeral-process-job-row,
+#empty-row-before-work-scientist-row,
+#in-work-scientist-row,
+#empty-row-before-leader,
+#in-work-leader-row,
+#work-warrior-row,
+#empty-row-before-dj,
+#in-dj-row,
+#in-instructor-row {
+    display: none;
+}
+
+/* BUILDINGS */
+#grave-build-row,
+#hut-row,
+#scroll-storage-row,
+#build-storage-granary-row,
+#build-storage-pit-row,
+#campfire-build-row,
+#build-knowledge-dolmen-row,
+#empty-row-before-knowledge-building,
+#build-knowledge-school-row,
+#empty-row-before-music-club,
+#music-club-row,
+#yoga-club-row,
+#palace-row,
+#build-war-barrack-row {
+    display: none;
+}
+
+/* TECHNOLOGIES*/
+#agriculture-row,
+#architecture-row,
+#funeral-tech-row,
+#changes2-row,
+#tech-agriculture-2-row,
+#tech-architecture-2-row,
+#tech-leadership-row,
+#tech-stone-age-row,
+#tech-architecture-3-row,
+#tech-music-row,
+#tech-sport-row,
+#tech-tools-row,
+#tech-hoe-row,
+#tech-axe-row,
+#tech-pickaxe-row,
+#tech-weapon-row,
+#tech-architecture-4-row,
+#tech-bronze-age-row {
+    display: none;
+}
+
+/* ALREADY KNOWN TECHNOLOGIES*/
+#already-known-p,
+#changes-p,
+#funeral-p,
+#architecture-p,
+#agriculture-p,
+#changes2-p,
+#agriculture2-p,
+#music-p,
+#sport-p,
+#architecture2-p {
+    display: none;
+}

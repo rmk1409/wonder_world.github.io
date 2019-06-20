@@ -63,7 +63,7 @@ th {
     color: darkblue;
 }
 
-#work-table th:nth-child(3) {
+#work-table th:nth-child(4) {
     min-width: 50px;
 }
 
@@ -75,6 +75,14 @@ td {
     padding: 2px;
     border: 2px solid green;
     text-align: right;
+}
+
+#resources-table td:nth-child(3) {
+    min-width: 90px;
+}
+
+#people-productivity-table td:nth-child(3) {
+    min-width: 85px;
 }
 
 .empty-td {
@@ -101,55 +109,6 @@ td {
     border: 5px solid black;
     color: white;
     background-color: black;
-}
-
-#start-again-button,
-#funeral-process-img,
-#starvation-warning,
-#empty-row-before-knowledge,
-#knowledge-row,
-#corpse-row,
-#in-graves-row,
-#empty-row-before-happiness,
-#happiness-row,
-#health-row,
-#empty-row-before-productivity,
-#productivity-row,
-#empty-row-before-funeral,
-#funeral-process-job-row,
-#empty-row-before-scholar,
-#in-school-row,
-#empty-row-before-dj,
-#in-dj-row,
-#in-instructor-row,
-#grave-build-row,
-#hut-row,
-#empty-row-before-school,
-#school-row,
-#empty-row-before-music-club,
-#music-club-row,
-#yoga-club-row,
-#palace-row,
-#agriculture-row,
-#architecture-row,
-#funeral-tech-row,
-#changes2-row,
-#agriculture2-row,
-#music-row,
-#sport-row,
-#architecture2-row,
-#changes3-row,
-#already-known-p,
-#changes-p,
-#funeral-p,
-#architecture-p,
-#agriculture-p,
-#changes2-p,
-#agriculture2-p,
-#music-p,
-#sport-p,
-#architecture2-p {
-display: none;
 }
 
 #starvation-warning span {
@@ -185,4 +144,9 @@ display: none;
     top: 110px;
     font-style: italic;
     font-size: 11px;
+}
+
+#events-div p {
+    margin: 0px;
+
 }
