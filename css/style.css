@@ -42,10 +42,14 @@ button {
 #start-again-button {
     position: absolute;
     left: 180px;
-    top: 468px;
+    top: 487px;
     background-color: green;
     color: white;
     padding: 3px;
+}
+
+#work-table button {
+    font-size: 11px;
 }
 
 table {
@@ -135,7 +139,7 @@ td {
     border: 3px solid black;
     padding: 10px;
     border-radius: 20%;
-    max-width: 600px;
+    width: 470px;
 }
 
 #author {
@@ -153,4 +157,18 @@ td {
 
 .build-empty-row {
     background-color: grey;
+}
+
+#events-div {
+    max-height: 90px;
+    overflow: hidden;
+    max-width: 495px;
+}
+
+#events-div:hover {
+    overflow-y: auto;
+}
+
+#events-div>* {
+    max-width: 485px;
 }

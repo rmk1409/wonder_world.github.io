@@ -1,7 +1,6 @@
 #start-again-button,
 #funeral-process-img,
-#starvation-warning,
-#events-div {
+#starvation-warning {
     display: none;
 }
 
@@ -102,7 +101,6 @@
 #pickaxe-p,
 #two-side-scroll-p,
 #architecture-4-p,
-#bronze-age-p 
-{
+#bronze-age-p {
     display: none;
 }
