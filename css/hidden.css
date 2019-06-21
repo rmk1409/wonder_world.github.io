@@ -75,6 +75,7 @@
 #tech-axe-row,
 #tech-pickaxe-row,
 #tech-weapon-row,
+#tech-2-side-scroll-row,
 #tech-architecture-4-row,
 #tech-bronze-age-row {
     display: none;
@@ -83,13 +84,25 @@
 /* ALREADY KNOWN TECHNOLOGIES*/
 #already-known-p,
 #changes-p,
-#funeral-p,
-#architecture-p,
 #agriculture-p,
-#changes2-p,
-#agriculture2-p,
+#architecture-p,
+#funeral-p,
+#changes-2-p,
+#agriculture-2-p,
+#architecture-2-p,
+#leadership-p,
+#stone-age-p,
+#architecture-3-p,
 #music-p,
 #sport-p,
-#architecture2-p {
+#tools-p,
+#weapon-p,
+#hoe-p,
+#axe-p,
+#pickaxe-p,
+#two-side-scroll-p,
+#architecture-4-p,
+#bronze-age-p 
+{
     display: none;
 }

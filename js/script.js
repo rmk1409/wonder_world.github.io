@@ -5,6 +5,7 @@ $(function () {
     let WINNER_REQUIREMENTS = 1e6;
     // 2.Spaces
     var availableScientistSpaces = 0,
+        knowledgeStoreInOneScroll = 5,
         currentDjSpaces = 0,
         currentInstructorSpaces = 0,
         spaceInOneClub = 25,
@@ -15,7 +16,8 @@ $(function () {
     var djProductivity = false,
         healthProductivity = false,
         abundance = false,
-        leaderFlag = false;
+        leaderFlag = false,
+        productivityFlag = false;
     // 4. User name
     var userName = prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
     $("#user-name").text(userName);
@@ -87,7 +89,8 @@ $(function () {
             changeFloatNumber("#stone-quantity", -$stonePrice);
 
             changeIntNumber("#scroll-quantity", 1);
-            changeIntNumber("#max-knowledge-quantity-span", 5);
+            knowledgeStoreInOneScroll;
+            changeIntNumber("#max-knowledge-quantity-span", knowledgeStoreInOneScroll);
         }
     });
     $("#build-granary-storage-button").click(function buildGranary() {
@@ -260,7 +263,7 @@ $(function () {
             $(this).prop("disabled", true);
 
             //TODO How to invoke this just once?
-            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノGreat job!! \n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノ Great job!! \n" + userName + ", do you wanna start again?")) {
                 document.location.reload(true);
             } else {
                 $("#start-again-button").toggle("slow");
@@ -274,7 +277,7 @@ $(function () {
             changeFloatNumber("#wood-quantity", -$woodPrice);
             changeFloatNumber("#stone-quantity", -$stonePrice);
 
-            //TODO how to invoke next 2 lines just once?
+            //TODO how to invoke next 1 lines just once?
             $("#work-warrior-row").show("slow");
 
             changeIntNumber("#barrack-quantity", 1);
@@ -572,7 +575,7 @@ $(function () {
                 $("#tech-leadership-row").toggle("slow");
                 $("#tech-stone-age-row").toggle("slow");
 
-                $("#changes2-p").toggle("slow");
+                $("#changes-2-p").toggle("slow");
             });
         }
     });
@@ -587,7 +590,7 @@ $(function () {
             unlockAchievement("More Food");
 
             $("#tech-agriculture-2-row").toggle("slow", function () {
-                $("#agriculture2-p").toggle("slow");
+                $("#agriculture-2-p").toggle("slow");
             });
         }
     });
@@ -597,8 +600,10 @@ $(function () {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#tech-architecture-2-row").toggle("slow", function () {
-                $("#architecture2-p").toggle("slow");
+                $("#architecture-2-p").toggle("slow");
                 $("#build-storage-pit-row").toggle("slow");
+                
+                $("#architecture-2-p").toggle("slow");
             });
         }
     });
@@ -609,6 +614,8 @@ $(function () {
 
             $("#tech-leadership-row").toggle("slow", function () {
                 $("#in-work-leader-row").toggle("slow");
+                
+                $("#leadership-p").toggle("slow");
             });
         }
     });
@@ -624,6 +631,8 @@ $(function () {
                 $("#tech-music-row").toggle("slow");
                 $("#tech-sport-row").toggle("slow");
                 $("#tech-tools-row").toggle("slow");
+                
+                $("#stone-age-p").toggle("slow");
             });
         }
     });
@@ -634,6 +643,8 @@ $(function () {
 
             $("#tech-architecture-3-row").toggle("slow", function () {
                 $("#build-knowledge-dolmen-row").toggle("slow");
+                
+                $("#architecture-3-p").toggle("slow");
             });
         }
     });
@@ -645,6 +656,7 @@ $(function () {
             $("#tech-music-row").toggle("slow", function () {
                 $("#empty-row-before-music-club").show("slow");
                 $("#music-club-row").toggle("slow");
+                
                 $("#music-p").toggle("slow");
             });
         }
@@ -674,18 +686,25 @@ $(function () {
                 $("#tech-pickaxe-row").toggle("slow");
                 $("#tech-hoe-row").toggle("slow");
                 $("#tech-weapon-row").toggle("slow");
+                
+                $("#tools-p").toggle("slow");
             });
         }
     });
     $("#tech-weapon-row").click(function researchWeapon() {
-        let $knowledgePrice = 300.0;
+        let $knowledgePrice = 350.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
             $("#tech-weapon-row").toggle("slow", function () {
-                $("#empty-row-before-war").toggle("slow");
                 $("#build-war-barrack-row").toggle("slow");
+                $("#empty-row-before-build-war").toggle("slow");
+                $("#tech-2-side-scroll-row").toggle("slow");
                 $("#tech-architecture-4-row").toggle("slow");
+                
+                $("#weapon-p").toggle("slow");
+                
+                increaseAllProduction();
             });
         }
     });
@@ -696,6 +715,10 @@ $(function () {
 
             $("#tech-hoe-row").toggle("slow", function () {
                 recalculateFoodProduction();
+                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+                changeIntNumber("#productivity-quantity", 6.25);
+                
+                $("#hoe-p").toggle("slow");
             });
         }
     });
@@ -706,6 +729,10 @@ $(function () {
 
             $("#tech-axe-row").toggle("slow", function () {
                 recalculateWoodProduction();
+                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+                changeIntNumber("#productivity-quantity", 6.25);
+                
+                $("#axe-p").toggle("slow");
             });
         }
     });
@@ -716,17 +743,39 @@ $(function () {
 
             $("#tech-pickaxe-row").toggle("slow", function () {
                 recalculateStoneProduction();
+                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+                changeIntNumber("#productivity-quantity", 6.25);
+                
+                $("#pickaxe-p").toggle("slow");
             });
         }
     });
-    $("#tech-architecture-4-button").click(function researchArchitecture2() {
+    $("#tech-2-side-scroll-button").click(function research2SideScroll () {
+        let $knowledgePrice = 10.0;
+        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
+            
+            $("#tech-2-side-scroll-row").toggle("slow", function () {
+                knowledgeStoreInOneScroll *= 2;                
+                $("#max-knowledge-quantity-span").text(+$("#scroll-quantity").text() * knowledgeStoreInOneScroll + 30);
+                $("#build-scroll-definition").text("+10 space for knowledge");
+                $("#build-scroll-storage-button").text("2-side scroll");
+                
+                $("#two-side-scroll-p").toggle("slow");
+            });
+        }
+        
+    });
+    $("#tech-architecture-4-button").click(function researchArchitecture4() {
         let $knowledgePrice = 900.0;
         if ($("#knowledge-quantity").text() >= $knowledgePrice) {
             changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#architecture2-row").toggle("slow", function () {
+            $("#tech-architecture-4-row").toggle("slow", function () {
                 $("#palace-row").toggle("slow");
                 $("#tech-bronze-age-row").toggle("slow");
+                
+                $("#architecture-4-p").toggle("slow");
             });
         }
     });
@@ -851,8 +900,9 @@ $(function () {
         //TODO abundance of food
         //
 
-        if ($("#productivity-quantity").text() == 175) {
+        if (!productivityFlag && $("#productivity-quantity").text() >= 190) {
             unlockAchievement("Productivity");
+            productivityFlag = !productivityFlag;
         }
 
         console.log(document.hasFocus());
@@ -990,7 +1040,7 @@ $(function () {
                 $("<img id=\"die-of-hunger-achievement\" src=\"res/img/reaper.png\" title=\"Die of hunger\"/>").appendTo("#achievement-section");
                 break;
             case "Productivity":
-                $("<img id=\"max-productivity-achievement\" src=\"res/img/speedometer.png\" title=\"Achieve max productivity (175%)\"/>").appendTo("#achievement-section");
+                $("<img id=\"max-productivity-achievement\" src=\"res/img/speedometer.png\" title=\"Achieve high productivity (more than 190%)\"/>").appendTo("#achievement-section");
                 break;
             case "More Food":
                 $("<img id=\"more-food-achievement\" src=\"res/img/food.png\" title=\"Even more food, hurray!!! :)\"/>").appendTo("#achievement-section");
