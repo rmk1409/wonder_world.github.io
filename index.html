@@ -1,28 +1,26 @@
 <html>
 
 <head>
+    <!-- Yandex.Metrika informer -->
+    <a href="https://metrika.yandex.ru/stat/?id=54145261&amp;from=informer"
+       target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/54145261/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+                                           style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="54145261" data-lang="ru" /></a>
+    <!-- /Yandex.Metrika informer -->
+
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m, e, t, r, i, k, a) {
-            m[i] = m[i] || function() {
-                (m[i].a = m[i].a || []).push(arguments)
-            };
-            m[i].l = 1 * new Date();
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-        })
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(54145261, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
         });
-
     </script>
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/54145261" style="position:absolute; left:-9999px;" alt="" /></div>
-    </noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/54145261" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
     <meta charset="UTF-8" />
@@ -153,7 +151,7 @@
         </table>
         <button id="start-again-button">Start again</button>
         <img id="funeral-process-img" src="res/img/common/funeral.png" />
-        <p id="author">made by Alex, version 0.1.6</p>
+        <p id="author">made by Alex, version 0.2.0</p>
     </div>
 
     <div id="work-building-block">
@@ -212,7 +210,7 @@
                     <td class="empty-td ten-work-td"></td>
                     <!--<td><button title="Remove 10 workers" id="remove-10-funeral-process-button">&lt;&lt;</button></td>-->
                     <td><button title="Gives 2 lazybones" id="remove-funeral-process-button">&lt;</button></td>
-                    <td title="Dig graves">Funeral:</td>
+                    <td title="2 people needs to dig graves">Funeral(x2):</td>
                     <td id="funeral-process-quantity">0</td>
                     <td><button title="Needs 2 lazybones" id="add-funeral-process-button">&gt;</button></td>
                     <td class="empty-td ten-work-td"></td>
@@ -331,7 +329,7 @@
                     <td><img src="res/img/changes/hut.png" /></td>
                     <td><button title="+5 max population" id="build-hut-button">Hut</button></td>
                     <td><span id="hut-quantity">0</span></td>
-                    <td>20 wood 20 stone</td>
+                    <td>50 wood 20 stone</td>
                     <td>+5 max population</td>
                 </tr>
             </tbody>
@@ -455,6 +453,12 @@
                     <td>75 knowledge</td>
                     <td>More buildings and upgrades (II)</td>
                 </tr>
+                <tr id="tech-leadership-row">
+                    <td><img src="res/img/changes2/leadership.png" /></td>
+                    <td><button title="Allows to group people" id="tech-leadership-button">Leadership</button></td>
+                    <td>100 knowledge</td>
+                    <td>Allows to group people</td>
+                </tr>
                 <tr id="tech-agriculture-2-row">
                     <td><img src="res/img/changes/agriculture.png" /></td>
                     <td><button title="Improve ways to get food (II)" id="tech-agriculture-2-button">Agriculture II</button></td>
@@ -466,12 +470,6 @@
                     <td><button title="Unlock new buildings" id="tech-architecture-2-button">Architecture II</button></td>
                     <td>100 knowledge</td>
                     <td>Unlock new buildings (II)</td>
-                </tr>
-                <tr id="tech-leadership-row">
-                    <td><img src="res/img/changes2/leadership.png" /></td>
-                    <td><button title="Allows to group people" id="tech-leadership-button">Leadership</button></td>
-                    <td>100 knowledge</td>
-                    <td>Allows to group people</td>
                 </tr>
                 <tr id="tech-stone-age-row">
                     <td><img src="res/img/changes2/troglodyte.png" /></td>
@@ -551,27 +549,29 @@
         <hr>
 <!--        TODO change to img s-->
         <section>
-            <p id="already-known-p">Already known: </p>
-            <p id="bronze-age-p"><b>Bronze age</b> <i>Welcome to ... years ago</i></p>
-            <p id="architecture-4-p"><b>Architecture IV</b> <i>Unlock new buildings</i></p>
-            <p id="two-side-scroll-p"><b>2 side scroll</b> <i>Can makes notes on two sides of a scroll</i></p>
-            <p id="pickaxe-p"><b>Pickaxe</b> <i>Increase stone production</i></p>
-            <p id="axe-p"><b>Axe</b> <i>Increase wood production</i></p>
-            <p id="hoe-p"><b>Hoe</b> <i>Increase food production</i></p>
-            <p id="weapon-p"><b>Weapon</b> <i>Unlock tools to protect and to fight</i></p>
-            <p id="tools-p"><b>Tools</b> <i>Unlock different tools/gadgets</i></p>
-            <p id="sport-p"><b>Sport</b> <i>Unlock ways to increase health</i></p>
-            <p id="music-p"><b>Music</b> <i>Unlock musical instruments</i></p>
-            <p id="architecture-3-p"><b>Architecture III</b> <i>Unlock new buildings</i></p>
-            <p id="stone-age-p"><b>Stone age</b> <i>Welcome to 2.5 millions years ago</i></p>
-            <p id="leadership-p"><b>Leadership</b> <i>Allow to group people</i></p>
-            <p id="architecture-2-p"><b>Architecture II</b> <i>Unlock new buildings</i></p>
-            <p id="agriculture-2-p"><b>Agriculture II</b> <i>Improve ways to get food (II)</i></p>
-            <p id="changes-2-p"><b>Changes II</b> <i>More buildings and upgrades (II)</i></p>
-            <p id="funeral-p"><b>Funeral</b> <i>Unlock new place for long sleeping</i></p>
-            <p id="architecture-p"><b>Architecture</b> <i>Unlock new place for sleeping</i></p>
-            <p id="agriculture-p"><b>Agriculture</b> <i>Improve ways to get food</i></p>
-            <p id="changes-p"><b>Changes</b> <i>Unlock buildings and upgrades</i></p>
+            <p id="already-known-p">Already known: &#9660;</p>
+            <section id="already-known-section">
+                <p id="bronze-age-p"><b>Bronze age</b> <i>Welcome to ... years ago</i></p>
+                <p id="architecture-4-p"><b>Architecture IV</b> <i>Unlock new buildings</i></p>
+                <p id="two-side-scroll-p"><b>2 side scroll</b> <i>Can makes notes on two sides of a scroll</i></p>
+                <p id="pickaxe-p"><b>Pickaxe</b> <i>Increase stone production</i></p>
+                <p id="axe-p"><b>Axe</b> <i>Increase wood production</i></p>
+                <p id="hoe-p"><b>Hoe</b> <i>Increase food production</i></p>
+                <p id="weapon-p"><b>Weapon</b> <i>Unlock tools to protect and to fight</i></p>
+                <p id="tools-p"><b>Tools</b> <i>Unlock different tools/gadgets</i></p>
+                <p id="sport-p"><b>Sport</b> <i>Unlock ways to increase health</i></p>
+                <p id="music-p"><b>Music</b> <i>Unlock musical instruments</i></p>
+                <p id="architecture-3-p"><b>Architecture III</b> <i>Unlock new buildings</i></p>
+                <p id="stone-age-p"><b>Stone age</b> <i>Welcome to 2.5 millions years ago</i></p>
+                <p id="leadership-p"><b>Leadership</b> <i>Allow to group people</i></p>
+                <p id="architecture-2-p"><b>Architecture II</b> <i>Unlock new buildings</i></p>
+                <p id="agriculture-2-p"><b>Agriculture II</b> <i>Improve ways to get food (II)</i></p>
+                <p id="changes-2-p"><b>Changes II</b> <i>More buildings and upgrades (II)</i></p>
+                <p id="funeral-p"><b>Funeral</b> <i>Unlock new place for long sleeping</i></p>
+                <p id="architecture-p"><b>Architecture</b> <i>Unlock new place for sleeping</i></p>
+                <p id="agriculture-p"><b>Agriculture</b> <i>Improve ways to get food</i></p>
+                <p id="changes-p"><b>Changes</b> <i>Unlock buildings and upgrades</i></p>
+            </section>
         </section>
     </div>
 

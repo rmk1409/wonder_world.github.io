@@ -66,6 +66,7 @@ $(function () {
         changeIntNumber("#free-people-quantity", 1);
         changeFloatNumber("#food-production-quantity", -1);
     }
+
     $("#create-worker-button").click(function createWorker() {
         if ($("#food-quantity").text() >= citizenCost && +$("#current-population").text() < $("#max-population").text()) {
             changeFloatNumber("#food-quantity", -citizenCost);
@@ -78,7 +79,7 @@ $(function () {
                 $("#current-health-people").text($("#current-population").text());
             }
         } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough food.") + "</p>");
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough food or houses.") + "</p>");
         }
     });
 
@@ -94,10 +95,11 @@ $(function () {
 
             return true;
         } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough resources.") + "</p>");
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
             return false;
         }
     }
+
     $("#build-grave-button").click(function buildGrave() {
         if (build(10, 10, ["#grave-quantity", "#max-in-graves-quantity"], [1, 1])) {
             if (!techFuneralFlag) {
@@ -123,7 +125,7 @@ $(function () {
         build(20, 0, ["#tent-quantity", "#max-population"], [1, 2]);
     });
     $("#build-hut-button").click(function buildHut() {
-        build(20, 20, ["#hut-quantity", "#max-population"], [1, 5]);
+        build(50, 20, ["#hut-quantity", "#max-population"], [1, 5]);
     });
     $("#build-campfire-button").click(function buildCampfire() {
         if (build(30, 10, ["#campfire-quantity", "#max-scientist-quantity"], [1, spaceInOneCampfire])) {
@@ -203,7 +205,7 @@ $(function () {
                 if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノ Great job!! \n" + USER_NAME + ", do you wanna start again?")) {
                     document.location.reload(true);
                 } else {
-                    $("#start-again-button").toggle("slow");
+                    $("#start-again-button").slideToggle("slow");
                 }
                 $(this).prop("disabled", true);
                 palacePresentFlag = true;
@@ -243,6 +245,7 @@ $(function () {
             $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
         }
     }
+
     $("#remove-10-farmer-button").click(function () {
         for (let i = 0; i < 10; i++) removeFarmer();
     });
@@ -256,6 +259,7 @@ $(function () {
             $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
         }
     }
+
     $("#add-10-farmer-button").click(function () {
         for (let i = 0; i < 10; i++) addFarmer();
     });
@@ -270,6 +274,7 @@ $(function () {
             $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
     }
+
     $("#remove-10-woodcutter-button").click(function () {
         for (var i = 0; i < 10; i++) removeWoodcutter();
     });
@@ -283,6 +288,7 @@ $(function () {
             $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
     }
+
     $("#add-10-woodcutter-button").click(function () {
         for (var i = 0; i < 10; i++) addWoodcutter();
     });
@@ -297,6 +303,7 @@ $(function () {
             $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
     }
+
     $("#remove-10-miner-button").click(function () {
         for (var i = 0; i < 10; i++) removeMiner();
     });
@@ -310,6 +317,7 @@ $(function () {
             $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
     }
+
     $("#add-10-miner-button").click(function () {
         for (var i = 0; i < 10; i++) addMiner();
     });
@@ -339,6 +347,7 @@ $(function () {
             availableScientistSpaces++;
         }
     }
+
     $("#remove-10-scientist-button").click(function () {
         for (let i = 0; i < 10; i++) removeScientist();
     });
@@ -352,7 +361,11 @@ $(function () {
             $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
             availableScientistSpaces--;
         }
+        if (!availableScientistSpaces) {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Build more scroll or something else.") + "</p>");
+        }
     }
+
     $("#add-10-scientist-button").click(function () {
         for (let i = 0; i < 10; i++) addScientist();
     });
@@ -453,7 +466,7 @@ $(function () {
                 $("#changes-p").toggle("slow");
             });
         } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough resources.") + "</p>");
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
         }
     });
 
@@ -467,10 +480,11 @@ $(function () {
             });
             return true;
         } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough knowledge.") + "</p>");
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more knowledge.") + "</p>");
             return false;
         }
     }
+
     $("#tech-agriculture-button").click(function researchAgriculture() {
         if (research(30, "#tech-agriculture-row", ["#agriculture-p"])) {
             $("#food-img").attr("src", "res/img/changes/grapes.png");
@@ -487,6 +501,9 @@ $(function () {
         research(75, "#tech-changes2-row", ["#tech-agriculture-2-row", "#tech-architecture-2-row", "#tech-leadership-row", "#tech-stone-age-row", "#changes-2-p"]);
     });
 
+    $("#tech-leadership-button").click(function researchLeadership() {
+        research(100, "#tech-leadership-row", ["#job-leader-row", "#leadership-p"]);
+    });
     $("#tech-agriculture-2-button").click(function researchAgriculture2() {
         if (research(100, "#tech-agriculture-2-row", ["#agriculture-2-p"])) {
             $("#food-img").attr("src", "res/img/changes2/field.png");
@@ -496,9 +513,6 @@ $(function () {
     });
     $("#tech-architecture-2-button").click(function researchArchitecture2() {
         research(100, "#tech-architecture-2-row", ["#build-storage-pit-row", "#architecture-2-p"]);
-    });
-    $("#tech-leadership-button").click(function researchLeadership() {
-        research(100, "#tech-leadership-row", ["#job-leader-row", "#leadership-p"]);
     });
     $("#tech-stone-age-button").click(function researchStoneAge() {
         research(300, "#tech-stone-age-row", ["#build-storage-granary-row", "#tech-architecture-3-row", "#tech-music-row", "#tech-sport-row", "#tech-tools-row", "#stone-age-p"]);
@@ -552,7 +566,11 @@ $(function () {
         }
     });
     $("#tech-architecture-4-button").click(function researchArchitecture4() {
-        research(100, "#tech-architecture-4-row", ["#build-palace-row", "#tech-bronze-age-row", "#architecture-4-p"]);
+        research(900, "#tech-architecture-4-row", ["#build-palace-row", "#tech-bronze-age-row", "#architecture-4-p"]);
+    });
+
+    $("#already-known-p").click(function slideToggleSection() {
+        $("#already-known-section").slideToggle("fast");
     });
 
     function changeIntNumber(elementName, quantity) {
@@ -606,8 +624,8 @@ $(function () {
                 decreasePopulation();
             }
         } else {
-            alert(USER_NAME + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again.");
-            document.location.reload(true);
+            alert(USER_NAME + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again. 🧟🧟");
+            $("#start-again-button").slideToggle("slow");
         }
     }
 
@@ -621,26 +639,30 @@ $(function () {
         }
         changeIntNumber("#corpse-quantity", 1);
     }
+
     function killWoodcutter() {
         decreasePopulation()
         changeIntNumber("#woodcutter-quantity", -1);
         $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
     }
+
     function killMiner() {
         decreasePopulation()
         changeIntNumber("#miner-quantity", -1);
         $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
     }
+
     function killFarmer() {
         decreasePopulation()
         changeIntNumber("#farmer-quantity", -1);
         $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
     }
+
     function killScientist() {
         decreasePopulation();
         changeIntNumber("#scientist-quantity", -1);
         $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
-        availableScientistSpaces--;
+        availableScientistSpaces++;
     }
 
     function increaseFoodProduction() {
@@ -649,18 +671,22 @@ $(function () {
         let $currentPopulation = +$("#current-population").text();
         $("#food-production-quantity").text((Math.round($farmers * (foodProduction * 100) - $currentPopulation * 100) / 100).toFixed(1));
     }
+
     function increaseWoodProduction() {
         woodProduction = Math.round(woodProduction * 1000 + 0.125 * 1000) / 1000;
         $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
     }
+
     function increaseStoneProduction() {
         stoneProduction = Math.round(stoneProduction * 1000 + 0.05 * 1000) / 1000;
         $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
     }
+
     function increaseKnowledgeProduction() {
         knowledgeProduction = Math.round(knowledgeProduction * 1000 + 0.025 * 1000) / 1000;
         $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
     }
+
     function increaseAllProduction() {
         productivity = Math.round(productivity * 100 + 0.25 * 100) / 100;
         changeIntNumber("#productivity-quantity", 25);
@@ -725,7 +751,9 @@ $(function () {
         if (+$("#current-population").text() > 20) {
             eventDiversity = 8;
         }
+
         switch (getRandomInt(eventDiversity)) {
+        // switch (8) {
             default:
                 nothingHappenEvent();
                 break;
@@ -736,9 +764,10 @@ $(function () {
                 ufoEvent();
                 break;
             case 3:
+                farmerEvent();
                 break;
             case 4:
-                stormEvent();
+                weatherEvent();
                 break;
             case 5:
                 wildAmazonEvent();
@@ -749,21 +778,15 @@ $(function () {
             case 7:
                 bloodMoonEvent();
                 break;
-
+            case 8:
+                birthDeathCycleEvent();
+                break;
             //    TODO add to storm and rename to weather
             // // Drought (-foodProduction)
             // case 8:
             //     break;
 
-            // // Birth (+current population)
-            // case 13:
-            //     break;
-            // // Death (-current population)
-            // case 14:
-            //     break;
-
             // // Animals (-citizen quantity)
-            //rats eat food
             // case 7:
             //     animalsEvent();
             //     break;
@@ -775,22 +798,14 @@ $(function () {
             // case 10:
             //     break;
 
-
             // // Laziness (-productivity)
             // case 11:
             //     break;
             // // Motivation (+production)
             // case 12:
             //     break;
-
-                // /TODO add to UFO event
-            // // Artifact (+something)
-            // case 15:
-            //     break;
-
-            //        mine is down
         }
-    }, 30e3);
+    }, 20e3);
 
     function getMsgWithTime(msg) {
         return new Date().toLocaleTimeString() + ": " + msg;
@@ -819,7 +834,7 @@ $(function () {
                         killWoodcutter();
                     }
                 } else {
-                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 Main Elf said - we like your people.") + "</p>");
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 Main Elf said - we like you.") + "</p>");
                 }
                 break;
         }
@@ -827,8 +842,8 @@ $(function () {
 
     function ufoEvent() {
         let farmerElement = $("#farmer-quantity");
-        if (farmerElement.text() > 50) {
-            switch (getRandomInt(2)) {
+        if (farmerElement.text() > 25) {
+            switch (getRandomInt(3)) {
                 case 1:
                     let killedFarmerAmount = Math.round(0.1 * +farmerElement.text());
                     $("#events-div span").after("<p>" + getMsgWithTime("🛸 Ufo Aliens tried to improve your human beings, but it wasn't successful. Unfortunately they killed: " + killedFarmerAmount + " of your farmers. Maybe in the next time.") + "</p>");
@@ -837,7 +852,12 @@ $(function () {
                     }
                     break;
                 case 2:
-                    $("#events-div span").after("<p>" + getMsgWithTime("👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmare. ") + "</p>");
+                    $("#events-div span").after("<p>" + getMsgWithTime("👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmares. ") + "</p>");
+                    break;
+                case 3:
+                    let newResources = Math.round(0.4 * +$("#stone-quantity").text());
+                    $("#events-div span").after("<p>" + getMsgWithTime("🛸 Ufo gave to you a mighty artifact to improve your human beings, but your people didn't know how to apply this and they just exchanged it with more advanced civilization for: " + newResources + " stones.") + "</p>");
+                    changeFloatNumber("#stone-quantity", newResources);
                     break;
             }
         } else {
@@ -864,23 +884,51 @@ $(function () {
                             }
                             break;
                         case 2:
-                            $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and went to another village. Than they went back to sleep.") + "</p>");                break;
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and went to another village. Than they went back to sleep.") + "</p>");
+                            break;
                     }
             }
         } else {
-            $("#events-div span").after("<p>" + getMsgWithTime("🌘 You people like fool moon this night.") + "</p>");
+            $("#events-div span").after("<p>" + getMsgWithTime("🌘 Your people like fool moon this night.") + "</p>");
 
         }
     }
 
-    function stormEvent() {
+    function weatherEvent() {
         // TODO add illness
         let woodElement = $("#wood-quantity");
-        if (+woodElement.text()) {
-            $("#events-div span").after("<p>" + getMsgWithTime("⛈️There is a storm. It spoiled some of your wood: " + Math.round(+woodElement.text() * 0.3) + " is lost.") + "</p>");
-            woodElement.text(Math.round(+woodElement.text() * 0.7));
-        } else {
-            $("#events-div span").after("<p>" + getMsgWithTime("🌈 There was a small rain.") + "</p>");
+        let minerElement = $("#miner-quantity");
+        switch (getRandomInt(2)) {
+            // Storm
+            case 1:
+                if (+woodElement.text() > 9) {
+                    $("#events-div span").after("<p>" + getMsgWithTime("⛈️There is a storm. It spoiled some of your wood: " + Math.round(+woodElement.text() * 0.3) + " is lost.") + "</p>");
+                    woodElement.text(Math.round(+woodElement.text() * 0.7));
+                } else {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🌈 There was a small rain.") + "</p>");
+                }
+                break;
+            // Earthquake
+            case 2:
+                switch (getRandomInt(2)) {
+                    case 1:
+                        if (+minerElement.text() > 3) {
+                            let killedMinerAmount = Math.round(0.3 * +minerElement.text());
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧶 There was a big earthquake. Unfortunately it killed: " + killedMinerAmount + " of your miners.") + "</p>");
+                            for (let i = 0, amount = killedMinerAmount; i < amount; i++) {
+                                killMiner();
+                            }
+                        } else {
+                            let newResources = Math.round(0.27 * +woodElement.text());
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧶️ There was a middle earthquake. Some trees were down and it gave you : " + newResources + " woods.") + "</p>");
+                            changeFloatNumber("#wood-quantity", newResources);
+                        }
+                        break;
+                    case 2:
+                        $("#events-div span").after("<p>" + getMsgWithTime("🧶 There was a light earthquake.") + "</p>");
+                        break;
+                }
+                break;
         }
     }
 
@@ -889,7 +937,7 @@ $(function () {
         if (+$scientistQuantity.text() >= 10) {
             switch (getRandomInt(3)) {
                 case 1:
-                    $("#events-div span").after("<p>" + getMsgWithTime("You people communicated a bit with Amazons 👧👧👧👧") + "</p>");
+                    $("#events-div span").after("<p>" + getMsgWithTime("Your people communicated a bit with Amazons 👧👧👧👧") + "</p>");
                     break;
                 case 2:
                     let killedScientistAmount = Math.round(0.5 * +$scientistQuantity.text());
@@ -908,34 +956,89 @@ $(function () {
                     break;
             }
         } else {
-            $("#events-div span").after("<p>" + getMsgWithTime("You people saw a lot of beautiful wild amazons 👧👧👧👧") + "</p>");
+            $("#events-div span").after("<p>" + getMsgWithTime("Your people saw a lot of beautiful wild amazons 👧👧👧👧") + "</p>");
+        }
+    }
+
+    function birthDeathCycleEvent() {
+        let currentPopulation = +$("#current-population").text();
+        let changeAmount = Math.round(currentPopulation * 0.25);
+        switch (getRandomInt(2)) {
+            case 1:
+                $("#events-div span").after("<p>" + getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
+                for (let i = 0; i < changeAmount; i++) {
+                    createOneCitizen();
+                }
+                break;
+            case 2:
+                $("#events-div span").after("<p>" + getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
+                for (let i = 0; i < changeAmount; i++) {
+                    findPersonToKill();
+                }
+                break;
+        }
+    }
+
+    function farmerEvent() {
+        let farmerQuantityEl = $("#farmer-quantity");
+        $("#events-div span").after("<p>" + getMsgWithTime("🥔🥔🥔 🥝🥝 your people see a lot of some new kind of food.") + "</p>");
+
+        let foodElement = $("#food-quantity");
+        switch (getRandomInt(5)) {
+            case 1:
+                $("#events-div span").after("<p>" + getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 1.8) + " potatoes.") + "</p>");
+                changeFloatNumber("#food-quantity", Math.round(foodElement.text() * 1.8));
+                break;
+            case 2:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers found wild rabbits on the field. When farmers wanted to take potatoes, wild rabbits attacked. Obviously it was bad decision to try to take rabbit's food. We lost: " + Math.round(farmerQuantityEl.text() * 0.15) + " farmers.") + "</p>");
+                for (let i = 0, amount = Math.round(farmerQuantityEl.text() * 0.15); i < amount; i++) {
+                    killFarmer();
+                }
+                break;
+            case 3:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers came to new kind of food, than they noticed red-eye rabbits near and farmers decided to go back. Maybe that was a right decision.") + "</p>");
+                break;
+            case 4:
+                $("#events-div span").after("<p>" + getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 2.5) + " kiwi fruits.") + "</p>");
+                changeFloatNumber("#food-quantity", Math.round(foodElement.text() * 2.5));
+                break;
+            case 5:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐀🐀🐀 Rats ate " + Math.round(+foodElement.text() * 0.9) + " of your food.") + "</p>");
+                changeFloatNumber("#food-quantity", -Math.round(foodElement.text() * 0.9));
+                break;
         }
     }
 
     function changeColor(checkEl, target, button) {
         if (+checkEl.text() > 0) {
             target.css({"background-color": "green", "color": "white"});
-            button.css({"background-color": "", "color": "black"});
+            if (!!button) {
+                button.css({"background-color": "", "color": "black"});
+            }
         } else if (+checkEl.text() == 0) {
             target.css({"background-color": "", "color": "black"});
         } else {
             target.css({"background-color": "red", "color": "white"});
-            button.css({"background-color": "green", "color": "white"});
+            if (!!button) {
+                button.css({"background-color": "green", "color": "white"});
+            }
         }
     }
+
     function checkProduction() {
         changeColor($("#food-production-quantity"), $("#food-production-span"), $("#add-farmer-button"));
         changeColor($("#wood-production-quantity"), $("#wood-production-span"));
         changeColor($("#stone-production-quantity"), $("#stone-production-span"));
         changeColor($("#knowledge-production-quantity"), $("#knowledge-production-span"));
-        changeColor($("#free-people-quantity"), $("#free-people"));
+        changeColor($("#free-people-quantity"), $("#free-people-quantity"));
     }
 
-    function balanceOverflow (currentEl, maxEl) {
+    function balanceOverflow(currentEl, maxEl) {
         if (+maxEl.text() < currentEl.text()) {
             currentEl.text(maxEl.text());
         }
     }
+
     function balanceToMaxStorage() {
         balanceOverflow($("#food-quantity"), $("#max-food-quantity-span"));
         balanceOverflow($("#wood-quantity"), $("#max-wood-quantity-span"));
@@ -955,9 +1058,13 @@ $(function () {
             changeIntNumber("#in-graves-quantity", 1 * multiply);
             $("#funeral-process-img").show("slow");
         } else {
-            $("#funeral-process-img").hide("slow");
+            // $("#funeral-process-img").hide("slow");
         }
     }, 5000);
+
+    setInterval(function checkFocus() {
+        $("#events-div").css("{overflow-y: 0;}");
+    }, 15000);
 
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
@@ -966,7 +1073,7 @@ $(function () {
                 document.location.reload(true);
             } else {
                 changeFloatNumber("#knowledge-quantity", -WINNER_REQUIREMENTS);
-                $("#start-again-button").toggle("slow");
+                $("#start-again-button").slideToggle("slow");
             }
             clearInterval(winInterval);
         }

@@ -20,7 +20,7 @@ table img {
 
 #funeral-process-img {
     position: absolute;
-    top: 578px;
+    top: 620px;
     left: 60px;
     width: 40px;
 }
@@ -167,4 +167,15 @@ td {
 
 #events-div > * {
     max-width: 485px;
+}
+
+#already-known-p {
+    cursor: pointer;
+}
+
+a img {
+    position: absolute;
+    left:455px;
+    top: 35px;
+    opacity: 0.05;
 }
