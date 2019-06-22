@@ -4,36 +4,46 @@ $(function () {
     // 1.Win
     let WINNER_REQUIREMENTS = 1e6;
     // 2.Spaces
-    var availableScientistSpaces = 0,
+    let availableScientistSpaces = 0,
         knowledgeStoreInOneScroll = 5,
         currentDjSpaces = 0,
         currentInstructorSpaces = 0,
         spaceInOneClub = 25,
         spaceInOneCampfire = 2,
-        spaceInOneDolmen = 5,
-        spaceInOneSchool = 12;
+        spaceInOneDolmen = 5;
+    // spaceInOneParthenon = 12;
     // 3.Productivity flags
-    var djProductivity = false,
-        healthProductivity = false,
-        abundance = false,
-        leaderFlag = false,
-        productivityFlag = false;
+    let djProductivityFlag = false,
+        healthProductivityFlag = false,
+        productivityAchivementFlag = false;
+    // abundance = false,
     // 4. User name
-    var userName = prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
-    $("#user-name").text(userName);
-    if (userName == "UFO Alien") {
+    const USER_NAME = prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
+    $("#user-name").text(USER_NAME);
+    if (USER_NAME == "UFO Alien") {
         unlockAchievement("UFO Alien");
     }
     // Game variables
-    var citizenCost = 10,
+    let citizenCost = 10,
         booster = 1,
-        wood_production = 0.5 * booster,
-        stone_production = 0.2 * booster,
-        knowledge_production = 0.1 * booster,
+        productivity = 1.0,
+        foodIncreaseStep = 0.15,
         foodProduction = 1.2 * booster,
-        productivity = 1.0;
+        woodProduction = 0.5 * booster,
+        stoneProduction = 0.2 * booster,
+        knowledgeProduction = 0.1 * booster;
+    // Tech flags
+    let techFuneralFlag = false,
+        scientistPresentFlag = false,
+        djPresentFlag = false,
+        instructorPresentFlag = false,
+        barrackPresentFlag = false,
+        palacePresentFlag = false,
+        leaderPresentFlag = false,
+        corpsePresentFlag = false;
 
-    //CLICK EVENTS
+    // CLICK EVENTS
+
     // 1. CLICK TO THE RESOURCES
     $("#food-click-button").click(function clickFoodButton() {
         changeFloatNumber("#food-quantity", 1 * booster);
@@ -44,17 +54,23 @@ $(function () {
     $("#stone-click-button").click(function clickStoneButton() {
         changeFloatNumber("#stone-quantity", 1 * booster);
     });
+
     // 2. START AGAIN
     $("#start-again-button").click(function reloadSite() {
         document.location.reload(true);
     });
+
     // 3. CREATE WORKER
+    function createOneCitizen() {
+        changeIntNumber("#current-population", 1);
+        changeIntNumber("#free-people-quantity", 1);
+        changeFloatNumber("#food-production-quantity", -1);
+    }
+
     $("#create-worker-button").click(function createWorker() {
         if ($("#food-quantity").text() >= citizenCost && +$("#current-population").text() < $("#max-population").text()) {
             changeFloatNumber("#food-quantity", -citizenCost);
-            changeIntNumber("#current-population", 1);
-            changeIntNumber("#free-people-quantity", 1);
-            changeFloatNumber("#food-production-quantity", -1);
+            createOneCitizen();
 
             if (+$("#current-population").text() <= +$("#dj-quantity").text() * spaceInOneClub) {
                 $("#current-happy-people").text($("#current-population").text());
@@ -62,237 +78,164 @@ $(function () {
             if (+$("#current-population").text() <= +$("#instructor-quantity").text() * spaceInOneClub) {
                 $("#current-health-people").text($("#current-population").text());
             }
+        } else {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough food or houses.") + "</p>");
         }
     });
+
     // 4. BUILD
+    function build(woodPrice, stonePrice, elementNamesAr, quantityAr) {
+        if ($("#wood-quantity").text() >= woodPrice && $("#stone-quantity").text() >= stonePrice) {
+            changeFloatNumber("#wood-quantity", -woodPrice);
+            changeFloatNumber("#stone-quantity", -stonePrice);
+
+            elementNamesAr.forEach(function (item, index) {
+                changeIntNumber(item, quantityAr[index]);
+            });
+
+            return true;
+        } else {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
+            return false;
+        }
+    }
+
     $("#build-grave-button").click(function buildGrave() {
-        let $woodPrice = 5;
-        let $stonePrice = 5;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            //TODO how to invoke next 3 lines just once?
-            $("#funeral-process-job-row").show("slow", function () {
-                $("#empty-row-before-funeral").show("slow", function () {
-                    $("#in-graves-row").show("slow");
-                });
-            });
-
-            changeIntNumber("#grave-quantity", 1);
-            changeIntNumber("#max-in-graves-quantity", 1);
-        }
-    });
-    $("#build-scroll-storage-button").click(function buildScroll() {
-        let $stonePrice = 10;
-        if ($("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#scroll-quantity", 1);
-            knowledgeStoreInOneScroll;
-            changeIntNumber("#max-knowledge-quantity-span", knowledgeStoreInOneScroll);
-        }
-    });
-    $("#build-granary-storage-button").click(function buildGranary() {
-        let $woodPrice = 50;
-        let $stonePrice = 50;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#granary-quantity", 1);
-            changeIntNumber("#max-food-quantity-span", 50);
-        }
-    });
-    $("#build-pit-storage-button").click(function buildPit() {
-        let $woodPrice = 50;
-        let $stonePrice = 50;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#pit-quantity", 1);
-            changeIntNumber("#max-wood-quantity-span", 50);
-            changeIntNumber("#max-stone-quantity-span", 50);
-        }
-    });
-    $("#build-tent-button").click(function buildTent() {
-        let $woodPrice = 20;
-        if ($("#wood-quantity").text() >= $woodPrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-
-            changeIntNumber("#tent-quantity", 1);
-            changeIntNumber("#max-population", 2);
-        }
-    });
-    $("#build-hut-button").click(function buildHut() {
-        let $woodPrice = 20;
-        let $stonePrice = 20;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#hut-quantity", 1);
-            changeIntNumber("#max-population", 5);
-        }
-    });
-    $("#build-campfire-button").click(function buildSchool() {
-        let $woodPrice = 30;
-        let $stonePrice = 10;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            //TODO how to invoke next 3 lines just once?
-            $("#in-work-scientist-row").show("slow", function () {
-                $("#empty-row-before-work-scientist-row").show("slow", function () {
-                    $("#knowledge-row").show("slow", function () {
-                        $("#empty-row-before-knowledge").show("slow");
-                    })
-                });
-            });
-
-            changeIntNumber("#campfire-quantity", 1);
-            availableScientistSpaces += spaceInOneCampfire;
-            changeIntNumber("#max-scientist-quantity", spaceInOneCampfire);
-        }
-    });
-    $("#build-dolmen-button").click(function buildDolmen() {
-        let $woodPrice = 20;
-        let $stonePrice = 30;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#dolmen-quantity", 1);
-            availableScientistSpaces += spaceInOneDolmen;
-            changeIntNumber("#max-scientist-quantity", spaceInOneDolmen);
-        }
-    });
-    $("#build-school-button").click(function buildSchool() {
-        let $woodPrice = 75;
-        let $stonePrice = 75;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#school-quantity", 1);
-            availableScientistSpaces += spaceInOneSchool;
-            changeIntNumber("#max-scientist-quantity", spaceInOneSchool);
-        }
-    });
-    $("#build-music-club-button").click(function buildMusicClub() {
-        let $woodPrice = 75;
-        let $stonePrice = 75;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            //TODO how to invoke next 5 lines just once?
-            $("#happiness-row").show("slow", function () {
-                $("#empty-row-before-happiness").show("slow", function () {
-                    $("#empty-row-before-productivity").show("slow", function () {
-                        $("#productivity-row").show("slow", function () {
-                            $("#empty-row-before-dj").show("slow", function () {
-                                $("#in-dj-row").show("slow");
-                            })
-                        });
+        if (build(10, 10, ["#grave-quantity", "#max-in-graves-quantity"], [1, 1])) {
+            if (!techFuneralFlag) {
+                $("#job-funeral-process-row").show("slow", function () {
+                    $("#empty-row-before-job-funeral").show("slow", function () {
+                        $("#in-graves-row").show("slow");
                     });
                 });
-            });
-
-
-            changeIntNumber("#music-club-quantity", 1);
-            currentDjSpaces++;
-            changeIntNumber("#max-dj-quantity", 1);
-            changeIntNumber("#max-happy-people", spaceInOneClub);
-        }
-    });
-    $("#build-yoga-club-button").click(function buildSportClub() {
-        let $woodPrice = 75;
-        let $stonePrice = 75;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            //TODO how to invoke next 5 lines just once?
-            $("#empty-row-before-happiness").show("slow", function () {
-                $("#health-row").show("slow", function () {
-                    $("#empty-row-before-productivity").show("slow", function () {
-                        $("#productivity-row").show("slow", function () {
-                            $("#empty-row-before-dj").show("slow", function () {
-                                $("#in-instructor-row").show("slow");
-                            })
-                        });
-                    });
-                });
-            });
-
-            changeIntNumber("#yoga-club-quantity", 1);
-            currentInstructorSpaces++;
-            changeIntNumber("#max-instructor-quantity", 1);
-            changeIntNumber("#max-health-people", spaceInOneClub);
-        }
-    });
-    $("#build-palace-button").click(function buildPalace() {
-        let $woodPrice = 1000;
-        let $stonePrice = 1000;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            unlockAchievement("Palace");
-
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            changeIntNumber("#palace-quantity", 1);
-            let dolmenInOnePalace = 5;
-            let musicClubInOnePalace = 10;
-            let sportClubInOnePalace = 10;
-            changeIntNumber("#dolmen-quantity", dolmenInOnePalace);
-            changeIntNumber("#music-club-quantity", musicClubInOnePalace);
-            changeIntNumber("#yoga-club-quantity", sportClubInOnePalace);
-
-            changeIntNumber("#max-scientist-quantity", spaceInOneDolmen * dolmenInOnePalace);
-            changeIntNumber("#max-happy-people", spaceInOneClub * musicClubInOnePalace);
-            changeIntNumber("#max-health-people", spaceInOneClub * sportClubInOnePalace);
-            availableScientistSpaces += spaceInOneDolmen * dolmenInOnePalace;
-            changeIntNumber("#max-dj-quantity", musicClubInOnePalace);
-            currentDjSpaces += musicClubInOnePalace;
-            changeIntNumber("#max-instructor-quantity", sportClubInOnePalace);
-            currentInstructorSpaces += sportClubInOnePalace;
-
-            $(this).prop("disabled", true);
-
-            //TODO How to invoke this just once?
-            if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノ Great job!! \n" + userName + ", do you wanna start again?")) {
-                document.location.reload(true);
-            } else {
-                $("#start-again-button").toggle("slow");
+                techFuneralFlag = true;
             }
         }
     });
+    $("#build-scroll-button").click(function buildScroll() {
+        build(0, 10, ["#scroll-quantity", "#max-knowledge-quantity-span"], [1, knowledgeStoreInOneScroll]);
+    });
+    $("#build-storage-granary-button").click(function buildGranary() {
+        build(50, 50, ["#granary-quantity", "#max-food-quantity-span"], [1, 50]);
+    });
+    $("#build-storage-pit-button").click(function buildPit() {
+        build(50, 50, ["#pit-quantity", "#max-wood-quantity-span", "#max-stone-quantity-span"], [1, 50, 50]);
+    });
+    $("#build-tent-button").click(function buildTent() {
+        build(20, 0, ["#tent-quantity", "#max-population"], [1, 2]);
+    });
+    $("#build-hut-button").click(function buildHut() {
+        build(50, 20, ["#hut-quantity", "#max-population"], [1, 5]);
+    });
+    $("#build-campfire-button").click(function buildCampfire() {
+        if (build(30, 10, ["#campfire-quantity", "#max-scientist-quantity"], [1, spaceInOneCampfire])) {
+            if (!scientistPresentFlag) {
+                $("#job-scientist-row").show("slow", function () {
+                    $("#empty-row-before-job-scientist").show("slow", function () {
+                        $("#knowledge-row").show("slow", function () {
+                            $("#empty-row-before-knowledge").show("slow");
+                        })
+                    });
+                });
+                scientistPresentFlag = true;
+            }
+            availableScientistSpaces += spaceInOneCampfire;
+        }
+    });
+    $("#build-dolmen-button").click(function buildDolmen() {
+        if (build(80, 80, ["#dolmen-quantity", "#max-scientist-quantity"], [1, spaceInOneDolmen])) {
+            availableScientistSpaces += spaceInOneDolmen;
+        }
+    });
+    // TODO in bronze age
+    // $("#build-parthenon-button").click(function buildParthenon() {
+    //     let $woodPrice = 75;
+    //     let $stonePrice = 75;
+    //     if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
+    //         changeFloatNumber("#wood-quantity", -$woodPrice);
+    //         changeFloatNumber("#stone-quantity", -$stonePrice);
+    //
+    //         changeIntNumber("#parthenon-quantity", 1);
+    //         availableScientistSpaces += spaceInOneParthenon;
+    //         changeIntNumber("#max-scientist-quantity", spaceInOneParthenon);
+    //     }
+    // });
+    $("#build-music-club-button").click(function buildMusicClub() {
+        if (build(75, 75, ["#music-club-quantity", "#max-dj-quantity", "#max-happy-people"], [1, 1, spaceInOneClub])) {
+            if (!djPresentFlag) {
+                $("#happiness-row").show("slow", function () {
+                    $("#empty-row-before-happiness").show("slow", function () {
+                        $("#empty-row-before-productivity").show("slow", function () {
+                            $("#productivity-row").show("slow", function () {
+                                $("#empty-row-before-job-in-club").show("slow", function () {
+                                    $("#job-dj-row").show("slow");
+                                })
+                            });
+                        });
+                    });
+                });
+                djPresentFlag = true;
+            }
+            currentDjSpaces++;
+        }
+    });
+    $("#build-yoga-club-button").click(function buildSportClub() {
+        if (build(75, 75, ["#yoga-club-quantity", "#max-instructor-quantity", "#max-health-people"], [1, 1, spaceInOneClub])) {
+            if (!instructorPresentFlag) {
+                $("#health-row").show("slow", function () {
+                    $("#empty-row-before-happiness").show("slow", function () {
+                        $("#empty-row-before-productivity").show("slow", function () {
+                            $("#productivity-row").show("slow", function () {
+                                $("#empty-row-before-job-in-club").show("slow", function () {
+                                    $("#job-instructor-row").show("slow");
+                                })
+                            });
+                        });
+                    });
+                });
+                instructorPresentFlag = true;
+            }
+            currentInstructorSpaces++;
+        }
+    });
+    $("#build-palace-button").click(function buildPalace() {
+        if (build(1000, 1000, ["#palace-quantity", "#dolmen-quantity", "#music-club-quantity", "#yoga-club-quantity", "#max-scientist-quantity", "#max-happy-people", "#max-health-people", "#max-dj-quantity", "#max-instructor-quantity"], [1, 5, 10, 10, 5 * spaceInOneDolmen, 10 * spaceInOneClub, 10 * spaceInOneClub, 10, 10])) {
+            unlockAchievement("Palace");
+            if (!palacePresentFlag) {
+                if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノ Great job!! \n" + USER_NAME + ", do you wanna start again?")) {
+                    document.location.reload(true);
+                } else {
+                    $("#start-again-button").slideToggle("slow");
+                }
+                $(this).prop("disabled", true);
+                palacePresentFlag = true;
+            }
+            availableScientistSpaces += spaceInOneDolmen * 5;
+            let clubInOnePalace = 10;
+            currentDjSpaces += clubInOnePalace;
+            currentInstructorSpaces += clubInOnePalace;
+        }
+    });
     $("#build-barrack-button").click(function buildBarrack() {
-        let $woodPrice = 200;
-        let $stonePrice = 100;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            //TODO how to invoke next 1 lines just once?
-            $("#work-warrior-row").show("slow");
-
-            changeIntNumber("#barrack-quantity", 1);
-            changeIntNumber("#max-warrior-quantity", 10);
+        if (build(200, 100, ["#barrack-quantity", "#max-warrior-quantity"], [1, 10])) {
+            if (!barrackPresentFlag) {
+                $("#job-warrior-row").show("slow");
+                barrackPresentFlag = true;
+            }
         }
     });
 
-    //WORK SETTING
+    //TODO Improve WORK SETTING
+
     // 1. FARMER
-    $("#remove-10-farmer-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            removeFarmer();
+    function checkIsThereFreeCitizen(free, work, checkWorker, number) {
+        if (number) {
+            return checkWorker ? $(work).text() > 0 : $(free).text() >= number;
+        } else {
+            return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
         }
-    });
-    $("#remove-farmer-button").click(removeFarmer);
+
+    }
 
     function removeFarmer() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", true)) {
@@ -303,12 +246,10 @@ $(function () {
         }
     }
 
-    $("#add-10-farmer-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            addFarmer();
-        }
+    $("#remove-10-farmer-button").click(function () {
+        for (let i = 0; i < 10; i++) removeFarmer();
     });
-    $("#add-farmer-button").click(addFarmer);
+    $("#remove-farmer-button").click(removeFarmer);
 
     function addFarmer() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", false)) {
@@ -319,71 +260,68 @@ $(function () {
         }
     }
 
-    // 2. WOODCUTTER
-    $("#remove-10-woodcutter-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            removeWoodcutter();
-        }
+    $("#add-10-farmer-button").click(function () {
+        for (let i = 0; i < 10; i++) addFarmer();
     });
-    $("#remove-woodcutter-button").click(removeWoodcutter);
+    $("#add-farmer-button").click(addFarmer);
 
+    // 2. WOODCUTTER
     function removeWoodcutter() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", true)) {
             changeIntNumber("#woodcutter-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
+            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
     }
 
-    $("#add-10-woodcutter-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            addWoodcutter();
-        }
+    $("#remove-10-woodcutter-button").click(function () {
+        for (var i = 0; i < 10; i++) removeWoodcutter();
     });
-    $("#add-woodcutter-button").click(addWoodcutter);
+    $("#remove-woodcutter-button").click(removeWoodcutter);
 
     function addWoodcutter() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", false)) {
             changeIntNumber("#woodcutter-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
+            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
     }
 
-    // 3. MINER
-    $("#remove-10-miner-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            removeMiner();
-        }
+    $("#add-10-woodcutter-button").click(function () {
+        for (var i = 0; i < 10; i++) addWoodcutter();
     });
-    $("#remove-miner-button").click(removeMiner);
+    $("#add-woodcutter-button").click(addWoodcutter);
 
+    // 3. MINER
     function removeMiner() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", true)) {
             changeIntNumber("#miner-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
+            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
     }
 
-    $("#add-10-miner-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            addMiner();
-        }
+    $("#remove-10-miner-button").click(function () {
+        for (var i = 0; i < 10; i++) removeMiner();
     });
-    $("#add-miner-button").click(addMiner);
+    $("#remove-miner-button").click(removeMiner);
 
     function addMiner() {
         if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", false)) {
             changeIntNumber("#miner-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
+            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
     }
+
+    $("#add-10-miner-button").click(function () {
+        for (var i = 0; i < 10; i++) addMiner();
+    });
+    $("#add-miner-button").click(addMiner);
 
     // 4. FUNERAL
     $("#remove-funeral-process-button").click(function removeFuneralProcess() {
@@ -397,40 +335,41 @@ $(function () {
             changeIntNumber("#funeral-process-quantity", 1);
             changeIntNumber("#free-people-quantity", -2);
         }
-    }); // 4. SCIENTIST
-    $("#remove-10-scientist-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            removeScientist();
-        }
     });
-    $("#remove-scientist-button").click(removeScientist);
 
+    // 4. SCIENTIST
     function removeScientist() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", true)) {
-            changeIntNumber("#scholar-quantity", -1);
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#scientist-quantity", true)) {
+            changeIntNumber("#scientist-quantity", -1);
             changeIntNumber("#free-people-quantity", 1);
 
-            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
+            $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
             availableScientistSpaces++;
         }
     }
 
-    $("#add-10-scientist-button").click(function () {
-        for (var i = 0; i < 10; i++) {
-            addScientist();
-        }
+    $("#remove-10-scientist-button").click(function () {
+        for (let i = 0; i < 10; i++) removeScientist();
     });
-    $("#add-scientist-button").click(addScientist);
+    $("#remove-scientist-button").click(removeScientist);
 
     function addScientist() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#scholar-quantity", false) && availableScientistSpaces) {
-            changeIntNumber("#scholar-quantity", 1);
+        if (checkIsThereFreeCitizen("#free-people-quantity", "#scientist-quantity", false) && availableScientistSpaces) {
+            changeIntNumber("#scientist-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
+            $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
             availableScientistSpaces--;
         }
+        if (!availableScientistSpaces) {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Build more scroll or something else.") + "</p>");
+        }
     }
+
+    $("#add-10-scientist-button").click(function () {
+        for (let i = 0; i < 10; i++) addScientist();
+    });
+    $("#add-scientist-button").click(addScientist);
 
     // 5. LEADER
     $("#add-leader-button").click(function addLeader() {
@@ -438,8 +377,11 @@ $(function () {
             changeIntNumber("#leader-quantity", 1);
             changeIntNumber("#free-people-quantity", -1);
 
-            if (!leaderFlag) {
+            if (!leaderPresentFlag) {
                 $(".ten-work-td").show("slow");
+                $("#work-table .empty-row td").attr("colspan", "6");
+
+                leaderPresentFlag = true;
             }
         }
     });
@@ -467,9 +409,9 @@ $(function () {
                 changeIntNumber("#current-happy-people", spaceInOneClub);
             }
 
-            if (!djProductivity) {
+            if (!djProductivityFlag) {
                 increaseAllProduction();
-                djProductivity = !djProductivity;
+                djProductivityFlag = !djProductivityFlag;
             }
         }
     });
@@ -490,15 +432,15 @@ $(function () {
                 changeIntNumber("#current-health-people", spaceInOneClub);
             }
 
-            if (!healthProductivity) {
+            if (!healthProductivityFlag) {
                 increaseAllProduction();
-                healthProductivity = !healthProductivity;
+                healthProductivityFlag = !healthProductivityFlag;
             }
         }
     });
 
     // TECHNOLOGIES
-    $("#changes-button").click(function researchChanges() {
+    $("#tech-changes-button").click(function researchChanges() {
         let $woodPrice = 10;
         let $stonePrice = 10;
         if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
@@ -507,292 +449,132 @@ $(function () {
 
             unlockAchievement("First Research");
 
-            $("#changes-row").toggle("slow", function () {
+            $("#tech-changes-row").toggle("slow", function () {
                 $("#max-food-quantity-span").toggle("slow");
                 $("#max-wood-quantity-span").toggle("slow");
                 $("#max-stone-quantity-span").toggle("slow");
                 $("#max-knowledge-quantity-span").toggle("slow");
 
                 $("#empty-row-before-knowledge-building").toggle("slow");
-                $("#campfire-build-row").toggle("slow");
+                $("#build-knowledge-campfire-row").toggle("slow");
 
-                $("#agriculture-row").toggle("slow");
-                $("#funeral-tech-row").toggle("slow");
-                $("#architecture-row").toggle("slow");
+                $("#tech-agriculture-row").toggle("slow");
+                $("#tech-funeral-row").toggle("slow");
+                $("#tech-architecture-row").toggle("slow");
 
                 $("#already-known-p").toggle("slow");
                 $("#changes-p").toggle("slow");
             });
+        } else {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
         }
     });
-    $("#agriculture-button").click(function researchAgriculture() {
-        let $knowledgePrice = 30.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#food-img").attr("src", "res/img/grapes.png");
-            recalculateFoodProduction();
-
-            $("#agriculture-row").toggle("slow", function () {
-                $("#agriculture-p").toggle("slow");
-            });
-        }
-    });
-    $("#architecture-button").click(function researchArchitecture() {
-        let $knowledgePrice = 30.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#architecture-row").toggle("slow", function () {
-                $("#hut-row").toggle("slow");
-                $("#architecture-p").toggle("slow");
-            });
-        }
-    });
-    $("#funeral-tech-button").click(function researchFuneralProcess() {
-        let $knowledgePrice = 30.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#funeral-tech-row").toggle("slow", function () {
-                $("#scroll-storage-row").toggle("slow", function () {
-                    $("#grave-build-row").toggle("slow");
+    function research(knowledgePrice, firstElementToShow, otherElementsAr) {
+        if ($("#knowledge-quantity").text() >= knowledgePrice) {
+            changeFloatNumber("#knowledge-quantity", -knowledgePrice);
+            $(firstElementToShow).toggle("slow", function () {
+                otherElementsAr.forEach(function (item) {
+                    $(item).toggle("slow");
                 });
-                $("#changes2-row").toggle("slow");
-                $("#funeral-p").toggle("slow");
             });
+            return true;
+        } else {
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more knowledge.") + "</p>");
+            return false;
+        }
+    }
+
+    $("#tech-agriculture-button").click(function researchAgriculture() {
+        if (research(30, "#tech-agriculture-row", ["#agriculture-p"])) {
+            $("#food-img").attr("src", "res/img/changes/grapes.png");
+            increaseFoodProduction();
         }
     });
-
-    $("#changes2-button").click(function researchChanges2() {
-        let $knowledgePrice = 75.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#changes2-row").toggle("slow", function () {
-                $("#tech-agriculture-2-row").toggle("slow");
-                $("#tech-architecture-2-row").toggle("slow");
-                $("#tech-leadership-row").toggle("slow");
-                $("#tech-stone-age-row").toggle("slow");
-
-                $("#changes-2-p").toggle("slow");
-            });
-        }
+    $("#tech-architecture-button").click(function researchArchitecture() {
+        research(30, "#tech-architecture-row", ["#build-population-tent-row", "#architecture-p"]);
+    });
+    $("#tech-funeral-button").click(function researchFuneralProcess() {
+        research(30, "#tech-funeral-row", ["#build-scroll-row", "#build-grave-row", "#empty-row-before-population-building", "#tech-changes2-row", "#funeral-p"]);
+    });
+    $("#tech-changes2-button").click(function researchChanges2() {
+        research(75, "#tech-changes2-row", ["#tech-agriculture-2-row", "#tech-architecture-2-row", "#tech-leadership-row", "#tech-stone-age-row", "#changes-2-p"]);
     });
 
+    $("#tech-leadership-button").click(function researchLeadership() {
+        research(100, "#tech-leadership-row", ["#job-leader-row", "#leadership-p"]);
+    });
     $("#tech-agriculture-2-button").click(function researchAgriculture2() {
-        let $knowledgePrice = 100.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#food-img").attr("src", "res/img/field.png");
-            recalculateFoodProduction();
+        if (research(100, "#tech-agriculture-2-row", ["#agriculture-2-p"])) {
+            $("#food-img").attr("src", "res/img/changes2/field.png");
+            increaseFoodProduction();
             unlockAchievement("More Food");
-
-            $("#tech-agriculture-2-row").toggle("slow", function () {
-                $("#agriculture-2-p").toggle("slow");
-            });
         }
     });
     $("#tech-architecture-2-button").click(function researchArchitecture2() {
-        let $knowledgePrice = 100.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-architecture-2-row").toggle("slow", function () {
-                $("#architecture-2-p").toggle("slow");
-                $("#build-storage-pit-row").toggle("slow");
-                
-                $("#architecture-2-p").toggle("slow");
-            });
-        }
-    });
-    $("#tech-leadership-button").click(function researchLeadership() {
-        let $knowledgePrice = 100.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-leadership-row").toggle("slow", function () {
-                $("#in-work-leader-row").toggle("slow");
-                
-                $("#leadership-p").toggle("slow");
-            });
-        }
+        research(100, "#tech-architecture-2-row", ["#build-storage-pit-row", "#architecture-2-p"]);
     });
     $("#tech-stone-age-button").click(function researchStoneAge() {
-        let $knowledgePrice = 300.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-stone-age-row").toggle("slow", function () {
-                $("#build-storage-granary-row").toggle("slow");
-
-                $("#tech-architecture-3-row").toggle("slow");
-                $("#tech-music-row").toggle("slow");
-                $("#tech-sport-row").toggle("slow");
-                $("#tech-tools-row").toggle("slow");
-                
-                $("#stone-age-p").toggle("slow");
-            });
-        }
+        research(300, "#tech-stone-age-row", ["#build-storage-granary-row", "#tech-architecture-3-row", "#tech-music-row", "#tech-sport-row", "#tech-tools-row", "#stone-age-p"]);
     });
-    $("#tech-architecture-3-button").click(function researchArchitecture3() {
-        let $knowledgePrice = 250.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
 
-            $("#tech-architecture-3-row").toggle("slow", function () {
-                $("#build-knowledge-dolmen-row").toggle("slow");
-                
-                $("#architecture-3-p").toggle("slow");
-            });
-        }
+    $("#tech-architecture-3-button").click(function researchArchitecture3() {
+        research(250, "#tech-architecture-3-row", ["#build-knowledge-dolmen-row", "#architecture-3-p"]);
     });
     $("#tech-music-button").click(function researchMusic() {
-        let $knowledgePrice = 250.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-music-row").toggle("slow", function () {
-                $("#empty-row-before-music-club").show("slow");
-                $("#music-club-row").toggle("slow");
-                
-                $("#music-p").toggle("slow");
-            });
-        }
+        research(250, "#tech-music-row", ["#empty-row-before-build-club", "#build-music-club-row", "#music-p"]);
     });
     $("#tech-sport-button").click(function researchSport() {
-        let $knowledgePrice = 250.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-sport-row").toggle("slow", function () {
-                $("#empty-row-before-music-club").show("slow");
-                $("#yoga-club-row").toggle("slow");
-                $("#architecture2-row").toggle("slow");
-                $("#change3-row").toggle("slow");
-
-                $("#sport-p").toggle("slow");
-            });
-        }
+        research(250, "#tech-sport-row", ["#empty-row-before-build-club", "#build-yoga-club-row", "#architecture2-row", "#change3-row", "#sport-p"]);
     });
     $("#tech-tools-button").click(function researchTools() {
-        let $knowledgePrice = 250.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-tools-row").toggle("slow", function () {
-                $("#tech-axe-row").toggle("slow");
-                $("#tech-pickaxe-row").toggle("slow");
-                $("#tech-hoe-row").toggle("slow");
-                $("#tech-weapon-row").toggle("slow");
-                
-                $("#tools-p").toggle("slow");
-            });
-        }
+        research(250, "#tech-tools-row", ["#tech-axe-row", "#tech-pickaxe-row", "#tech-hoe-row", "#tech-weapon-row", "#tools-p"]);
     });
     $("#tech-weapon-row").click(function researchWeapon() {
-        let $knowledgePrice = 350.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-weapon-row").toggle("slow", function () {
-                $("#build-war-barrack-row").toggle("slow");
-                $("#empty-row-before-build-war").toggle("slow");
-                $("#tech-2-side-scroll-row").toggle("slow");
-                $("#tech-architecture-4-row").toggle("slow");
-                
-                $("#weapon-p").toggle("slow");
-                
-                increaseAllProduction();
-            });
+        if (research(350, "#tech-weapon-row", ["#build-war-barrack-row", "#empty-row-before-build-war", "#tech-2-side-scroll-row", "#tech-architecture-4-row", "#weapon-p"])) {
+            increaseAllProduction();
         }
     });
     $("#tech-hoe-button").click(function researchHoe() {
-        let $knowledgePrice = 300.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-hoe-row").toggle("slow", function () {
-                recalculateFoodProduction();
-                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
-                changeIntNumber("#productivity-quantity", 6.25);
-                
-                $("#hoe-p").toggle("slow");
-            });
+        if (research(350, "#tech-hoe-row", ["#hoe-p"])) {
+            foodIncreaseStep = 0.1;
+            increaseFoodProduction();
+            productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+            changeIntNumber("#productivity-quantity", 6.25);
         }
     });
     $("#tech-axe-button").click(function researchAxe() {
-        let $knowledgePrice = 300.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-axe-row").toggle("slow", function () {
-                recalculateWoodProduction();
-                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
-                changeIntNumber("#productivity-quantity", 6.25);
-                
-                $("#axe-p").toggle("slow");
-            });
+        if (research(300, "#tech-axe-row", ["#axe-p"])) {
+            increaseWoodProduction();
+            productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+            changeIntNumber("#productivity-quantity", 6.25);
         }
     });
     $("#tech-pickaxe-button").click(function researchPickaxe() {
-        let $knowledgePrice = 300.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-pickaxe-row").toggle("slow", function () {
-                recalculateStoneProduction();
-                productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
-                changeIntNumber("#productivity-quantity", 6.25);
-                
-                $("#pickaxe-p").toggle("slow");
-            });
+        if (research(300, "#tech-pickaxe-row", ["#pickaxe-p"])) {
+            increaseStoneProduction();
+            productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
+            changeIntNumber("#productivity-quantity", 6.25);
         }
     });
-    $("#tech-2-side-scroll-button").click(function research2SideScroll () {
-        let $knowledgePrice = 10.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-            
-            $("#tech-2-side-scroll-row").toggle("slow", function () {
-                knowledgeStoreInOneScroll *= 2;                
-                $("#max-knowledge-quantity-span").text(+$("#scroll-quantity").text() * knowledgeStoreInOneScroll + 30);
-                $("#build-scroll-definition").text("+10 space for knowledge");
-                $("#build-scroll-storage-button").text("2-side scroll");
-                
-                $("#two-side-scroll-p").toggle("slow");
-            });
+    $("#tech-2-side-scroll-button").click(function research2SideScroll() {
+        if (research(10, "#tech-2-side-scroll-row", ["#two-side-scroll-p"])) {
+            knowledgeStoreInOneScroll *= 2;
+            $("#max-knowledge-quantity-span").text(+$("#scroll-quantity").text() * knowledgeStoreInOneScroll + 30);
+            $("#build-scroll-definition").text("+10 space for knowledge");
+            $("#build-scroll-button").text("2-side scroll");
         }
-        
     });
     $("#tech-architecture-4-button").click(function researchArchitecture4() {
-        let $knowledgePrice = 900.0;
-        if ($("#knowledge-quantity").text() >= $knowledgePrice) {
-            changeFloatNumber("#knowledge-quantity", -$knowledgePrice);
-
-            $("#tech-architecture-4-row").toggle("slow", function () {
-                $("#palace-row").toggle("slow");
-                $("#tech-bronze-age-row").toggle("slow");
-                
-                $("#architecture-4-p").toggle("slow");
-            });
-        }
+        research(900, "#tech-architecture-4-row", ["#build-palace-row", "#tech-bronze-age-row", "#architecture-4-p"]);
     });
 
-    function checkIsThereFreeCitizen(free, work, checkWorker, number) {
-        if (number) {
-            return checkWorker ? $(work).text() > 0 : $(free).text() >= number;
-        } else {
-            return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
-        }
-
-    }
+    $("#already-known-p").click(function slideToggleSection() {
+        $("#already-known-section").slideToggle("fast");
+    });
 
     function changeIntNumber(elementName, quantity) {
-        let $oldQuantity = +$(elementName).text();
-        $oldQuantity += +quantity;
-        $(elementName).text($oldQuantity);
+        $(elementName).text(+$(elementName).text() + quantity);
     }
 
     function changeFloatNumber(elementName, quantity) {
@@ -802,66 +584,117 @@ $(function () {
     }
 
     function findPersonToKill() {
-        $("#corpse-row").css("display", "table-row");
-        changeIntNumber("#corpse-quantity", 1);
+        if (+$("#current-population").text() > 0) {
+            let withDecrease = true;
+            if (+$("#free-people-quantity").text()) {
+                changeIntNumber("#free-people-quantity", -1);
+            } else if (+$("#woodcutter-quantity").text()) {
+                withDecrease = false;
+                killWoodcutter();
+            } else if (+$("#miner-quantity").text()) {
+                withDecrease = false;
+                killMiner();
+            } else if (+$("#funeral-process-quantity").text()) {
+                changeIntNumber("#funeral-process-quantity", -1);
+                changeIntNumber("#free-people-quantity", 1);
+            } else if (+$("#scientist-quantity").text()) {
+                withDecrease = false;
+                killScientist();
+            } else if (+$("#leader-quantity").text()) {
+                changeIntNumber("#leader-quantity", -1);
+                if (!+$("#leader-quantity").text()) {
+                    $(".ten-work-td").hide("slow");
+                    $("#work-table .empty-row td").attr("colspan", "4");
+                    leaderPresentFlag = false;
+                }
+            } else if (+$("#warrior-quantity").text()) {
+                changeIntNumber("#warrior-quantity", -1);
+            } else if (+$("#dj-quantity").text()) {
+                changeIntNumber("#dj-quantity", -1);
+                changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
+            } else if (+$("#instructor-quantity").text()) {
+                changeIntNumber("#instructor-quantity", -1);
+                changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
+            } else if (+$("#farmer-quantity").text()) {
+                withDecrease = false;
+                killFarmer();
+            }
 
-        if (+$("#free-people-quantity").text()) {
-            changeIntNumber("#free-people-quantity", -1);
-        } else if (+$("#woodcutter-quantity").text()) {
-            changeIntNumber("#woodcutter-quantity", -1);
-            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
-        } else if (+$("#miner-quantity").text()) {
-            changeIntNumber("#miner-quantity", -1);
-            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
-        } else if (+$("#scholar-quantity").text()) {
-            changeIntNumber("#scholar-quantity", -1);
-            $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
-        } else if (+$("#dj-quantity").text()) {
-            changeIntNumber("#dj-quantity", -1);
-            changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
-        } else if (+$("#instructor-quantity").text()) {
-            changeIntNumber("#instructor-quantity", -1);
-            changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
-        } else if (+$("#funeral-process-quantity").text()) {
-            changeIntNumber("#funeral-process-quantity", -1);
-            changeIntNumber("#free-people-quantity", 1);
-        } else if (+$("#farmer-quantity").text()) {
-            changeIntNumber("#farmer-quantity", -1);
-            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
+            if (withDecrease) {
+                decreasePopulation();
+            }
+        } else {
+            alert(USER_NAME + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again. 🧟🧟");
+            $("#start-again-button").slideToggle("slow");
         }
+    }
+
+    function decreasePopulation() {
+        changeIntNumber("#current-population", -1);
+        changeFloatNumber("#food-production-quantity", 1);
+
+        if (!corpsePresentFlag) {
+            $("#corpse-row").css("display", "table-row");
+            corpsePresentFlag = true;
+        }
+        changeIntNumber("#corpse-quantity", 1);
+    }
+
+    function killWoodcutter() {
+        decreasePopulation()
+        changeIntNumber("#woodcutter-quantity", -1);
+        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
+    }
+
+    function killMiner() {
+        decreasePopulation()
+        changeIntNumber("#miner-quantity", -1);
+        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
+    }
+
+    function killFarmer() {
+        decreasePopulation()
+        changeIntNumber("#farmer-quantity", -1);
+        $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
+    }
+
+    function killScientist() {
+        decreasePopulation();
+        changeIntNumber("#scientist-quantity", -1);
+        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
+        availableScientistSpaces++;
+    }
+
+    function increaseFoodProduction() {
+        foodProduction = Math.round(foodProduction * 100 + foodIncreaseStep * 100) / 100;
+        let $farmers = +$("#farmer-quantity").text();
+        let $currentPopulation = +$("#current-population").text();
+        $("#food-production-quantity").text((Math.round($farmers * (foodProduction * 100) - $currentPopulation * 100) / 100).toFixed(1));
+    }
+
+    function increaseWoodProduction() {
+        woodProduction = Math.round(woodProduction * 1000 + 0.125 * 1000) / 1000;
+        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
+    }
+
+    function increaseStoneProduction() {
+        stoneProduction = Math.round(stoneProduction * 1000 + 0.05 * 1000) / 1000;
+        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
+    }
+
+    function increaseKnowledgeProduction() {
+        knowledgeProduction = Math.round(knowledgeProduction * 1000 + 0.025 * 1000) / 1000;
+        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
     }
 
     function increaseAllProduction() {
         productivity = Math.round(productivity * 100 + 0.25 * 100) / 100;
         changeIntNumber("#productivity-quantity", 25);
 
-        recalculateFoodProduction();
-        recalculateWoodProduction();
-        recalculateStoneProduction();
-        recalculateKnowledgeProduction();
-    }
-
-
-    function recalculateFoodProduction() {
-        foodProduction = Math.round(foodProduction * 100 + 0.15 * 100) / 100;
-        let $farmers = +$("#farmer-quantity").text();
-        let $currentPopulation = +$("#current-population").text();
-        $("#food-production-quantity").text((Math.round($farmers * (foodProduction * 100) - $currentPopulation * 100) / 100).toFixed(1));
-    }
-
-    function recalculateWoodProduction() {
-        wood_production = Math.round(wood_production * 1000 + 0.125 * 1000) / 1000;
-        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * wood_production).toFixed(1));
-    }
-
-    function recalculateStoneProduction() {
-        stone_production = Math.round(stone_production * 1000 + 0.05 * 1000) / 1000;
-        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stone_production).toFixed(1));
-    }
-
-    function recalculateKnowledgeProduction() {
-        knowledge_production = Math.round(knowledge_production * 1000 + 0.025 * 1000) / 1000;
-        $("#knowledge-production-quantity").text((+$("#scholar-quantity").text() * knowledge_production).toFixed(1));
+        increaseFoodProduction();
+        increaseWoodProduction();
+        increaseStoneProduction();
+        increaseKnowledgeProduction();
     }
 
     //ONE STEP
@@ -873,15 +706,15 @@ $(function () {
         changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
 
         //check max storage
-        checkMaxStorage();
+        balanceToMaxStorage();
 
         //starvation process
         if ($("#food-quantity").text() < 0 && $("#current-population").text() > 0) {
-            changeIntNumber("#current-population", -1);
-            changeFloatNumber("#food-production-quantity", 1);
-            findPersonToKill();
-            $("#starvation-warning").show("slow");
+            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🍽️🍽️HELP!!! We don t have enough food. :(") + "</p>");
             unlockAchievement("Starvation");
+            $("#starvation-warning").show("slow");
+
+            findPersonToKill();
 
             // Decrease quantity of happy
             if (+$("#current-happy-people").text() > $("#current-population").text()) {
@@ -895,131 +728,352 @@ $(function () {
             $("#starvation-warning").hide("slow");
         }
 
-        productionColor();
+        checkProduction();
 
-        //TODO abundance of food
-        //
+        // TODO abundance of food
 
-        if (!productivityFlag && $("#productivity-quantity").text() >= 190) {
+        if (!productivityAchivementFlag && $("#productivity-quantity").text() >= 190) {
             unlockAchievement("Productivity");
-            productivityFlag = !productivityFlag;
+            productivityAchivementFlag = true;
         }
 
-        console.log(document.hasFocus());
-        funnyThings();
+        // TODO add more bad events when it isn't focus
+        // console.log(document.hasFocus());
     }, 1000);
 
-    function funnyThings() {
-        var funnyChance = 2;
-        if (!document.hasFocus()) {
-            funnyChance = 10;
-        }
-
-        //TODO wolves(-citizen), thieves(stones), storm(wood), crazy rabbits(food), woman rapes(increased citizen cost), pets, scientists went work abroad
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max)) + 1;
     }
 
-    function productionColor() {
-        // FOOD
-        if ($("#food-production-quantity").text() < 0) {
-            $("#food-production-span").css("background-color", "red");
-            $("#food-production-span").css("color", "white");
-            $("#add-farmer-button").css("background-color", "green");
-            $("#add-farmer-button").css("color", "white");
-        } else if ($("#food-production-quantity").text() > 0) {
-            $("#food-production-span").css("background-color", "green");
-            $("#food-production-span").css("color", "white");
-            $("#add-farmer-button").css("background-color", "");
-            $("#add-farmer-button").css("color", "black");
-        } else {
-            $("#food-production-span").css("background-color", "");
-            $("#food-production-span").css("color", "black");
+    setInterval(function event() {
+        // to small population for events
+        let eventDiversity = 1;
+        if (+$("#current-population").text() > 20) {
+            eventDiversity = 8;
         }
 
-        // WOOD
-        if ($("#wood-production-quantity").text() > 0) {
-            $("#wood-production-span").css("background-color", "green");
-            $("#wood-production-span").css("color", "white");
-        } else {
-            $("#wood-production-span").css("background-color", "");
-            $("#wood-production-span").css("color", "black");
-        }
+        switch (getRandomInt(eventDiversity)) {
+        // switch (8) {
+            default:
+                nothingHappenEvent();
+                break;
+            case 1:
+                nothingHappenEvent();
+                break;
+            case 2:
+                ufoEvent();
+                break;
+            case 3:
+                farmerEvent();
+                break;
+            case 4:
+                weatherEvent();
+                break;
+            case 5:
+                wildAmazonEvent();
+                break;
+            case 6:
+                elfEvent();
+                break;
+            case 7:
+                bloodMoonEvent();
+                break;
+            case 8:
+                birthDeathCycleEvent();
+                break;
+            //    TODO add to storm and rename to weather
+            // // Drought (-foodProduction)
+            // case 8:
+            //     break;
 
-        // STONE
-        if ($("#stone-production-quantity").text() > 0) {
-            $("#stone-production-span").css("background-color", "green");
-            $("#stone-production-span").css("color", "white");
-        } else {
-            $("#stone-production-span").css("background-color", "");
-            $("#stone-production-span").css("color", "black");
-        }
+            // // Animals (-citizen quantity)
+            // case 7:
+            //     animalsEvent();
+            //     break;
+            // // Pets (+food consuming)
+            // case 7:
+            //     break;
 
-        //KNOWLEDGE
-        if ($("#knowledge-production-quantity").text() > 0) {
-            $("#knowledge-production-span").css("background-color", "green");
-            $("#knowledge-production-span").css("color", "white");
-        } else {
-            $("#knowledge-production-span").css("background-color", "");
-            $("#knowledge-production-span").css("color", "black");
-        }
+            // // Im/Emigration (+current population, - knowledge)
+            // case 10:
+            //     break;
 
-        // LAZYBONES
-        if (+$("#free-people-quantity").text()) {
-            $("#free-people-quantity").css("background-color", "red");
-            $("#free-people-quantity").css("color", "white");
+            // // Laziness (-productivity)
+            // case 11:
+            //     break;
+            // // Motivation (+production)
+            // case 12:
+            //     break;
+        }
+    }, 20e3);
+
+    function getMsgWithTime(msg) {
+        return new Date().toLocaleTimeString() + ": " + msg;
+    }
+
+    function nothingHappenEvent() {
+        $("#events-div span").after("<p>" + getMsgWithTime("Everything is ok. Let s relax.") + "</p>");
+    }
+
+    function elfEvent() {
+        switch (getRandomInt(2)) {
+            case 1:
+                let woodElement = $("#wood-quantity");
+                if (+woodElement.text()) {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: " + woodElement.text() + " of your wood.") + "</p>");
+                    woodElement.text(0);
+                } else {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 You don t have wood. Elves are disappointed of us.. :((") + "</p>");
+                }
+                break;
+            case 2:
+                let woodcutters = $("#woodcutter-quantity");
+                if (+woodcutters.text()) {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 Elves don't like when you cut trees. They killed: " + woodcutters.text() + " of your woodcutters. They said - sorry.") + "</p>");
+                    for (let i = 0, amount = +woodcutters.text(); i < amount; i++) {
+                        killWoodcutter();
+                    }
+                } else {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧝🧝 Main Elf said - we like you.") + "</p>");
+                }
+                break;
+        }
+    }
+
+    function ufoEvent() {
+        let farmerElement = $("#farmer-quantity");
+        if (farmerElement.text() > 25) {
+            switch (getRandomInt(3)) {
+                case 1:
+                    let killedFarmerAmount = Math.round(0.1 * +farmerElement.text());
+                    $("#events-div span").after("<p>" + getMsgWithTime("🛸 Ufo Aliens tried to improve your human beings, but it wasn't successful. Unfortunately they killed: " + killedFarmerAmount + " of your farmers. Maybe in the next time.") + "</p>");
+                    for (let i = 0, amount = killedFarmerAmount; i < amount; i++) {
+                        killFarmer();
+                    }
+                    break;
+                case 2:
+                    $("#events-div span").after("<p>" + getMsgWithTime("👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmares. ") + "</p>");
+                    break;
+                case 3:
+                    let newResources = Math.round(0.4 * +$("#stone-quantity").text());
+                    $("#events-div span").after("<p>" + getMsgWithTime("🛸 Ufo gave to you a mighty artifact to improve your human beings, but your people didn't know how to apply this and they just exchanged it with more advanced civilization for: " + newResources + " stones.") + "</p>");
+                    changeFloatNumber("#stone-quantity", newResources);
+                    break;
+            }
         } else {
-            $("#free-people-quantity").css("background-color", "");
-            $("#free-people-quantity").css("color", "black");
+            $("#events-div span").after("<p>" + getMsgWithTime("👩‍🌾👩‍🌾 Your farmers said that they saw something strange in the skies. You said - ha, rich imagination") + "</p>");
+        }
+    }
+
+    function bloodMoonEvent() {
+        let corpseElement = $("#corpse-quantity");
+        if (+corpseElement.text()) {
+            switch (getRandomInt(2)) {
+                case 1:
+                    $("#events-div span").after("<p>" + getMsgWithTime("🧑🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination") + "</p>");
+                    break;
+                case 2:
+                    let wakeUpUndead = getRandomInt(+corpseElement.text());
+                    switch (getRandomInt(2)) {
+                        case 1:
+                            if (wakeUpUndead && +$("#current-population").text()) {
+                                $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.") + "</p>");
+                                for (let i = 0, amount = wakeUpUndead; i < amount; i++) {
+                                    findPersonToKill();
+                                }
+                            }
+                            break;
+                        case 2:
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and went to another village. Than they went back to sleep.") + "</p>");
+                            break;
+                    }
+            }
+        } else {
+            $("#events-div span").after("<p>" + getMsgWithTime("🌘 Your people like fool moon this night.") + "</p>");
 
         }
     }
 
-    function checkMaxStorage() {
-        var $maxQuantity = +$("#max-food-quantity-span").text();
-        var $currentQuantity = $("#food-quantity");
-        if ($maxQuantity < $currentQuantity.text()) {
-            $currentQuantity.text($maxQuantity);
+    function weatherEvent() {
+        // TODO add illness
+        let woodElement = $("#wood-quantity");
+        let minerElement = $("#miner-quantity");
+        switch (getRandomInt(2)) {
+            // Storm
+            case 1:
+                if (+woodElement.text() > 9) {
+                    $("#events-div span").after("<p>" + getMsgWithTime("⛈️There is a storm. It spoiled some of your wood: " + Math.round(+woodElement.text() * 0.3) + " is lost.") + "</p>");
+                    woodElement.text(Math.round(+woodElement.text() * 0.7));
+                } else {
+                    $("#events-div span").after("<p>" + getMsgWithTime("🌈 There was a small rain.") + "</p>");
+                }
+                break;
+            // Earthquake
+            case 2:
+                switch (getRandomInt(2)) {
+                    case 1:
+                        if (+minerElement.text() > 3) {
+                            let killedMinerAmount = Math.round(0.3 * +minerElement.text());
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧶 There was a big earthquake. Unfortunately it killed: " + killedMinerAmount + " of your miners.") + "</p>");
+                            for (let i = 0, amount = killedMinerAmount; i < amount; i++) {
+                                killMiner();
+                            }
+                        } else {
+                            let newResources = Math.round(0.27 * +woodElement.text());
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧶️ There was a middle earthquake. Some trees were down and it gave you : " + newResources + " woods.") + "</p>");
+                            changeFloatNumber("#wood-quantity", newResources);
+                        }
+                        break;
+                    case 2:
+                        $("#events-div span").after("<p>" + getMsgWithTime("🧶 There was a light earthquake.") + "</p>");
+                        break;
+                }
+                break;
         }
-        $maxQuantity = +$("#max-wood-quantity-span").text();
-        $currentQuantity = $("#wood-quantity");
-        if ($maxQuantity < $currentQuantity.text()) {
-            $currentQuantity.text($maxQuantity);
+    }
+
+    function wildAmazonEvent() {
+        let $scientistQuantity = $("#scientist-quantity");
+        if (+$scientistQuantity.text() >= 10) {
+            switch (getRandomInt(3)) {
+                case 1:
+                    $("#events-div span").after("<p>" + getMsgWithTime("Your people communicated a bit with Amazons 👧👧👧👧") + "</p>");
+                    break;
+                case 2:
+                    let killedScientistAmount = Math.round(0.5 * +$scientistQuantity.text());
+                    $("#events-div span").after("<p>" + getMsgWithTime("👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back " + killedScientistAmount + " male corpses, you see smiles on corpse's faces.") + "</p>");
+                    for (let i = 0, amount = killedScientistAmount; i < amount; i++) {
+                        killScientist();
+                    }
+                    $("#knowledge-quantity").text(Math.round(+$("#knowledge-quantity").text() * 0.5));
+                    break;
+                case 3:
+                    let newMaleAmount = Math.round(0.25 * +$scientistQuantity.text());
+                    $("#events-div span").after("<p>" + getMsgWithTime("👧👧👧👧 Amazons brings a few males to your people . " + newMaleAmount + " new free people.") + "</p>");
+                    for (let i = 0, amount = newMaleAmount; i < amount; i++) {
+                        createOneCitizen();
+                    }
+                    break;
+            }
+        } else {
+            $("#events-div span").after("<p>" + getMsgWithTime("Your people saw a lot of beautiful wild amazons 👧👧👧👧") + "</p>");
         }
-        $maxQuantity = +$("#max-stone-quantity-span").text();
-        $currentQuantity = $("#stone-quantity");
-        if ($maxQuantity < $currentQuantity.text()) {
-            $currentQuantity.text($maxQuantity);
+    }
+
+    function birthDeathCycleEvent() {
+        let currentPopulation = +$("#current-population").text();
+        let changeAmount = Math.round(currentPopulation * 0.25);
+        switch (getRandomInt(2)) {
+            case 1:
+                $("#events-div span").after("<p>" + getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
+                for (let i = 0; i < changeAmount; i++) {
+                    createOneCitizen();
+                }
+                break;
+            case 2:
+                $("#events-div span").after("<p>" + getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
+                for (let i = 0; i < changeAmount; i++) {
+                    findPersonToKill();
+                }
+                break;
         }
-        $maxQuantity = +$("#max-knowledge-quantity-span").text();
-        $currentQuantity = $("#knowledge-quantity");
-        if ($maxQuantity < $currentQuantity.text()) {
-            $currentQuantity.text($maxQuantity);
+    }
+
+    function farmerEvent() {
+        let farmerQuantityEl = $("#farmer-quantity");
+        $("#events-div span").after("<p>" + getMsgWithTime("🥔🥔🥔 🥝🥝 your people see a lot of some new kind of food.") + "</p>");
+
+        let foodElement = $("#food-quantity");
+        switch (getRandomInt(5)) {
+            case 1:
+                $("#events-div span").after("<p>" + getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 1.8) + " potatoes.") + "</p>");
+                changeFloatNumber("#food-quantity", Math.round(foodElement.text() * 1.8));
+                break;
+            case 2:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers found wild rabbits on the field. When farmers wanted to take potatoes, wild rabbits attacked. Obviously it was bad decision to try to take rabbit's food. We lost: " + Math.round(farmerQuantityEl.text() * 0.15) + " farmers.") + "</p>");
+                for (let i = 0, amount = Math.round(farmerQuantityEl.text() * 0.15); i < amount; i++) {
+                    killFarmer();
+                }
+                break;
+            case 3:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers came to new kind of food, than they noticed red-eye rabbits near and farmers decided to go back. Maybe that was a right decision.") + "</p>");
+                break;
+            case 4:
+                $("#events-div span").after("<p>" + getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 2.5) + " kiwi fruits.") + "</p>");
+                changeFloatNumber("#food-quantity", Math.round(foodElement.text() * 2.5));
+                break;
+            case 5:
+                $("#events-div span").after("<p>" + getMsgWithTime("🐀🐀🐀 Rats ate " + Math.round(+foodElement.text() * 0.9) + " of your food.") + "</p>");
+                changeFloatNumber("#food-quantity", -Math.round(foodElement.text() * 0.9));
+                break;
         }
+    }
+
+    function changeColor(checkEl, target, button) {
+        if (+checkEl.text() > 0) {
+            target.css({"background-color": "green", "color": "white"});
+            if (!!button) {
+                button.css({"background-color": "", "color": "black"});
+            }
+        } else if (+checkEl.text() == 0) {
+            target.css({"background-color": "", "color": "black"});
+        } else {
+            target.css({"background-color": "red", "color": "white"});
+            if (!!button) {
+                button.css({"background-color": "green", "color": "white"});
+            }
+        }
+    }
+
+    function checkProduction() {
+        changeColor($("#food-production-quantity"), $("#food-production-span"), $("#add-farmer-button"));
+        changeColor($("#wood-production-quantity"), $("#wood-production-span"));
+        changeColor($("#stone-production-quantity"), $("#stone-production-span"));
+        changeColor($("#knowledge-production-quantity"), $("#knowledge-production-span"));
+        changeColor($("#free-people-quantity"), $("#free-people-quantity"));
+    }
+
+    function balanceOverflow(currentEl, maxEl) {
+        if (+maxEl.text() < currentEl.text()) {
+            currentEl.text(maxEl.text());
+        }
+    }
+
+    function balanceToMaxStorage() {
+        balanceOverflow($("#food-quantity"), $("#max-food-quantity-span"));
+        balanceOverflow($("#wood-quantity"), $("#max-wood-quantity-span"));
+        balanceOverflow($("#stone-quantity"), $("#max-stone-quantity-span"));
+        balanceOverflow($("#knowledge-quantity"), $("#max-knowledge-quantity-span"));
     }
 
     //FUNERAL PROCESS
     setInterval(function funeralProcess() {
-        let $funeralProcesses = +$("#funeral-process-quantity").text();
-        let $corpses = +$("#corpse-quantity").text();
-        let $graves = +$("#max-in-graves-quantity").text();
-        let $inGraves = +$("#in-graves-quantity").text();
+        let funeralProcesses = +$("#funeral-process-quantity").text();
+        let corpses = +$("#corpse-quantity").text();
 
-        if ($funeralProcesses && $corpses && ($inGraves < $graves)) {
-            changeIntNumber("#corpse-quantity", -1);
-            changeIntNumber("#in-graves-quantity", 1);
+        if (funeralProcesses && corpses && (+$("#in-graves-quantity").text() < +$("#max-in-graves-quantity").text())) {
+            let multiply = funeralProcesses > corpses ? corpses : funeralProcesses;
+
+            changeIntNumber("#corpse-quantity", -1 * multiply);
+            changeIntNumber("#in-graves-quantity", 1 * multiply);
             $("#funeral-process-img").show("slow");
         } else {
-            $("#funeral-process-img").hide("slow");
+            // $("#funeral-process-img").hide("slow");
         }
     }, 5000);
+
+    setInterval(function checkFocus() {
+        $("#events-div").css("{overflow-y: 0;}");
+    }, 15000);
 
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
         if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
-            if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + userName + ", do you wanna play again?")) {
+            if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + USER_NAME + ", do you try again?")) {
                 document.location.reload(true);
             } else {
                 changeFloatNumber("#knowledge-quantity", -WINNER_REQUIREMENTS);
-                $("#start-again-button").toggle("slow");
+                $("#start-again-button").slideToggle("slow");
             }
             clearInterval(winInterval);
         }
@@ -1028,22 +1082,22 @@ $(function () {
     function unlockAchievement(achievementName) {
         switch (achievementName) {
             case "UFO Alien":
-                $("<img id=\"ufo-achievement\" src=\"res/img/alien.png\" title=\"Player is an alien\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/achievement/alien.png\" title=\"Player is an alien\"/>").appendTo("#achievement-section");
                 break;
             case "Palace":
-                $("<img id=\"build-palace-achievement\" src=\"res/img/blueprint.png\" title=\"Build a palace\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/achievement/blueprint.png\" title=\"Build a palace\"/>").appendTo("#achievement-section");
                 break;
             case "First Research":
-                $("<img id=\"first-research-achievement\" src=\"res/img/knowledge.png\" title=\"First research\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/achievement/knowledge.png\" title=\"First research\"/>").appendTo("#achievement-section");
                 break;
             case "Starvation":
-                $("<img id=\"die-of-hunger-achievement\" src=\"res/img/reaper.png\" title=\"Die of hunger\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/common/death.png\" title=\"Die of hunger\"/>").appendTo("#achievement-section");
                 break;
             case "Productivity":
-                $("<img id=\"max-productivity-achievement\" src=\"res/img/speedometer.png\" title=\"Achieve high productivity (more than 190%)\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/achievement/speedometer.png\" title=\"Achieve high productivity (more than 190%)\"/>").appendTo("#achievement-section");
                 break;
             case "More Food":
-                $("<img id=\"more-food-achievement\" src=\"res/img/food.png\" title=\"Even more food, hurray!!! :)\"/>").appendTo("#achievement-section");
+                $("<img src=\"res/img/achievement/food.png\" title=\"Even more food, hurray!!! :)\"/>").appendTo("#achievement-section");
                 break;
         }
     }

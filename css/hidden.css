@@ -1,10 +1,10 @@
 #start-again-button,
 #funeral-process-img,
-#starvation-warning,
-#events-div {
+#starvation-warning {
     display: none;
 }
 
+/*RESOURCES*/
 #max-food-quantity-span,
 #max-wood-quantity-span,
 #max-stone-quantity-span,
@@ -14,6 +14,7 @@
     display: none;
 }
 
+/* PEOPLE*/
 #corpse-row,
 #in-graves-row,
 #empty-row-before-happiness,
@@ -26,46 +27,47 @@
 
 /* WORKERS*/
 .ten-work-td,
-#empty-row-before-funeral,
-#funeral-process-job-row,
-#empty-row-before-work-scientist-row,
-#in-work-scientist-row,
-#empty-row-before-leader,
-#in-work-leader-row,
-#work-warrior-row,
-#empty-row-before-dj,
-#in-dj-row,
-#in-instructor-row {
+#empty-row-before-job-funeral,
+#job-funeral-process-row,
+#empty-row-before-job-scientist,
+#job-scientist-row,
+#empty-row-before-job-leader,
+#job-leader-row,
+#job-warrior-row,
+#empty-row-before-job-in-club,
+#job-dj-row,
+#job-instructor-row {
     display: none;
 }
 
-/* BUILDINGS */
-#grave-build-row,
-#hut-row,
-#scroll-storage-row,
+/* BUILDINGS*/
+#build-grave-row,
+#build-population-tent-row,
+#build-scroll-row,
 #build-storage-granary-row,
 #build-storage-pit-row,
-#campfire-build-row,
+#empty-row-before-population-building,
+#build-knowledge-campfire-row,
 #build-knowledge-dolmen-row,
 #empty-row-before-knowledge-building,
-#build-knowledge-school-row,
-#empty-row-before-music-club,
-#music-club-row,
-#yoga-club-row,
-#palace-row,
+#build-knowledge-parthenon-row,
+#empty-row-before-build-club,
+#build-music-club-row,
+#build-yoga-club-row,
+#build-palace-row,
 #empty-row-before-build-war,
 #build-war-barrack-row {
     display: none;
 }
 
 /* TECHNOLOGIES*/
-#agriculture-row,
-#architecture-row,
-#funeral-tech-row,
-#changes2-row,
+#tech-agriculture-row,
+#tech-architecture-row,
+#tech-funeral-row,
+#tech-changes2-row,
+#tech-leadership-row,
 #tech-agriculture-2-row,
 #tech-architecture-2-row,
-#tech-leadership-row,
 #tech-stone-age-row,
 #tech-architecture-3-row,
 #tech-music-row,
@@ -102,7 +104,6 @@
 #pickaxe-p,
 #two-side-scroll-p,
 #architecture-4-p,
-#bronze-age-p 
-{
+#bronze-age-p {
     display: none;
 }
