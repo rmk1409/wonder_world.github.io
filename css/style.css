@@ -1,5 +1,5 @@
 body {
-    background: url("../res/img/background-village2.jpg") no-repeat;
+    background: url("../res/img/common/background-village2.jpg") no-repeat;
     background-size: 100% 100%;
 }
 
@@ -25,6 +25,13 @@ table img {
     width: 40px;
 }
 
+#starvation-warning img {
+    position: absolute;
+    top: 220px;
+    left: 305px;
+    width: 40px;
+}
+
 button {
     padding: 6px;
     width: 120px;
@@ -37,19 +44,16 @@ button {
 #work-table button {
     width: 35px;
     padding: 0px;
+    font-size: 11px;
 }
 
 #start-again-button {
     position: absolute;
-    left: 180px;
-    top: 487px;
+    left: 200px;
+    top: 505px;
     background-color: green;
     color: white;
     padding: 3px;
-}
-
-#work-table button {
-    font-size: 11px;
 }
 
 table {
@@ -81,7 +85,7 @@ td {
     text-align: right;
 }
 
-#resources-table td:nth-child(3) {
+#click-resource-table td:nth-child(3) {
     min-width: 90px;
 }
 
@@ -105,6 +109,10 @@ td {
     margin-right: 45px;
 }
 
+#work-building-block {
+    margin-bottom: 30px
+}
+
 #achievement-technology-block {
     margin-right: 0px;
 }
@@ -124,17 +132,6 @@ td {
     margin-left: 175px;
 }
 
-#starvation-warning img {
-    position: absolute;
-    top: 220px;
-    left: 305px;
-    width: 40px;
-}
-
-#work-building-block {
-    margin-bottom: 30px
-}
-
 #achievement-section {
     border: 3px solid black;
     padding: 10px;
@@ -152,11 +149,10 @@ td {
 
 #events-div p {
     margin: 0px;
-
 }
 
 .build-empty-row {
-    background-color: grey;
+    background-color: #3b29e0;
 }
 
 #events-div {
@@ -169,6 +165,6 @@ td {
     overflow-y: auto;
 }
 
-#events-div>* {
+#events-div > * {
     max-width: 485px;
 }
