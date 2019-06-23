@@ -616,7 +616,7 @@ $(function () {
                 if (!+$("#dj-quantity").text()) {
                     decreaseAllProduction();
                     djPresentFlag = false;
-                } 
+                }
             } else if (+$("#instructor-quantity").text()) {
                 changeIntNumber("#instructor-quantity", -1);
                 changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
