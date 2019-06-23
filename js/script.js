@@ -854,7 +854,7 @@ $(function () {
     }
 
     function nothingHappenEvent() {
-        $("#events-div span").after("<p>" + getMsgWithTime("Everything is ok. Let s relax.") + "</p>");
+        $("#events-div span").after("<p>" + getMsgWithTime("Everything is ok. Let s relax. ☕") + "</p>");
     }
 
     function elfEvent() {
@@ -919,14 +919,14 @@ $(function () {
                     switch (getRandomInt(2)) {
                         case 1:
                             if (wakeUpUndead && +$("#current-population").text()) {
-                                $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.") + "</p>");
+                                $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white walkers came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.") + "</p>");
                                 for (let i = 0, amount = wakeUpUndead; i < amount; i++) {
                                     findPersonToKill();
                                 }
                             }
                             break;
                         case 2:
-                            $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white skin color guys came from your corpse storage and went to another village. Than they went back to sleep.") + "</p>");
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧛🧛 Some white walkers came from your corpse storage and went to another village. Than they went back to sleep.") + "</p>");
                             break;
                     }
             }
@@ -956,7 +956,7 @@ $(function () {
                     case 1:
                         if (+minerElement.text() > 3) {
                             let killedMinerAmount = Math.round(0.3 * +minerElement.text());
-                            $("#events-div span").after("<p>" + getMsgWithTime("🧶 There was a big earthquake. Unfortunately it killed: " + killedMinerAmount + " of your miners.") + "</p>");
+                            $("#events-div span").after("<p>" + getMsgWithTime("🧶 ☹ There was a big earthquake. Unfortunately it killed: " + killedMinerAmount + " of your miners.") + "</p>");
                             for (let i = 0, amount = killedMinerAmount; i < amount; i++) {
                                 killMiner();
                             }
