@@ -536,7 +536,7 @@ $(function () {
         }
     });
     $("#tech-hoe-button").click(function researchHoe() {
-        if (research(350, "#tech-hoe-row", ["#hoe-p"])) {
+        if (research(300, "#tech-hoe-row", ["#hoe-p"])) {
             foodIncreaseStep = 0.1;
             increaseFoodProduction();
             productivity = Math.round(productivity * 100 + 0.0625 * 100) / 100;
@@ -611,10 +611,20 @@ $(function () {
                 changeIntNumber("#warrior-quantity", -1);
             } else if (+$("#dj-quantity").text()) {
                 changeIntNumber("#dj-quantity", -1);
+                currentDjSpaces++;
                 changeIntNumber("#current-happy-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
+                if (!+$("#dj-quantity").text()) {
+                    decreaseAllProduction();
+                    djPresentFlag = false;
+                } 
             } else if (+$("#instructor-quantity").text()) {
                 changeIntNumber("#instructor-quantity", -1);
                 changeIntNumber("#current-health-people", ($("#current-population").text() <= spaceInOneClub ? $("#current-population").text() : -(spaceInOneClub - 1)));
+                currentInstructorSpaces++;
+                if (!+$("#instructor-quantity").text()) {
+                    decreaseAllProduction();
+                    instructorPresentFlag = false;
+                }
             } else if (+$("#farmer-quantity").text()) {
                 withDecrease = false;
                 killFarmer();
@@ -663,6 +673,38 @@ $(function () {
         changeIntNumber("#scientist-quantity", -1);
         $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
         availableScientistSpaces++;
+    }
+
+    function decreaseFoodProduction() {
+        foodProduction = Math.round(foodProduction * 100 - foodIncreaseStep * 100) / 100;
+        let $farmers = +$("#farmer-quantity").text();
+        let $currentPopulation = +$("#current-population").text();
+        $("#food-production-quantity").text((Math.round($farmers * (foodProduction * 100) - $currentPopulation * 100) / 100).toFixed(1));
+    }
+
+    function decreaseWoodProduction() {
+        woodProduction = Math.round(woodProduction * 1000 - 0.125 * 1000) / 1000;
+        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
+    }
+
+    function decreaseStoneProduction() {
+        stoneProduction = Math.round(stoneProduction * 1000 - 0.05 * 1000) / 1000;
+        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
+    }
+
+    function decreaseKnowledgeProduction() {
+        knowledgeProduction = Math.round(knowledgeProduction * 1000 - 0.025 * 1000) / 1000;
+        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
+    }
+
+    function decreaseAllProduction() {
+        productivity = Math.round(productivity * 100 - 0.25 * 100) / 100;
+        changeIntNumber("#productivity-quantity", -25);
+
+        decreaseFoodProduction();
+        decreaseWoodProduction();
+        decreaseStoneProduction();
+        decreaseKnowledgeProduction();
     }
 
     function increaseFoodProduction() {
@@ -753,7 +795,7 @@ $(function () {
         }
 
         switch (getRandomInt(eventDiversity)) {
-        // switch (8) {
+            // switch (8) {
             default:
                 nothingHappenEvent();
                 break;

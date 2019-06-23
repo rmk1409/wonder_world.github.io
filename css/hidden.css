@@ -1,109 +1,109 @@
-#start-again-button,
-#funeral-process-img,
-#starvation-warning {
-    display: none;
-}
+/*#start-again-button,*/
+/*#funeral-process-img,*/
+/*#starvation-warning {*/
+/*    display: none;*/
+/*}*/
 
-/*RESOURCES*/
-#max-food-quantity-span,
-#max-wood-quantity-span,
-#max-stone-quantity-span,
-#max-knowledge-quantity-span,
-#empty-row-before-knowledge,
-#knowledge-row {
-    display: none;
-}
+/*!*RESOURCES*!*/
+/*#max-food-quantity-span,*/
+/*#max-wood-quantity-span,*/
+/*#max-stone-quantity-span,*/
+/*#max-knowledge-quantity-span,*/
+/*#empty-row-before-knowledge,*/
+/*#knowledge-row {*/
+/*    display: none;*/
+/*}*/
 
-/* PEOPLE*/
-#corpse-row,
-#in-graves-row,
-#empty-row-before-happiness,
-#happiness-row,
-#health-row,
-#empty-row-before-productivity,
-#productivity-row {
-    display: none;
-}
+/*!* PEOPLE*!*/
+/*#corpse-row,*/
+/*#in-graves-row,*/
+/*#empty-row-before-happiness,*/
+/*#happiness-row,*/
+/*#health-row,*/
+/*#empty-row-before-productivity,*/
+/*#productivity-row {*/
+/*    display: none;*/
+/*}*/
 
-/* WORKERS*/
-.ten-work-td,
-#empty-row-before-job-funeral,
-#job-funeral-process-row,
-#empty-row-before-job-scientist,
-#job-scientist-row,
-#empty-row-before-job-leader,
-#job-leader-row,
-#job-warrior-row,
-#empty-row-before-job-in-club,
-#job-dj-row,
-#job-instructor-row {
-    display: none;
-}
+/*!* WORKERS*!*/
+/*.ten-work-td,*/
+/*#empty-row-before-job-funeral,*/
+/*#job-funeral-process-row,*/
+/*#empty-row-before-job-scientist,*/
+/*#job-scientist-row,*/
+/*#empty-row-before-job-leader,*/
+/*#job-leader-row,*/
+/*#job-warrior-row,*/
+/*#empty-row-before-job-in-club,*/
+/*#job-dj-row,*/
+/*#job-instructor-row {*/
+/*    display: none;*/
+/*}*/
 
-/* BUILDINGS*/
-#build-grave-row,
-#build-population-tent-row,
-#build-scroll-row,
-#build-storage-granary-row,
-#build-storage-pit-row,
-#empty-row-before-population-building,
-#build-knowledge-campfire-row,
-#build-knowledge-dolmen-row,
-#empty-row-before-knowledge-building,
-#build-knowledge-parthenon-row,
-#empty-row-before-build-club,
-#build-music-club-row,
-#build-yoga-club-row,
-#build-palace-row,
-#empty-row-before-build-war,
-#build-war-barrack-row {
-    display: none;
-}
+/*!* BUILDINGS*!*/
+/*#build-grave-row,*/
+/*#build-population-tent-row,*/
+/*#build-scroll-row,*/
+/*#build-storage-granary-row,*/
+/*#build-storage-pit-row,*/
+/*#empty-row-before-population-building,*/
+/*#build-knowledge-campfire-row,*/
+/*#build-knowledge-dolmen-row,*/
+/*#empty-row-before-knowledge-building,*/
+/*#build-knowledge-parthenon-row,*/
+/*#empty-row-before-build-club,*/
+/*#build-music-club-row,*/
+/*#build-yoga-club-row,*/
+/*#build-palace-row,*/
+/*#empty-row-before-build-war,*/
+/*#build-war-barrack-row {*/
+/*    display: none;*/
+/*}*/
 
-/* TECHNOLOGIES*/
-#tech-agriculture-row,
-#tech-architecture-row,
-#tech-funeral-row,
-#tech-changes2-row,
-#tech-leadership-row,
-#tech-agriculture-2-row,
-#tech-architecture-2-row,
-#tech-stone-age-row,
-#tech-architecture-3-row,
-#tech-music-row,
-#tech-sport-row,
-#tech-tools-row,
-#tech-hoe-row,
-#tech-axe-row,
-#tech-pickaxe-row,
-#tech-weapon-row,
-#tech-2-side-scroll-row,
-#tech-architecture-4-row,
-#tech-bronze-age-row {
-    display: none;
-}
+/*!* TECHNOLOGIES*!*/
+/*#tech-agriculture-row,*/
+/*#tech-architecture-row,*/
+/*#tech-funeral-row,*/
+/*#tech-changes2-row,*/
+/*#tech-leadership-row,*/
+/*#tech-agriculture-2-row,*/
+/*#tech-architecture-2-row,*/
+/*#tech-stone-age-row,*/
+/*#tech-architecture-3-row,*/
+/*#tech-music-row,*/
+/*#tech-sport-row,*/
+/*#tech-tools-row,*/
+/*#tech-hoe-row,*/
+/*#tech-axe-row,*/
+/*#tech-pickaxe-row,*/
+/*#tech-weapon-row,*/
+/*#tech-2-side-scroll-row,*/
+/*#tech-architecture-4-row,*/
+/*#tech-bronze-age-row {*/
+/*    display: none;*/
+/*}*/
 
-/* ALREADY KNOWN TECHNOLOGIES*/
-#already-known-p,
-#changes-p,
-#agriculture-p,
-#architecture-p,
-#funeral-p,
-#changes-2-p,
-#agriculture-2-p,
-#architecture-2-p,
-#leadership-p,
-#stone-age-p,
-#architecture-3-p,
-#music-p,
-#sport-p,
-#tools-p,
-#weapon-p,
-#hoe-p,
-#axe-p,
-#pickaxe-p,
-#two-side-scroll-p,
-#architecture-4-p,
-#bronze-age-p {
-    display: none;
-}
+/*!* ALREADY KNOWN TECHNOLOGIES*!*/
+/*#already-known-p,*/
+/*#changes-p,*/
+/*#agriculture-p,*/
+/*#architecture-p,*/
+/*#funeral-p,*/
+/*#changes-2-p,*/
+/*#agriculture-2-p,*/
+/*#architecture-2-p,*/
+/*#leadership-p,*/
+/*#stone-age-p,*/
+/*#architecture-3-p,*/
+/*#music-p,*/
+/*#sport-p,*/
+/*#tools-p,*/
+/*#weapon-p,*/
+/*#hoe-p,*/
+/*#axe-p,*/
+/*#pickaxe-p,*/
+/*#two-side-scroll-p,*/
+/*#architecture-4-p,*/
+/*#bronze-age-p {*/
+/*    display: none;*/
+/*}*/
