@@ -1,3 +1,6 @@
 ### IntelliJ ###
 .idea/
 *.iml
+
+### Webpack ###
+node_modules

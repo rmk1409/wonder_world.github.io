@@ -1,47 +1,97 @@
+import Game from './game';
+import Page from './page';
+
+const userKey = "USER_NAME";
+
 $(function () {
     "use strict";
-    // VARIABLES
-    // 1.Win
-    let WINNER_REQUIREMENTS = 1e6;
-    // 2.Spaces
-    let availableScientistSpaces = 0,
-        knowledgeStoreInOneScroll = 5,
-        currentDjSpaces = 0,
-        currentInstructorSpaces = 0,
-        spaceInOneClub = 25,
-        spaceInOneCampfire = 2,
-        spaceInOneDolmen = 5;
-    // spaceInOneParthenon = 12;
-    // 3.Productivity flags
-    let djProductivityFlag = false,
-        healthProductivityFlag = false,
-        productivityAchivementFlag = false;
-    // abundance = false,
-    // 4. User name
-    const USER_NAME = prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
+    let config = {
+        // VARIABLES
+        // 1.Win
+        WINNER_REQUIREMENTS: 1e6,
+        // 2.Spaces
+        availableScientistSpaces: 0,
+        knowledgeStoreInOneScroll: 5,
+        currentDjSpaces: 0,
+        currentInstructorSpaces: 0,
+        spaceInOneClub: 25,
+        spaceInOneCampfire: 2,
+        spaceInOneDolmen: 5,
+        // spaceInOneParthenon : 12;
+        // 3.Productivity flags
+        djProductivityFlag: false,
+        healthProductivityFlag: false,
+        productivityAchivementFlag: false,
+        // abundance : false,
+        // 4. User name
+        /*JSON.stringify({a: "hello"});
+        JSON.parse()*/
+
+        // Game variables
+        citizenCost: 10,
+        booster: 1,
+        productivity: 1.0,
+        foodIncreaseStep: 0.15,
+        // Tech flags
+        techFuneralFlag: false,
+        scientistPresentFlag: false,
+        djPresentFlag: false,
+        instructorPresentFlag: false,
+        barrackPresentFlag: false,
+        palacePresentFlag: false,
+        leaderPresentFlag: false,
+        corpsePresentFlag: false
+    };
+
+    config = {
+        ...config,
+        foodProduction: 1.2 * config.booster,
+        woodProduction: 0.5 * config.booster,
+        stoneProduction: 0.2 * config.booster,
+        knowledgeProduction: 0.1 * config.booster,
+    };
+    let USER_NAME = localStorage.getItem(userKey);
+    USER_NAME = confirm(`Hello, ${USER_NAME}! Continue?`) && USER_NAME
+        || prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
+
+    let {
+        WINNER_REQUIREMENTS,
+        availableScientistSpaces,
+        knowledgeStoreInOneScroll,
+        currentDjSpaces,
+        currentInstructorSpaces,
+        spaceInOneClub,
+        spaceInOneCampfire,
+        spaceInOneDolmen,
+        djProductivityFlag,
+        healthProductivityFlag,
+        productivityAchivementFlag,
+
+        citizenCost,
+        booster,
+        productivity,
+        foodIncreaseStep,
+        techFuneralFlag,
+        scientistPresentFlag,
+        djPresentFlag,
+        instructorPresentFlag,
+        barrackPresentFlag,
+        palacePresentFlag,
+        leaderPresentFlag,
+        corpsePresentFlag,
+        foodProduction,
+        woodProduction,
+        stoneProduction,
+        knowledgeProduction,
+    } = config;
+
+    let game = new Game(new Page());
+
+    localStorage.setItem(userKey, USER_NAME);
     $("#user-name").text(USER_NAME);
-    if (USER_NAME == "UFO Alien") {
+    if (USER_NAME === "UFO Alien") {
         unlockAchievement("UFO Alien");
     }
-    // Game variables
-    let citizenCost = 10,
-        booster = 1,
-        productivity = 1.0,
-        foodIncreaseStep = 0.15,
-        foodProduction = 1.2 * booster,
-        woodProduction = 0.5 * booster,
-        stoneProduction = 0.2 * booster,
-        knowledgeProduction = 0.1 * booster;
-    // Tech flags
-    let techFuneralFlag = false,
-        scientistPresentFlag = false,
-        djPresentFlag = false,
-        instructorPresentFlag = false,
-        barrackPresentFlag = false,
-        palacePresentFlag = false,
-        leaderPresentFlag = false,
-        corpsePresentFlag = false;
-
     // CLICK EVENTS
 
     // 1. CLICK TO THE RESOURCES
@@ -70,7 +120,7 @@ $(function () {
     $("#create-worker-button").click(function createWorker() {
         if ($("#food-quantity").text() >= citizenCost && +$("#current-population").text() < $("#max-population").text()) {
             changeFloatNumber("#food-quantity", -citizenCost);
-            createOneCitizen();
+            game.createCitizen(1);
 
             if (+$("#current-population").text() <= +$("#dj-quantity").text() * spaceInOneClub) {
                 $("#current-happy-people").text($("#current-population").text());
@@ -102,6 +152,7 @@ $(function () {
 
     $("#build-grave-button").click(function buildGrave() {
         if (build(10, 10, ["#grave-quantity", "#max-in-graves-quantity"], [1, 1])) {
+
             if (!techFuneralFlag) {
                 $("#job-funeral-process-row").show("slow", function () {
                     $("#empty-row-before-job-funeral").show("slow", function () {
@@ -1143,4 +1194,8 @@ $(function () {
                 break;
         }
     }
+
+    setInterval(function () {
+        $("#events-div").animate({scrollTop: 0}, "fast");
+    }, 2e4);
 });
