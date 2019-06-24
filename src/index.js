@@ -21,19 +21,19 @@ $(function () {
         // 3.Productivity flags
         djProductivityFlag: false,
         healthProductivityFlag: false,
-        productivityAchivementFlag: false,
+        productivityAchievementFlag: false,
         // abundance : false,
         // 4. User name
         /*JSON.stringify({a: "hello"});
         JSON.parse()*/
 
         // Game variables
-        citizenCost: 10,
+        citizenCost: 1,
         booster: 1,
         productivity: 1.0,
         foodIncreaseStep: 0.15,
         // Tech flags
-        techFuneralFlag: false,
+        buildFuneralFlag: false,
         scientistPresentFlag: false,
         djPresentFlag: false,
         instructorPresentFlag: false,
@@ -65,13 +65,12 @@ $(function () {
         spaceInOneDolmen,
         djProductivityFlag,
         healthProductivityFlag,
-        productivityAchivementFlag,
+        productivityAchievementFlag,
 
-        citizenCost,
         booster,
         productivity,
         foodIncreaseStep,
-        techFuneralFlag,
+        buildFuneralFlag,
         scientistPresentFlag,
         djPresentFlag,
         instructorPresentFlag,
@@ -85,197 +84,41 @@ $(function () {
         knowledgeProduction,
     } = config;
 
-    let game = new Game(new Page());
+    let page = new Page();
+    let game = new Game(page);
 
     localStorage.setItem(userKey, USER_NAME);
     $("#user-name").text(USER_NAME);
     if (USER_NAME === "UFO Alien") {
-        unlockAchievement("UFO Alien");
+        game.unlockAchievement("UFO Alien");
     }
     // CLICK EVENTS
 
     // 1. CLICK TO THE RESOURCES
-    $("#food-click-button").click(function clickFoodButton() {
-        changeFloatNumber("#food-quantity", 1 * booster);
-    });
-    $("#wood-click-button").click(function clickWoodButton() {
-        changeFloatNumber("#wood-quantity", 1 * booster);
-    });
-    $("#stone-click-button").click(function clickStoneButton() {
-        changeFloatNumber("#stone-quantity", 1 * booster);
-    });
-
+    $("#food-click-button").click(() => page.changeCurResourceQuantity("food", 1 * booster));
+    $("#wood-click-button").click(() => page.changeCurResourceQuantity("wood", 1 * booster));
+    $("#stone-click-button").click(() => page.changeCurResourceQuantity("stone", 1 * booster));
     // 2. START AGAIN
-    $("#start-again-button").click(function reloadSite() {
-        document.location.reload(true);
-    });
-
-    // 3. CREATE WORKER
-    function createOneCitizen() {
-        changeIntNumber("#current-population", 1);
-        changeIntNumber("#free-people-quantity", 1);
-        changeFloatNumber("#food-production-quantity", -1);
-    }
-
-    $("#create-worker-button").click(function createWorker() {
-        if ($("#food-quantity").text() >= citizenCost && +$("#current-population").text() < $("#max-population").text()) {
-            changeFloatNumber("#food-quantity", -citizenCost);
-            game.createCitizen(1);
-
-            if (+$("#current-population").text() <= +$("#dj-quantity").text() * spaceInOneClub) {
-                $("#current-happy-people").text($("#current-population").text());
-            }
-            if (+$("#current-population").text() <= +$("#instructor-quantity").text() * spaceInOneClub) {
-                $("#current-health-people").text($("#current-population").text());
-            }
-        } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Not enough food or houses.") + "</p>");
-        }
-    });
-
+    $("#start-again-button").click(() => Page.reloadSite());
+    $("#create-worker-button").click(() => game.createWorker(1));
     // 4. BUILD
-    function build(woodPrice, stonePrice, elementNamesAr, quantityAr) {
-        if ($("#wood-quantity").text() >= woodPrice && $("#stone-quantity").text() >= stonePrice) {
-            changeFloatNumber("#wood-quantity", -woodPrice);
-            changeFloatNumber("#stone-quantity", -stonePrice);
-
-            elementNamesAr.forEach(function (item, index) {
-                changeIntNumber(item, quantityAr[index]);
-            });
-
-            return true;
-        } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
-            return false;
-        }
-    }
-
-    $("#build-grave-button").click(function buildGrave() {
-        if (build(10, 10, ["#grave-quantity", "#max-in-graves-quantity"], [1, 1])) {
-
-            if (!techFuneralFlag) {
-                $("#job-funeral-process-row").show("slow", function () {
-                    $("#empty-row-before-job-funeral").show("slow", function () {
-                        $("#in-graves-row").show("slow");
-                    });
-                });
-                techFuneralFlag = true;
-            }
-        }
-    });
-    $("#build-scroll-button").click(function buildScroll() {
-        build(0, 10, ["#scroll-quantity", "#max-knowledge-quantity-span"], [1, knowledgeStoreInOneScroll]);
-    });
-    $("#build-storage-granary-button").click(function buildGranary() {
-        build(50, 50, ["#granary-quantity", "#max-food-quantity-span"], [1, 50]);
-    });
-    $("#build-storage-pit-button").click(function buildPit() {
-        build(50, 50, ["#pit-quantity", "#max-wood-quantity-span", "#max-stone-quantity-span"], [1, 50, 50]);
-    });
-    $("#build-tent-button").click(function buildTent() {
-        build(20, 0, ["#tent-quantity", "#max-population"], [1, 2]);
-    });
-    $("#build-hut-button").click(function buildHut() {
-        build(50, 20, ["#hut-quantity", "#max-population"], [1, 5]);
-    });
-    $("#build-campfire-button").click(function buildCampfire() {
-        if (build(30, 10, ["#campfire-quantity", "#max-scientist-quantity"], [1, spaceInOneCampfire])) {
-            if (!scientistPresentFlag) {
-                $("#job-scientist-row").show("slow", function () {
-                    $("#empty-row-before-job-scientist").show("slow", function () {
-                        $("#knowledge-row").show("slow", function () {
-                            $("#empty-row-before-knowledge").show("slow");
-                        })
-                    });
-                });
-                scientistPresentFlag = true;
-            }
-            availableScientistSpaces += spaceInOneCampfire;
-        }
-    });
-    $("#build-dolmen-button").click(function buildDolmen() {
-        if (build(80, 80, ["#dolmen-quantity", "#max-scientist-quantity"], [1, spaceInOneDolmen])) {
-            availableScientistSpaces += spaceInOneDolmen;
-        }
-    });
+    $("#build-grave-button").click(() => game.build("grave"));
+    $("#build-scroll-button").click(() => game.build("scroll"));
+    $("#build-storage-granary-button").click(() => game.build("granary"));
+    $("#build-storage-pit-button").click(() => game.build("pit"));
+    $("#build-tent-button").click(() => game.build("tent"));
+    $("#build-hut-button").click(() => game.build("hut"));
+    $("#build-campfire-button").click(() => game.build("campfire"));
+    $("#build-dolmen-button").click(() => game.build("dolmen"));
     // TODO in bronze age
     // $("#build-parthenon-button").click(function buildParthenon() {
-    //     let $woodPrice = 75;
-    //     let $stonePrice = 75;
-    //     if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-    //         changeFloatNumber("#wood-quantity", -$woodPrice);
-    //         changeFloatNumber("#stone-quantity", -$stonePrice);
-    //
-    //         changeIntNumber("#parthenon-quantity", 1);
-    //         availableScientistSpaces += spaceInOneParthenon;
-    //         changeIntNumber("#max-scientist-quantity", spaceInOneParthenon);
+    // game.build(...);
     //     }
     // });
-    $("#build-music-club-button").click(function buildMusicClub() {
-        if (build(75, 75, ["#music-club-quantity", "#max-dj-quantity", "#max-happy-people"], [1, 1, spaceInOneClub])) {
-            if (!djPresentFlag) {
-                $("#happiness-row").show("slow", function () {
-                    $("#empty-row-before-happiness").show("slow", function () {
-                        $("#empty-row-before-productivity").show("slow", function () {
-                            $("#productivity-row").show("slow", function () {
-                                $("#empty-row-before-job-in-club").show("slow", function () {
-                                    $("#job-dj-row").show("slow");
-                                })
-                            });
-                        });
-                    });
-                });
-                djPresentFlag = true;
-            }
-            currentDjSpaces++;
-        }
-    });
-    $("#build-yoga-club-button").click(function buildSportClub() {
-        if (build(75, 75, ["#yoga-club-quantity", "#max-instructor-quantity", "#max-health-people"], [1, 1, spaceInOneClub])) {
-            if (!instructorPresentFlag) {
-                $("#health-row").show("slow", function () {
-                    $("#empty-row-before-happiness").show("slow", function () {
-                        $("#empty-row-before-productivity").show("slow", function () {
-                            $("#productivity-row").show("slow", function () {
-                                $("#empty-row-before-job-in-club").show("slow", function () {
-                                    $("#job-instructor-row").show("slow");
-                                })
-                            });
-                        });
-                    });
-                });
-                instructorPresentFlag = true;
-            }
-            currentInstructorSpaces++;
-        }
-    });
-    $("#build-palace-button").click(function buildPalace() {
-        if (build(1000, 1000, ["#palace-quantity", "#dolmen-quantity", "#music-club-quantity", "#yoga-club-quantity", "#max-scientist-quantity", "#max-happy-people", "#max-health-people", "#max-dj-quantity", "#max-instructor-quantity"], [1, 5, 10, 10, 5 * spaceInOneDolmen, 10 * spaceInOneClub, 10 * spaceInOneClub, 10, 10])) {
-            unlockAchievement("Palace");
-            if (!palacePresentFlag) {
-                if (confirm("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (+$("#corpse-quantity").text() + +$("#in-graves-quantity").text()) + " people. (￣▽￣)ノ Great job!! \n" + USER_NAME + ", do you wanna start again?")) {
-                    document.location.reload(true);
-                } else {
-                    $("#start-again-button").slideToggle("slow");
-                }
-                $(this).prop("disabled", true);
-                palacePresentFlag = true;
-            }
-            availableScientistSpaces += spaceInOneDolmen * 5;
-            let clubInOnePalace = 10;
-            currentDjSpaces += clubInOnePalace;
-            currentInstructorSpaces += clubInOnePalace;
-        }
-    });
-    $("#build-barrack-button").click(function buildBarrack() {
-        if (build(200, 100, ["#barrack-quantity", "#max-warrior-quantity"], [1, 10])) {
-            if (!barrackPresentFlag) {
-                $("#job-warrior-row").show("slow");
-                barrackPresentFlag = true;
-            }
-        }
-    });
-
+    $("#build-music-club-button").click(() => game.build("music-club"));
+    $("#build-yoga-club-button").click(() => game.build("yoga-club"));
+    $("#build-palace-button").click(() => game.build("palace"));
+    $("#build-barrack-button").click(() => game.build("barrack"));
     //TODO Improve WORK SETTING
 
     // 1. FARMER
@@ -825,9 +668,9 @@ $(function () {
 
         // TODO abundance of food
 
-        if (!productivityAchivementFlag && $("#productivity-quantity").text() >= 190) {
+        if (!productivityAchievementFlag && $("#productivity-quantity").text() >= 190) {
             unlockAchievement("Productivity");
-            productivityAchivementFlag = true;
+            productivityAchievementFlag = true;
         }
 
         // TODO add more bad events when it isn't focus
@@ -1043,9 +886,7 @@ $(function () {
                 case 3:
                     let newMaleAmount = Math.round(0.25 * +$scientistQuantity.text());
                     $("#events-div span").after("<p>" + getMsgWithTime("👧👧👧👧 Amazons brings a few males to your people . " + newMaleAmount + " new free people.") + "</p>");
-                    for (let i = 0, amount = newMaleAmount; i < amount; i++) {
-                        createOneCitizen();
-                    }
+                    game.createCitizen(newMaleAmount);
                     break;
             }
         } else {
@@ -1059,9 +900,7 @@ $(function () {
         switch (getRandomInt(2)) {
             case 1:
                 $("#events-div span").after("<p>" + getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
-                for (let i = 0; i < changeAmount; i++) {
-                    createOneCitizen();
-                }
+                game.createCitizen(changeAmount)
                 break;
             case 2:
                 $("#events-div span").after("<p>" + getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
