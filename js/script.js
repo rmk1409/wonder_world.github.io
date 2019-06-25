@@ -1053,14 +1053,14 @@ $(function () {
 
     function changeColor(checkEl, target, button) {
         if (+checkEl.text() > 0) {
-            target.css({"background-color": "green", "color": "white"});
+			arget.css({"background-color": "green", "color": "white"});
             if (!!button) {
                 button.css({"background-color": "", "color": "black"});
             }
         } else if (+checkEl.text() == 0) {
-            target.css({"background-color": "", "color": "black"});
+			target.css({"background-color": "", "color": "black"});
         } else {
-            target.css({"background-color": "red", "color": "white"});
+			target.css({"background-color": "red", "color": "white"});
             if (!!button) {
                 button.css({"background-color": "green", "color": "white"});
             }

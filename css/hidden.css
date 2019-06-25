@@ -1,11 +1,9 @@
 #start-again-button,
-#funeral-process-img,
-#starvation-warning {
+#funeral-process-img {
     display: none;
 }
 
 /*RESOURCES*/
-#max-food-quantity-span,
 #max-wood-quantity-span,
 #max-stone-quantity-span,
 #max-knowledge-quantity-span,
