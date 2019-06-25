@@ -1,4 +1,4 @@
-class Event {
+class EventManager {
     constructor() {
         this.eventDiv = $("#events-div span");
     }
@@ -19,4 +19,4 @@ class Event {
     }
 }
 
-export default Event;
+export default EventManager;

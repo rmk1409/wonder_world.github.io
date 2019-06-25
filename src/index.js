@@ -1,7 +1,4 @@
-import Game from './game';
-import Page from './page';
-
-const userKey = "USER_NAME";
+import GameManager from './gameManager';
 
 $(function () {
     "use strict";
@@ -27,9 +24,9 @@ $(function () {
         /*JSON.stringify({a: "hello"});
         JSON.parse()*/
 
-        // Game variables
+        // GameManager variables
         citizenCost: 1,
-        booster: 1,
+        booster: 10,
         productivity: 1.0,
         foodIncreaseStep: 0.15,
         // Tech flags
@@ -50,9 +47,6 @@ $(function () {
         stoneProduction: 0.2 * config.booster,
         knowledgeProduction: 0.1 * config.booster,
     };
-    let USER_NAME = localStorage.getItem(userKey);
-    USER_NAME = confirm(`Hello, ${USER_NAME}! Continue?`) && USER_NAME
-        || prompt("＼(￣▽￣)／ Great man, what is your name?") || "UFO Alien";
 
     let {
         WINNER_REQUIREMENTS,
@@ -84,43 +78,35 @@ $(function () {
         knowledgeProduction,
     } = config;
 
-    let page = new Page();
-    let game = new Game(page);
+    let gameManager = new GameManager();
+    gameManager.initialization();
+    let userName = gameManager.configManager.userName;
 
-    localStorage.setItem(userKey, USER_NAME);
-    $("#user-name").text(USER_NAME);
-    if (USER_NAME === "UFO Alien") {
-        game.unlockAchievement("UFO Alien");
-    }
     // CLICK EVENTS
-
     // 1. CLICK TO THE RESOURCES
-    $("#food-click-button").click(() => page.changeCurResourceQuantity("food", 1 * booster));
-    $("#wood-click-button").click(() => page.changeCurResourceQuantity("wood", 1 * booster));
-    $("#stone-click-button").click(() => page.changeCurResourceQuantity("stone", 1 * booster));
+    $("#food-click-button").click(() => gameManager.clickResource("food", 1 * booster));
+    $("#wood-click-button").click(() => gameManager.clickResource("wood", 1 * booster));
+    $("#stone-click-button").click(() => gameManager.clickResource("stone", 1 * booster));
     // 2. START AGAIN
-    $("#start-again-button").click(() => Page.reloadSite());
-    $("#create-worker-button").click(() => game.createWorker(1));
+    $("#start-again-button").click(() => gameManager.reloadSite());
+    $("#create-worker-button").click(() => gameManager.createWorker(1));
     // 4. BUILD
-    $("#build-grave-button").click(() => game.build("grave"));
-    $("#build-scroll-button").click(() => game.build("scroll"));
-    $("#build-storage-granary-button").click(() => game.build("granary"));
-    $("#build-storage-pit-button").click(() => game.build("pit"));
-    $("#build-tent-button").click(() => game.build("tent"));
-    $("#build-hut-button").click(() => game.build("hut"));
-    $("#build-campfire-button").click(() => game.build("campfire"));
-    $("#build-dolmen-button").click(() => game.build("dolmen"));
+    $("#build-grave-button").click(() => gameManager.build("grave"));
+    $("#build-scroll-button").click(() => gameManager.build("scroll"));
+    $("#build-storage-granary-button").click(() => gameManager.build("granary"));
+    $("#build-storage-pit-button").click(() => gameManager.build("pit"));
+    $("#build-tent-button").click(() => gameManager.build("tent"));
+    $("#build-hut-button").click(() => gameManager.build("hut"));
+    $("#build-campfire-button").click(() => gameManager.build("campfire"));
+    $("#build-dolmen-button").click(() => gameManager.build("dolmen"));
     // TODO in bronze age
-    // $("#build-parthenon-button").click(function buildParthenon() {
-    // game.build(...);
-    //     }
-    // });
-    $("#build-music-club-button").click(() => game.build("music-club"));
-    $("#build-yoga-club-button").click(() => game.build("yoga-club"));
-    $("#build-palace-button").click(() => game.build("palace"));
-    $("#build-barrack-button").click(() => game.build("barrack"));
-    //TODO Improve WORK SETTING
+    // $("#build-parthenon-button").click(() => gameManager.build("partheon));
+    $("#build-music-club-button").click(() => gameManager.build("music-club"));
+    $("#build-yoga-club-button").click(() => gameManager.build("yoga-club"));
+    $("#build-palace-button").click(() => gameManager.build("palace"));
+    $("#build-barrack-button").click(() => gameManager.build("barrack"));
 
+    //TODO Improve WORK SETTING
     // 1. FARMER
     function checkIsThereFreeCitizen(free, work, checkWorker, number) {
         if (number) {
@@ -132,11 +118,11 @@ $(function () {
     }
 
     function removeFarmer() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", true)) {
-            changeIntNumber("#farmer-quantity", -1);
-            changeIntNumber("#free-people-quantity", 1);
+        if (gameManager.configManager.farmerQuantity) {
+            gameManager.configManager.changeCurResourceQuantity(gameManager.configManager.farmerQuantity, -1);
+            gameManager.configManager.changeCurResourceQuantity(gameManager.configManager.lazyboneQuantity, 1);
 
-            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
+            gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", -gameManager.configManager.farmerProduction * booster);
         }
     }
 
@@ -146,11 +132,11 @@ $(function () {
     $("#remove-farmer-button").click(removeFarmer);
 
     function addFarmer() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#farmer-quantity", false)) {
-            changeIntNumber("#farmer-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+        if (gameManager.configManager.lazyboneQuantity) {
+            gameManager.configManager.changeCurResourceQuantity("curLazy", -1);
+            gameManager.configManager.changeCurResourceQuantity("farmer", 1);
 
-            $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
+            gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", gameManager.configManager.farmerProduction * booster);
         }
     }
 
@@ -161,9 +147,9 @@ $(function () {
 
     // 2. WOODCUTTER
     function removeWoodcutter() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", true)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#woodcutter-quantity", true)) {
             changeIntNumber("#woodcutter-quantity", -1);
-            changeIntNumber("#free-people-quantity", 1);
+            changeIntNumber("#lazybone-quantity", 1);
 
             $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
@@ -175,9 +161,9 @@ $(function () {
     $("#remove-woodcutter-button").click(removeWoodcutter);
 
     function addWoodcutter() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#woodcutter-quantity", false)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#woodcutter-quantity", false)) {
             changeIntNumber("#woodcutter-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
         }
@@ -190,9 +176,9 @@ $(function () {
 
     // 3. MINER
     function removeMiner() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", true)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#miner-quantity", true)) {
             changeIntNumber("#miner-quantity", -1);
-            changeIntNumber("#free-people-quantity", 1);
+            changeIntNumber("#lazybone-quantity", 1);
 
             $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
@@ -204,9 +190,9 @@ $(function () {
     $("#remove-miner-button").click(removeMiner);
 
     function addMiner() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#miner-quantity", false)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#miner-quantity", false)) {
             changeIntNumber("#miner-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
         }
@@ -219,23 +205,23 @@ $(function () {
 
     // 4. FUNERAL
     $("#remove-funeral-process-button").click(function removeFuneralProcess() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#funeral-process-quantity", true)) {
-            changeIntNumber("#funeral-process-quantity", -1);
-            changeIntNumber("#free-people-quantity", 2);
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#funeral-process-quantity", true)) {
+            changeIntNumber("#funeral-process-quantity", -2);
+            changeIntNumber("#lazybone-quantity", 2);
         }
     });
     $("#add-funeral-process-button").click(function addFuneralProcess() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#funeral-process-quantity", false, 2)) {
-            changeIntNumber("#funeral-process-quantity", 1);
-            changeIntNumber("#free-people-quantity", -2);
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#funeral-process-quantity", false, 2)) {
+            changeIntNumber("#funeral-process-quantity", 2);
+            changeIntNumber("#lazybone-quantity", -2);
         }
     });
 
     // 4. SCIENTIST
     function removeScientist() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#scientist-quantity", true)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#scientist-quantity", true)) {
             changeIntNumber("#scientist-quantity", -1);
-            changeIntNumber("#free-people-quantity", 1);
+            changeIntNumber("#lazybone-quantity", 1);
 
             $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
             availableScientistSpaces++;
@@ -248,9 +234,9 @@ $(function () {
     $("#remove-scientist-button").click(removeScientist);
 
     function addScientist() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#scientist-quantity", false) && availableScientistSpaces) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#scientist-quantity", false) && availableScientistSpaces) {
             changeIntNumber("#scientist-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
             availableScientistSpaces--;
@@ -267,9 +253,9 @@ $(function () {
 
     // 5. LEADER
     $("#add-leader-button").click(function addLeader() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#leader-quantity", false)) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#leader-quantity", false)) {
             changeIntNumber("#leader-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             if (!leaderPresentFlag) {
                 $(".ten-work-td").show("slow");
@@ -281,16 +267,16 @@ $(function () {
     });
     // 6. WARRIOR
     $("#add-warrior-button").click(function addWarrior() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#warrior-quantity", false) && +$("#max-warrior-quantity").text() > +$("#warrior-quantity").text()) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#warrior-quantity", false) && +$("#max-warrior-quantity").text() > +$("#warrior-quantity").text()) {
             changeIntNumber("#warrior-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
         }
     });
     // 7. Dj
     $("#add-dj-button").click(function addDj() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#dj-quantity", false) && currentDjSpaces) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#dj-quantity", false) && currentDjSpaces) {
             changeIntNumber("#dj-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             currentDjSpaces--;
 
@@ -311,9 +297,9 @@ $(function () {
     });
     // 8. Instructor
     $("#add-instructor-button").click(function addInstructor() {
-        if (checkIsThereFreeCitizen("#free-people-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
+        if (checkIsThereFreeCitizen("#lazybone-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
             changeIntNumber("#instructor-quantity", 1);
-            changeIntNumber("#free-people-quantity", -1);
+            changeIntNumber("#lazybone-quantity", -1);
 
             currentInstructorSpaces--;
 
@@ -480,8 +466,8 @@ $(function () {
     function findPersonToKill() {
         if (+$("#current-population").text() > 0) {
             let withDecrease = true;
-            if (+$("#free-people-quantity").text()) {
-                changeIntNumber("#free-people-quantity", -1);
+            if (+$("#lazybone-quantity").text()) {
+                changeIntNumber("#lazybone-quantity", -1);
             } else if (+$("#woodcutter-quantity").text()) {
                 withDecrease = false;
                 killWoodcutter();
@@ -490,7 +476,7 @@ $(function () {
                 killMiner();
             } else if (+$("#funeral-process-quantity").text()) {
                 changeIntNumber("#funeral-process-quantity", -1);
-                changeIntNumber("#free-people-quantity", 1);
+                changeIntNumber("#lazybone-quantity", 1);
             } else if (+$("#scientist-quantity").text()) {
                 withDecrease = false;
                 killScientist();
@@ -528,7 +514,7 @@ $(function () {
                 decreasePopulation();
             }
         } else {
-            alert(USER_NAME + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again. 🧟🧟");
+            alert(userName + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again. 🧟🧟");
             $("#start-again-button").slideToggle("slow");
         }
     }
@@ -636,30 +622,34 @@ $(function () {
     //ONE STEP
     setInterval(function oneStep() {
         // get resources
-        changeFloatNumber("#food-quantity", parseFloat($("#food-production-quantity").text()));
-        changeFloatNumber("#wood-quantity", parseFloat($("#wood-production-quantity").text()));
-        changeFloatNumber("#stone-quantity", parseFloat($("#stone-production-quantity").text()));
-        changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
+        // changeFloatNumber("#food-quantity", parseFloat($("#food-production-quantity").text()));
+        // changeFloatNumber("#wood-quantity", parseFloat($("#wood-production-quantity").text()));
+        // changeFloatNumber("#stone-quantity", parseFloat($("#stone-production-quantity").text()));
+        // changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
+        gameManager.configManager.changeCurResourceQuantity("food", gameManager.configManager.foodTotalProduction);
+        gameManager.configManager.changeCurResourceQuantity("wood", gameManager.configManager.woodProduction);
+        gameManager.configManager.changeCurResourceQuantity("stone", gameManager.configManager.stoneProduction);
+        gameManager.configManager.changeCurResourceQuantity("knowledge", gameManager.configManager.knowledgeProduction);
 
         //check max storage
-        balanceToMaxStorage();
+        // balanceToMaxStorage();
 
         //starvation process
-        if ($("#food-quantity").text() < 0 && $("#current-population").text() > 0) {
+        if (gameManager.configManager.foodQuantity < 0 && gameManager.configManager.currentPopulation > 0) {
             $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🍽️🍽️HELP!!! We don t have enough food. :(") + "</p>");
             unlockAchievement("Starvation");
             $("#starvation-warning").show("slow");
 
             findPersonToKill();
 
-            // Decrease quantity of happy
-            if (+$("#current-happy-people").text() > $("#current-population").text()) {
-                changeIntNumber("#current-happy-people", -1);
-            }
-            // and health people
-            if (+$("#current-health-people").text() > $("#current-population").text()) {
-                changeIntNumber("#current-health-people", -1);
-            }
+            // // Decrease quantity of happy
+            // if (+$("#current-happy-people").text() > $("#current-population").text()) {
+            //     changeIntNumber("#current-happy-people", -1);
+            // }
+            // // and health people
+            // if (+$("#current-health-people").text() > $("#current-population").text()) {
+            //     changeIntNumber("#current-health-people", -1);
+            // }
         } else {
             $("#starvation-warning").hide("slow");
         }
@@ -886,7 +876,7 @@ $(function () {
                 case 3:
                     let newMaleAmount = Math.round(0.25 * +$scientistQuantity.text());
                     $("#events-div span").after("<p>" + getMsgWithTime("👧👧👧👧 Amazons brings a few males to your people . " + newMaleAmount + " new free people.") + "</p>");
-                    game.createCitizen(newMaleAmount);
+                    gameManager.createCitizen(newMaleAmount);
                     break;
             }
         } else {
@@ -900,7 +890,7 @@ $(function () {
         switch (getRandomInt(2)) {
             case 1:
                 $("#events-div span").after("<p>" + getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
-                game.createCitizen(changeAmount)
+                gameManager.createCitizen(changeAmount)
                 break;
             case 2:
                 $("#events-div span").after("<p>" + getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
@@ -922,13 +912,13 @@ $(function () {
                 changeFloatNumber("#food-quantity", Math.round(foodElement.text() * 1.8));
                 break;
             case 2:
-                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers found wild rabbits on the field. When farmers wanted to take potatoes, wild rabbits attacked. Obviously it was bad decision to try to take rabbit's food. We lost: " + Math.round(farmerQuantityEl.text() * 0.15) + " farmers.") + "</p>");
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to try to take rabbit's food. Assassin rabbits killed : " + Math.round(farmerQuantityEl.text() * 0.15) + " farmers.") + "</p>");
                 for (let i = 0, amount = Math.round(farmerQuantityEl.text() * 0.15); i < amount; i++) {
                     killFarmer();
                 }
                 break;
             case 3:
-                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers came to new kind of food, than they noticed red-eye rabbits near and farmers decided to go back. Maybe that was a right decision.") + "</p>");
+                $("#events-div span").after("<p>" + getMsgWithTime("🐰🐰🐰 Farmers came to new kind of food, than they noticed strange rabbits near and farmers decided to go back. Maybe that was a right decision.") + "</p>");
                 break;
             case 4:
                 $("#events-div span").after("<p>" + getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 2.5) + " kiwi fruits.") + "</p>");
@@ -962,7 +952,7 @@ $(function () {
         changeColor($("#wood-production-quantity"), $("#wood-production-span"));
         changeColor($("#stone-production-quantity"), $("#stone-production-span"));
         changeColor($("#knowledge-production-quantity"), $("#knowledge-production-span"));
-        changeColor($("#free-people-quantity"), $("#free-people-quantity"));
+        changeColor($("#lazybone-quantity"), $("#lazybone-quantity"));
     }
 
     function balanceOverflow(currentEl, maxEl) {
@@ -1001,7 +991,7 @@ $(function () {
     //WINNER FUNCTION
     let winInterval = setInterval(function checkWinCondition() {
         if ($("#knowledge-quantity").text() >= WINNER_REQUIREMENTS) {
-            if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + USER_NAME + ", do you try again?")) {
+            if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + $("#corpse-quantity").text() + " people. No so bad..\n" + userName + ", do you try again?")) {
                 document.location.reload(true);
             } else {
                 changeFloatNumber("#knowledge-quantity", -WINNER_REQUIREMENTS);

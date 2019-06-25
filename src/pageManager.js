@@ -1,11 +1,13 @@
-class Page {
+class PageManager {
+    constructor(game) {
+        this.game = game;
 
-    constructor() {
-        this.foodQuantity = $("#food-quantity");
+        // HTML Elements
+        this.foodQuantityElement = $("#food-quantity");
         this.maxFoodQuantity = $("#max-food-quantity-span");
-        this.woodQuantity = $("#wood-quantity");
+        this.woodQuantityElement = $("#wood-quantity");
         this.maxWoodQuantity = $("#max-wood-quantity-span");
-        this.stoneQuantity = $("#stone-quantity");
+        this.stoneQuantityElement = $("#stone-quantity");
         this.maxStoneQuantity = $("#max-stone-quantity-span");
         this.emptyRowBeforeKnowledge = $("#empty-row-before-knowledge");
         this.knowledgeRow = $("#knowledge-row");
@@ -30,8 +32,10 @@ class Page {
         this.emptyRowBeforProductivityRowElement = $("#empty-row-before-productivity");
         this.productivityRowElement = $("#productivity-row");
 
-        this.curLazybonesElement = $("#free-people-quantity");
-
+        this.curLazybonesElement = $("#lazybone-quantity");
+        this.farmerQuantityElement = $("#farmer-quantity");
+        this.woodmenQuantityElement = $("#woodcutter-quantity");
+        this.minerQuantityElement = $("#miner-quantity");
         this.emptyRowBeforeJobScientist = $("#empty-row-before-job-scientist");
         this.jobScientistRow = $("#job-scientist-row");
         this.emptyRowBeforeJobFuneral = $("#empty-row-before-job-funeral");
@@ -84,35 +88,33 @@ class Page {
     }
 
     changeCurPopulation(num) {
-        Page.changeIntNumber(this.curPopulationElement, num);
+        PageManager.changeIntNumber(this.curPopulationElement, num);
     }
 
     changeCurLazybone(num) {
-        Page.changeIntNumber(this.curLazybonesElement, num);
+        PageManager.changeIntNumber(this.curLazybonesElement, num);
     }
 
     changeFoodProduction(num) {
-        Page.changeFloatNumber(this.foodProductionElement, num);
+        PageManager.changeFloatNumber(this.foodProductionElement, num);
     }
 
     changeCurResourceQuantity(resName, num) {
-        let resource = this.foodQuantity;
+        let resource = this.foodQuantityElement;
         let storageResource = this.maxFoodQuantity;
 
         switch (resName) {
             case "wood":
-                resource = this.woodQuantity;
+                resource = this.woodQuantityElement;
                 storageResource = this.maxWoodQuantity;
                 break;
             case "stone":
-                resource = this.stoneQuantity;
+                resource = this.stoneQuantityElement;
                 storageResource = this.maxStoneQuantity;
                 break;
-            // case "knowledge":
-            //     break;
         }
 
-        Page.changeFloatNumber(resource, num);
+        PageManager.changeFloatNumber(resource, num);
         if (+resource.text() > storageResource.text()) {
             resource.text(storageResource.text());
         }
@@ -146,4 +148,4 @@ class Page {
     }
 }
 
-export default Page;
+export default PageManager;
