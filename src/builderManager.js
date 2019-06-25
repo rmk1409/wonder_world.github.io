@@ -1,5 +1,3 @@
-import PageManager from "./pageManager";
-
 // Create buildings
 class BuilderManager {
     constructor(game) {
@@ -13,9 +11,9 @@ class BuilderManager {
         if (this.configManager.woodQuantity >= woodPrice && this.configManager.stoneQuantity >= stonePrice) {
             this.configManager.changeCurResourceQuantity("wood", -woodPrice);
             this.configManager.changeCurResourceQuantity("stone", -stonePrice);
-            elementNamesAr.forEach(function (item, index) {
-                PageManager.changeIntNumber(item, quantityAr[index]);
-            });
+            for (let i = 0; i < elementNamesAr.length; i++) {
+                this.configManager.changeCurResourceQuantity(elementNamesAr[i], quantityAr[i]);
+            }
             return true;
         }
         else {

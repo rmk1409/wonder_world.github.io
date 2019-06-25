@@ -5,33 +5,37 @@ class PageManager {
         // HTML Elements
         this.foodQuantityElement = $("#food-quantity");
         this.maxFoodQuantity = $("#max-food-quantity-span");
+        this.foodProductionElement = $("#food-production-quantity");
         this.woodQuantityElement = $("#wood-quantity");
-        this.maxWoodQuantity = $("#max-wood-quantity-span");
+        this.maxWoodQuantityElement = $("#max-wood-quantity-span");
+        this.woodProductionElement = $("#wood-production-quantity");
         this.stoneQuantityElement = $("#stone-quantity");
         this.maxStoneQuantity = $("#max-stone-quantity-span");
+        this.stoneProductionElement = $("#stone-production-quantity");
         this.emptyRowBeforeKnowledge = $("#empty-row-before-knowledge");
         this.knowledgeRow = $("#knowledge-row");
-        this.knowledgeQuantity = $("#knowledge-quantity");
+        this.knowledgeQuantityElement = $("#knowledge-quantity");
         this.maxKnowledgeQuantity = $("#max-knowledge-quantity-span");
-
-        this.foodProductionElement = $("#food-production-quantity");
+        this.knowledgeProductionElement = $("#knowledge-production-quantity");
 
         this.curPopulationElement = $("#current-population");
         this.maxPopulationElement = $("#max-population");
+        this.corpseRow = $("#corpse-row");
+        this.corpseQuantityElement = $("#corpse-quantity");
         this.inGravesRow = $("#in-graves-row");
-        this.corpQuantityElement = $("#corpse-quantity");
         this.inGraveQuantityElement = $("#in-graves-quantity");
         this.maxInGravesQuantityElement = $("#max-in-graves-quantity");
         this.emptyRowBeforHappinessRowElement = $("#empty-row-before-happiness");
         this.happinessRowElement = $("#happiness-row");
         this.healthRowElement = $("#health-row");
         this.curHappyPeople = $("#current-happy-people");
-        this.maxHappyPeople = $("#max-happy-people");
+        this.maxHappyPeopleElement = $("#max-happy-people");
         this.curHealthPeople = $("#current-health-people");
         this.maxHealthPeopleElement = $("#max-health-people");
         this.emptyRowBeforProductivityRowElement = $("#empty-row-before-productivity");
         this.productivityRowElement = $("#productivity-row");
 
+        this.tenWorkTd = $(".ten-work-td");
         this.curLazybonesElement = $("#lazybone-quantity");
         this.farmerQuantityElement = $("#farmer-quantity");
         this.woodmenQuantityElement = $("#woodcutter-quantity");
@@ -40,11 +44,13 @@ class PageManager {
         this.jobScientistRow = $("#job-scientist-row");
         this.emptyRowBeforeJobFuneral = $("#empty-row-before-job-funeral");
         this.jobFuneralRow = $("#job-funeral-process-row");
+        this.funeralQuantityElement = $("#funeral-process-quantity");
+        this.curScientistQuantityElement = $("#scientist-quantity");
         this.maxScientistQuantityElement = $("#max-scientist-quantity");
         this.emptyRowBeforeJobInClubElement = $("#empty-row-before-job-in-club");
         this.jobDjRowElement = $("#job-dj-row");
         this.djQuantityElement = $("#dj-quantity");
-        this.maxDjQuantity = $("#max-dj-quantity");
+        this.maxDjQuantityElement = $("#max-dj-quantity");
         this.jobInstructorRowElement = $("#job-instructor-row");
         this.maxInstructorQuantityElement = $("#max-instructor-quantity");
         this.instructorQuantityElement = $("#instructor-quantity");
@@ -71,6 +77,26 @@ class PageManager {
         this.hungerAchievement = $("<img src=\"res/img/common/death.png\" title=\"Die of hunger\"/>");
         this.productivityAchievement = $("<img src=\"res/img/achievement/speedometer.png\" title=\"Achieve high productivity (more than 190%)\"/>");
         this.moreFoodAchievement = $("<img src=\"res/img/achievement/food.png\" title=\"Even more food, hurray!!! :)\"/>");
+
+        this.techChangesElement = $("#tech-changes-row");
+        this.techAgricultureElement = $("#tech-agriculture-row");
+        this.techArchitectureElement = $("#tech-architecture-row");
+        this.techFuneralElement = $("#tech-funeral-row");
+        this.techChanges2Element = $("#tech-changes2-row");
+        this.techLeadershipElement = $("#tech-leadership-row");
+        this.techAgriculture2Element = $("#tech-agriculture-2-row");
+        this.techArchitecture2Element = $("#tech-architecture-2-row");
+        this.techStoneAgeElement = $("#tech-stone-age-row");
+        this.techArchitecture3Element = $("#tech-architecture-3-row");
+        this.techMusicElement = $("#tech-music-row");
+        this.techSportElement = $("#tech-sport-row");
+        this.techToolElement = $("#tech-tools-row");
+        this.techAncientWeaponElement = $("#tech-weapon-row");
+        this.techHoeElement = $("#tech-hoe-row");
+        this.techAxeElement = $("#tech-axe-row");
+        this.techPickaxeElement = $("#tech-pickaxe-row");
+        this.tech2sideScrollElement = $("#tech-2-side-scroll-row");
+        this.techArchitecture4Element = $("#tech-architecture-4-row");
     }
 
     static changeIntNumber(element, quantity) {
@@ -106,7 +132,7 @@ class PageManager {
         switch (resName) {
             case "wood":
                 resource = this.woodQuantityElement;
-                storageResource = this.maxWoodQuantity;
+                storageResource = this.maxWoodQuantityElement;
                 break;
             case "stone":
                 resource = this.stoneQuantityElement;
@@ -145,6 +171,9 @@ class PageManager {
 
     showElement(ar) {
         ar.forEach((item) => item.show("slow"));
+    }
+    toggleElement(item, ar) {
+        item.toggle("slow", ()=>{ar.forEach((item) => item.toggle("slow"))});
     }
 }
 

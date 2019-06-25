@@ -50,28 +50,18 @@ $(function () {
 
     let {
         WINNER_REQUIREMENTS,
-        availableScientistSpaces,
         knowledgeStoreInOneScroll,
         currentDjSpaces,
         currentInstructorSpaces,
         spaceInOneClub,
-        spaceInOneCampfire,
-        spaceInOneDolmen,
-        djProductivityFlag,
-        healthProductivityFlag,
         productivityAchievementFlag,
 
         booster,
         productivity,
         foodIncreaseStep,
-        buildFuneralFlag,
-        scientistPresentFlag,
         djPresentFlag,
         instructorPresentFlag,
-        barrackPresentFlag,
-        palacePresentFlag,
         leaderPresentFlag,
-        corpsePresentFlag,
         foodProduction,
         woodProduction,
         stoneProduction,
@@ -84,7 +74,7 @@ $(function () {
 
     // CLICK EVENTS
     // 1. CLICK TO THE RESOURCES
-    $("#food-click-button").click(() => gameManager.clickResource("food", 1 * booster));
+    $("#food-click-button").on("click", () => gameManager.clickResource("food", 1 * booster));
     $("#wood-click-button").click(() => gameManager.clickResource("wood", 1 * booster));
     $("#stone-click-button").click(() => gameManager.clickResource("stone", 1 * booster));
     // 2. START AGAIN
@@ -106,249 +96,56 @@ $(function () {
     $("#build-palace-button").click(() => gameManager.build("palace"));
     $("#build-barrack-button").click(() => gameManager.build("barrack"));
 
-    //TODO Improve WORK SETTING
     // 1. FARMER
-    function checkIsThereFreeCitizen(free, work, checkWorker, number) {
-        if (number) {
-            return checkWorker ? $(work).text() > 0 : $(free).text() >= number;
-        } else {
-            return checkWorker ? $(work).text() > 0 : $(free).text() > 0;
-        }
-
-    }
-
-    function removeFarmer() {
-        if (gameManager.configManager.farmerQuantity) {
-            gameManager.configManager.changeCurResourceQuantity(gameManager.configManager.farmerQuantity, -1);
-            gameManager.configManager.changeCurResourceQuantity(gameManager.configManager.lazyboneQuantity, 1);
-
-            gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", -gameManager.configManager.farmerProduction * booster);
-        }
-    }
-
-    $("#remove-10-farmer-button").click(function () {
-        for (let i = 0; i < 10; i++) removeFarmer();
+    $("#remove-10-farmer-button").click(() => {
+        for (let i = 0; i < 10; i++) gameManager.setWorker("farmer", -1)
     });
-    $("#remove-farmer-button").click(removeFarmer);
-
-    function addFarmer() {
-        if (gameManager.configManager.lazyboneQuantity) {
-            gameManager.configManager.changeCurResourceQuantity("curLazy", -1);
-            gameManager.configManager.changeCurResourceQuantity("farmer", 1);
-
-            gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", gameManager.configManager.farmerProduction * booster);
-        }
-    }
-
-    $("#add-10-farmer-button").click(function () {
-        for (let i = 0; i < 10; i++) addFarmer();
+    $("#remove-farmer-button").click(() => gameManager.setWorker("farmer", -1));
+    $("#add-10-farmer-button").click(() => {
+        for (let i = 0; i < 10; i++) gameManager.setWorker("farmer", 1);
     });
-    $("#add-farmer-button").click(addFarmer);
-
+    $("#add-farmer-button").click(() => gameManager.setWorker("farmer", 1));
     // 2. WOODCUTTER
-    function removeWoodcutter() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#woodcutter-quantity", true)) {
-            changeIntNumber("#woodcutter-quantity", -1);
-            changeIntNumber("#lazybone-quantity", 1);
-
-            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
-        }
-    }
-
-    $("#remove-10-woodcutter-button").click(function () {
-        for (var i = 0; i < 10; i++) removeWoodcutter();
+    $("#remove-10-woodcutter-button").click(() => {
+        for (let i = 0; i < 10; i++) gameManager.setWorker("woodman", -1);
     });
-    $("#remove-woodcutter-button").click(removeWoodcutter);
-
-    function addWoodcutter() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#woodcutter-quantity", false)) {
-            changeIntNumber("#woodcutter-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
-        }
-    }
-
-    $("#add-10-woodcutter-button").click(function () {
-        for (var i = 0; i < 10; i++) addWoodcutter();
+    $("#remove-woodcutter-button").click(() => gameManager.setWorker("woodman", -1));
+    $("#add-10-woodcutter-button").click(() => {
+        for (let i = 0; i < 10; i++) gameManager.setWorker("woodman", 1);
     });
-    $("#add-woodcutter-button").click(addWoodcutter);
-
+    $("#add-woodcutter-button").click(() => gameManager.setWorker("woodman", 1));
     // 3. MINER
-    function removeMiner() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#miner-quantity", true)) {
-            changeIntNumber("#miner-quantity", -1);
-            changeIntNumber("#lazybone-quantity", 1);
-
-            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
-        }
-    }
-
     $("#remove-10-miner-button").click(function () {
-        for (var i = 0; i < 10; i++) removeMiner();
+        for (let i = 0; i < 10; i++) gameManager.setWorker("miner", -1);
     });
-    $("#remove-miner-button").click(removeMiner);
-
-    function addMiner() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#miner-quantity", false)) {
-            changeIntNumber("#miner-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
-        }
-    }
-
+    $("#remove-miner-button").click(() => gameManager.setWorker("miner", -1));
     $("#add-10-miner-button").click(function () {
-        for (var i = 0; i < 10; i++) addMiner();
+        for (let i = 0; i < 10; i++) gameManager.setWorker("miner", 1);
     });
-    $("#add-miner-button").click(addMiner);
-
+    $("#add-miner-button").click(() => gameManager.setWorker("miner", 1));
     // 4. FUNERAL
-    $("#remove-funeral-process-button").click(function removeFuneralProcess() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#funeral-process-quantity", true)) {
-            changeIntNumber("#funeral-process-quantity", -2);
-            changeIntNumber("#lazybone-quantity", 2);
-        }
-    });
-    $("#add-funeral-process-button").click(function addFuneralProcess() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#funeral-process-quantity", false, 2)) {
-            changeIntNumber("#funeral-process-quantity", 2);
-            changeIntNumber("#lazybone-quantity", -2);
-        }
-    });
-
+    $("#remove-funeral-process-button").click(() => gameManager.setWorker("funeral", -2));
+    $("#add-funeral-process-button").click(() => gameManager.setWorker("funeral", 2));
     // 4. SCIENTIST
-    function removeScientist() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#scientist-quantity", true)) {
-            changeIntNumber("#scientist-quantity", -1);
-            changeIntNumber("#lazybone-quantity", 1);
-
-            $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
-            availableScientistSpaces++;
-        }
-    }
-
     $("#remove-10-scientist-button").click(function () {
-        for (let i = 0; i < 10; i++) removeScientist();
+        for (let i = 0; i < 10; i++) gameManager.setWorker("scientist", -1);
     });
-    $("#remove-scientist-button").click(removeScientist);
-
-    function addScientist() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#scientist-quantity", false) && availableScientistSpaces) {
-            changeIntNumber("#scientist-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
-            availableScientistSpaces--;
-        }
-        if (!availableScientistSpaces) {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Build more scroll or something else.") + "</p>");
-        }
-    }
-
+    $("#remove-scientist-button").click(() => gameManager.setWorker("scientist", -1));
     $("#add-10-scientist-button").click(function () {
-        for (let i = 0; i < 10; i++) addScientist();
+        for (let i = 0; i < 10; i++) gameManager.setWorker("scientist", 1);
     });
-    $("#add-scientist-button").click(addScientist);
-
+    $("#add-scientist-button").click(() => gameManager.setWorker("scientist", 1));
     // 5. LEADER
-    $("#add-leader-button").click(function addLeader() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#leader-quantity", false)) {
-            changeIntNumber("#leader-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            if (!leaderPresentFlag) {
-                $(".ten-work-td").show("slow");
-                $("#work-table .empty-row td").attr("colspan", "6");
-
-                leaderPresentFlag = true;
-            }
-        }
-    });
+    $("#add-leader-button").click(() => gameManager.setWorker("leader", 1));
     // 6. WARRIOR
-    $("#add-warrior-button").click(function addWarrior() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#warrior-quantity", false) && +$("#max-warrior-quantity").text() > +$("#warrior-quantity").text()) {
-            changeIntNumber("#warrior-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-        }
-    });
+    $("#add-warrior-button").click(() => gameManager.setWorker("warrior", 1));
     // 7. Dj
-    $("#add-dj-button").click(function addDj() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#dj-quantity", false) && currentDjSpaces) {
-            changeIntNumber("#dj-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            currentDjSpaces--;
-
-            let $peopleAmount = +$("#current-population").text();
-            let $totalAvailableSpaceInClub = +$("#dj-quantity").text() * spaceInOneClub;
-
-            if ($peopleAmount <= $totalAvailableSpaceInClub) {
-                $("#current-happy-people").text($peopleAmount);
-            } else {
-                changeIntNumber("#current-happy-people", spaceInOneClub);
-            }
-
-            if (!djProductivityFlag) {
-                increaseAllProduction();
-                djProductivityFlag = !djProductivityFlag;
-            }
-        }
-    });
+    $("#add-dj-button").click(() => gameManager.setWorker("dj", 1));
     // 8. Instructor
-    $("#add-instructor-button").click(function addInstructor() {
-        if (checkIsThereFreeCitizen("#lazybone-quantity", "#instructor-quantity", false) && currentInstructorSpaces) {
-            changeIntNumber("#instructor-quantity", 1);
-            changeIntNumber("#lazybone-quantity", -1);
-
-            currentInstructorSpaces--;
-
-            let $peopleAmount = +$("#current-population").text();
-            let $totalAvailableSpaceInClub = +$("#instructor-quantity").text() * spaceInOneClub;
-
-            if ($peopleAmount <= $totalAvailableSpaceInClub) {
-                $("#current-health-people").text($peopleAmount);
-            } else {
-                changeIntNumber("#current-health-people", spaceInOneClub);
-            }
-
-            if (!healthProductivityFlag) {
-                increaseAllProduction();
-                healthProductivityFlag = !healthProductivityFlag;
-            }
-        }
-    });
+    $("#add-instructor-button").click(() => gameManager.setWorker("instructor", 1));
 
     // TECHNOLOGIES
-    $("#tech-changes-button").click(function researchChanges() {
-        let $woodPrice = 10;
-        let $stonePrice = 10;
-        if ($("#wood-quantity").text() >= $woodPrice && $("#stone-quantity").text() >= $stonePrice) {
-            changeFloatNumber("#wood-quantity", -$woodPrice);
-            changeFloatNumber("#stone-quantity", -$stonePrice);
-
-            unlockAchievement("First Research");
-
-            $("#tech-changes-row").toggle("slow", function () {
-                $("#max-food-quantity-span").toggle("slow");
-                $("#max-wood-quantity-span").toggle("slow");
-                $("#max-stone-quantity-span").toggle("slow");
-                $("#max-knowledge-quantity-span").toggle("slow");
-
-                $("#empty-row-before-knowledge-building").toggle("slow");
-                $("#build-knowledge-campfire-row").toggle("slow");
-
-                $("#tech-agriculture-row").toggle("slow");
-                $("#tech-funeral-row").toggle("slow");
-                $("#tech-architecture-row").toggle("slow");
-
-                $("#already-known-p").toggle("slow");
-                $("#changes-p").toggle("slow");
-            });
-        } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more resources.") + "</p>");
-        }
-    });
+    $("#tech-changes-button").click(()=> gameManager.research("changes"));
 
     function research(knowledgePrice, firstElementToShow, otherElementsAr) {
         if ($("#knowledge-quantity").text() >= knowledgePrice) {
@@ -360,7 +157,7 @@ $(function () {
             });
             return true;
         } else {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🤨 Collect more knowledge.") + "</p>");
+            gameManager.eventManager.addEvent("more knowledge");
             return false;
         }
     }
@@ -464,20 +261,20 @@ $(function () {
     }
 
     function findPersonToKill() {
-        if (+$("#current-population").text() > 0) {
+        if (gameManager.configManager.currentPopulation > 0) {
             let withDecrease = true;
-            if (+$("#lazybone-quantity").text()) {
-                changeIntNumber("#lazybone-quantity", -1);
-            } else if (+$("#woodcutter-quantity").text()) {
+            if (gameManager.configManager.lazyboneQuantity) {
+                gameManager.configManager.changeCurResourceQuantity("curLazy", -1);
+            } else if (gameManager.configManager.woodmenQuantity) {
                 withDecrease = false;
                 killWoodcutter();
-            } else if (+$("#miner-quantity").text()) {
+            } else if (gameManager.configManager.minerQuantity) {
                 withDecrease = false;
                 killMiner();
-            } else if (+$("#funeral-process-quantity").text()) {
-                changeIntNumber("#funeral-process-quantity", -1);
-                changeIntNumber("#lazybone-quantity", 1);
-            } else if (+$("#scientist-quantity").text()) {
+            } else if (gameManager.configManager.funeralQuantity) {
+                gameManager.configManager.changeCurResourceQuantity("funeral", -2);
+                gameManager.configManager.changeCurResourceQuantity("curLazy", 1);
+            } else if (gameManager.configManager.curScientistQuantity) {
                 withDecrease = false;
                 killScientist();
             } else if (+$("#leader-quantity").text()) {
@@ -516,43 +313,43 @@ $(function () {
         } else {
             alert(userName + " you killed: " + $("#corpse-quantity").text() + " people. I believe in you. Please, try again. 🧟🧟");
             $("#start-again-button").slideToggle("slow");
+            throw new Error("Something went badly wrong!");
         }
     }
 
     function decreasePopulation() {
-        changeIntNumber("#current-population", -1);
-        changeFloatNumber("#food-production-quantity", 1);
+        gameManager.configManager.changeCurResourceQuantity("curPop", -1);
+        gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", 1);
 
-        if (!corpsePresentFlag) {
-            $("#corpse-row").css("display", "table-row");
-            corpsePresentFlag = true;
+        if (!gameManager.configManager.corpsePresentFlag) {
+            gameManager.pageManager.showElement([gameManager.pageManager.corpseRow]);
+            gameManager.configManager.corpsePresentFlag = true;
         }
-        changeIntNumber("#corpse-quantity", 1);
+        gameManager.configManager.changeCurResourceQuantity("corpse", 1);
     }
 
     function killWoodcutter() {
-        decreasePopulation()
-        changeIntNumber("#woodcutter-quantity", -1);
-        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
+        decreasePopulation();
+        gameManager.configManager.changeCurResourceQuantity("woodman", -1);
+        gameManager.configManager.changeCurResourceQuantity("woodTotalProduction", -gameManager.configManager.woodmanProduction * gameManager.configManager.booster);
     }
 
     function killMiner() {
-        decreasePopulation()
-        changeIntNumber("#miner-quantity", -1);
-        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
+        decreasePopulation();
+        gameManager.configManager.changeCurResourceQuantity("miner", -1);
+        gameManager.configManager.changeCurResourceQuantity("stoneTotalProduction", -gameManager.configManager.minerProduction * gameManager.configManager.booster);
     }
 
     function killFarmer() {
         decreasePopulation()
-        changeIntNumber("#farmer-quantity", -1);
-        $("#food-production-quantity").text((+$("#farmer-quantity").text() * foodProduction - +$("#current-population").text()).toFixed(1));
+        gameManager.configManager.changeCurResourceQuantity("farmer", -1);
+        gameManager.configManager.changeCurResourceQuantity("foodTotalProduction", gameManager.configManager.farmerProduction * gameManager.configManager.booster - 1);
     }
 
     function killScientist() {
         decreasePopulation();
-        changeIntNumber("#scientist-quantity", -1);
-        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
-        availableScientistSpaces++;
+        gameManager.configManager.changeCurResourceQuantity("scientist", -1);
+        gameManager.configManager.changeCurResourceQuantity("knowledgeTotalProduction", -gameManager.configManager.scientistProduction * gameManager.configManager.booster);
     }
 
     function decreaseFoodProduction() {
@@ -627,16 +424,16 @@ $(function () {
         // changeFloatNumber("#stone-quantity", parseFloat($("#stone-production-quantity").text()));
         // changeFloatNumber("#knowledge-quantity", parseFloat($("#knowledge-production-quantity").text()));
         gameManager.configManager.changeCurResourceQuantity("food", gameManager.configManager.foodTotalProduction);
-        gameManager.configManager.changeCurResourceQuantity("wood", gameManager.configManager.woodProduction);
-        gameManager.configManager.changeCurResourceQuantity("stone", gameManager.configManager.stoneProduction);
-        gameManager.configManager.changeCurResourceQuantity("knowledge", gameManager.configManager.knowledgeProduction);
+        gameManager.configManager.changeCurResourceQuantity("wood", gameManager.configManager.woodTotalProduction);
+        gameManager.configManager.changeCurResourceQuantity("stone", gameManager.configManager.stoneTotalProduction);
+        gameManager.configManager.changeCurResourceQuantity("knowledge", gameManager.configManager.knowledgeTotalProduction);
 
         //check max storage
-        // balanceToMaxStorage();
+        balanceToMaxStorage();
 
         //starvation process
         if (gameManager.configManager.foodQuantity < 0 && gameManager.configManager.currentPopulation > 0) {
-            $("#events-div span").after("<p style = \"color: white; background: black;\">" + getMsgWithTime("🍽️🍽️HELP!!! We don t have enough food. :(") + "</p>");
+            gameManager.eventManager.addEvent("starvation");
             unlockAchievement("Starvation");
             $("#starvation-warning").show("slow");
 
@@ -738,7 +535,7 @@ $(function () {
     }
 
     function nothingHappenEvent() {
-        $("#events-div span").after("<p>" + getMsgWithTime("Everything is ok. Let s relax. ☕") + "</p>");
+        gameManager.eventManager.addEvent("ok");
     }
 
     function elfEvent() {
