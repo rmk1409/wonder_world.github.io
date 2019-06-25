@@ -1053,7 +1053,7 @@ $(function () {
 
     function changeColor(checkEl, target, button) {
         if (+checkEl.text() > 0) {
-			arget.css({"background-color": "green", "color": "white"});
+			target.css({"background-color": "green", "color": "white"});
             if (!!button) {
                 button.css({"background-color": "", "color": "black"});
             }
