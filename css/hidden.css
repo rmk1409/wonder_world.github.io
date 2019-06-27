@@ -8,7 +8,6 @@
 #max-food-quantity-span,
 #max-wood-quantity-span,
 #max-stone-quantity-span,
-#max-knowledge-quantity-span,
 #empty-row-before-knowledge,
 #knowledge-row {
     display: none;
@@ -47,6 +46,7 @@
 #build-storage-granary-row,
 #build-storage-pit-row,
 #empty-row-before-population-building,
+#build-population-hut-row,
 #build-knowledge-campfire-row,
 #build-knowledge-dolmen-row,
 #empty-row-before-knowledge-building,
