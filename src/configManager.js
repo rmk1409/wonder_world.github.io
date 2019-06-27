@@ -1,19 +1,5 @@
 class ConfigManager {
-    constructor(gameManager) {
-        this.gameManager = gameManager;
-        this.pageManager = this.gameManager.pageManager;
-
-        this.spaceInOneClub = 5;
-        this.knowledgeStoreInOneScroll = 5;
-        this.spaceInOneCampfire = 2;
-        this.spaceInOneDolmen = 5;
-        this.availableScientistSpaces = 0;
-        this.buildFuneralFlag = false;
-
-        this.scientistPresentFlag = false;
-        this.djPresentFlag = false;
-        this.instructorPresentFlag = false;
-        this.palacePresentFlag = false;
+    constructor() {
         this.currentDjSpaces = 0;
 
         this.currentInstructorSpaces = 0;
@@ -24,13 +10,20 @@ class ConfigManager {
         this.woodIncreaseStep = 0.125;
         this.stoneIncreaseStep = 0.05;
         this.knowledgeIncreaseStep = 0.025;
-        this.booster = 10;
+        this.booster = 1;
         this.productivity = 100;
+        this.WINNER_REQUIREMENTS = 1e6;
         // Flags
+        this.scientistPresentFlag = false;
         this.corpsePresentFlag = false;
+        this.buildFuneralFlag = false;
         this.leaderPresentFlag = false;
+        this.djPresentFlag = false;
         this.djProductivityFlag = false;
+        this.instructorPresentFlag = false;
         this.instructorProductivityFlag = false;
+        this.productivityAchievementFlag = false;
+        this.palacePresentFlag = false;
         // Resources
         this.foodQuantity = 0;
         this.foodMaxQuantity = 100;
@@ -125,12 +118,19 @@ class ConfigManager {
         this.bronzeAgeCost = 3e3;
     }
 
+    initialization(gameManager) {
+        this.gameManager = gameManager;
+        this.pageManager = this.gameManager.pageManager;
+    }
+
     changeCurResourceQuantity(resName, num) {
         let resource;
         let resourceElement;
         let storageResource;
+        let toFixed = 0;
 
         switch (resName) {
+            // Resources
             case "food":
                 resource = this.foodQuantity;
                 resourceElement = this.pageManager.foodQuantityElement;
@@ -143,6 +143,7 @@ class ConfigManager {
             case "foodTotalProduction":
                 resource = this.foodTotalProduction;
                 resourceElement = this.pageManager.foodProductionElement;
+                toFixed = 1;
                 break;
 
             case "wood":
@@ -157,6 +158,7 @@ class ConfigManager {
             case "woodTotalProduction":
                 resource = this.woodTotalProduction;
                 resourceElement = this.pageManager.woodProductionElement;
+                toFixed = 1;
                 break;
 
             case "stone":
@@ -166,11 +168,12 @@ class ConfigManager {
                 break;
             case "maxStone":
                 resource = this.stoneMaxQuantity;
-                resourceElement = this.pageManager.maxStoneQuantity;
+                resourceElement = this.pageManager.maxStoneQuantityElement;
                 break;
             case "stoneTotalProduction":
                 resource = this.stoneTotalProduction;
                 resourceElement = this.pageManager.stoneProductionElement;
+                toFixed = 1;
                 break;
 
             case "knowledge":
@@ -185,8 +188,10 @@ class ConfigManager {
             case "knowledgeTotalProduction":
                 resource = this.knowledgeTotalProduction;
                 resourceElement = this.pageManager.knowledgeProductionElement;
+                toFixed = 1;
                 break;
 
+            // People
             case "curPop":
                 resource = this.currentPopulation;
                 resourceElement = this.pageManager.curPopulationElement;
@@ -200,19 +205,34 @@ class ConfigManager {
                 resource = this.corpseQuantity;
                 resourceElement = this.pageManager.corpseQuantityElement;
                 break;
+            case "inGraveQuantity":
+                resource = this.inGravesQuantity;
+                resourceElement = this.pageManager.inGraveQuantityElement;
+                break;
             case "maxInGraves":
                 resource = this.inGravesMaxQuantity;
                 resourceElement = this.pageManager.maxInGravesQuantityElement;
                 break;
+            case "curHappyPeople":
+                resource = this.currentHappyPeople;
+                resourceElement = this.pageManager.curHappyPeopleElement;
+                storageResource = this.maxHappyPeople;
+                break;
             case "maxHappyPeople":
                 resource = this.maxHappyPeople;
                 resourceElement = this.pageManager.maxHappyPeopleElement;
+                break;
+            case "curHealthyPeople":
+                resource = this.currentHealthPeople;
+                resourceElement = this.pageManager.curHealthPeopleElement;
+                storageResource = this.maxHealthPeople;
                 break;
             case "maxHealthyPeople":
                 resource = this.maxHealthPeople;
                 resourceElement = this.pageManager.maxHealthPeopleElement;
                 break;
 
+            // Job
             case "curLazy":
                 resource = this.lazyboneQuantity;
                 resourceElement = this.pageManager.curLazybonesElement;
@@ -242,15 +262,30 @@ class ConfigManager {
                 resource = this.maxScientistQuantity;
                 resourceElement = this.pageManager.maxScientistQuantityElement;
                 break;
+            case "dj":
+                resource = this.curDjQuantity;
+                resourceElement = this.pageManager.maxDjQuantityElement;
+                storageResource = this.maxDjQuantity;
+                break;
             case "maxDjQuantity":
                 resource = this.maxDjQuantity;
                 resourceElement = this.pageManager.maxDjQuantityElement;
+                break;
+            case "instructor":
+                resource = this.curInstructorQuantity;
+                resourceElement = this.pageManager.maxInstructorQuantityElement;
+                storageResource = this.maxInstructorQuantity;
                 break;
             case "maxInstructorQuantity":
                 resource = this.maxInstructorQuantity;
                 resourceElement = this.pageManager.maxInstructorQuantityElement;
                 break;
+            case "leader":
+                resource = this.leaderQuantity;
+                resourceElement = this.pageManager.leaderQuantityElement;
+                break;
 
+            // Building
             case "grave":
                 resource = this.graveQuantity;
                 resourceElement = this.pageManager.graveQuantityElement;
@@ -261,16 +296,22 @@ class ConfigManager {
                 break;
             case "granary":
                 resource = this.granaryQuantity;
-                resourceElement = this.pageManager.graveQuantityElement;
+                resourceElement = this.pageManager.granaryQuantityElement;
                 break;
             case "pit":
                 resource = this.pitQuantity;
                 resourceElement = this.pageManager.pitQuantityElement;
                 break;
+
             case "tent":
                 resource = this.tentQuantity;
                 resourceElement = this.pageManager.tentQuantityElement;
                 break;
+            case "hut":
+                resource = this.hutQuantity;
+                resourceElement = this.pageManager.hutQuantityElement;
+                break;
+
             case "campfire":
                 resource = this.campfireQuantity;
                 resourceElement = this.pageManager.campfireQuantityElement;
@@ -279,6 +320,7 @@ class ConfigManager {
                 resource = this.dolmenQuantity;
                 resourceElement = this.pageManager.dolmenQuantityElement;
                 break;
+
             case "musicClub":
                 resource = this.musicClubQuantity;
                 resourceElement = this.pageManager.musicClubQuantityElement;
@@ -291,19 +333,21 @@ class ConfigManager {
                 resource = this.palaceQuantity;
                 resourceElement = this.pageManager.palaceQuantityElement;
                 break;
+
             case "barrack":
                 resource = this.barrackQuantity;
                 resourceElement = this.pageManager.barrackQuantityElement;
                 break;
         }
 
-        resource = (resource * 1e3 + num * 1e3) / 1000;
+        resource = (resource * 1e3 + num * 1e3) / 1e3;
         if (storageResource && resource > storageResource) {
             resource = storageResource;
         }
 
-        resourceElement.text(resource.toFixed());
+        resourceElement.text(resource.toFixed(toFixed));
         switch (resName) {
+            // Resources
             case "food":
                 this.foodQuantity = resource;
                 break;
@@ -337,13 +381,14 @@ class ConfigManager {
             case "knowledge":
                 this.knowledgeQuantity = resource;
                 break;
-            case "makKnowledge":
+            case "maxKnowledge":
                 this.knowledgeMaxQuantity = resource;
                 break;
             case "knowledgeTotalProduction":
                 this.knowledgeTotalProduction = resource;
                 break;
 
+            // People
             case "corpse" :
                 this.corpseQuantity = resource;
                 break;
@@ -353,16 +398,26 @@ class ConfigManager {
             case "maxPop":
                 this.maxPopulation = resource;
                 break;
+            case "inGraveQuantity":
+                this.inGravesQuantity = resource;
+                break;
             case "maxInGraves":
                 this.inGravesMaxQuantity = resource;
                 break;
+            case "curHappyPeople":
+                this.currentHappyPeople = resource;
+                break;
             case "maxHappyPeople":
                 this.maxHappyPeople = resource;
+                break;
+            case "curHealthyPeople":
+                this.currentHealthPeople = resource;
                 break;
             case "maxHealthyPeople":
                 this.maxHealthPeople = resource;
                 break;
 
+            // Job
             case "curLazy":
                 this.lazyboneQuantity = resource;
                 break;
@@ -385,13 +440,23 @@ class ConfigManager {
             case "maxScientistQuantity":
                 this.maxScientistQuantity = resource;
                 break;
+            case "dj":
+                this.curDjQuantity = resource;
+                break;
             case "maxDjQuantity":
                 this.maxDjQuantity = resource;
+                break;
+            case "instructor":
+                this.curInstructorQuantity = resource;
                 break;
             case "maxInstructorQuantity":
                 this.maxDjQuantity = resource;
                 break;
+            case "leader":
+                this.leaderQuantity = resource;
+                break;
 
+            // Building
             case "grave":
                 this.graveQuantity = resource;
                 break;
@@ -404,15 +469,21 @@ class ConfigManager {
             case "pit":
                 this.pitQuantity = resource;
                 break;
+
             case "tent":
                 this.tentQuantity = resource;
                 break;
+            case "hut":
+                this.hutQuantity = resource;
+                break;
+
             case "campfire":
                 this.campfireQuantity = resource;
                 break;
             case "dolmen":
                 this.dolmenQuantity = resource;
                 break;
+
             case "musicClub":
                 this.musicClubQuantity = resource;
                 break;
@@ -422,6 +493,7 @@ class ConfigManager {
             case "palace":
                 this.palaceQuantity = resource;
                 break;
+
             case "barrack":
                 this.barrackQuantity = resource;
                 break;

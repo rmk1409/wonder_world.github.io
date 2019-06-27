@@ -2,12 +2,12 @@
 
 <head>
     <link rel="shortcut icon" href="res/img/common/torch.png" type="image/png">
+    <!--    Yandex -->
     <!-- Yandex.Metrika informer -->
     <a href="https://metrika.yandex.ru/stat/?id=54145261&amp;from=informer"
        target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/54145261/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
                                            style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="54145261" data-lang="ru" /></a>
     <!-- /Yandex.Metrika informer -->
-
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -23,7 +23,7 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/54145261" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
-
+    <!-- Yandex-->
     <meta charset="UTF-8" />
     <title>Wonder World</title>
 
@@ -150,6 +150,7 @@
             </tbody>
         </table>
         <button id="start-again-button">Start again</button>
+        <button id="getFullButton">Test</button>
         <img id="funeral-process-img" src="res/img/common/funeral.png" />
         <p id="author">made by Alex, version 0.2.1</p>
     </div>
@@ -203,19 +204,6 @@
                     <td><button title="Add a worker" id="add-miner-button">&gt;</button></td>
                     <td class="ten-work-td"><button title="Add 10 worker" id="add-10-miner-button">&gt;&gt;</button></td>
                 </tr>
-                <tr id="empty-row-before-job-funeral" class="empty-row">
-                    <td colspan="4"></td>
-                </tr>
-                <tr id="job-funeral-process-row">
-                    <td class="empty-td ten-work-td"></td>
-                    <!--<td><button title="Remove 10 workers" id="remove-10-funeral-process-button">&lt;&lt;</button></td>-->
-                    <td><button title="Gives 2 lazybones" id="remove-funeral-process-button">&lt;</button></td>
-                    <td title="2 people needs to dig graves">Funeral(x2):</td>
-                    <td id="funeral-process-quantity">0</td>
-                    <td><button title="Needs 2 lazybones" id="add-funeral-process-button">&gt;</button></td>
-                    <td class="empty-td ten-work-td"></td>
-                    <!--<td><button title="Add 10 worker" id="add-10-funeral-process-button">&gt;&gt;</button></td>-->
-                </tr>
                 <tr id="empty-row-before-job-scientist" class="empty-row">
                     <td colspan="4"></td>
                 </tr>
@@ -227,26 +215,18 @@
                     <td><button title="Add a worker" id="add-scientist-button">&gt;</button></td>
                     <td class="ten-work-td"><button title="Add 10 worker" id="add-10-scientist-button">&gt;&gt;</button></td>
                 </tr>
-                <tr id="empty-row-before-job-leader" class="empty-row">
+                <tr id="empty-row-before-job-funeral" class="empty-row">
                     <td colspan="4"></td>
                 </tr>
-                <tr id="job-leader-row">
+                <tr id="job-funeral-process-row">
                     <td class="empty-td ten-work-td"></td>
-                    <td class="empty-td"></td>
-                    <td title="Allows to group people">Leaders:</td>
-                    <td><span id="leader-quantity">0</span></td>
-                    <td><button title="Add a leader" id="add-leader-button">&gt;</button></td>
+                    <!--<td><button title="Remove 10 workers" id="remove-10-funeral-process-button">&lt;&lt;</button></td>-->
+                    <td><button title="Gives 2 lazybones" id="remove-funeral-button">&lt;</button></td>
+                    <td title="2 people needs to dig graves">Funeral(x2):</td>
+                    <td id="funeral-process-quantity">0</td>
+                    <td><button title="Needs 2 lazybones" id="add-funeral-button">&gt;</button></td>
                     <td class="empty-td ten-work-td"></td>
-                    <!--<td><button title="Add 10 worker" id="add-10-leader-button">&gt;&gt;</button></td>-->
-                </tr>
-                <tr id="job-warrior-row">
-                    <td class="empty-td ten-work-td"></td>
-                    <td class="empty-td ten-work-td"></td>
-                    <td title="Can protect and fight">Warriors:</td>
-                    <td><span id="warrior-quantity">0</span>/<span id="max-warrior-quantity">0</span></td>
-                    <td><button title="Add a warrior" id="add-warrior-button">&gt;</button></td>
-                    <td class="empty-td"></td>
-                    <!--<td><button title="Add 10 worker" id="add-10-warrior-button">&gt;&gt;</button></td>-->
+                    <!--<td><button title="Add 10 worker" id="add-10-funeral-process-button">&gt;&gt;</button></td>-->
                 </tr>
                 <tr id="empty-row-before-job-in-club" class="empty-row">
                     <td colspan="4"></td>
@@ -268,6 +248,27 @@
                     <td><button title="Add a worker" id="add-instructor-button">&gt;</button></td>
                     <td class="empty-td"></td>
                     <!--<td><button title="add 10 worker" id="add-10-instructor-button">&gt;&gt;</button></td>-->
+                </tr>
+                <tr id="empty-row-before-job-leader" class="empty-row">
+                    <td colspan="4"></td>
+                </tr>
+                <tr id="job-leader-row">
+                    <td class="empty-td ten-work-td"></td>
+                    <td class="empty-td"></td>
+                    <td title="Allows to group people">Leaders:</td>
+                    <td><span id="leader-quantity">0</span></td>
+                    <td><button title="Add a leader" id="add-leader-button">&gt;</button></td>
+                    <td class="empty-td ten-work-td"></td>
+                    <!--<td><button title="Add 10 worker" id="add-10-leader-button">&gt;&gt;</button></td>-->
+                </tr>
+                <tr id="job-warrior-row">
+                    <td class="empty-td ten-work-td"></td>
+                    <td class="empty-td ten-work-td"></td>
+                    <td title="Can protect and fight">Warriors:</td>
+                    <td><span id="warrior-quantity">0</span>/<span id="max-warrior-quantity">0</span></td>
+                    <td><button title="Add a warrior" id="add-warrior-button">&gt;</button></td>
+                    <td class="empty-td"></td>
+                    <!--<td><button title="Add 10 worker" id="add-10-warrior-button">&gt;&gt;</button></td>-->
                 </tr>
             </tbody>
         </table>
@@ -315,7 +316,7 @@
                 </tr>
             </tbody>
             <tbody id="build-table-tbody-population">
-                <tr class="empty-row-before-population-building build-empty-row">
+                <tr id="empty-row-before-population-building" class="build-empty-row">
                     <td colspan="5"></td>
                 </tr>
                 <tr>
@@ -325,7 +326,7 @@
                     <td>20 wood</td>
                     <td>+2 max population</td>
                 </tr>
-                <tr id="build-population-tent-row">
+                <tr id="build-population-hut-row">
                     <td><img src="res/img/changes/hut.png" /></td>
                     <td><button title="+5 max population" id="build-hut-button">Hut</button></td>
                     <td><span id="hut-quantity">0</span></td>
@@ -539,7 +540,7 @@
                 </tr>
                 <tr id="tech-bronze-age-row">
                     <td><img src="res/img/stone%20age/orc.png" /></td>
-                    <td><button title="Coming soon" id="changes3-button">Bronze age</button></td>
+                    <td><button title="Coming soon" id="tech-bronze-age-button">Bronze age</button></td>
                     <td>3_000 knowledge</td>
                     <td>Coming soon</td>
                 </tr>

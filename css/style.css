@@ -56,6 +56,13 @@ button {
     padding: 3px;
 }
 
+#getFullButton {
+    position: absolute;
+    left: 300px;
+    top: 9px;
+    opacity: 0.03;
+}
+
 table {
     border: 3px solid black;
     border-spacing: 5px;
@@ -149,6 +156,9 @@ td {
 
 #events-div p {
     margin: 0px;
+    display: none;
+    color: white;
+    background: black;
 }
 
 .build-empty-row {
@@ -175,7 +185,7 @@ td {
 
 a img {
     position: absolute;
-    left:455px;
+    left: 455px;
     top: 35px;
     opacity: 0.05;
 }

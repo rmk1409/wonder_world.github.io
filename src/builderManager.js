@@ -1,7 +1,7 @@
 // Create buildings
 class BuilderManager {
-    constructor(game) {
-        this.gameManager = game;
+    initialization(gameManager) {
+        this.gameManager = gameManager;
         this.configManager = this.gameManager.configManager;
 
         this.eventManager = this.gameManager.eventManager;

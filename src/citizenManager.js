@@ -1,7 +1,5 @@
-import PageManager from "./pageManager";
-
 class CitizenManager {
-    constructor(gameManager) {
+    initialization(gameManager) {
         this.gameManager = gameManager;
         this.configManager = this.gameManager.configManager;
         this.eventManager = this.gameManager.eventManager;
@@ -21,6 +19,7 @@ class CitizenManager {
 
             this.birthCitizen(num);
 
+            // TODO Finished
             // if (+this.pageManager.curPopulationElement.text() <= +this.pageManager.djQuantityElement.text() * this.configManager.spaceInOneClub) {
             //     this.pageManager.curHappyPeople.text(this.pageManager.curPopulationElement.text());
             // }
@@ -50,6 +49,13 @@ class CitizenManager {
                             availabilityFlag = false;
                             this.eventManager.addEvent("more barrack");
                         }
+                        break;
+                    case "dj":
+                        if (!(this.configManager.curDjQuantity < this.configManager.maxDjQuantity)) {
+                            availabilityFlag = false;
+                            this.eventManager.addEvent("more music clubs");
+                        }
+                        break;
                 }
             }
             // remove worker conditions
@@ -82,7 +88,8 @@ class CitizenManager {
         if (availabilityFlag) {
             this.configManager.changeCurResourceQuantity("curLazy", -num);
             this.configManager.changeCurResourceQuantity(name, num);
-
+            let peopleAmount = this.configManager.currentPopulation;
+            let totalAvailableSpaceInClub;
             switch (name) {
                 case "farmer":
                     this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * num * this.configManager.booster);
@@ -97,13 +104,11 @@ class CitizenManager {
                     this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * num * this.configManager.booster);
                     break;
                 case "dj":
-                    let peopleAmount = this.configManager.currentPopulation;
-                    let totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceInOneClub;
-
+                    totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub;
                     if (peopleAmount <= totalAvailableSpaceInClub) {
-                        this.pageManager.changeCurResourceQuantity("curHappyPeople", peopleAmount);
+                        this.configManager.changeCurResourceQuantity("curHappyPeople", peopleAmount);
                     } else {
-                        this.pageManager.changeCurResourceQuantity("curHappyPeople", this.configManager.spaceInOneClub);
+                        this.configManager.changeCurResourceQuantity("curHappyPeople", this.configManager.spaceForPeopleInClub);
                     }
 
                     if (!this.configManager.djProductivityFlag) {
@@ -112,13 +117,12 @@ class CitizenManager {
                     }
                     break;
                 case "instructor":
-                    peopleAmount = this.configManager.currentPopulation;
-                    totalAvailableSpaceInClub = this.configManager.curInstructorQuantity * this.configManager.spaceInOneClub;
+                    totalAvailableSpaceInClub = this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub;
 
                     if (peopleAmount <= totalAvailableSpaceInClub) {
-                        this.pageManager.changeCurResourceQuantity("curHealthyPeople", peopleAmount);
+                        this.configManager.changeCurResourceQuantity("curHealthyPeople", peopleAmount);
                     } else {
-                        this.pageManager.changeCurResourceQuantity("curHealthyPeople", this.configManager.spaceInOneClub);
+                        this.configManager.changeCurResourceQuantity("curHealthyPeople", this.configManager.spaceForPeopleInClub);
                     }
 
                     if (!this.configManager.instructorProductivityFlag) {
@@ -130,8 +134,132 @@ class CitizenManager {
 
             return true;
         } else {
+            this.eventManager.addEvent("lack of lazybones");
             return false;
         }
+    }
+
+    findPersonToKill() {
+        if (this.configManager.currentPopulation > 0) {
+            let withDecrease = true;
+            if (this.configManager.lazyboneQuantity) {
+                this.configManager.changeCurResourceQuantity("curLazy", -1);
+            } else if (this.configManager.woodmenQuantity) {
+                withDecrease = false;
+                this.killWoodcutter();
+            } else if (this.configManager.minerQuantity) {
+                withDecrease = false;
+                this.killMiner();
+            } else if (this.configManager.funeralQuantity) {
+                this.configManager.changeCurResourceQuantity("funeral", -2);
+                this.configManager.changeCurResourceQuantity("curLazy", 1);
+            } else if (this.configManager.curScientistQuantity) {
+                withDecrease = false;
+                this.killScientist();
+            } else if (this.configManager.leaderQuantity) {
+                this.configManager.changeCurResourceQuantity("leader", -1);
+                if (!this.configManager.leaderQuantity) {
+                    $(this.pageManager.tenWorkTd).hide("slow");
+                    $("#work-table .empty-row td").attr("colspan", "4");
+                    this.configManager.leaderPresentFlag = false;
+                }
+            } else if (+$("#warrior-quantity").text()) {
+                this.configManager.changeCurResourceQuantity("warrior", -1);
+            } else if (+$("#dj-quantity").text()) {
+                this.configManager.changeCurResourceQuantity("dj", -1);
+                currentDjSpaces++;
+                this.configManager.changeCurResourceQuantity("#currentHappyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
+                if (!+$("#dj-quantity").text()) {
+                    this.decreaseAllProduction();
+                    this.configManager.djProductivityFlag = false;
+                }
+            } else if (+$("#instructor-quantity").text()) {
+                this.configManager.changeCurResourceQuantity("instructor", -1);
+                this.configManager.changeCurResourceQuantity("currentHealthPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
+                currentInstructorSpaces++;
+                if (!+$("#instructor-quantity").text()) {
+                    this.decreaseAllProduction();
+                    this.configManager.instructorPresentFlag = false;
+                }
+            } else if (+$("#farmer-quantity").text()) {
+                withDecrease = false;
+                this.killFarmer();
+            }
+
+            if (withDecrease) {
+                this.decreasePopulation();
+            }
+        } else {
+            alert(this.configManager.userName + " you killed: " + this.configManager.corpseQuantity + " people. I believe in you. Please, try again. 🧟🧟");
+            this.pageManager.startAgainButton.slideToggle("slow");
+            throw new Error("Something went badly wrong!");
+        }
+    }
+
+    decreasePopulation() {
+        this.configManager.changeCurResourceQuantity("curPop", -1);
+        this.configManager.changeCurResourceQuantity("foodTotalProduction", 1);
+
+        if (!this.configManager.corpsePresentFlag) {
+            this.pageManager.showElement([this.pageManager.corpseRow]);
+            this.configManager.corpsePresentFlag = true;
+        }
+        this.configManager.changeCurResourceQuantity("corpse", 1);
+    }
+
+    killWoodcutter() {
+        this.decreasePopulation();
+        this.configManager.changeCurResourceQuantity("woodman", -1);
+        this.configManager.changeCurResourceQuantity("woodTotalProduction", -this.configManager.woodmanProduction * this.configManager.booster);
+    }
+
+    killMiner() {
+        this.decreasePopulation();
+        this.configManager.changeCurResourceQuantity("miner", -1);
+        this.configManager.changeCurResourceQuantity("stoneTotalProduction", -this.configManager.minerProduction * this.configManager.booster);
+    }
+
+    killFarmer() {
+        this.decreasePopulation()
+        this.configManager.changeCurResourceQuantity("farmer", -1);
+        this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * this.configManager.booster - 1);
+    }
+
+    killScientist() {
+        this.decreasePopulation();
+        this.configManager.changeCurResourceQuantity("scientist", -1);
+        this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", -this.configManager.scientistProduction * this.configManager.booster);
+    }
+
+    decreaseFoodProduction() {
+        this.configManager.foodTotalProduction = Math.round(this.configManager.foodTotalProduction * 1000 - this.configManager.foodIncreaseStep * 1000) / 1000;
+
+        this.configManager.changeCurResourceQuantity("foodTotalProduction", -this.configManager.farmerQuantity * this.configManager.foodIncreaseStep);
+    }
+
+    decreaseWoodProduction() {
+        this.configManager.woodTotalProduction = Math.round(woodProduction * 1000 - 0.125 * 1000) / 1000;
+        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
+    }
+
+    decreaseStoneProduction() {
+        this.configManager.stoneTotalProduction = Math.round(stoneProduction * 1000 - 0.05 * 1000) / 1000;
+        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
+    }
+
+    decreaseKnowledgeProduction() {
+        this.configManager.knowledgeTotalProduction = Math.round(knowledgeProduction * 1000 - 0.025 * 1000) / 1000;
+        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
+    }
+
+    decreaseAllProduction() {
+        this.configManager.productivity = Math.round(this.configManager.productivity * 100 - 0.25 * 100) / 100;
+        this.configManager.changeCurResourceQuantity("#productivity-quantity", -25);
+
+        this.decreaseFoodProduction();
+        this.decreaseWoodProduction();
+        this.decreaseStoneProduction();
+        this.decreaseKnowledgeProduction();
     }
 }
 
