@@ -15,7 +15,6 @@ class EventManager {
         this.elvesCantCutTrees1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: ";
         this.elvesCantCutTrees2 = " of your wood.";
         this.elvesAreDisappointed = "🧝🧝 You don t have wood. Elves are disappointed of us.. :((";
-        // this.elvesDontLike = "🧝🧝 Elves don't like when you cut trees. They killed: " + woodcutters.text() + " of your woodcutters. They said - sorry.";
         this.elvesLike = "🧝🧝 Main Elf said - we like you.";
         this.nightmare = "👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmares.";
         this.strangeInTheSkies = "👩‍🌾👩‍🌾 Your farmers said that they saw something strange in the skies. You said - ha, rich imagination";
@@ -25,7 +24,7 @@ class EventManager {
         this.ufoArtifact2 = " stones.";
         this.overturnedCorpses = "🧑🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination";
         this.whiteWalkersInAnotherVillage = "🧛🧛 Some white walkers came from your corpse storage and went to another village. Than they went back to sleep.";
-        this.foolMoon = "🌘 Your people like fool moon this night.";
+        this.foolMoon = "Your people liked fool moon this night 🌘";
         this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
         this.newAchievement = "🙈🙈🙈 Get a new achievement.";
     }
@@ -75,16 +74,6 @@ class EventManager {
                 msg = this.funeralProccessMoreWorkers;
                 break;
 
-            case "elves can't cut trees":
-                msg = this.elvesCantCutTrees1 + changes + this.elvesCantCutTrees2;
-                break;
-            case "elves are disappointed":
-                msg = this.elvesAreDisappointed;
-                break;
-            case "elves like":
-                msg = this.elvesLike;
-                break;
-
             case "nightmare":
                 msg = this.nightmare;
                 break;
@@ -101,8 +90,11 @@ class EventManager {
             case "overturned corpses":
                 msg = this.overturnedCorpses;
                 break;
+            case "White walker killed":
+                msg = "🧛🧛 Some white walkers came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.";
+                break;
             case "white walkers in another village":
-                msg = this.whiteWalkersInAnotherVillage;
+                msg = `🧛🧛 ${changes} white walkers came from your corpse storage and went to another village. Than they went back to sleep.`;
                 break;
             case "fool moon":
                 msg = this.foolMoon;
@@ -112,32 +104,32 @@ class EventManager {
                 break;
 
             case "Potatoes":
-                msg = "👩‍🌾👩‍🌾 Farmers found " + changes + " potatoes.🥔🥔🥔🥔";
+                msg = `👩‍🌾👩‍🌾 Farmers found ${changes} potatoes.🥔🥔🥔🥔`;
                 break;
             case "Assassin rabbits":
-                msg = "🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to take rabbit's food. Assassin rabbits killed : " + changes + " farmers.";
+                msg = `🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to take rabbit's food. Assassin rabbits killed : ${changes} farmers.`;
                 break;
             case "Wild rabbits":
                 msg = "🐰🐰🐰 Farmers saw the wild rabbits.";
                 break;
             case "Kiwi":
-                msg = "👩‍🌾👩‍🌾 Farmers found " + changes + " kiwi fruits.🥝🥝🥝🥝";
+                msg = `👩‍🌾👩‍🌾 Farmers found ${changes} kiwi fruits.🥝🥝🥝🥝`;
                 break;
             case "Rats":
-                msg = "🐀🐀🐀 Rats ate " + changes + " of your food.";
+                msg = `🐀🐀🐀 Rats ate ${changes} of your food.`;
                 break;
 
             case "Storm":
-                msg = "⛈️There is a storm. It spoiled some of your wood: " + changes + " is lost.";
+                msg = `⛈️There is a storm. It spoiled some of your wood: ${changes} is lost.`;
                 break;
             case "Small rain":
                 msg = "🌈 There was a small rain.";
                 break;
             case "Big earthquake":
-                msg = "🧶 ☹ There was a big earthquake. Unfortunately it killed: " + changes + " of your miners.";
+                msg = `🧶 ☹ There was a big earthquake. Unfortunately it killed: ${changes} of your miners.`;
                 break;
             case "Middle earthquake":
-                msg = "🧶️ There was a middle earthquake. Some trees were down and it gave you : " + changes + " woods.";
+                msg = `🧶️ There was a middle earthquake. Some trees were down and it gave you : ${changes} woods.`;
                 break;
             case "Light earthquake":
                 msg = "🧶 There was a light earthquake.";
@@ -150,18 +142,34 @@ class EventManager {
                 msg = "👧👧👧 Your people communicated a bit with Amazons.";
                 break;
             case "Amazons kidnapped":
-                msg = "👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back " + changes + " male corpses, you see smiles on corpse's faces.";
+                msg = `👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back ${changes} male corpses, you see smiles on corpse's faces.`;
                 break;
             case "Amazons brought":
-                msg = "👧👧👧👧 Amazons brought a few males to your people . " + changes + " new free people.";
+                msg = `👧👧👧👧 Amazons brought a few males to your people . ${changes} new free people.`;
                 break;
 
-            // case "elves don't like":
-            //     newElement =
-            //     break;
+            case "elves can't cut trees":
+                msg = this.elvesCantCutTrees1 + changes + this.elvesCantCutTrees2;
+                break;
+            case "elves are disappointed":
+                msg = this.elvesAreDisappointed;
+                break;
+            case "elves like":
+                msg = this.elvesLike;
+                break;
+            case "Elves don't like":
+                msg = `🧝🧝 Elves don't like when you cut trees. They killed: ${changes} of your woodcutters. They said - sorry.`;
+                break;
+
+            case "New people were born":
+                msg = `👪👪 ${changes} new people were born.`;
+                break;
+            case "Died because of age":
+                msg = `👪👪 ${changes} died because of age.`;
+                break;
         }
         if (msg) {
-            let newElement = $("<p>" + this.getMsgWithTime(msg) + "</p>");
+            let newElement = $(`<p>${this.getMsgWithTime(msg)}</p>`);
             this.pageManager.eventDiv.after(newElement);
             this.pageManager.showElement([newElement]);
         }
@@ -190,7 +198,7 @@ class EventManager {
                 break;
         }
         if (newElementAchievement) {
-            let newElement = $("<p>" + this.getMsgWithTime(this.newAchievement) + "</p>");
+            let newElement = $(`<p>${this.getMsgWithTime(this.newAchievement)}</p>`);
             this.pageManager.eventDiv.after(newElement);
             this.pageManager.achievementSection.append(newElementAchievement);
 
@@ -199,9 +207,8 @@ class EventManager {
     }
 
     getMsgWithTime(msg) {
-        return new Date().toLocaleTimeString() + ": " + msg;
+        return `${new Date().toLocaleTimeString()} : ${msg}`;
     }
-
 
     getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
@@ -210,12 +217,12 @@ class EventManager {
     eventHappen() {
         // to small population for events
         let eventDiversity = 1;
-        if (this.configManager.currentPopulation > 2) {
+        if (this.configManager.currentPopulation > 20) {
             eventDiversity = 8;
         }
 
-        // switch (this.getRandomInt(eventDiversity)) {
-        switch (5) {
+        switch (this.getRandomInt(eventDiversity)) {
+        // switch (8) {
             default:
                 this.nothingHappenEvent();
                 break;
@@ -298,56 +305,33 @@ class EventManager {
         }
     }
 
-    elfEvent() {
-        switch (this.getRandomInt(2)) {
+    farmerEvent() {
+        let farmers = this.configManager.farmerQuantity;
+        // this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔 🥝🥝 your people see a lot of new kind of food.") + "</p>");
+
+        let food = this.configManager.foodQuantity;
+        switch (this.getRandomInt(5)) {
             case 1:
-                let wood = this.configManager.woodQuantity;
-                if (wood) {
-                    this.addEvent("elves can't cut trees");
-                    this.configManager.changeCurResourceQuantity("wood", wood);
-                } else {
-                    this.addEvent("elves are disappointed");
-                }
+                this.addEvent("Potatoes", Math.round(food * 1.8));
+                this.configManager.changeCurResourceQuantity("food", Math.round(food * 1.8));
                 break;
             case 2:
-                if (this.configManager.woodmenQuantity) {
-                    this.addEvent("Elves don't like");
-                    this.pageManager.eventDiv.after("<p>" + this.getMsgWithTime("🧝🧝 Elves don't like when you cut trees. They killed: " + this.configManager.woodmenQuantity + " of your woodcutters. They said - sorry.") + "</p>");
-                    for (let i = 0; i < this.configManager.woodmenQuantity; i++) {
-                        this.citizenManager.killWoodcutter();
-                    }
-                } else {
-                    this.addEvent("elves like");
+                this.addEvent("Assassin rabbits", Math.round(farmers * 0.15));
+                for (let i = 0, amount = Math.round(farmers * 0.15); i < amount; i++) {
+                    this.citizenManager.killFarmer();
                 }
                 break;
-        }
-    }
-
-    bloodMoonEvent() {
-        let corpses = this.configManager.corpseQuantity;
-        if (corpses) {
-            switch (this.getRandomInt(2)) {
-                case 1:
-                    this.addEvent("overturned corpses");
-                    break;
-                case 2:
-                    let wakeUpUndead = this.getRandomInt(corpses);
-                    switch (this.getRandomInt(2)) {
-                        case 1:
-                            if (wakeUpUndead && this.configManager.currentPopulation) {
-                                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🧛🧛 Some white walkers came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.") + "</p>");
-                                for (let i = 0, amount = wakeUpUndead; i < amount; i++) {
-                                    this.citizenManager.findPersonToKill();
-                                }
-                            }
-                            break;
-                        case 2:
-                            this.addEvent("white walkers in another village");
-                            break;
-                    }
-            }
-        } else {
-            this.addEvent("fool moon");
+            case 3:
+                this.addEvent("Wild rabbits");
+                break;
+            case 4:
+                this.addEvent("Kiwi", Math.round(food * 2.5));
+                this.configManager.changeCurResourceQuantity("food", Math.round(food * 2.5));
+                break;
+            case 5:
+                this.addEvent("Rats", Math.round(food * 0.9));
+                this.configManager.changeCurResourceQuantity("food", -Math.round(food * 0.9));
+                break;
         }
     }
 
@@ -376,7 +360,8 @@ class EventManager {
                                 this.citizenManager.killMiner();
                             }
                         } else {
-                            let newResources = Math.round(0.33 * wood);
+
+                            let newResources = Math.round(0.33 * this.configManager.woodMaxQuantity);
                             this.addEvent("Middle earthquake", newResources);
                             this.configManager.changeCurResourceQuantity("wood", newResources);
                         }
@@ -402,7 +387,7 @@ class EventManager {
                     for (let i = 0, amount = killedScientistAmount; i < amount; i++) {
                         this.citizenManager.killScientist();
                     }
-                    this.configManager.changeCurResourceQuantity("knowledge", this.configManager.knowledgeQuantity * 0.5);
+                    this.configManager.changeCurResourceQuantity("knowledge", -this.configManager.knowledgeQuantity * 0.5);
                     break;
                 case 3:
                     let newMaleAmount = Math.round(0.25 * scientists);
@@ -415,50 +400,75 @@ class EventManager {
         }
     }
 
-    birthDeathCycleEvent() {
-        let curPop = this.configManager.currentPopulation;
-        let changeAmount = Math.round(this.getRandomInt(curPop) * 0.25);
+    elfEvent() {
         switch (this.getRandomInt(2)) {
             case 1:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
-                this.citizenManager.createCitizen(changeAmount);
+                let wood = this.configManager.woodQuantity;
+                if (wood > 20) {
+                    this.addEvent("elves can't cut trees", wood);
+                    this.configManager.changeCurResourceQuantity("wood", -wood);
+                } else {
+                    this.addEvent("elves are disappointed");
+                }
                 break;
             case 2:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
-                for (let i = 0; i < changeAmount; i++) {
-                    this.citizenManager.findPersonToKill();
+                if (this.configManager.woodmenQuantity > 7) {
+                    let changes = this.configManager.woodmenQuantity;
+                    this.addEvent("Elves don't like", changes);
+                    for (let i = 0; i < changes; i++) {
+                        this.citizenManager.killWoodcutter();
+                    }
+                } else {
+                    this.addEvent("elves like");
                 }
                 break;
         }
     }
 
-    farmerEvent() {
-        let farmers = this.configManager.farmerQuantity;
-        // this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔 🥝🥝 your people see a lot of new kind of food.") + "</p>");
+    bloodMoonEvent() {
+        let corpses = this.configManager.corpseQuantity;
+        if (corpses) {
+            switch (this.getRandomInt(2)) {
+                case 1:
+                    this.addEvent("overturned corpses");
+                    break;
+                case 2:
+                    let wakeUpUndead = Math.round(this.getRandomInt(corpses) / 2);
+                    switch (this.getRandomInt(2)) {
+                        case 1:
+                            if (wakeUpUndead && this.configManager.currentPopulation) {
+                                this.addEvent("White walker killed");
+                                for (let i = 0; i < wakeUpUndead; i++) {
+                                    this.citizenManager.findPersonToKill();
+                                }
+                            }
+                            break;
+                        case 2:
+                            this.addEvent("white walkers in another village", wakeUpUndead);
+                            break;
+                    }
+            }
+        } else {
+            this.addEvent("fool moon");
+        }
+    }
 
-        let food = this.configManager.foodQuantity;
-        switch (this.getRandomInt(5)) {
-            case 1:
-                this.addEvent("Potatoes", Math.round(food * 1.8));
-                this.configManager.changeCurResourceQuantity("food", Math.round(food * 1.8));
-                break;
-            case 2:
-                this.addEvent("Assassin rabbits", Math.round(farmers * 0.15));
-                for (let i = 0, amount = Math.round(farmers * 0.15); i < amount; i++) {
-                    this.citizenManager.killFarmer();
-                }
-                break;
-            case 3:
-                this.addEvent("Wild rabbits");
-                break;
-            case 4:
-                this.addEvent("Kiwi", Math.round(food * 2.5));
-                this.configManager.changeCurResourceQuantity("food", Math.round(food * 2.5));
-                break;
-            case 5:
-                this.addEvent("Rats", Math.round(food * 0.9));
-                this.configManager.changeCurResourceQuantity("food", -Math.round(food * 0.9));
-                break;
+    birthDeathCycleEvent() {
+        let curPop = this.configManager.currentPopulation;
+        let changeAmount = Math.round(this.getRandomInt(curPop) * 0.25);
+        if (changeAmount) {
+            switch (this.getRandomInt(2)) {
+                case 1:
+                    this.addEvent("New people were born", changeAmount);
+                    this.citizenManager.birthCitizen(changeAmount);
+                    break;
+                case 2:
+                    this.addEvent("Died because of age", changeAmount);
+                    for (let i = 0; i < changeAmount; i++) {
+                        this.citizenManager.findPersonToKill();
+                    }
+                    break;
+            }
         }
     }
 }

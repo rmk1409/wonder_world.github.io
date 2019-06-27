@@ -79,8 +79,6 @@ class GameManager {
             case "campfire":
                 if (this.builderManager.build(30, 10, ["campfire", "maxScientistQuantity"], [1, this.configManager.spaceInCamprire])) {
                     if (!this.configManager.scientistPresentFlag) {
-                        // this.pageManager.showElement([this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow, this.pageManager.emptyRowBeforeKnowledge, this.pageManager.emptyRowBeforeBuildKnowlegde,
-                        //     this.pageManager.knowledgeRow]);
                         this.configManager.scientistPresentFlag = true;
                     }
                     return true;
@@ -118,8 +116,8 @@ class GameManager {
                     this.unlockAchievement("Palace");
                     if (!this.configManager.palacePresentFlag) {
                         this.eventManager.addAchievement("Palace");
-                        alert("Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: " + (this.configManager.corpseQuantity + this.configManager.inGravesQuantity) +
-                            " people. (￣▽￣)ノ Great job!! \n" + this.configManager.userName + ", do you wanna start again?");
+                        alert(`Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ 
+                        Great job!! \n ${this.configManager.userName}, do you wanna start again?`);
                         this.pageManager.showElement([this.pageManager.startAgainButton]);
                         this.pageManager.buildPalaceButton.prop("disabled", true);
                         this.configManager.palacePresentFlag = true;
@@ -196,7 +194,7 @@ class GameManager {
                 break;
             case "agriculture":
                 if (this.scienceManager.research(this.configManager.agricultureCost, this.pageManager.techAgricultureElement, [this.pageManager.agricultureP])) {
-                    $("#food-img").attr("src", "res/img/changes/grapes.png");
+                    this.pageManager.foodImage.attr("src", "res/img/changes/grapes.png");
                     this.changeProduction(true, "food");
                 }
                 break;
@@ -216,7 +214,7 @@ class GameManager {
                 break;
             case "agriculture2":
                 if (this.scienceManager.research(this.configManager.agriculture2Cost, this.pageManager.techAgriculture2Element, [this.pageManager.agriculture2P])) {
-                    $("#food-img").attr("src", "res/img/changes2/field.png");
+                    this.pageManager.foodImage.attr("src", "res/img/changes2/field.png");
                     this.changeProduction(true, "food");
                     this.unlockAchievement("More Food");
                 }

@@ -10,6 +10,7 @@ class PageManager {
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
 
+        this.foodImage = $("#food-img");
         this.foodClickButton = $("#food-click-button");
         this.foodQuantityElement = $("#food-quantity");
         this.maxFoodQuantity = $("#max-food-quantity-span");

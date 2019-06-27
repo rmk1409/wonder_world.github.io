@@ -109,4 +109,14 @@ $(function () {
     $(pageManager.alreadyKnownP).on("click", function slideToggleSection() {
         pageManager.alreadyKnownSection.slideToggle("fast");
     });
+
+    // TODO Finished
+    // $(pageManager.createCitizenButton).on("click", () => repeatFunction(alertFunc, 10));
+    //
+    // function repeatFunction(funct, num) {
+    //     num = num < this.configManager.lazyboneQuantity ? num : this.configManager.lazyboneQuantity;
+    //     for (let i = 0; i < num; i++) {
+    //         funct();
+    //     }
+    // }
 });

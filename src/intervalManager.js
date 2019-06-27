@@ -60,9 +60,8 @@ class IntervalManager {
         // CHECK WIN CONDITION
         setInterval(function checkWinCondition() {
             if (self.configManager.knowledgeQuantity >= self.configManager.WINNER_REQUIREMENTS) {
-                if (confirm("Congratulations! You collected a lot of knowledge!! \nAlso you've killed: " + (self.configManager.corpseQuantity + self.configManager.inGravesQuantity) + " people. Great job\n" +
-                    self.configManager.userName + ", do you wanna try again?")) {
-                    document.location.reload(true);
+                if (confirm(`Congratulations! ${self.configManager.userName}.You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.corpseQuantity + self.configManager.inGravesQuantity} people. Great job\n`)) {
+                    self.gameManager.reloadSite();
                 } else {
                     self.configManager.changeCurResourceQuantity("knowledge", -self.configManager.WINNER_REQUIREMENTS);
                     self.pageManager.show(self.pageManager.startAgainButton);
@@ -71,7 +70,8 @@ class IntervalManager {
         }, 10e3);
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
-            let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity, self.configManager.funeralQuantity]);
+            let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity,
+                self.configManager.funeralQuantity]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
                     self.configManager.changeCurResourceQuantity("corpse", -1);
@@ -84,7 +84,7 @@ class IntervalManager {
         }, 5e3);
 
         // Events
-        setInterval(() => self.eventManager.eventHappen(), 2e3);
+        setInterval(() => self.eventManager.eventHappen(), 2e4);
         // SCROLL to the 1st EVENT
         setInterval(self.pageManager.eventDiv.animate({scrollTop: 0}, "fast"), 2e4);
 

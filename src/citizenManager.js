@@ -202,11 +202,11 @@ class CitizenManager {
             if (withDecrease) {
                 this.decreasePopulation();
             }
+
         } else {
             this.eventManager.addEvent("death because of zombies");
-            alert(this.configManager.userName + " you killed: " + (this.configManager.corpseQuantity + this.configManager.inGravesQuantity) + " people. I believe in you. Please, try again. 🧟🧟");
-            this.pageManager.startAgainButton.slideToggle("slow");
-            throw new Error("Something went badly wrong!");
+            alert(`🧟🧟 ${this.configManager.userName} you killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. I believe in you. Please, try again.`);
+            this.pageManager.showElement([this.pageManager.startAgainButton]);
         }
     }
 
@@ -236,7 +236,7 @@ class CitizenManager {
     killFarmer() {
         this.decreasePopulation();
         this.configManager.changeCurResourceQuantity("farmer", -1);
-        this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * this.configManager.booster - 1);
+        this.configManager.changeCurResourceQuantity("foodTotalProduction", -this.configManager.farmerProduction * this.configManager.booster);
     }
 
     killScientist() {
