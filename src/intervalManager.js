@@ -28,8 +28,8 @@ class IntervalManager {
 
             //starvation process
             if (self.configManager.foodQuantity < 0 && self.configManager.currentPopulation > 0) {
-                self.eventManager.addEvent("starvation");
-                self.pageManager.showElement(self.pageManager.starvationWarning);
+                self.eventManager.addAchievement("Starvation");
+                self.pageManager.showElement([self.pageManager.starvationWarning]);
 
                 self.citizenManager.findPersonToKill();
 
@@ -37,8 +37,8 @@ class IntervalManager {
                 if (self.configManager.currentHappyPeople > self.configManager.currentPopulation) {
                     self.configManager.changeCurResourceQuantity("curHappyPeople", -1);
                 }
-                // and health people
-                if (self.configManager.currentHealthPeople > self.configManager.currentPopulation) {
+                // and healthy people
+                if (self.configManager.currentHealthyPeople > self.configManager.currentPopulation) {
                     self.configManager.changeCurResourceQuantity("curHealthyPeople", -1);
                 }
             } else {
@@ -49,7 +49,7 @@ class IntervalManager {
 
             // TODO abundance of food
 
-            if (!self.configManager.productivityAchievementFlag && this.configManager.productivity >= 190) {
+            if (!self.configManager.productivityAchievementFlag && self.configManager.productivity >= 190) {
                 self.eventManager.addAchievement("Productivity");
                 self.configManager.productivityAchievementFlag = true;
             }
@@ -72,7 +72,6 @@ class IntervalManager {
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
             let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity, self.configManager.funeralQuantity]);
-            // if (funeralProcesses && corpses && (self.configManager.inGravesQuantity < self.configManager.inGravesMaxQuantity)) {
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
                     self.configManager.changeCurResourceQuantity("corpse", -1);
@@ -83,8 +82,9 @@ class IntervalManager {
                 $(self.pageManager.funeralProcessImg).hide("slow");
             }
         }, 5e3);
+
         // Events
-        setInterval(this.eventManager.eventHappen, 2e4);
+        setInterval(() => self.eventManager.eventHappen(), 2e3);
         // SCROLL to the 1st EVENT
         setInterval(self.pageManager.eventDiv.animate({scrollTop: 0}, "fast"), 2e4);
 

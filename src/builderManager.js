@@ -3,7 +3,6 @@ class BuilderManager {
     initialization(gameManager) {
         this.gameManager = gameManager;
         this.configManager = this.gameManager.configManager;
-
         this.eventManager = this.gameManager.eventManager;
     }
 

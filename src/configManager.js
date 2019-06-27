@@ -1,17 +1,11 @@
 class ConfigManager {
     constructor() {
-        this.currentDjSpaces = 0;
-
-        this.currentInstructorSpaces = 0;
-
-        // userName
         this.userName = "";
         this.foodIncreaseStep = 0.15;
         this.woodIncreaseStep = 0.125;
         this.stoneIncreaseStep = 0.05;
         this.knowledgeIncreaseStep = 0.025;
         this.booster = 1;
-        this.productivity = 100;
         this.WINNER_REQUIREMENTS = 1e6;
         // Flags
         this.scientistPresentFlag = false;
@@ -23,6 +17,7 @@ class ConfigManager {
         this.instructorPresentFlag = false;
         this.instructorProductivityFlag = false;
         this.productivityAchievementFlag = false;
+        this.barrackPresentFlag = false;
         this.palacePresentFlag = false;
         // Resources
         this.foodQuantity = 0;
@@ -53,9 +48,9 @@ class ConfigManager {
         this.inGravesMaxQuantity = 0;
         this.currentHappyPeople = 0;
         this.maxHappyPeople = 0;
-        this.currentHealthPeople = 0;
-        this.maxHealthPeople = 0;
-        this.currentProductivity = 1;
+        this.currentHealthyPeople = 0;
+        this.maxHealthyPeople = 0;
+        this.productivity = 100;
         // Work
         this.lazyboneQuantity = 0;
         this.farmerQuantity = 0;
@@ -223,13 +218,18 @@ class ConfigManager {
                 resourceElement = this.pageManager.maxHappyPeopleElement;
                 break;
             case "curHealthyPeople":
-                resource = this.currentHealthPeople;
-                resourceElement = this.pageManager.curHealthPeopleElement;
-                storageResource = this.maxHealthPeople;
+                resource = this.currentHealthyPeople;
+                resourceElement = this.pageManager.curHealthyPeopleElement;
+                storageResource = this.maxHealthyPeople;
                 break;
             case "maxHealthyPeople":
-                resource = this.maxHealthPeople;
-                resourceElement = this.pageManager.maxHealthPeopleElement;
+                resource = this.maxHealthyPeople;
+                resourceElement = this.pageManager.maxHealthyPeopleElement;
+                break;
+            case "productivity":
+                resource = this.productivity;
+                resourceElement = this.pageManager.productivityQuantityElement;
+                toFixed = 2;
                 break;
 
             // Job
@@ -264,7 +264,7 @@ class ConfigManager {
                 break;
             case "dj":
                 resource = this.curDjQuantity;
-                resourceElement = this.pageManager.maxDjQuantityElement;
+                resourceElement = this.pageManager.djQuantityElement;
                 storageResource = this.maxDjQuantity;
                 break;
             case "maxDjQuantity":
@@ -273,7 +273,7 @@ class ConfigManager {
                 break;
             case "instructor":
                 resource = this.curInstructorQuantity;
-                resourceElement = this.pageManager.maxInstructorQuantityElement;
+                resourceElement = this.pageManager.instructorQuantityElement;
                 storageResource = this.maxInstructorQuantity;
                 break;
             case "maxInstructorQuantity":
@@ -283,6 +283,15 @@ class ConfigManager {
             case "leader":
                 resource = this.leaderQuantity;
                 resourceElement = this.pageManager.leaderQuantityElement;
+                break;
+            case "warrior":
+                resource = this.curWarriorQuantity;
+                resourceElement = this.pageManager.warriorQuantityElement;
+                storageResource = this.maxWarriorQuantity;
+                break;
+            case "maxWarrior":
+                resource = this.maxWarriorQuantity;
+                resourceElement = this.pageManager.maxWarriorQuantityElement;
                 break;
 
             // Building
@@ -411,10 +420,13 @@ class ConfigManager {
                 this.maxHappyPeople = resource;
                 break;
             case "curHealthyPeople":
-                this.currentHealthPeople = resource;
+                this.currentHealthyPeople = resource;
                 break;
             case "maxHealthyPeople":
-                this.maxHealthPeople = resource;
+                this.maxHealthyPeople = resource;
+                break;
+            case "productivity":
+                this.productivity = resource;
                 break;
 
             // Job
@@ -450,10 +462,16 @@ class ConfigManager {
                 this.curInstructorQuantity = resource;
                 break;
             case "maxInstructorQuantity":
-                this.maxDjQuantity = resource;
+                this.maxInstructorQuantity = resource;
                 break;
             case "leader":
                 this.leaderQuantity = resource;
+                break;
+            case "warrior":
+                this.curWarriorQuantity = resource;
+                break;
+            case "maxWarrior":
+                this.maxWarriorQuantity = resource;
                 break;
 
             // Building

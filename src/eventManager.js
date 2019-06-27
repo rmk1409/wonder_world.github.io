@@ -1,23 +1,32 @@
+// TODO refactoring this class
 class EventManager {
     constructor() {
         this.okStatus = "Everything is ok. Let s relax. ☕";
-        this.lackLazyboneLog = "👷‍♂️👷‍♂ Find more free lazybones.";
+        this.lackLazyboneLog = "👷‍♂️👷‍♂ Find more lazybones.";
         this.starvation = "🍽️🍽️HELP!!! We don t have enough food. :(";
         this.foodOrHouses = "🤨 Not enough food or houses.";
         this.moreResources = "🤨 Collect more resources.";
         this.moreKnowledge = "🤨 Collect more knowledge.";
         this.moreScienceBuilding = "🤨 Build more campfires or other science buildings.";
         this.moreMusicClubs = "🤨 Build more music clubs or other entertainment buildings.";
+        this.moreYogaClubs = "🤨 Build more yoga clubs or other health buildings.";
         this.moreBarrack = "🤨 Build more barracks.";
-        this.elvesCantCutTrees = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: ${this.configManager.woodQuantity} of your wood.";
+        this.funeralProccessMoreWorkers = "👥👥 One funeral requires 2 workers.";
+        this.elvesCantCutTrees1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: ";
+        this.elvesCantCutTrees2 = " of your wood.";
         this.elvesAreDisappointed = "🧝🧝 You don t have wood. Elves are disappointed of us.. :((";
         // this.elvesDontLike = "🧝🧝 Elves don't like when you cut trees. They killed: " + woodcutters.text() + " of your woodcutters. They said - sorry.";
         this.elvesLike = "🧝🧝 Main Elf said - we like you.";
         this.nightmare = "👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmares.";
         this.strangeInTheSkies = "👩‍🌾👩‍🌾 Your farmers said that they saw something strange in the skies. You said - ha, rich imagination";
+        this.ufoKilled1 = "🛸 Ufo Aliens tried to improve your human beings, but it wasn't successful. Unfortunately they killed: ";
+        this.ufoKilled2 = " of your farmers. Maybe in the next time.";
+        this.ufoArtifact1 = "🛸 Ufo gave to you a mighty artifact to improve your human beings, but your people didn't know how to apply this and they just exchanged it with more advanced civilization for: ";
+        this.ufoArtifact2 = " stones.";
         this.overturnedCorpses = "🧑🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination";
         this.whiteWalkersInAnotherVillage = "🧛🧛 Some white walkers came from your corpse storage and went to another village. Than they went back to sleep.";
         this.foolMoon = "🌘 Your people like fool moon this night.";
+        this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
         this.newAchievement = "🙈🙈🙈 Get a new achievement.";
     }
 
@@ -28,102 +37,137 @@ class EventManager {
         this.citizenManager = this.gameManager.citizenManager;
     }
 
-    addEvent(what) {
-        let newElement;
+    addEvent(what, changes) {
+        let msg;
         switch (what) {
             case "ok":
-                newElement = $("<p>" + this.getMsgWithTime(this.okStatus) + "</p>");
-                break;
-            case "lack of lazybones":
-                newElement = $("<p>" + this.getMsgWithTime(this.lackLazyboneLog) + "</p>");
+                msg = this.okStatus;
                 break;
             case "starvation":
-                newElement = $("<p>" + this.getMsgWithTime(this.starvation) + "</p>");
+                msg = this.starvation;
                 break;
             case "food or houses":
-                newElement = $("<p>" + this.getMsgWithTime(this.foodOrHouses) + "</p>");
+                msg = this.foodOrHouses;
                 break;
             case "more resources":
-                newElement = $("<p>" + this.getMsgWithTime(this.moreResources) + "</p>");
+                msg = this.moreResources;
                 break;
             case "more knowledge":
-                newElement = $("<p>" + this.getMsgWithTime(this.moreKnowledge) + "</p>");
+                msg = this.moreKnowledge;
                 break;
             case "more campfires":
-                newElement = $("<p>" + this.getMsgWithTime(this.moreScienceBuilding) + "</p>");
+                msg = this.moreScienceBuilding;
                 break;
             case "more music clubs":
-                newElement = $("<p>" + this.getMsgWithTime(this.moreMusicClubs) + "</p>");
+                msg = this.moreMusicClubs;
+                break;
+            case "more yoga clubs":
+                msg = this.moreYogaClubs;
                 break;
             case "more barrack":
-                newElement = $("<p>" + this.getMsgWithTime(this.moreBarrack) + "</p>");
+                msg = this.moreBarrack;
                 break;
+
+            case "lack of lazybones":
+                msg = this.lackLazyboneLog;
+                break;
+            case "1 funeral process needs 2 workers":
+                msg = this.funeralProccessMoreWorkers;
+                break;
+
             case "elves can't cut trees":
-                newElement = $("<p>" + this.getMsgWithTime(this.elvesCantCutTrees) + "</p>");
-                this.configManager.changeCurResourceQuantity("wood", this.configManager.woodQuantity);
+                msg = this.elvesCantCutTrees1 + changes + this.elvesCantCutTrees2;
                 break;
             case "elves are disappointed":
-                newElement = $("<p>" + this.getMsgWithTime(this.elvesAreDisappointed) + "</p>");
+                msg = this.elvesAreDisappointed;
                 break;
             case "elves like":
-                newElement = $("<p>" + this.getMsgWithTime(this.elvesLike) + "</p>");
+                msg = this.elvesLike;
                 break;
+
             case "nightmare":
-                newElement = $("<p>" + this.getMsgWithTime(this.nightmare) + "</p>");
+                msg = this.nightmare;
                 break;
             case "strange in the skies":
-                newElement = $("<p>" + this.getMsgWithTime(this.strangeInTheSkies) + "</p>");
+                msg = this.strangeInTheSkies;
                 break;
+            case "Ufo killed":
+                msg = this.ufoKilled1 + changes + this.ufoKilled2;
+                break;
+            case "Ufo gave an artifact":
+                msg = this.ufoArtifact1 + changes + this.ufoArtifact2;
+                break;
+
             case "overturned corpses":
-                newElement = $("<p>" + this.getMsgWithTime(this.overturnedCorpses) + "</p>");
+                msg = this.overturnedCorpses;
                 break;
             case "white walkers in another village":
-                newElement = $("<p>" + this.getMsgWithTime(this.whiteWalkersInAnotherVillage) + "</p>");
+                msg = this.whiteWalkersInAnotherVillage;
                 break;
             case "fool moon":
-                newElement = $("<p>" + this.getMsgWithTime(this.foolMoon) + "</p>");
+                msg = this.foolMoon;
                 break;
+            case "death because of zombies":
+                msg = this.deathBecauseOfZombie;
+                break;
+
+            case "Potatoes":
+                msg = "👩‍🌾👩‍🌾 Farmers found " + changes + " potatoes.🥔🥔🥔🥔";
+                break;
+            case "Assassin rabbits":
+                msg = "🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to take rabbit's food. Assassin rabbits killed : " + changes + " farmers.";
+                break;
+            case "Wild rabbits":
+                msg = "🐰🐰🐰 Farmers saw the wild rabbits.";
+                break;
+            case "Kiwi":
+                msg = "👩‍🌾👩‍🌾 Farmers found " + changes + " kiwi fruits.🥝🥝🥝🥝";
+                break;
+            case "Rats":
+                msg = "🐀🐀🐀 Rats ate " + changes + " of your food.";
+                break;
+
+            case "Storm":
+                msg = "⛈️There is a storm. It spoiled some of your wood: " + changes + " is lost.";
+                break;
+            case "Small rain":
+                msg = "🌈 There was a small rain.";
+                break;
+            case "Big earthquake":
+                msg = "🧶 ☹ There was a big earthquake. Unfortunately it killed: " + changes + " of your miners.";
+                break;
+            case "Middle earthquake":
+                msg = "🧶️ There was a middle earthquake. Some trees were down and it gave you : " + changes + " woods.";
+                break;
+            case "Light earthquake":
+                msg = "🧶 There was a light earthquake.";
+                break;
+
+            case "Amazons are there":
+                msg = "Your people saw a lot of beautiful wild amazons 👧👧👧";
+                break;
+            case "Amazons speaking":
+                msg = "👧👧👧 Your people communicated a bit with Amazons.";
+                break;
+            case "Amazons kidnapped":
+                msg = "👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back " + changes + " male corpses, you see smiles on corpse's faces.";
+                break;
+            case "Amazons brought":
+                msg = "👧👧👧👧 Amazons brought a few males to your people . " + changes + " new free people.";
+                break;
+
             // case "elves don't like":
             //     newElement =
             //     break;
         }
-        if (newElement) {
+        if (msg) {
+            let newElement = $("<p>" + this.getMsgWithTime(msg) + "</p>");
             this.pageManager.eventDiv.after(newElement);
-            newElement.show("slow");
-        }
-
-        let newElementAchievement;
-        switch (what) {
-            case "UFO Alien":
-                newElementAchievement = this.pageManager.ufoAchievement;
-                break;
-            case "Palace":
-                newElementAchievement = this.pageManager.palaceAchievement;
-                break;
-            case "First Research":
-                newElementAchievement = this.pageManager.firstResearchAchievement;
-                break;
-            case "starvation":
-                newElementAchievement = this.pageManager.hungerAchievement;
-                break;
-            case "Productivity":
-                newElementAchievement = this.pageManager.productivityAchievement;
-                break;
-            case "More Food":
-                newElementAchievement = this.pageManager.moreFoodAchievement;
-                break;
-        }
-        if (newElementAchievement) {
-            newElement = $("<p>" + this.getMsgWithTime(this.newAchievement) + "</p>");
-            this.pageManager.eventDiv.after(newElement);
-            newElement.show("slow");
-
-            this.pageManager.achievementSection.append(newElementAchievement);
-            newElementAchievement.show("slow");
+            this.pageManager.showElement([newElement]);
         }
     }
 
-    addAchievement (what) {
+    addAchievement(what) {
         let newElementAchievement;
         switch (what) {
             case "UFO Alien":
@@ -135,7 +179,7 @@ class EventManager {
             case "First Research":
                 newElementAchievement = this.pageManager.firstResearchAchievement;
                 break;
-            case "starvation":
+            case "Starvation":
                 newElementAchievement = this.pageManager.hungerAchievement;
                 break;
             case "Productivity":
@@ -166,12 +210,12 @@ class EventManager {
     eventHappen() {
         // to small population for events
         let eventDiversity = 1;
-        if (self.configManager.currentPopulation > 20) {
+        if (this.configManager.currentPopulation > 2) {
             eventDiversity = 8;
         }
 
-        switch (this.getRandomInt(eventDiversity)) {
-            // switch (8) {
+        // switch (this.getRandomInt(eventDiversity)) {
+        switch (5) {
             default:
                 this.nothingHappenEvent();
                 break;
@@ -229,38 +273,14 @@ class EventManager {
         this.addEvent("ok");
     }
 
-    elfEvent() {
-        switch (this.getRandomInt(2)) {
-            case 1:
-                let wood = this.configManager.woodQuantity;
-                if (wood) {
-                    this.addEvent("elves can't cut trees");
-                } else {
-                    this.addEvent("elves are disappointed");
-                }
-                break;
-            case 2:
-                if (this.configManager.woodmenQuantity) {
-                    this.addEvent("Elves don't like");
-                    $("#events-div span").after("<p>" + this.getMsgWithTime("🧝🧝 Elves don't like when you cut trees. They killed: " + woodcutters.text() + " of your woodcutters. They said - sorry.") + "</p>");
-                    for (let i = 0; i < woodmen; i++) {
-                        this.citizenManager.killWoodcutter();
-                    }
-                } else {
-                    this.addEvent("elves like");
-                }
-                break;
-        }
-    }
-
     ufoEvent() {
-        let farmerElement = this.configManager.foodQuantity;
-        if (farmerElement.text() > 25) {
+        let farmers = this.configManager.farmerQuantity;
+        if (farmers > 25) {
             switch (this.getRandomInt(3)) {
                 case 1:
-                    let killedFarmerAmount = Math.round(0.1 * +farmerElement.text());
-                    $("#events-div span").after("<p>" + this.getMsgWithTime("🛸 Ufo Aliens tried to improve your human beings, but it wasn't successful. Unfortunately they killed: " + killedFarmerAmount + " of your farmers. Maybe in the next time.") + "</p>");
-                    for (let i = 0, amount = killedFarmerAmount; i < amount; i++) {
+                    let killedFarmerAmount = Math.round(0.1 * farmers);
+                    this.addEvent("Ufo killed", killedFarmerAmount);
+                    for (let i = 0; i < killedFarmerAmount; i++) {
                         this.citizenManager.killFarmer();
                     }
                     break;
@@ -268,13 +288,38 @@ class EventManager {
                     this.addEvent("nightmare");
                     break;
                 case 3:
-                    let newResources = Math.round(0.6 * +$("#stone-quantity").text());
-                    $("#events-div span").after("<p>" + this.getMsgWithTime("🛸 Ufo gave to you a mighty artifact to improve your human beings, but your people didn't know how to apply this and they just exchanged it with more advanced civilization for: " + newResources + " stones.") + "</p>");
+                    let newResources = Math.round(0.6 * this.configManager.stoneQuantity);
+                    this.addEvent("Ufo gave an artifact", newResources);
                     this.configManager.changeCurResourceQuantity("stone", newResources);
                     break;
             }
         } else {
             this.addEvent("strange in the skies");
+        }
+    }
+
+    elfEvent() {
+        switch (this.getRandomInt(2)) {
+            case 1:
+                let wood = this.configManager.woodQuantity;
+                if (wood) {
+                    this.addEvent("elves can't cut trees");
+                    this.configManager.changeCurResourceQuantity("wood", wood);
+                } else {
+                    this.addEvent("elves are disappointed");
+                }
+                break;
+            case 2:
+                if (this.configManager.woodmenQuantity) {
+                    this.addEvent("Elves don't like");
+                    this.pageManager.eventDiv.after("<p>" + this.getMsgWithTime("🧝🧝 Elves don't like when you cut trees. They killed: " + this.configManager.woodmenQuantity + " of your woodcutters. They said - sorry.") + "</p>");
+                    for (let i = 0; i < this.configManager.woodmenQuantity; i++) {
+                        this.citizenManager.killWoodcutter();
+                    }
+                } else {
+                    this.addEvent("elves like");
+                }
+                break;
         }
     }
 
@@ -308,36 +353,36 @@ class EventManager {
 
     weatherEvent() {
         // TODO add illness
-        let woodElement = $("#wood-quantity");
-        let minerElement = $("#miner-quantity");
+        let wood = this.configManager.woodQuantity;
+        let miners = this.configManager.minerQuantity;
         switch (this.getRandomInt(2)) {
             // Storm
             case 1:
-                if (+woodElement.text() > 9) {
-                    this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("⛈️There is a storm. It spoiled some of your wood: " + Math.round(+woodElement.text() * 0.3) + " is lost.") + "</p>");
-                    woodElement.text(Math.round(+woodElement.text() * 0.7));
+                if (wood > 20) {
+                    this.addEvent("Storm", Math.round(wood * 0.3));
+                    this.configManager.changeCurResourceQuantity("wood", -Math.round(wood * 0.3));
                 } else {
-                    this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🌈 There was a small rain.") + "</p>");
+                    this.addEvent("Small rain");
                 }
                 break;
             // Earthquake
             case 2:
                 switch (this.getRandomInt(2)) {
                     case 1:
-                        if (+minerElement.text() > 3) {
-                            let killedMinerAmount = Math.round(0.3 * +minerElement.text());
-                            this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🧶 ☹ There was a big earthquake. Unfortunately it killed: " + killedMinerAmount + " of your miners.") + "</p>");
+                        if (miners > 7) {
+                            let killedMinerAmount = Math.round(0.3 * miners);
+                            this.addEvent("Big earthquake", killedMinerAmount);
                             for (let i = 0, amount = killedMinerAmount; i < amount; i++) {
                                 this.citizenManager.killMiner();
                             }
                         } else {
-                            let newResources = Math.round(0.63 * +woodElement.text());
-                            this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🧶️ There was a middle earthquake. Some trees were down and it gave you : " + newResources + " woods.") + "</p>");
+                            let newResources = Math.round(0.33 * wood);
+                            this.addEvent("Middle earthquake", newResources);
                             this.configManager.changeCurResourceQuantity("wood", newResources);
                         }
                         break;
                     case 2:
-                        this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🧶 There was a light earthquake.") + "</p>");
+                        this.addEvent("Light earthquake");
                         break;
                 }
                 break;
@@ -345,38 +390,38 @@ class EventManager {
     }
 
     wildAmazonEvent() {
-        let $scientistQuantity = $("#scientist-quantity");
-        if (+$scientistQuantity.text() >= 10) {
+        let scientists = this.configManager.curScientistQuantity;
+        if (scientists > 10) {
             switch (this.getRandomInt(3)) {
                 case 1:
-                    this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("Your people communicated a bit with Amazons 👧👧👧👧") + "</p>");
+                    this.addEvent("Amazons speaking");
                     break;
                 case 2:
-                    let killedScientistAmount = Math.round(0.5 * +$scientistQuantity.text());
-                    this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back " + killedScientistAmount + " male corpses, you see smiles on corpse's faces.") + "</p>");
+                    let killedScientistAmount = Math.round(0.5 * scientists);
+                    this.addEvent("Amazons kidnapped", killedScientistAmount);
                     for (let i = 0, amount = killedScientistAmount; i < amount; i++) {
-                        killScientist();
+                        this.citizenManager.killScientist();
                     }
-                    $("#knowledge-quantity").text(Math.round(+$("#knowledge-quantity").text() * 0.5));
+                    this.configManager.changeCurResourceQuantity("knowledge", this.configManager.knowledgeQuantity * 0.5);
                     break;
                 case 3:
-                    let newMaleAmount = Math.round(0.25 * +$scientistQuantity.text());
-                    this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👧👧👧👧 Amazons brings a few males to your people . " + newMaleAmount + " new free people.") + "</p>");
+                    let newMaleAmount = Math.round(0.25 * scientists);
+                    this.addEvent("Amazons brought", newMaleAmount);
                     this.citizenManager.createCitizen(newMaleAmount);
                     break;
             }
         } else {
-            this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("Your people saw a lot of beautiful wild amazons 👧👧👧👧") + "</p>");
+            this.addEvent("Amazons are there");
         }
     }
 
     birthDeathCycleEvent() {
-        let currentPopulation = +$("#current-population").text();
-        let changeAmount = Math.round(currentPopulation * 0.25);
+        let curPop = this.configManager.currentPopulation;
+        let changeAmount = Math.round(this.getRandomInt(curPop) * 0.25);
         switch (this.getRandomInt(2)) {
             case 1:
                 this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👪👪 +" + changeAmount + " new people were born.") + "</p>");
-                this.citizenManager.createCitizen(changeAmount)
+                this.citizenManager.createCitizen(changeAmount);
                 break;
             case 2:
                 this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("👪👪 -" + changeAmount + " died because of age.") + "</p>");
@@ -388,31 +433,31 @@ class EventManager {
     }
 
     farmerEvent() {
-        let farmerQuantityEl = $("#farmer-quantity");
-        this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔🥔 🥝🥝 your people see a lot of some new kind of food.") + "</p>");
+        let farmers = this.configManager.farmerQuantity;
+        // this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔 🥝🥝 your people see a lot of new kind of food.") + "</p>");
 
-        let foodElement = $("#food-quantity");
+        let food = this.configManager.foodQuantity;
         switch (this.getRandomInt(5)) {
             case 1:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 1.8) + " potatoes.") + "</p>");
-                this.configManager.changeCurResourceQuantity("food", Math.round(foodElement.text() * 1.8));
+                this.addEvent("Potatoes", Math.round(food * 1.8));
+                this.configManager.changeCurResourceQuantity("food", Math.round(food * 1.8));
                 break;
             case 2:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to try to take rabbit's food. Assassin rabbits killed : " + Math.round(farmerQuantityEl.text() * 0.15) + " farmers.") + "</p>");
-                for (let i = 0, amount = Math.round(farmerQuantityEl.text() * 0.15); i < amount; i++) {
+                this.addEvent("Assassin rabbits", Math.round(farmers * 0.15));
+                for (let i = 0, amount = Math.round(farmers * 0.15); i < amount; i++) {
                     this.citizenManager.killFarmer();
                 }
                 break;
             case 3:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🐰🐰🐰 Farmers came to new kind of food, than they noticed strange rabbits near and farmers decided to go back. Maybe that was a right decision.") + "</p>");
+                this.addEvent("Wild rabbits");
                 break;
             case 4:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("Farmers found " + Math.round(+foodElement.text() * 2.5) + " kiwi fruits.") + "</p>");
-                this.configManager.changeCurResourceQuantity("food", Math.round(foodElement.text() * 2.5));
+                this.addEvent("Kiwi", Math.round(food * 2.5));
+                this.configManager.changeCurResourceQuantity("food", Math.round(food * 2.5));
                 break;
             case 5:
-                this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🐀🐀🐀 Rats ate " + Math.round(+foodElement.text() * 0.9) + " of your food.") + "</p>");
-                this.configManager.changeCurResourceQuantity("food", -Math.round(foodElement.text() * 0.9));
+                this.addEvent("Rats", Math.round(food * 0.9));
+                this.configManager.changeCurResourceQuantity("food", -Math.round(food * 0.9));
                 break;
         }
     }

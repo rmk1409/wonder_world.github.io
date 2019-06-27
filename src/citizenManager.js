@@ -3,7 +3,6 @@ class CitizenManager {
         this.gameManager = gameManager;
         this.configManager = this.gameManager.configManager;
         this.eventManager = this.gameManager.eventManager;
-
         this.pageManager = this.gameManager.pageManager;
     }
 
@@ -19,13 +18,12 @@ class CitizenManager {
 
             this.birthCitizen(num);
 
-            // TODO Finished
-            // if (+this.pageManager.curPopulationElement.text() <= +this.pageManager.djQuantityElement.text() * this.configManager.spaceInOneClub) {
-            //     this.pageManager.curHappyPeople.text(this.pageManager.curPopulationElement.text());
-            // }
-            // if (+this.pageManager.curPopulationElement.text() <= +this.pageManager.instructorQuantityElement.text() * this.configManager.spaceInOneClub) {
-            //     this.pageManager.curHealthPeople.text(this.pageManager.curPopulationElement.text());
-            // }
+            if (this.configManager.currentPopulation <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
+                this.pageManager.curHappyPeopleElement.text(this.configManager.currentPopulation);
+            }
+            if (this.configManager.currentPopulation <= this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub) {
+                this.pageManager.curHealthyPeopleElement.text(this.pageManager.curPopulationElement.text());
+            }
         } else {
             this.eventManager.addEvent("food or houses");
         }
@@ -35,6 +33,13 @@ class CitizenManager {
         let availabilityFlag = false;
         // add worker conditions
         if (num > 0) {
+            if (name === "funeral") {
+                if (!(this.configManager.lazyboneQuantity >= num)) {
+                    availabilityFlag = false;
+                    this.eventManager.addEvent("1 funeral process needs 2 workers");
+                    return;
+                }
+            }
             if (this.configManager.lazyboneQuantity >= num) {
                 availabilityFlag = true;
                 switch (name) {
@@ -42,18 +47,28 @@ class CitizenManager {
                         if (!(this.configManager.curScientistQuantity < this.configManager.maxScientistQuantity)) {
                             availabilityFlag = false;
                             this.eventManager.addEvent("more campfires");
+                            return;
                         }
                         break;
                     case "warrior":
                         if (!(this.configManager.curWarriorQuantity < this.configManager.maxWarriorQuantity)) {
                             availabilityFlag = false;
                             this.eventManager.addEvent("more barrack");
+                            return;
                         }
                         break;
                     case "dj":
                         if (!(this.configManager.curDjQuantity < this.configManager.maxDjQuantity)) {
                             availabilityFlag = false;
                             this.eventManager.addEvent("more music clubs");
+                            return;
+                        }
+                        break;
+                    case "instructor":
+                        if (!(this.configManager.curInstructorQuantity < this.configManager.maxInstructorQuantity)) {
+                            availabilityFlag = false;
+                            this.eventManager.addEvent("more yoga clubs");
+                            return;
                         }
                         break;
                 }
@@ -88,6 +103,7 @@ class CitizenManager {
         if (availabilityFlag) {
             this.configManager.changeCurResourceQuantity("curLazy", -num);
             this.configManager.changeCurResourceQuantity(name, num);
+
             let peopleAmount = this.configManager.currentPopulation;
             let totalAvailableSpaceInClub;
             switch (name) {
@@ -106,27 +122,26 @@ class CitizenManager {
                 case "dj":
                     totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub;
                     if (peopleAmount <= totalAvailableSpaceInClub) {
-                        this.configManager.changeCurResourceQuantity("curHappyPeople", peopleAmount);
+                        this.pageManager.curHappyPeopleElement.text(peopleAmount);
                     } else {
-                        this.configManager.changeCurResourceQuantity("curHappyPeople", this.configManager.spaceForPeopleInClub);
+                        this.pageManager.curHappyPeopleElement.text(totalAvailableSpaceInClub);
                     }
 
                     if (!this.configManager.djProductivityFlag) {
-                        this.gameManager.increaseAllProduction();
+                        this.gameManager.changeAllProduction(true);
                         this.configManager.djProductivityFlag = true;
                     }
                     break;
                 case "instructor":
                     totalAvailableSpaceInClub = this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub;
-
                     if (peopleAmount <= totalAvailableSpaceInClub) {
-                        this.configManager.changeCurResourceQuantity("curHealthyPeople", peopleAmount);
+                        this.pageManager.curHealthyPeopleElement.text(peopleAmount);
                     } else {
-                        this.configManager.changeCurResourceQuantity("curHealthyPeople", this.configManager.spaceForPeopleInClub);
+                        this.pageManager.curHealthyPeopleElement.text(totalAvailableSpaceInClub);
                     }
 
                     if (!this.configManager.instructorProductivityFlag) {
-                        this.gameManager.increaseAllProduction();
+                        this.gameManager.changeAllProduction(true);
                         this.configManager.instructorProductivityFlag = true;
                     }
                     break;
@@ -159,29 +174,27 @@ class CitizenManager {
             } else if (this.configManager.leaderQuantity) {
                 this.configManager.changeCurResourceQuantity("leader", -1);
                 if (!this.configManager.leaderQuantity) {
-                    $(this.pageManager.tenWorkTd).hide("slow");
-                    $("#work-table .empty-row td").attr("colspan", "4");
+                    this.pageManager.hideElement([this.pageManager.tenWorkTd]);
+                    this.pageManager.workTableEmptyTd.attr("colspan", "4");
                     this.configManager.leaderPresentFlag = false;
                 }
-            } else if (+$("#warrior-quantity").text()) {
+            } else if (this.configManager.curWarriorQuantity) {
                 this.configManager.changeCurResourceQuantity("warrior", -1);
-            } else if (+$("#dj-quantity").text()) {
+            } else if (this.configManager.curDjQuantity) {
                 this.configManager.changeCurResourceQuantity("dj", -1);
-                currentDjSpaces++;
-                this.configManager.changeCurResourceQuantity("#currentHappyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
-                if (!+$("#dj-quantity").text()) {
-                    this.decreaseAllProduction();
+                this.configManager.changeCurResourceQuantity("currentHappyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
+                if (!this.configManager.curDjQuantity) {
+                    this.gameManager.changeAllProduction(false);
                     this.configManager.djProductivityFlag = false;
                 }
-            } else if (+$("#instructor-quantity").text()) {
+            } else if (this.configManager.curInstructorQuantity) {
                 this.configManager.changeCurResourceQuantity("instructor", -1);
-                this.configManager.changeCurResourceQuantity("currentHealthPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
-                currentInstructorSpaces++;
-                if (!+$("#instructor-quantity").text()) {
-                    this.decreaseAllProduction();
+                this.configManager.changeCurResourceQuantity("currentHealthyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
+                if (!this.configManager.curInstructorQuantity) {
+                    this.gameManager.changeAllProduction(false);
                     this.configManager.instructorPresentFlag = false;
                 }
-            } else if (+$("#farmer-quantity").text()) {
+            } else if (this.configManager.farmerQuantity) {
                 withDecrease = false;
                 this.killFarmer();
             }
@@ -190,7 +203,8 @@ class CitizenManager {
                 this.decreasePopulation();
             }
         } else {
-            alert(this.configManager.userName + " you killed: " + this.configManager.corpseQuantity + " people. I believe in you. Please, try again. 🧟🧟");
+            this.eventManager.addEvent("death because of zombies");
+            alert(this.configManager.userName + " you killed: " + (this.configManager.corpseQuantity + this.configManager.inGravesQuantity) + " people. I believe in you. Please, try again. 🧟🧟");
             this.pageManager.startAgainButton.slideToggle("slow");
             throw new Error("Something went badly wrong!");
         }
@@ -220,7 +234,7 @@ class CitizenManager {
     }
 
     killFarmer() {
-        this.decreasePopulation()
+        this.decreasePopulation();
         this.configManager.changeCurResourceQuantity("farmer", -1);
         this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * this.configManager.booster - 1);
     }
@@ -229,37 +243,6 @@ class CitizenManager {
         this.decreasePopulation();
         this.configManager.changeCurResourceQuantity("scientist", -1);
         this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", -this.configManager.scientistProduction * this.configManager.booster);
-    }
-
-    decreaseFoodProduction() {
-        this.configManager.foodTotalProduction = Math.round(this.configManager.foodTotalProduction * 1000 - this.configManager.foodIncreaseStep * 1000) / 1000;
-
-        this.configManager.changeCurResourceQuantity("foodTotalProduction", -this.configManager.farmerQuantity * this.configManager.foodIncreaseStep);
-    }
-
-    decreaseWoodProduction() {
-        this.configManager.woodTotalProduction = Math.round(woodProduction * 1000 - 0.125 * 1000) / 1000;
-        $("#wood-production-quantity").text((+$("#woodcutter-quantity").text() * woodProduction).toFixed(1));
-    }
-
-    decreaseStoneProduction() {
-        this.configManager.stoneTotalProduction = Math.round(stoneProduction * 1000 - 0.05 * 1000) / 1000;
-        $("#stone-production-quantity").text((+$("#miner-quantity").text() * stoneProduction).toFixed(1));
-    }
-
-    decreaseKnowledgeProduction() {
-        this.configManager.knowledgeTotalProduction = Math.round(knowledgeProduction * 1000 - 0.025 * 1000) / 1000;
-        $("#knowledge-production-quantity").text((+$("#scientist-quantity").text() * knowledgeProduction).toFixed(1));
-    }
-
-    decreaseAllProduction() {
-        this.configManager.productivity = Math.round(this.configManager.productivity * 100 - 0.25 * 100) / 100;
-        this.configManager.changeCurResourceQuantity("#productivity-quantity", -25);
-
-        this.decreaseFoodProduction();
-        this.decreaseWoodProduction();
-        this.decreaseStoneProduction();
-        this.decreaseKnowledgeProduction();
     }
 }
 

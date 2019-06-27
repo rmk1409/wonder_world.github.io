@@ -5,6 +5,7 @@ class PageManager {
         this.configManager = this.gameManager.configManager;
 
         // HTML Elements
+        this.userNameElement = $("#user-name");
         this.startAgainButton = $("#start-again-button");
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
@@ -46,13 +47,15 @@ class PageManager {
         this.healthRowElement = $("#health-row");
         this.curHappyPeopleElement = $("#current-happy-people");
         this.maxHappyPeopleElement = $("#max-happy-people");
-        this.curHealthPeopleElement = $("#current-health-people");
-        this.maxHealthPeopleElement = $("#max-health-people");
+        this.curHealthyPeopleElement = $("#current-healthy-people");
+        this.maxHealthyPeopleElement = $("#max-healthy-people");
 
         this.emptyRowBeforProductivityRowElement = $("#empty-row-before-productivity");
         this.productivityRowElement = $("#productivity-row");
+        this.productivityQuantityElement = $("#productivity-quantity");
 
         this.tenWorkTd = $(".ten-work-td");
+        this.workTableEmptyTd = $("#work-table .empty-row td");
 
         this.curLazybonesElement = $("#lazybone-quantity");
 
@@ -111,8 +114,9 @@ class PageManager {
         this.buildGraveButton = $("#build-grave-button");
         this.buildGraveRow = $("#build-grave-row");
         this.graveQuantityElement = $("#grave-quantity");
-        this.buildScrollButton = $("#build-scroll-button");
         this.buildScrollRow = $("#build-scroll-row");
+        this.buildScrollButton = $("#build-scroll-button");
+        this.buildScrollDefinition = $("#build-scroll-definition");
         this.scrollQuantityElement = $("#scroll-quantity");
         this.buildGranaryButton = $("#build-storage-granary-button");
         this.buildGranaryRow = $("#build-storage-granary-row");
@@ -261,20 +265,20 @@ class PageManager {
     }
 
     checkProduction() {
-        this.changeColor($("#food-production-quantity"), $("#food-production-span"), $("#add-farmer-button"));
-        this.changeColor($("#wood-production-quantity"), $("#wood-production-span"));
-        this.changeColor($("#stone-production-quantity"), $("#stone-production-span"));
-        this.changeColor($("#knowledge-production-quantity"), $("#knowledge-production-span"));
-        this.changeColor($("#lazybone-quantity"), $("#lazybone-quantity"));
+        this.changeColor(this.configManager.foodTotalProduction, this.foodProductionElement, this.addFarmerButton);
+        this.changeColor(this.configManager.woodTotalProduction, this.woodProductionElement);
+        this.changeColor(this.configManager.stoneTotalProduction, this.stoneProductionElement);
+        this.changeColor(this.configManager.knowledgeTotalProduction, this.knowledgeProductionElement);
+        this.changeColor(this.configManager.lazyboneQuantity, this.curLazybonesElement);
     }
 
     changeColor(checkEl, target, button) {
-        if (+checkEl.text() > 0) {
+        if (checkEl > 0) {
             target.css({"background-color": "green", "color": "white"});
             if (!!button) {
                 button.css({"background-color": "", "color": "black"});
             }
-        } else if (+checkEl.text() === 0) {
+        } else if (checkEl === 0) {
             target.css({"background-color": "", "color": "black"});
         } else {
             target.css({"background-color": "red", "color": "white"});
