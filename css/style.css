@@ -1,6 +1,7 @@
 body {
     background: url("../res/img/common/background-village2.jpg") no-repeat;
     background-size: 100% 100%;
+	margin: 0 20 0 20 !important;
 }
 
 header img {
@@ -41,11 +42,6 @@ button {
     font-weight: bold;
 }
 
-#work-table button {
-    width: 35px;
-    padding: 0px;
-    font-size: 11px;
-}
 
 #start-again-button {
     position: absolute;
@@ -64,18 +60,22 @@ button {
 }
 
 table {
-    border: 3px solid black;
-    border-spacing: 5px;
+    opacity: 0.8;
+	background-color: white;
+    #border: 3px solid black;
+    #border-spacing: 5px;
     border-collapse: collapse;
-    font-size: 14px;
+    #font-size: 14px;
 }
 
-caption {
+table caption {
+	caption-side: top;
     text-align: left;
 }
 
-th {
-    color: darkblue;
+table td, table th {
+    vertical-align: middle !important;
+    border-top: 0px !important;
 }
 
 #work-table th:nth-child(4) {
@@ -87,8 +87,6 @@ th {
 }
 
 td {
-    padding: 2px;
-    border: 2px solid green;
     text-align: right;
 }
 
@@ -130,22 +128,6 @@ td {
     background-color: black;
 }
 
-#starvation-warning span {
-    color: white;
-    background: red;
-    font-weight: bold;
-    border: 3px solid black;
-    border-radius: 40%;
-    margin-left: 175px;
-}
-
-#achievement-section {
-    border: 3px solid black;
-    padding: 10px;
-    border-radius: 20%;
-    width: 470px;
-}
-
 #author {
     position: absolute;
     left: 200px;
@@ -166,7 +148,7 @@ td {
 }
 
 #events-div {
-    max-height: 180px;
+    max-height: 200px;
     overflow: hidden;
     max-width: 495px;
 }
