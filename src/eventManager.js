@@ -3,7 +3,7 @@ class EventManager {
     constructor() {
         this.okStatus = "Everything is ok. Let s relax. ☕";
         this.lackLazyboneLog = "👷‍♂️👷‍♂ Find more lazybones.";
-        this.starvation = "🍽️🍽️HELP!!! We don t have enough food. :(";
+        this.starvation = "🍽️🍽️HELP!!! We don't have enough food. :(";
         this.foodOrHouses = "🤨 Not enough food or houses.";
         this.moreResources = "🤨 Collect more resources.";
         this.moreKnowledge = "🤨 Collect more knowledge.";
