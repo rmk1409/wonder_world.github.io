@@ -56,6 +56,7 @@ class EventManager {
             case "starvation":
                 msg = this.starvation;
                 status = this.darkStatus;
+
                 break;
             case "food or houses":
                 msg = this.foodOrHouses;
