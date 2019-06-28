@@ -105,9 +105,11 @@ class PageManager {
         this.instructorQuantityElement = $("#instructor-quantity");
         this.addInstructorButton = $("#add-instructor-button");
 
+        this.emptyRowBeforeJobLeader = $("#empty-row-before-job-leader");
         this.leaderRow = $("#job-leader-row");
         this.leaderQuantityElement = $("#leader-quantity");
         this.addLeaderButton = $("#add-leader-button");
+
         this.jobWarriorRow = $("#job-warrior-row");
         this.addWarriorButton = $("#add-warrior-button");
         this.warriorQuantityElement = $("#warrior-quantity");
@@ -161,12 +163,12 @@ class PageManager {
         this.eventDiv = $("#events-div span");
 
         this.achievementSection = $("#achievement-section");
-        this.ufoAchievement = $("<img src=\"res/img/achievement/alien.png\" title=\"Player is an alien\"/>");
-        this.palaceAchievement = $("<img src=\"res/img/achievement/blueprint.png\" title=\"Build a palace\"/>");
-        this.firstResearchAchievement = $("<img src=\"res/img/achievement/knowledge.png\" title=\"First research\"/>");
-        this.hungerAchievement = $("<img src=\"res/img/common/death.png\" title=\"Die of hunger\"/>");
-        this.productivityAchievement = $("<img src=\"res/img/achievement/speedometer.png\" title=\"Achieve high productivity (more than 190%)\"/>");
-        this.moreFoodAchievement = $("<img src=\"res/img/achievement/food.png\" title=\"Even more food, hurray!!! :)\"/>");
+        this.ufoAchievement = $("<img alt='alien img' src='res/img/achievement/alien.png' title='Player is an alien'/>");
+        this.palaceAchievement = $("<img alt='palace ach img' src='res/img/achievement/blueprint.png' title='Build a palace'/>");
+        this.firstResearchAchievement = $("<img alt='first research img' src='res/img/achievement/knowledge.png' title='First research'/>");
+        this.hungerAchievement = $("<img alt='starving img' src='res/img/common/death.png' title='Die of hunger'/>");
+        this.productivityAchievement = $("<img alt='productivity img' src='res/img/achievement/speedometer.png' title='Achieve high productivity (more than 190%)'/>");
+        this.moreFoodAchievement = $("<img alt='farmer production img' src='res/img/achievement/food.png' title='Even more food, hurray!!! :)'/>");
 
         this.researchChangesButton = $("#tech-changes-button");
         this.techChangesElement = $("#tech-changes-row");

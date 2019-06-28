@@ -10,33 +10,52 @@ header img {
     height: 130px;
 }
 
-table img {
+#already-known-section img, table img {
+    height: 20px;
+}
+
+table td:first-child img, img{
     height: 35px;
 }
 
 #achievement-section img {
-    width: 25px;
+    height: 25px;
     margin-right: 5px;
 }
 
 #funeral-process-img {
     position: absolute;
-    top: 620px;
-    left: 60px;
-    width: 40px;
+    top: 562px;
+    left: 505px;
+    height: 40px;
+}
+
+table td:first-child {
+    width: 7%;
+}
+
+#work-table td:first-child {
+    width: 35%;
 }
 
 #starvation-warning img {
     width: 40px;
 }
 
+div#events-div div {
+    padding: 5px 8px;
+}
+
 button {
-    padding: 6px;
-    width: 120px;
+    width: 135px;
     border-radius: 30%;
     background-color: white;
     height: auto;
     font-weight: bold;
+}
+
+button.btn {
+    padding: 3px;
 }
 
 .container {
@@ -58,11 +77,6 @@ button {
 
 table {
     opacity: 0.8;
-    background-color: white;
-    #border: 3px solid black;
-    #border-spacing: 5px;
-    border-collapse: collapse;
-    #font-size: 14px;
 }
 
 table caption {
@@ -72,11 +86,15 @@ table caption {
 
 table td, table th {
     vertical-align: middle !important;
-    border-top: 0px !important;
+    border-top: 0 !important;
+}
+
+th {
+    text-align: center !important;
 }
 
 #work-table th:nth-child(4) {
-    min-width: 50px;
+    width: 10%;
 }
 
 #building-table td:nth-child(3) {
@@ -87,25 +105,22 @@ td {
     text-align: right;
 }
 
+.one-work-td, .ten-work-td {
+    width: 7%;
+}
+
 .table td, .table th {
     padding: 0.50rem;
 }
 
 #work-table button {
     width: 40px;
-    padding: 0px;
+    padding: 0;
 }
 
-#click-resource-table td:nth-child(3) {
-    min-width: 90px;
-}
-
+#click-resource-table td:nth-child(3),
 #people-productivity-table td:nth-child(3) {
-    min-width: 85px;
-}
-
-.empty-td {
-    border: 0px;
+    min-width: 90px;
 }
 
 #building-table td:last-child,
@@ -118,43 +133,30 @@ td {
 #achievement-technology-block {
     float: left;
     margin-right: 45px;
+    width: 37%;
 }
 
-#work-building-block {
-    margin-bottom: 30px
+#click-people-block{
+    width: 25%;
+}
+
+.table-primary td {
+    padding: 2px !important;
 }
 
 #achievement-technology-block {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
-#goal {
-    border: 5px solid black;
-    color: white;
-    background-color: black;
-}
-
-#author {
-    position: absolute;
-    left: 200px;
-    top: 110px;
-    font-style: italic;
-    font-size: 11px;
+/* EVENTS */
+#events-div {
+    max-height: 200px;
+    overflow: hidden;
 }
 
 #events-div div {
     display: none;
     margin: 0 0 2px 0 !important;
-}
-
-.build-empty-row {
-    background-color: #3b29e0;
-}
-
-#events-div {
-    max-height: 200px;
-    overflow: hidden;
-    max-width: 770px;
 }
 
 #events-div:hover {
@@ -165,10 +167,21 @@ td {
     max-width: 750px;
 }
 
+
 #already-known-p {
     cursor: pointer;
 }
 
+/* @MAIL */
+#author {
+    position: absolute;
+    left: 200px;
+    top: 110px;
+    font-style: italic;
+    font-size: 11px;
+}
+
+/* TEST */
 a img {
     position: absolute;
     left: 455px;

@@ -3,14 +3,14 @@ class EventManager {
     constructor() {
         this.okStatus = "Everything is ok. Let s relax. ☕";
         this.lackLazyboneLog = "👷‍♂️👷‍♂ Find more lazybones.";
-        this.starvation = "🍽️🍽️HELP!!! We don't have enough food. :(";
-        this.foodOrHouses = "🤨 Not enough food or houses.";
-        this.moreResources = "🤨 Collect more resources.";
-        this.moreKnowledge = "🤨 Collect more knowledge.";
-        this.moreScienceBuilding = "🤨 Build more campfires or other science buildings.";
-        this.moreMusicClubs = "🤨 Build more music clubs or other entertainment buildings.";
-        this.moreYogaClubs = "🤨 Build more yoga clubs or other health buildings.";
-        this.moreBarrack = "🤨 Build more barracks.";
+        this.starvation = "🍽️🍽️ HELP!!! We don't have enough food. :(";
+        this.foodOrHouses = "☑ You need more food or houses.";
+        this.moreResources = "☑ Collect more resources.";
+        this.moreKnowledge = "☑ Collect more knowledge.";
+        this.moreScienceBuilding = "☑ Build more campfires or other science buildings.";
+        this.moreMusicClubs = "☑ Build more music clubs or other entertainment buildings.";
+        this.moreYogaClubs = "☑ Build more yoga clubs or other health buildings.";
+        this.moreBarrack = "☑ Build more barracks.";
         this.funeralProccessMoreWorkers = "👥👥 One funeral requires 2 workers.";
         this.elvesCantCutTrees1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: ";
         this.elvesCantCutTrees2 = " of your wood.";
@@ -26,7 +26,7 @@ class EventManager {
         this.whiteWalkersInAnotherVillage = "🧛🧛 Some white walkers came from your corpse storage and went to another village. Than they went back to sleep.";
         this.foolMoon = "Your people liked fool moon this night 🌘";
         this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
-        this.newAchievement = "🙈🙈🙈 Get a new achievement.";
+        this.newAchievement = "🙊🙈🙉 Get a new achievement.";
 
         this.primaryStatus = "primary";
         this.secondaryStatus = "secondary";
@@ -223,6 +223,8 @@ class EventManager {
             let newElement = $(`<div class="alert alert-${status}" role="alert"><span>${this.getMsgWithTime(msg)}</span></div>`);
             this.pageManager.eventDiv.after(newElement);
             this.pageManager.showElement([newElement]);
+
+            $("#events-div").animate({scrollTop: 0}, "fast")
         }
     }
 
@@ -255,6 +257,8 @@ class EventManager {
             this.pageManager.achievementSection.append(newElementAchievement);
 
             this.pageManager.showElement([newElement, newElementAchievement]);
+
+            $("#events-div").animate({scrollTop: 0}, "fast")
         }
     }
 
@@ -274,7 +278,7 @@ class EventManager {
         }
 
         switch (this.getRandomInt(eventDiversity)) {
-        // switch (8) {
+            // switch (8) {
             default:
                 this.nothingHappenEvent();
                 break;
@@ -444,7 +448,7 @@ class EventManager {
                 case 3:
                     let newMaleAmount = Math.round(0.25 * scientists);
                     this.addEvent("Amazons brought", newMaleAmount);
-                    this.citizenManager.createCitizen(newMaleAmount);
+                    this.citizenManager.birthCitizen(newMaleAmount);
                     break;
             }
         } else {
@@ -455,7 +459,7 @@ class EventManager {
     elfEvent() {
         switch (this.getRandomInt(2)) {
             case 1:
-                let wood = this.configManager.woodQuantity;
+                let wood = Math.floor(this.configManager.woodQuantity);
                 if (wood > 20) {
                     this.addEvent("elves can't cut trees", wood);
                     this.configManager.changeCurResourceQuantity("wood", -wood);

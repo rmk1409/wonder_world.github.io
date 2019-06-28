@@ -75,7 +75,7 @@ class IntervalManager {
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
             let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity,
-                self.configManager.funeralQuantity]);
+                self.configManager.funeralQuantity / 2]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
                     self.configManager.changeCurResourceQuantity("corpse", -1);
@@ -88,9 +88,7 @@ class IntervalManager {
         }, 5e3);
 
         // Events
-        setInterval(() => self.eventManager.eventHappen(), 2e4);
-        // SCROLL to the 1st EVENT
-        setInterval(self.pageManager.eventDiv.animate({scrollTop: 0}, "fast"), 2e4);
+        setInterval(() => self.eventManager.eventHappen(), 3e4);
 
     }
 }

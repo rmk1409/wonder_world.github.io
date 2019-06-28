@@ -95,7 +95,8 @@ class GameManager {
                 }
                 return false;
             case "music-club":
-                if (this.builderManager.build(225, 225, ["musicClub", "maxDjQuantity", "maxHappyPeople"], [1, this.configManager.spaceForWorkerInClub, this.configManager.spaceForPeopleInClub])) {
+                if (this.builderManager.build(225, 225, ["musicClub", "maxDjQuantity", "maxHappyPeople"], [1, this.configManager.spaceForWorkerInClub,
+                    this.configManager.spaceForPeopleInClub])) {
                     if (!this.configManager.djPresentFlag) {
                         this.pageManager.showElement([this.pageManager.emptyRowBeforHappinessRowElement, this.pageManager.happinessRowElement, this.pageManager.emptyRowBeforProductivityRowElement,
                             this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobDjRowElement]);
@@ -105,7 +106,8 @@ class GameManager {
                 }
                 return false;
             case "yoga-club":
-                if (this.builderManager.build(225, 225, ["yogaClub", "maxInstructorQuantity", "maxHealthyPeople"], [1, this.configManager.spaceForWorkerInClub, this.configManager.spaceForPeopleInClub])) {
+                if (this.builderManager.build(225, 225, ["yogaClub", "maxInstructorQuantity", "maxHealthyPeople"], [1, this.configManager.spaceForWorkerInClub,
+                    this.configManager.spaceForPeopleInClub])) {
                     if (!this.configManager.instructorPresentFlag) {
                         this.pageManager.showElement([this.pageManager.emptyRowBeforHappinessRowElement, this.pageManager.healthRowElement, this.pageManager.emptyRowBeforProductivityRowElement,
                             this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobInstructorRowElement]);
@@ -121,7 +123,7 @@ class GameManager {
                     if (!this.configManager.palacePresentFlag) {
                         this.eventManager.addAchievement("Palace");
                         alert(`Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ 
-                        Great job!! \n ${this.configManager.userName}, do you wanna start again?`);
+                        ${this.configManager.userName}, Great job!!`);
                         this.pageManager.showElement([this.pageManager.startAgainButton]);
                         this.pageManager.buildPalaceButton.prop("disabled", true);
                         this.configManager.palacePresentFlag = true;
@@ -214,7 +216,8 @@ class GameManager {
                     this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P]);
                 break;
             case "leadership":
-                this.scienceManager.research(this.configManager.leadershipCost, this.pageManager.techLeadershipElement, [this.pageManager.leaderRow, this.pageManager.leadershipP]);
+                this.scienceManager.research(this.configManager.leadershipCost, this.pageManager.techLeadershipElement, [this.pageManager.emptyRowBeforeJobLeader, this.pageManager.leaderRow,
+                    this.pageManager.leadershipP]);
                 break;
             case "agriculture2":
                 if (this.scienceManager.research(this.configManager.agriculture2Cost, this.pageManager.techAgriculture2Element, [this.pageManager.agriculture2P])) {

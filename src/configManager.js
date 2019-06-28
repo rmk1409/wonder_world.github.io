@@ -355,7 +355,11 @@ class ConfigManager {
             resource = storageResource;
         }
 
-        resourceElement.text(resource.toFixed(toFixed));
+        if (toFixed) {
+            resourceElement.text(resource.toFixed(toFixed));
+        } else {
+            resourceElement.text(Math.floor(resource));
+        }
         switch (resName) {
             // Resources
             case "food":

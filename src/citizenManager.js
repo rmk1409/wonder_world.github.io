@@ -171,6 +171,20 @@ class CitizenManager {
             } else if (this.configManager.curScientistQuantity) {
                 withDecrease = false;
                 this.killScientist();
+            } else if (this.configManager.curDjQuantity) {
+                this.configManager.changeCurResourceQuantity("dj", -1);
+                this.configManager.changeCurResourceQuantity("curHappyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
+                if (!this.configManager.curDjQuantity) {
+                    this.gameManager.changeAllProduction(false);
+                    this.configManager.djProductivityFlag = false;
+                }
+            } else if (this.configManager.curInstructorQuantity) {
+                this.configManager.changeCurResourceQuantity("instructor", -1);
+                this.configManager.changeCurResourceQuantity("curHealthyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
+                if (!this.configManager.curInstructorQuantity) {
+                    this.gameManager.changeAllProduction(false);
+                    this.configManager.instructorPresentFlag = false;
+                }
             } else if (this.configManager.leaderQuantity) {
                 this.configManager.changeCurResourceQuantity("leader", -1);
                 if (!this.configManager.leaderQuantity) {
@@ -180,20 +194,6 @@ class CitizenManager {
                 }
             } else if (this.configManager.curWarriorQuantity) {
                 this.configManager.changeCurResourceQuantity("warrior", -1);
-            } else if (this.configManager.curDjQuantity) {
-                this.configManager.changeCurResourceQuantity("dj", -1);
-                this.configManager.changeCurResourceQuantity("currentHappyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
-                if (!this.configManager.curDjQuantity) {
-                    this.gameManager.changeAllProduction(false);
-                    this.configManager.djProductivityFlag = false;
-                }
-            } else if (this.configManager.curInstructorQuantity) {
-                this.configManager.changeCurResourceQuantity("instructor", -1);
-                this.configManager.changeCurResourceQuantity("currentHealthyPeople", (this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : -(this.configManager.spaceForPeopleInClub - 1)));
-                if (!this.configManager.curInstructorQuantity) {
-                    this.gameManager.changeAllProduction(false);
-                    this.configManager.instructorPresentFlag = false;
-                }
             } else if (this.configManager.farmerQuantity) {
                 withDecrease = false;
                 this.killFarmer();
