@@ -1,7 +1,7 @@
 body {
     background: url("../res/img/common/background-village2.jpg") no-repeat;
     background-size: 100% 100%;
-	margin: 0 20 0 20 !important;
+    margin: 0 20px 0 20px !important;
 }
 
 header img {
@@ -27,9 +27,6 @@ table img {
 }
 
 #starvation-warning img {
-    position: absolute;
-    top: 220px;
-    left: 305px;
     width: 40px;
 }
 
@@ -42,14 +39,14 @@ button {
     font-weight: bold;
 }
 
+.container {
+    display: flex;
+    margin-left: 0 !important;
+    max-width: 100% !important;
+}
 
-#start-again-button {
-    position: absolute;
-    left: 200px;
-    top: 505px;
-    background-color: green;
-    color: white;
-    padding: 3px;
+#click-people-block {
+    width: 23%;
 }
 
 #getFullButton {
@@ -61,7 +58,7 @@ button {
 
 table {
     opacity: 0.8;
-	background-color: white;
+    background-color: white;
     #border: 3px solid black;
     #border-spacing: 5px;
     border-collapse: collapse;
@@ -69,7 +66,7 @@ table {
 }
 
 table caption {
-	caption-side: top;
+    caption-side: top;
     text-align: left;
 }
 
@@ -88,6 +85,15 @@ table td, table th {
 
 td {
     text-align: right;
+}
+
+.table td, .table th {
+    padding: 0.50rem;
+}
+
+#work-table button {
+    width: 40px;
+    padding: 0px;
 }
 
 #click-resource-table td:nth-child(3) {
@@ -148,7 +154,7 @@ td {
 #events-div {
     max-height: 200px;
     overflow: hidden;
-    max-width: 495px;
+    max-width: 770px;
 }
 
 #events-div:hover {
@@ -156,7 +162,7 @@ td {
 }
 
 #events-div > * {
-    max-width: 470px;
+    max-width: 750px;
 }
 
 #already-known-p {

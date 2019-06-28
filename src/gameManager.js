@@ -30,7 +30,11 @@ class GameManager {
 
         let userName;
         userName = localStorage.getItem(userKey);
-        userName = confirm(userName && `＼(￣▽￣)／, are you ${userName}, yes?`) ? userName : prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
+        if (userName) {
+            userName = confirm(`＼(￣▽￣)／, are you ${userName}, yes?`) ? userName : prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
+        } else {
+            userName = prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
+        }
         this.configManager.userName = userName;
 
         localStorage.setItem(userKey, userName);

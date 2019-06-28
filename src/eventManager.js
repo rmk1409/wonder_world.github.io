@@ -226,6 +226,7 @@ class EventManager {
     }
 
     addAchievement(what) {
+        this.pageManager.hideElement([this.pageManager.notAchievement]);
         let newElementAchievement;
         switch (what) {
             case "UFO Alien":
