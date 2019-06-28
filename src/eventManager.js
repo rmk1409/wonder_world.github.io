@@ -249,7 +249,7 @@ class EventManager {
                 break;
         }
         if (newElementAchievement) {
-            let newElement = $(`<p>${this.getMsgWithTime(this.newAchievement)}</p>`);
+            let newElement = $(`<div class="alert alert-${this.successStatus}" role="alert"><span>${this.getMsgWithTime(this.newAchievement)}</span></div>`);
             this.pageManager.eventDiv.after(newElement);
             this.pageManager.achievementSection.append(newElementAchievement);
 
