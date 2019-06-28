@@ -28,7 +28,11 @@ class IntervalManager {
 
             //starvation process
             if (self.configManager.foodQuantity < 0 && self.configManager.currentPopulation > 0) {
-                self.eventManager.addAchievement("Starvation");
+                self.eventManager.addEvent("starvation");
+                if (!self.configManager.starvationAchievementFlag) {
+                    self.eventManager.addAchievement("Starvation");
+                    self.configManager.starvationAchievementFlag = true;
+                }
                 self.pageManager.showElement([self.pageManager.starvationWarning]);
 
                 self.citizenManager.findPersonToKill();

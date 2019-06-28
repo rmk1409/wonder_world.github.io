@@ -19,6 +19,7 @@ class ConfigManager {
         this.productivityAchievementFlag = false;
         this.barrackPresentFlag = false;
         this.palacePresentFlag = false;
+        this.starvationAchievementFlag = false;
         // Resources
         this.foodQuantity = 0;
         this.foodMaxQuantity = 100;
