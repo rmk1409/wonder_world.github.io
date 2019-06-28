@@ -27,9 +27,6 @@ table img {
 }
 
 #starvation-warning img {
-    position: absolute;
-    top: 220px;
-    left: 305px;
     width: 40px;
 }
 
@@ -42,14 +39,14 @@ button {
     font-weight: bold;
 }
 
+.container {
+    display: flex;
+    margin-left: 0 !important;
+    max-width: 100% !important;
+}
 
-#start-again-button {
-    position: absolute;
-    left: 200px;
-    top: 505px;
-    background-color: green;
-    color: white;
-    padding: 3px;
+#click-people-block {
+    width: 23%;
 }
 
 #getFullButton {
@@ -145,11 +142,9 @@ td {
     font-size: 11px;
 }
 
-#events-div p {
-    margin: 0px;
+#events-div div {
     display: none;
-    color: white;
-    background: black;
+    margin: 0 0 2px 0 !important;
 }
 
 .build-empty-row {

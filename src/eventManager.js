@@ -27,6 +27,15 @@ class EventManager {
         this.foolMoon = "Your people liked fool moon this night 🌘";
         this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
         this.newAchievement = "🙈🙈🙈 Get a new achievement.";
+
+        this.primaryStatus = "primary";
+        this.secondaryStatus = "secondary";
+        this.successStatus = "success";
+        this.dangerStatus = "danger";
+        this.warningStatus = "warning";
+        this.infoStatus = "info";
+        this.lightStatus = "light";
+        this.darkStatus = "dark";
     }
 
     initialization(gameManager) {
@@ -38,138 +47,179 @@ class EventManager {
 
     addEvent(what, changes) {
         let msg;
+        let status;
         switch (what) {
             case "ok":
                 msg = this.okStatus;
+                status = this.primaryStatus;
                 break;
             case "starvation":
                 msg = this.starvation;
+                status = this.darkStatus;
                 break;
             case "food or houses":
                 msg = this.foodOrHouses;
+                status = this.warningStatus;
                 break;
             case "more resources":
                 msg = this.moreResources;
+                status = this.warningStatus;
                 break;
             case "more knowledge":
                 msg = this.moreKnowledge;
+                status = this.warningStatus;
                 break;
             case "more campfires":
                 msg = this.moreScienceBuilding;
+                status = this.warningStatus;
                 break;
             case "more music clubs":
                 msg = this.moreMusicClubs;
+                status = this.warningStatus;
                 break;
             case "more yoga clubs":
                 msg = this.moreYogaClubs;
+                status = this.warningStatus;
                 break;
             case "more barrack":
                 msg = this.moreBarrack;
+                status = this.warningStatus;
                 break;
 
             case "lack of lazybones":
                 msg = this.lackLazyboneLog;
+                status = this.warningStatus;
                 break;
             case "1 funeral process needs 2 workers":
                 msg = this.funeralProccessMoreWorkers;
+                status = this.warningStatus;
                 break;
 
             case "nightmare":
                 msg = this.nightmare;
+                status = this.secondaryStatus;
                 break;
             case "strange in the skies":
                 msg = this.strangeInTheSkies;
+                status = this.secondaryStatus;
                 break;
             case "Ufo killed":
                 msg = this.ufoKilled1 + changes + this.ufoKilled2;
+                status = this.darkStatus;
                 break;
             case "Ufo gave an artifact":
                 msg = this.ufoArtifact1 + changes + this.ufoArtifact2;
+                status = this.successStatus;
                 break;
 
             case "overturned corpses":
                 msg = this.overturnedCorpses;
+                status = this.secondaryStatus;
                 break;
             case "White walker killed":
                 msg = "🧛🧛 Some white walkers came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.";
+                status = this.darkStatus;
                 break;
             case "white walkers in another village":
                 msg = `🧛🧛 ${changes} white walkers came from your corpse storage and went to another village. Than they went back to sleep.`;
+                status = this.dangerStatus;
                 break;
             case "fool moon":
                 msg = this.foolMoon;
+                status = this.infoStatus;
                 break;
             case "death because of zombies":
                 msg = this.deathBecauseOfZombie;
+                status = this.dangerStatus;
                 break;
 
             case "Potatoes":
                 msg = `👩‍🌾👩‍🌾 Farmers found ${changes} potatoes.🥔🥔🥔🥔`;
+                status = this.successStatus;
                 break;
             case "Assassin rabbits":
                 msg = `🐰🐰🐰 Farmers found wild rabbits on the field. Obviously it was bad decision to take rabbit's food. Assassin rabbits killed : ${changes} farmers.`;
+                status = this.darkStatus;
                 break;
             case "Wild rabbits":
                 msg = "🐰🐰🐰 Farmers saw the wild rabbits.";
+                status = this.warningStatus;
                 break;
             case "Kiwi":
                 msg = `👩‍🌾👩‍🌾 Farmers found ${changes} kiwi fruits.🥝🥝🥝🥝`;
+                status = this.successStatus;
                 break;
             case "Rats":
                 msg = `🐀🐀🐀 Rats ate ${changes} of your food.`;
+                status = this.dangerStatus;
                 break;
 
             case "Storm":
                 msg = `⛈️There is a storm. It spoiled some of your wood: ${changes} is lost.`;
+                status = this.dangerStatus;
                 break;
             case "Small rain":
                 msg = "🌈 There was a small rain.";
+                status = this.warningStatus;
                 break;
             case "Big earthquake":
                 msg = `🧶 ☹ There was a big earthquake. Unfortunately it killed: ${changes} of your miners.`;
+                status = this.darkStatus;
                 break;
             case "Middle earthquake":
                 msg = `🧶️ There was a middle earthquake. Some trees were down and it gave you : ${changes} woods.`;
+                status = this.dangerStatus;
                 break;
             case "Light earthquake":
                 msg = "🧶 There was a light earthquake.";
+                status = this.warningStatus;
                 break;
 
             case "Amazons are there":
                 msg = "Your people saw a lot of beautiful wild amazons 👧👧👧";
+                status = this.successStatus;
                 break;
             case "Amazons speaking":
                 msg = "👧👧👧 Your people communicated a bit with Amazons.";
+                status = this.successStatus;
                 break;
             case "Amazons kidnapped":
                 msg = `👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought you back ${changes} male corpses, you see smiles on corpse's faces.`;
+                status = this.successStatus;
                 break;
             case "Amazons brought":
                 msg = `👧👧👧👧 Amazons brought a few males to your people . ${changes} new free people.`;
+                status = this.successStatus;
                 break;
 
             case "elves can't cut trees":
                 msg = this.elvesCantCutTrees1 + changes + this.elvesCantCutTrees2;
+                status = this.warningStatus;
                 break;
             case "elves are disappointed":
                 msg = this.elvesAreDisappointed;
+                status = this.infoStatus;
                 break;
             case "elves like":
                 msg = this.elvesLike;
+                status = this.successStatus;
                 break;
             case "Elves don't like":
                 msg = `🧝🧝 Elves don't like when you cut trees. They killed: ${changes} of your woodcutters. They said - sorry.`;
+                status = this.darkStatus;
                 break;
 
             case "New people were born":
                 msg = `👪👪 ${changes} new people were born.`;
+                status = this.successStatus;
                 break;
             case "Died because of age":
                 msg = `👪👪 ${changes} died because of age.`;
+                status = this.darkStatus;
                 break;
         }
         if (msg) {
-            let newElement = $(`<p>${this.getMsgWithTime(msg)}</p>`);
+            let newElement = $(`<div class="alert alert-${status}" role="alert"><span>${this.getMsgWithTime(msg)}</span></div>`);
             this.pageManager.eventDiv.after(newElement);
             this.pageManager.showElement([newElement]);
         }
