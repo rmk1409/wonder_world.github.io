@@ -1,5 +1,5 @@
 class PageManager {
-    initialization(gameManager){
+    initialization(gameManager) {
         this.gameManager = gameManager;
         this.eventManager = this.gameManager.eventManager;
         this.configManager = this.gameManager.configManager;
@@ -9,6 +9,7 @@ class PageManager {
         this.startAgainButton = $("#start-again-button");
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
+        this.notAchievement = $("#not-achievement");
 
         this.foodImage = $("#food-img");
         this.foodClickButton = $("#food-click-button");
@@ -258,11 +259,15 @@ class PageManager {
     showElement(ar) {
         ar.forEach((item) => item.show("slow"));
     }
+
     hideElement(ar) {
         ar.forEach((item) => item.hide("slow"));
     }
+
     toggleElement(firstElementToShow, otherElementArToShowNew) {
-        firstElementToShow.toggle("slow", ()=>{otherElementArToShowNew.forEach((item) => item.toggle("slow"))});
+        firstElementToShow.toggle("slow", () => {
+            otherElementArToShowNew.forEach((item) => item.toggle("slow"))
+        });
     }
 
     checkProduction() {
@@ -275,16 +280,16 @@ class PageManager {
 
     changeColor(checkEl, target, button) {
         if (checkEl > 0) {
-            target.css({"background-color": "green", "color": "white"});
+            target.css({"background-color": "#28a745", "border-color": "#28a745", "color": "white"});
             if (!!button) {
-                button.css({"background-color": "", "color": "black"});
+                button.css({"background-color": "#28a745", "border-color": "#28a745", "color": "white"});
             }
         } else if (checkEl === 0) {
             target.css({"background-color": "", "color": "black"});
         } else {
             target.css({"background-color": "red", "color": "white"});
             if (!!button) {
-                button.css({"background-color": "green", "color": "white"});
+                button.css({"background-color": "green", "border-color": "red", "color": "red"});
             }
         }
     }
