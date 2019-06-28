@@ -136,11 +136,9 @@ td {
     font-size: 11px;
 }
 
-#events-div p {
-    margin: 0px;
+#events-div div {
     display: none;
-    color: white;
-    background: black;
+    margin: 0 0 2px 0 !important;
 }
 
 .build-empty-row {
