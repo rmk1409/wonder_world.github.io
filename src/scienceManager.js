@@ -14,7 +14,7 @@ class ScienceManager {
             this.configManager.changeCurResourceQuantity("wood", -woodPrice);
             this.configManager.changeCurResourceQuantity("stone", -stonePrice);
 
-            this.eventManager.addAchievement("First research");
+            this.eventManager.addAchievement("First Research");
 
             this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.maxFoodQuantity, this.pageManager.maxWoodQuantityElement,
                 this.pageManager.maxStoneQuantityElement, this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow, this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow,
