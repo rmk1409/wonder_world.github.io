@@ -6,7 +6,9 @@
 
 /*RESOURCES*/
 #max-food-quantity-span,
+#click-resource-wood-row,
 #max-wood-quantity-span,
+#click-resource-stone-row,
 #max-stone-quantity-span,
 #empty-row-before-knowledge,
 #knowledge-row {
@@ -14,6 +16,7 @@
 }
 
 /* PEOPLE*/
+#people-productivity-table,
 #corpse-row,
 #in-graves-row,
 #empty-row-before-happiness,
@@ -25,6 +28,7 @@
 }
 
 /* WORKERS*/
+#work-table,
 .ten-work-td,
 #empty-row-before-job-funeral,
 #job-funeral-process-row,
@@ -40,6 +44,7 @@
 }
 
 /* BUILDINGS*/
+#building-table,
 #build-grave-row,
 #build-population-tent-row,
 #build-scroll-row,
@@ -61,6 +66,7 @@
 }
 
 /* TECHNOLOGIES*/
+#technology-table,
 #tech-agriculture-row,
 #tech-architecture-row,
 #tech-funeral-row,

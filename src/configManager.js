@@ -8,15 +8,19 @@ class ConfigManager {
         this.booster = 1;
         this.WINNER_REQUIREMENTS = 1e6;
         // Flags
+        this.showPeopleTableFlag = false;
         this.scientistPresentFlag = false;
         this.corpsePresentFlag = false;
         this.buildFuneralFlag = false;
+        this.showWorkTableFlag = false;
         this.leaderPresentFlag = false;
         this.djPresentFlag = false;
         this.djProductivityFlag = false;
         this.instructorPresentFlag = false;
         this.instructorProductivityFlag = false;
         this.productivityAchievementFlag = false;
+        this.showBuildingTableFlag = false;
+        this.showTechnologyTableFlag = false;
         this.barrackPresentFlag = false;
         this.palacePresentFlag = false;
         this.starvationAchievementFlag = false;
@@ -519,6 +523,33 @@ class ConfigManager {
 
             case "barrack":
                 this.barrackQuantity = resource;
+                break;
+        }
+
+        // Show tables
+        switch (resName) {
+            case "food":
+                if (!this.showPeopleTableFlag && this.foodQuantity > 10) {
+                    this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
+                    this.showPeopleTableFlag = true;
+                }
+                break;
+            case "curPop":
+                if (!this.showWorkTableFlag) {
+                    this.pageManager.toggleElement(this.pageManager.workTable);
+                    this.showWorkTableFlag = true;
+                }
+                if (!this.showBuildingTableFlag && this.currentPopulation === this.maxPopulation) {
+                    this.pageManager.toggleElement(this.pageManager.buildingTable);
+                    this.showBuildingTableFlag = true;
+                }
+                break;
+            case "wood":
+            case "stone":
+                if (!this.showTechnologyTableFlag && this.woodQuantity > 10 && this.stoneQuantity > 10) {
+                    this.pageManager.toggleElement(this.pageManager.technologyTable);
+                    this.showTechnologyTableFlag = true;
+                }
                 break;
         }
     }
