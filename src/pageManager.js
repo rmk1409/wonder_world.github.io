@@ -17,12 +17,14 @@ class PageManager {
         this.maxFoodQuantity = $("#max-food-quantity-span");
         this.foodProductionElement = $("#food-production-quantity");
 
+        this.clickResourceWoodRow = $("#click-resource-wood-row");
         this.woodClickButton = $("#wood-click-button");
         this.woodQuantityElement = $("#wood-quantity");
         this.maxWoodQuantityElement = $("#max-wood-quantity-span");
         this.woodProductionElement = $("#wood-production-quantity");
-
         this.stoneClickButton = $("#stone-click-button");
+
+        this.clickResourceStoneRow = $("#click-resource-stone-row");
         this.stoneQuantityElement = $("#stone-quantity");
         this.maxStoneQuantityElement = $("#max-stone-quantity-span");
         this.stoneProductionElement = $("#stone-production-quantity");
@@ -33,6 +35,7 @@ class PageManager {
         this.maxKnowledgeQuantity = $("#max-knowledge-quantity-span");
         this.knowledgeProductionElement = $("#knowledge-production-quantity");
 
+        this.peopleProductivityTable = $("#people-productivity-table");
         this.createCitizenButton = $("#create-worker-button");
         this.curPopulationElement = $("#current-population");
         this.maxPopulationElement = $("#max-population");
@@ -56,30 +59,31 @@ class PageManager {
         this.productivityRowElement = $("#productivity-row");
         this.productivityQuantityElement = $("#productivity-quantity");
 
+        this.workTable = $("#work-table");
         this.tenWorkTd = $(".ten-work-td");
         this.workTableEmptyTd = $("#work-table .empty-row td");
-
         this.curLazybonesElement = $("#lazybone-quantity");
 
         this.add10FarmerButton = $("#add-10-farmer-button");
+
         this.addFarmerButton = $("#add-farmer-button");
         this.removeFarmerButton = $("#remove-farmer-button");
         this.remove10FarmerButton = $("#remove-10-farmer-button");
         this.farmerQuantityElement = $("#farmer-quantity");
-
         this.add10WoodmanButton = $("#add-10-woodcutter-button");
+
         this.addWoodmanButton = $("#add-woodcutter-button");
         this.removeWoodmanButton = $("#remove-woodcutter-button");
         this.remove10WoodmanButton = $("#remove-10-woodcutter-button");
         this.woodmenQuantityElement = $("#woodcutter-quantity");
-
         this.add10MinerButton = $("#add-10-miner-button");
+
         this.addMinerButton = $("#add-miner-button");
         this.removeMinerButton = $("#remove-miner-button");
         this.remove10MinerButton = $("#remove-10-miner-button");
         this.minerQuantityElement = $("#miner-quantity");
-
         this.add10ScientistButton = $("#add-10-scientist-button");
+
         this.addScientistButton = $("#add-scientist-button");
         this.removeScientistButton = $("#remove-scientist-button");
         this.remove10ScientistButton = $("#remove-10-scientist-button");
@@ -87,15 +91,15 @@ class PageManager {
         this.jobScientistRow = $("#job-scientist-row");
         this.curScientistQuantityElement = $("#scientist-quantity");
         this.maxScientistQuantityElement = $("#max-scientist-quantity");
-
         this.emptyRowBeforeJobFuneral = $("#empty-row-before-job-funeral");
+
         this.addFuneralButton = $("#add-funeral-button");
         this.removeFuneralButton = $("#remove-funeral-button");
         this.jobFuneralRow = $("#job-funeral-process-row");
         this.funeralQuantityElement = $("#funeral-process-quantity");
         this.funeralProcessImg = $("#funeral-process-img");
-
         this.emptyRowBeforeJobInClubElement = $("#empty-row-before-job-in-club");
+
         this.jobDjRowElement = $("#job-dj-row");
         this.djQuantityElement = $("#dj-quantity");
         this.maxDjQuantityElement = $("#max-dj-quantity");
@@ -104,18 +108,19 @@ class PageManager {
         this.maxInstructorQuantityElement = $("#max-instructor-quantity");
         this.instructorQuantityElement = $("#instructor-quantity");
         this.addInstructorButton = $("#add-instructor-button");
-
         this.emptyRowBeforeJobLeader = $("#empty-row-before-job-leader");
+
         this.leaderRow = $("#job-leader-row");
         this.leaderQuantityElement = $("#leader-quantity");
         this.addLeaderButton = $("#add-leader-button");
-
         this.jobWarriorRow = $("#job-warrior-row");
+
         this.addWarriorButton = $("#add-warrior-button");
         this.warriorQuantityElement = $("#warrior-quantity");
         this.maxWarriorQuantityElement = $("#max-warrior-quantity");
-
         this.buildGraveButton = $("#build-grave-button");
+
+        this.buildingTable = $("#building-table");
         this.buildGraveRow = $("#build-grave-row");
         this.graveQuantityElement = $("#grave-quantity");
         this.buildScrollRow = $("#build-scroll-row");
@@ -170,6 +175,7 @@ class PageManager {
         this.productivityAchievement = $("<img alt='productivity img' src='res/img/achievement/speedometer.png' title='Achieve high productivity (more than 190%)'/>");
         this.moreFoodAchievement = $("<img alt='farmer production img' src='res/img/achievement/food.png' title='Even more food, hurray!!! :)'/>");
 
+        this.technologyTable = $("#technology-table");
         this.researchChangesButton = $("#tech-changes-button");
         this.techChangesElement = $("#tech-changes-row");
 

@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/hidden.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
@@ -45,20 +45,20 @@
                     <tr>
                         <td><img alt="food img" src="res/img/common/berry.png"></td>
                         <td><button type="button" class="btn btn-info btn-sm" title="Click to get some food" id="food-click-button">Get <img alt="food img" src="res/img/common/berry.png"></button></td>
-                        <td><span id="food-quantity">0.0</span>/<span id="max-food-quantity-span">100</span></td>
-                        <td><span id="food-production-span"><span id="food-production-quantity">0.0</span>/sec</span></td>
+                        <td><span id="food-quantity">0</span>/<span id="max-food-quantity-span">100</span></td>
+                        <td><span id="food-production-span"><span id="food-production-quantity">0</span>/sec</span></td>
                     </tr>
-                    <tr>
+                    <tr id="click-resource-wood-row">
                         <td><img alt ="branch img" src="res/img/common/branch.png"></td>
                         <td><button type="button" class="btn btn-info btn-sm" title="Click to get some wood" id="wood-click-button">Get <img alt ="branch img" src="res/img/common/branch.png"></button></td>
-                        <td><span id="wood-quantity">0.0</span>/<span id="max-wood-quantity-span">100</span></td>
-                        <td><span id="wood-production-span"><span id="wood-production-quantity">0.0</span>/sec</span></td>
+                        <td><span id="wood-quantity">0</span>/<span id="max-wood-quantity-span">100</span></td>
+                        <td><span id="wood-production-span"><span id="wood-production-quantity">0</span>/sec</span></td>
                     </tr>
-                    <tr>
+                    <tr id="click-resource-stone-row">
                         <td><img alt="stone img" src="res/img/common/stone.png"></td>
                         <td><button type="button" class="btn btn-info btn-sm" title="Click to get some stones" id="stone-click-button">Get <img alt="stone img" src="res/img/common/stone.png"></button></td>
-                        <td><span id="stone-quantity">0.0</span>/<span id="max-stone-quantity-span">100</span></td>
-                        <td><span id="stone-production-span"><span id="stone-production-quantity">0.0</span>/sec</span></td>
+                        <td><span id="stone-quantity">0</span>/<span id="max-stone-quantity-span">100</span></td>
+                        <td><span id="stone-production-span"><span id="stone-production-quantity">0</span>/sec</span></td>
                     </tr>
                 </tbody>
                 <tbody>
@@ -72,8 +72,8 @@
                         <td>
                             <p><i>Citizens produce it</i></p>
                         </td>
-                        <td><span id="knowledge-quantity">0.0</span>/<span id="max-knowledge-quantity-span">30</span></td>
-                        <td><span id="knowledge-production-span"><span id="knowledge-production-quantity">0.0</span>/sec</span></td>
+                        <td><span id="knowledge-quantity">0</span>/<span id="max-knowledge-quantity-span">30</span></td>
+                        <td><span id="knowledge-production-span"><span id="knowledge-production-quantity">0</span>/sec</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -136,7 +136,7 @@
             <button type="button" id="start-again-button" class="btn btn-success btn-sm">Start again</button>
 <!--            <button type="button" id="getFullButton">Test</button>-->
             <img alt="funeral img" id="funeral-process-img" src="res/img/common/funeral.png" />
-            <p id="author">made by Alex, Igor, version 0.2.8</p>
+            <p id="author">made by Alex, Igor, version 0.3.0</p>
         </div>
 
         <div id="work-building-block" class="section">
