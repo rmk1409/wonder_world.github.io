@@ -58,14 +58,43 @@ button.btn {
     padding: 3px;
 }
 
-.container {
+.game-container {
     display: flex;
-    margin-left: 0 !important;
-    max-width: 100% !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-#click-people-block {
-    width: 23%;
+.section:nth-child(1) {
+    flex: 1 auto;
+    max-width: 355px;
+}
+
+.section:nth-child(2) {
+    flex: 2 auto;
+    max-width: 600px;
+    margin-left: 5px;
+}
+
+.section:nth-child(3) {
+    flex: 1 2;
+    max-width: 500px;
+    margin-left: 5px;
+}
+
+@media all and (min-width: 1600px) {
+    .game-container {
+        justify-content: space-around;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    .game-container {
+        flex-direction: column;
+        align-content: center;
+    }
+    .section:nth-child(n) {
+        max-width: 100%;
+    }
 }
 
 #getFullButton {
@@ -128,24 +157,8 @@ td {
     font-style: italic;
 }
 
-#click-people-block,
-#work-building-block,
-#achievement-technology-block {
-    float: left;
-    margin-right: 45px;
-    width: 37%;
-}
-
-#click-people-block{
-    width: 25%;
-}
-
 .table-primary td {
     padding: 2px !important;
-}
-
-#achievement-technology-block {
-    margin-right: 0;
 }
 
 /* EVENTS */
