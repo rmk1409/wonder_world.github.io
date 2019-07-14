@@ -64,7 +64,7 @@ class IntervalManager {
         // CHECK WIN CONDITION
         setInterval(function checkWinCondition() {
             if (self.configManager.knowledgeQuantity >= self.configManager.WINNER_REQUIREMENTS) {
-                if (confirm(`Congratulations! ${self.configManager.userName}.You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.corpseQuantity + self.configManager.inGravesQuantity} people. Great job\n`)) {
+                if (confirm(`Congratulations! ${self.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.corpseQuantity + self.configManager.inGravesQuantity} people. Great job\n`)) {
                     self.gameManager.reloadSite();
                 } else {
                     self.configManager.changeCurResourceQuantity("knowledge", -self.configManager.WINNER_REQUIREMENTS);

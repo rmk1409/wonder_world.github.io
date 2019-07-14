@@ -122,7 +122,7 @@ class GameManager {
                     this.unlockAchievement("Palace");
                     if (!this.configManager.palacePresentFlag) {
                         this.eventManager.addAchievement("Palace");
-                        alert(`Congratulations!!! You built a palace for yourself!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ 
+                        alert(`Congratulations! You built a palace for yourself!! You are amazing!!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ 
                         ${this.configManager.userName}, Great job!!`);
                         this.pageManager.showElement([this.pageManager.startAgainButton]);
                         this.pageManager.buildPalaceButton.prop("disabled", true);

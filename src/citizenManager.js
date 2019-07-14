@@ -205,7 +205,7 @@ class CitizenManager {
 
         } else {
             this.eventManager.addEvent("death because of zombies");
-            alert(`🧟🧟 ${this.configManager.userName} you killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. I believe in you. Please, try again.`);
+            alert(`🧟🧟 ${this.configManager.userName} are amazing, you killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. I believe in you. Please, try again.`);
             this.pageManager.showElement([this.pageManager.startAgainButton]);
         }
     }
