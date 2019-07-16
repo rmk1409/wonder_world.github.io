@@ -5,6 +5,8 @@ class IntervalManager {
         this.configManager = null;
         this.eventManager = null;
         this.citizenManager = null;
+
+        this.oneStepTime = 1e3;
     }
 
 
@@ -60,7 +62,7 @@ class IntervalManager {
 
             // TODO add more bad events when it isn't focus
             // console.log(document.hasFocus());
-        }, 1000);
+        }, this.oneStepTime);
         // CHECK WIN CONDITION
         setInterval(function checkWinCondition() {
             if (self.configManager.knowledgeQuantity >= self.configManager.WINNER_REQUIREMENTS) {
@@ -71,7 +73,7 @@ class IntervalManager {
                     self.pageManager.show(self.pageManager.startAgainButton);
                 }
             }
-        }, 10e3);
+        }, this.oneStepTime * 10);
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
             let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity,
@@ -85,11 +87,10 @@ class IntervalManager {
             } else {
                 $(self.pageManager.funeralProcessImg).hide("slow");
             }
-        }, 5e3);
+        }, this.oneStepTime * 5);
 
         // Events
-        setInterval(() => self.eventManager.eventHappen(), 3e4);
-
+        setInterval(() => self.eventManager.eventHappen(), this.oneStepTime * 30);
     }
 }
 

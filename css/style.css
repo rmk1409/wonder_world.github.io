@@ -59,6 +59,14 @@ button.btn {
     padding: 3px;
 }
 
+#pause-button {
+    float: right;
+}
+
+#pause-button img {
+    height: 21px;
+}
+
 .game-container {
     display: flex;
     flex-wrap: wrap;

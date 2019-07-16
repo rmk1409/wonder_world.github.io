@@ -7,6 +7,7 @@ class PageManager {
         // HTML Elements
         this.userNameElement = $("#user-name");
         this.startAgainButton = $("#start-again-button");
+        this.pauseButton = $("#pause-button");
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
         this.notAchievement = $("#not-achievement");

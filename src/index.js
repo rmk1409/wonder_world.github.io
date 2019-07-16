@@ -12,6 +12,7 @@ $(function () {
     $(pageManager.stoneClickButton).on("click", () => gameManager.clickResource("stone", gameManager.configManager.booster));
     // 2. START AGAIN
     $(pageManager.startAgainButton).on("click", () => gameManager.reloadSite());
+    $(pageManager.pauseButton).on("click", () => gameManager.pause());
     $(pageManager.getFullButton).on("click", () => gameManager.getFullResources());
     // 3. CREATE WORKER
     $(pageManager.createCitizenButton).on("click", () => gameManager.createWorker(1));

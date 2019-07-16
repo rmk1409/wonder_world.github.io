@@ -172,6 +172,10 @@ class GameManager {
         PageManager.reloadSite();
     }
 
+    pause() {
+        alert("...pause. ");
+    }
+
     changeProduction(increase, what) {
         let multiply = increase ? 1 : -1;
         switch (what) {
@@ -222,8 +226,8 @@ class GameManager {
                     this.pageManager.emptyRowBeforePopulationBuilding, this.pageManager.techChanges2Element, this.pageManager.funeralP]);
                 break;
             case "changes2":
-                this.scienceManager.research(this.configManager.changes2Cost, this.pageManager.techChanges2Element, [this.pageManager.techAgriculture2Element, this.pageManager.techArchitecture2Element,
-                    this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P]);
+                this.scienceManager.research(this.configManager.changes2Cost, this.pageManager.techChanges2Element, [this.pageManager.pauseButton, this.pageManager.techAgriculture2Element,
+                    this.pageManager.techArchitecture2Element, this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P]);
                 break;
             case "leadership":
                 this.scienceManager.research(this.configManager.leadershipCost, this.pageManager.techLeadershipElement, [this.pageManager.emptyRowBeforeJobLeader, this.pageManager.leaderRow,
