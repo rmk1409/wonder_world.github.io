@@ -234,8 +234,8 @@ class PageManager {
         this.researchArchitecture4Button = $("#tech-architecture-4-button");
         this.techArchitecture4Element = $("#tech-architecture-4-row");
 
-        this.researchBronzeAgeButton = $("#tech-bronze-age-button");
         this.techBronzeAgeElement = $("#tech-bronze-age-row");
+        this.researchBronzeAgeButton = $("#tech-bronze-age-button");
 
         this.alreadyKnownP = $("#already-known-p");
         this.alreadyKnownSection = $("#already-known-section");
@@ -298,7 +298,7 @@ class PageManager {
         } else {
             target.css({"background-color": "red", "color": "white"});
             if (!!button) {
-                button.css({"background-color": "green", "border-color": "red", "color": "red"});
+                button.css({"background-color": "green", "border-color": "red"});
             }
         }
     }

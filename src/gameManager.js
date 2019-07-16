@@ -23,13 +23,12 @@ class GameManager {
         this.citizenManager.initialization(this);
         this.scienceManager.initialization(this);
         this.intervalManager.initialization(this);
+
+        this.userKey = "USER_NAME";
     }
 
     initialization() {
-        const userKey = "USER_NAME";
-
-        let userName;
-        userName = localStorage.getItem(userKey);
+        let userName = localStorage.getItem(this.userKey);
         if (userName) {
             userName = confirm(`＼(￣▽￣)／, are you ${userName}, yes?`) ? userName : prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
         } else {
@@ -37,7 +36,7 @@ class GameManager {
         }
         this.configManager.userName = userName;
 
-        localStorage.setItem(userKey, userName);
+        localStorage.setItem(this.userKey, userName);
         this.pageManager.userNameElement.text(userName);
 
         if (userName === "UFO Alien") {
@@ -49,6 +48,7 @@ class GameManager {
 
     clickResource(name, number) {
         this.configManager.changeCurResourceQuantity(name, number);
+
         let buttonToBlur = this.pageManager.foodClickButton;
         switch (name) {
             case "wood":
@@ -70,6 +70,10 @@ class GameManager {
     }
 
     build(name) {
+        let result = false;
+
+        // TODO change to buildGvave/buildScroll and so on
+        // TODO add map for all this stuff
         switch (name) {
             case "grave":
                 if (this.builderManager.build(10, 10, ["grave", "maxInGraves"], [1, 1])) {
@@ -77,33 +81,38 @@ class GameManager {
                         this.pageManager.showElement([this.pageManager.emptyRowBeforeJobFuneral, this.pageManager.jobFuneralRow, this.pageManager.inGravesRow]);
                         this.configManager.buildFuneralFlag = true;
                     }
-                    return true;
+                    result = true;
                 }
-                return false;
+                break;
             case "scroll":
-                return this.builderManager.build(0, 10, ["scroll", "maxKnowledge"], [1, this.configManager.knowledgeInScroll]);
+                result = this.builderManager.build(0, 10, ["scroll", "maxKnowledge"], [1, this.configManager.knowledgeInScroll]);
+                break;
             case "granary":
-                return this.builderManager.build(50, 50, ["granary", "maxFood"], [1, this.configManager.foodInGranary]);
+                result = this.builderManager.build(50, 50, ["granary", "maxFood"], [1, this.configManager.foodInGranary]);
+                break;
             case "pit":
-                return this.builderManager.build(50, 50, ["pit", "maxStone", "maxWood"], [1, this.configManager.resInPit, this.configManager.resInPit]);
+                result = this.builderManager.build(50, 50, ["pit", "maxStone", "maxWood"], [1, this.configManager.resInPit, this.configManager.resInPit]);
+                break;
             case "tent":
-                return this.builderManager.build(20, 0, ["tent", "maxPop"], [1, this.configManager.spaceInTent]);
+                result = this.builderManager.build(20, 0, ["tent", "maxPop"], [1, this.configManager.spaceInTent]);
+                break;
             case "hut":
-                return this.builderManager.build(50, 20, ["hut", "maxPop"], [1, this.configManager.spaceInHut]);
+                result = this.builderManager.build(50, 20, ["hut", "maxPop"], [1, this.configManager.spaceInHut]);
+                break;
             case "campfire":
                 if (this.builderManager.build(30, 10, ["campfire", "maxScientistQuantity"], [1, this.configManager.spaceInCamprire])) {
                     if (!this.configManager.scientistPresentFlag) {
                         this.configManager.scientistPresentFlag = true;
                     }
-                    return true;
+                    result = true;
                 }
-                return false;
+                break;
             case "dolmen":
                 if (this.builderManager.build(80, 80, ["dolmen", "maxScientistQuantity"], [1, this.configManager.spaceInDolmen])) {
                     this.configManager.availableScientistSpaces += this.configManager.spaceInDolmen;
-                    return true;
+                    result = true;
                 }
-                return false;
+                break;
             case "music-club":
                 if (this.builderManager.build(225, 225, ["musicClub", "maxDjQuantity", "maxHappyPeople"], [1, this.configManager.spaceForWorkerInClub,
                     this.configManager.spaceForPeopleInClub])) {
@@ -112,9 +121,9 @@ class GameManager {
                             this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobDjRowElement]);
                         this.configManager.djPresentFlag = true;
                     }
-                    return true;
+                    result = true;
                 }
-                return false;
+                break;
             case "yoga-club":
                 if (this.builderManager.build(225, 225, ["yogaClub", "maxInstructorQuantity", "maxHealthyPeople"], [1, this.configManager.spaceForWorkerInClub,
                     this.configManager.spaceForPeopleInClub])) {
@@ -123,6 +132,7 @@ class GameManager {
                             this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobInstructorRowElement]);
                         this.configManager.instructorPresentFlag = true;
                     }
+                    result = true;
                 }
                 break;
             case "palace":
@@ -138,6 +148,7 @@ class GameManager {
                         this.pageManager.buildPalaceButton.prop("disabled", true);
                         this.configManager.palacePresentFlag = true;
                     }
+                    result = true;
                 }
                 break;
             case "barrack":
@@ -146,19 +157,23 @@ class GameManager {
                         this.pageManager.showElement([this.pageManager.jobWarriorRow]);
                         this.configManager.barrackPresentFlag = true;
                     }
-                    return true;
+                    result = true;
                 }
-                return false;
         }
+
+        return result;
     }
 
-    setWorker(name, num) {
-        switch (name) {
+    setWorker(workType, amount) {
+        let result = false;
+
+        switch (workType) {
             default:
-                this.citizenManager.setWorker(name, num);
+                result = this.citizenManager.setWorker(workType, amount);
                 break;
             case "leader":
-                if (this.citizenManager.setWorker(name, num) && !this.configManager.leaderPresentFlag) {
+                result = this.citizenManager.setWorker(workType, amount);
+                if (result && !this.configManager.leaderPresentFlag) {
                     this.pageManager.showElement([this.pageManager.tenWorkTd]);
                     this.pageManager.workTableEmptyTd.attr("colspan", "6");
 
@@ -166,6 +181,8 @@ class GameManager {
                 }
                 break;
         }
+
+        return result;
     }
 
     reloadSite() {
@@ -176,6 +193,7 @@ class GameManager {
         alert("...pause. ");
     }
 
+    // TODO replace param places
     changeProduction(increase, what) {
         let multiply = increase ? 1 : -1;
         switch (what) {
@@ -207,10 +225,11 @@ class GameManager {
         this.changeProduction(increase, "knowledge");
     }
 
+    // TODO map and researchChanges/researchArchitecture and so on, return result
     research(name) {
         switch (name) {
             case "changes":
-                this.scienceManager.changes();
+                this.scienceManager.researchChanges();
                 break;
             case "agriculture":
                 if (this.scienceManager.research(this.configManager.agricultureCost, this.pageManager.techAgricultureElement, [this.pageManager.agricultureP])) {

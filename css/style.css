@@ -61,6 +61,7 @@ button.btn {
 
 #pause-button {
     float: right;
+    width: 40px;
 }
 
 #pause-button img {

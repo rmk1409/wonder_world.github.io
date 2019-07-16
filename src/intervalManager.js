@@ -9,7 +9,7 @@ class IntervalManager {
         this.oneStepTime = 1e3;
     }
 
-
+    // TODO move all logic of this class to game class
     initialization(gameManager) {
         this.gameManager = gameManager;
         this.pageManager = this.gameManager.pageManager;
@@ -54,7 +54,6 @@ class IntervalManager {
             self.pageManager.checkProduction();
 
             // TODO abundance of food
-
             if (!self.configManager.productivityAchievementFlag && self.configManager.productivity >= 190) {
                 self.eventManager.addAchievement("Productivity");
                 self.configManager.productivityAchievementFlag = true;

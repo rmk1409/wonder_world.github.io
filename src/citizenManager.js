@@ -6,7 +6,7 @@ class CitizenManager {
         this.pageManager = this.gameManager.pageManager;
     }
 
-    birthCitizen(num) {
+    addCitizen(num) {
         this.configManager.changeCurResourceQuantity("curPop", num);
         this.configManager.changeCurResourceQuantity("curLazy", num);
         this.configManager.changeCurResourceQuantity("foodTotalProduction", -num);
@@ -16,8 +16,9 @@ class CitizenManager {
         if (this.configManager.foodQuantity >= this.configManager.citizenCost * num && (this.configManager.currentPopulation + num) <= this.configManager.maxPopulation) {
             this.configManager.changeCurResourceQuantity("food", -this.configManager.citizenCost * num);
 
-            this.birthCitizen(num);
+            this.addCitizen(num);
 
+            // TODO to separate method
             if (this.configManager.currentPopulation <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
                 this.pageManager.curHappyPeopleElement.text(this.configManager.currentPopulation);
             }
@@ -33,13 +34,6 @@ class CitizenManager {
         let availabilityFlag = false;
         // add worker conditions
         if (num > 0) {
-            if (name === "funeral") {
-                if (!(this.configManager.lazyboneQuantity >= num)) {
-                    availabilityFlag = false;
-                    this.eventManager.addEvent("1 funeral process needs 2 workers");
-                    return;
-                }
-            }
             if (this.configManager.lazyboneQuantity >= num) {
                 availabilityFlag = true;
                 switch (name) {
@@ -55,6 +49,13 @@ class CitizenManager {
                             availabilityFlag = false;
                             this.eventManager.addEvent("more barrack");
                             return;
+                        }
+                        break;
+                    case "funeral":
+                        if (!(this.configManager.lazyboneQuantity >= num * 2)) {
+                            availabilityFlag = false;
+                            this.eventManager.addEvent("1 funeral process needs 2 workers");
+                            return false;
                         }
                         break;
                     case "dj":
@@ -94,7 +95,7 @@ class CitizenManager {
                     break;
             }
 
-            if (workerQuantity > 0 && workerQuantity >= num) {
+            if (workerQuantity > 0 /*&& workerQuantity >= num*/) {
                 availabilityFlag = true;
             }
         }
@@ -108,16 +109,16 @@ class CitizenManager {
             let totalAvailableSpaceInClub;
             switch (name) {
                 case "farmer":
-                    this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * num * this.configManager.booster);
+                    this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * num);
                     break;
                 case "woodman":
-                    this.configManager.changeCurResourceQuantity("woodTotalProduction", this.configManager.woodmanProduction * num * this.configManager.booster);
+                    this.configManager.changeCurResourceQuantity("woodTotalProduction", this.configManager.woodmanProduction * num);
                     break;
                 case "miner":
-                    this.configManager.changeCurResourceQuantity("stoneTotalProduction", this.configManager.minerProduction * num * this.configManager.booster);
+                    this.configManager.changeCurResourceQuantity("stoneTotalProduction", this.configManager.minerProduction * num);
                     break;
                 case "scientist":
-                    this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * num * this.configManager.booster);
+                    this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * num);
                     break;
                 case "dj":
                     totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub;
@@ -203,6 +204,7 @@ class CitizenManager {
                 this.decreasePopulation();
             }
 
+            // TODO move to event logic
         } else {
             this.eventManager.addEvent("death because of zombies");
             alert(`🧟🧟 ${this.configManager.userName} are amazing, you killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. I believe in you. Please, try again.`);
@@ -222,27 +224,25 @@ class CitizenManager {
     }
 
     killWoodcutter() {
-        this.decreasePopulation();
-        this.configManager.changeCurResourceQuantity("woodman", -1);
-        this.configManager.changeCurResourceQuantity("woodTotalProduction", -this.configManager.woodmanProduction * this.configManager.booster);
+        this.killWorker("woodman", "woodTotalProduction", this.configManager.woodTotalProduction);
     }
 
     killMiner() {
-        this.decreasePopulation();
-        this.configManager.changeCurResourceQuantity("miner", -1);
-        this.configManager.changeCurResourceQuantity("stoneTotalProduction", -this.configManager.minerProduction * this.configManager.booster);
+        this.killWorker("miner", "stoneTotalProduction", this.configManager.minerProduction);
     }
 
     killFarmer() {
-        this.decreasePopulation();
-        this.configManager.changeCurResourceQuantity("farmer", -1);
-        this.configManager.changeCurResourceQuantity("foodTotalProduction", -this.configManager.farmerProduction * this.configManager.booster);
+        this.killWorker("farmer", "foodTotalProduction", this.configManager.farmerProduction);
     }
 
     killScientist() {
+        this.killWorker("scientist", "knowledgeTotalProduction", this.configManager.scientistProduction);
+    }
+
+    killWorker(workerType, totalProduction, curUnitProduction) {
         this.decreasePopulation();
-        this.configManager.changeCurResourceQuantity("scientist", -1);
-        this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", -this.configManager.scientistProduction * this.configManager.booster);
+        this.configManager.changeCurResourceQuantity(workerType,-1);
+        this.configManager.changeCurResourceQuantity(totalProduction, -curUnitProduction);
     }
 }
 

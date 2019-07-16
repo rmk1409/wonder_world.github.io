@@ -7,7 +7,7 @@ class ScienceManager {
         this.pageManager = this.gameManager.pageManager;
     }
 
-    changes() {
+    researchChanges() {
         let woodPrice = 10;
         let stonePrice = 10;
         if (this.configManager.woodQuantity >= woodPrice && this.configManager.stoneQuantity >= stonePrice) {

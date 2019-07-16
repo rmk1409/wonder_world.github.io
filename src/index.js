@@ -7,9 +7,9 @@ $(function () {
     gameManager.initialization();
     // CLICK EVENTS
     // 1. CLICK TO THE RESOURCES
-    $(pageManager.foodClickButton).on("click", () => gameManager.clickResource("food", gameManager.configManager.booster));
-    $(pageManager.woodClickButton).on("click", () => gameManager.clickResource("wood", gameManager.configManager.booster));
-    $(pageManager.stoneClickButton).on("click", () => gameManager.clickResource("stone", gameManager.configManager.booster));
+    $(pageManager.foodClickButton).on("click", () => gameManager.clickResource("food", gameManager.configManager.clickEfficiency));
+    $(pageManager.woodClickButton).on("click", () => gameManager.clickResource("wood", gameManager.configManager.clickEfficiency));
+    $(pageManager.stoneClickButton).on("click", () => gameManager.clickResource("stone", gameManager.configManager.clickEfficiency));
     // 2. START AGAIN
     $(pageManager.startAgainButton).on("click", () => gameManager.reloadSite());
     $(pageManager.pauseButton).on("click", () => gameManager.pause());
@@ -33,41 +33,32 @@ $(function () {
     $(pageManager.buildBarrackButton).on("click", () => gameManager.build("barrack"));
 
     // WORK SETTINGS
+    function repeatSetWorker(repeatAmount, workerType, increase) {
+        for (let i = 0; i < repeatAmount; i++) {
+            if (!gameManager.setWorker(workerType, increase ? 1 : -1)) {
+                break;
+            }
+        }
+    }
     // 1. FARMER
-    $(pageManager.remove10FarmerButton).on("click", () => {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("farmer", -1)
-    });
+    $(pageManager.remove10FarmerButton).on("click", () => repeatSetWorker(10, "farmer", false));
     $(pageManager.removeFarmerButton).on("click", () => gameManager.setWorker("farmer", -1));
-    $(pageManager.add10FarmerButton).on("click", () => {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("farmer", 1);
-    });
+    $(pageManager.add10FarmerButton).on("click", () => repeatSetWorker(10, "farmer", true));
     $(pageManager.addFarmerButton).on("click", () => gameManager.setWorker("farmer", 1));
     // 2. WOODCUTTER
-    $(pageManager.remove10WoodmanButton).on("click", () => {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("woodman", -1);
-    });
+    $(pageManager.remove10WoodmanButton).on("click", () => repeatSetWorker(10, "woodman", false));
     $(pageManager.removeWoodmanButton).on("click", () => gameManager.setWorker("woodman", -1));
-    $(pageManager.add10WoodmanButton).on("click", () => {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("woodman", 1);
-    });
+    $(pageManager.add10WoodmanButton).on("click", () => repeatSetWorker(10, "woodman", true));
     $(pageManager.addWoodmanButton).on("click", () => gameManager.setWorker("woodman", 1));
     // 3. MINER
-    $(pageManager.remove10MinerButton).on("click", function () {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("miner", -1);
-    });
+    $(pageManager.remove10MinerButton).on("click", () => repeatSetWorker(10, "miner", false));
     $(pageManager.removeMinerButton).on("click", () => gameManager.setWorker("miner", -1));
-    $(pageManager.add10MinerButton).on("click", function () {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("miner", 1);
-    });
+    $(pageManager.add10MinerButton).on("click", () => repeatSetWorker(10, "miner", true));
     $(pageManager.addMinerButton).on("click", () => gameManager.setWorker("miner", 1));
     // 4. SCIENTIST
-    $(pageManager.remove10ScientistButton).on("click", function () {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("scientist", -1);
-    });
+    $(pageManager.remove10ScientistButton).on("click", () => repeatSetWorker(10, "scientist", false));
     $(pageManager.removeScientistButton).on("click", () => gameManager.setWorker("scientist", -1));
-    $(pageManager.add10ScientistButton).on("click", function () {
-        for (let i = 0; i < 10; i++) gameManager.setWorker("scientist", 1);
-    });
+    $(pageManager.add10ScientistButton).on("click", () => repeatSetWorker(10, "scientist", true));
     $(pageManager.addScientistButton).on("click", () => gameManager.setWorker("scientist", 1));
     // 5. FUNERAL
     $(pageManager.removeFuneralButton).on("click", () => gameManager.setWorker("funeral", -2));
@@ -110,14 +101,4 @@ $(function () {
     $(pageManager.alreadyKnownP).on("click", function slideToggleSection() {
         pageManager.alreadyKnownSection.slideToggle("fast");
     });
-
-    // TODO Finished
-    // $(pageManager.createCitizenButton).on("click", () => repeatFunction(alertFunc, 10));
-    //
-    // function repeatFunction(funct, num) {
-    //     num = num < this.configManager.lazyboneQuantity ? num : this.configManager.lazyboneQuantity;
-    //     for (let i = 0; i < num; i++) {
-    //         funct();
-    //     }
-    // }
 });

@@ -5,7 +5,7 @@ class ConfigManager {
         this.woodIncreaseStep = 0.125;
         this.stoneIncreaseStep = 0.05;
         this.knowledgeIncreaseStep = 0.025;
-        this.booster = 1;
+        this.clickEfficiency = 1;
         this.WINNER_REQUIREMENTS = 1e6;
         // Flags
         this.showPeopleTableFlag = false;
