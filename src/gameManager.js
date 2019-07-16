@@ -49,6 +49,16 @@ class GameManager {
 
     clickResource(name, number) {
         this.configManager.changeCurResourceQuantity(name, number);
+        let buttonToBlur = this.pageManager.foodClickButton;
+        switch (name) {
+            case "wood":
+                buttonToBlur = this.pageManager.woodClickButton;
+                break;
+            case "stone":
+                buttonToBlur = this.pageManager.stoneClickButton;
+                break;
+        }
+        buttonToBlur.blur();
     }
 
     createWorker(num) {
