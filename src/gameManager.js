@@ -69,12 +69,16 @@ class GameManager {
         this.eventManager.addAchievement(achievementName);
     }
 
-    build(name) {
+    build(buildingType) {
         let result = false;
 
         // TODO change to buildGvave/buildScroll and so on
         // TODO add map for all this stuff
-        switch (name) {
+        // let buildingMap = new Map([
+        //     ["", new ],
+        // ]);
+        // buildingMap.get(buildingType).add();
+        switch (buildingType) {
             case "grave":
                 if (this.builderManager.build(10, 10, ["grave", "maxInGraves"], [1, 1])) {
                     if (!this.configManager.buildFuneralFlag) {
@@ -193,8 +197,7 @@ class GameManager {
         alert("...pause. ");
     }
 
-    // TODO replace param places
-    changeProduction(increase, what) {
+    changeProduction(what, increase) {
         let multiply = increase ? 1 : -1;
         switch (what) {
             case "food":
@@ -219,10 +222,10 @@ class GameManager {
     changeAllProduction(increase) {
         let sign = increase ? 1 : -1;
         this.configManager.changeCurResourceQuantity("productivity", sign * 25);
-        this.changeProduction(increase, "food");
-        this.changeProduction(increase, "wood");
-        this.changeProduction(increase, "stone");
-        this.changeProduction(increase, "knowledge");
+        this.changeProduction("food", increase);
+        this.changeProduction("wood", increase);
+        this.changeProduction("stone", increase);
+        this.changeProduction("knowledge", increase);
     }
 
     // TODO map and researchChanges/researchArchitecture and so on, return result
@@ -234,7 +237,7 @@ class GameManager {
             case "agriculture":
                 if (this.scienceManager.research(this.configManager.agricultureCost, this.pageManager.techAgricultureElement, [this.pageManager.agricultureP])) {
                     this.pageManager.foodImage.attr("src", "res/img/changes/grapes.png");
-                    this.changeProduction(true, "food");
+                    this.changeProduction("food", true);
                 }
                 break;
             case "architecture":
@@ -255,7 +258,7 @@ class GameManager {
             case "agriculture2":
                 if (this.scienceManager.research(this.configManager.agriculture2Cost, this.pageManager.techAgriculture2Element, [this.pageManager.agriculture2P])) {
                     this.pageManager.foodImage.attr("src", "res/img/changes2/field.png");
-                    this.changeProduction(true, "food");
+                    this.changeProduction("food", true);
                     this.unlockAchievement("More Food");
                 }
                 break;
@@ -290,19 +293,19 @@ class GameManager {
             case "hoe":
                 if (this.scienceManager.research(this.configManager.hoeCost, this.pageManager.techHoeElement, [this.pageManager.hoeP])) {
                     this.configManager.foodIncreaseStep = 0.1;
-                    this.changeProduction(true, "food");
+                    this.changeProduction("food", true);
                     this.configManager.changeCurResourceQuantity("productivity", 6.25);
                 }
                 break;
             case "axe":
                 if (this.scienceManager.research(this.configManager.axeCost, this.pageManager.techAxeElement, [this.pageManager.axeP])) {
-                    this.changeProduction(true, "wood");
+                    this.changeProduction("wood", true);
                     this.configManager.changeCurResourceQuantity("productivity", 6.25);
                 }
                 break;
             case "pickaxe":
                 if (this.scienceManager.research(this.configManager.pickaxeCost, this.pageManager.techPickaxeElement, [this.pageManager.pickAxeP])) {
-                    this.changeProduction(true, "stone");
+                    this.changeProduction("stone", true);
                     this.configManager.changeCurResourceQuantity("productivity", 6.25);
                 }
                 break;

@@ -33,13 +33,6 @@ $(function () {
     $(pageManager.buildBarrackButton).on("click", () => gameManager.build("barrack"));
 
     // WORK SETTINGS
-    function repeatSetWorker(repeatAmount, workerType, increase) {
-        for (let i = 0; i < repeatAmount; i++) {
-            if (!gameManager.setWorker(workerType, increase ? 1 : -1)) {
-                break;
-            }
-        }
-    }
     // 1. FARMER
     $(pageManager.remove10FarmerButton).on("click", () => repeatSetWorker(10, "farmer", false));
     $(pageManager.removeFarmerButton).on("click", () => gameManager.setWorker("farmer", -1));
@@ -67,11 +60,18 @@ $(function () {
     $(pageManager.addDjButton).on("click", () => gameManager.setWorker("dj", 1));
     // 7. Instructor
     $(pageManager.addInstructorButton).on("click", () => gameManager.setWorker("instructor", 1));
-
     // 8. LEADER
     $(pageManager.addLeaderButton).on("click", () => gameManager.setWorker("leader", 1));
     // 9. WARRIOR
     $(pageManager.addWarriorButton).on("click", () => gameManager.setWorker("warrior", 1));
+
+    function repeatSetWorker(repeatAmount, workerType, increase) {
+        for (let i = 0; i < repeatAmount; i++) {
+            if (!gameManager.setWorker(workerType, increase ? 1 : -1)) {
+                break;
+            }
+        }
+    }
 
     // TECHNOLOGIES
     // 1. BEGINNING
