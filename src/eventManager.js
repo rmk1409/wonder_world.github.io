@@ -23,7 +23,7 @@ class EventManager {
         this.ufoArtifactMsgPart1 = "🛸 Ufo gave to you a mighty artifact to improve your human beings, but your people didn't know how to apply this and they just exchanged it with more advanced civilization for: ";
         this.ufoArtifactMsgPart2 = " stones.";
         this.overturnedCorpsesMsg = "🧑🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination";
-        this.whiteWalkersInAnotherVillage = "🧛🧛 Some white walkers came from your corpse storage and went to another village. Than they went back to sleep.";
+        this.whiteWalkersInAnotherVillage = "🧛🧛 Some zombies came from your corpse storage and went to another village. Than they went back to sleep.";
         this.foolMoonMsg = "Your people liked fool moon this night 🌘";
         this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
         this.newAchievement = "🙊🙈🙉 Get a new achievement.";
@@ -66,8 +66,8 @@ class EventManager {
             // zombie
             ["fool moon", [this.foolMoonMsg, this.primaryStatus]],
             ["overturned corpses", [this.overturnedCorpsesMsg, this.warningStatus]],
-            ["white walkers in another village", [`🧛🧛 ${changes} white walkers came from your corpse storage and went to another village. Than they went back to sleep.`, this.warningStatus]],
-            ["white walker killed", ["🧛🧛 Some white walkers came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.", this.dangerStatus]],
+            ["white walkers in another village", [`🧛🧛 ${changes} zombies came from your corpse storage and went to another village. Than they went back to sleep.`, this.warningStatus]],
+            ["white walker killed", ["🧛🧛 Some zombies came from your corpse storage and killed a few of your people. Than they went back. You have more corpses.", this.dangerStatus]],
             ["death because of zombies", [this.deathBecauseOfZombie, this.dangerStatus]],
             // farmer
             ["potatoes", [`👩‍🌾👩‍🌾 Farmers found ${changes} potatoes.🥔🥔🥔🥔`, this.successStatus]],

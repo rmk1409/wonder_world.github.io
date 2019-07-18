@@ -552,6 +552,37 @@ class ConfigManager {
                 break;
         }
     }
+
+    changeAllProduction(increase) {
+        let sign = increase ? 1 : -1;
+        this.changeCurResourceQuantity("productivity", sign * 25);
+        this.changeProduction("food", increase);
+        this.changeProduction("wood", increase);
+        this.changeProduction("stone", increase);
+        this.changeProduction("knowledge", increase);
+    }
+
+    changeProduction(what, increase) {
+        let multiply = increase ? 1 : -1;
+        switch (what) {
+            case "food":
+                this.farmerProduction = Math.round(this.farmerProduction * 1000 + multiply * this.foodIncreaseStep * 1000) / 1000;
+                this.changeCurResourceQuantity("foodTotalProduction", multiply * this.farmerQuantity * this.foodIncreaseStep);
+                break;
+            case "wood":
+                this.woodmanProduction = Math.round(this.woodmanProduction * 1000 + multiply * this.woodIncreaseStep * 1000) / 1000;
+                this.changeCurResourceQuantity("woodTotalProduction", multiply * this.woodmenQuantity * this.woodIncreaseStep);
+                break;
+            case "stone":
+                this.minerProduction = Math.round(this.minerProduction * 1000 + multiply * this.stoneIncreaseStep * 1000) / 1000;
+                this.changeCurResourceQuantity("stoneTotalProduction", multiply * this.minerQuantity * this.stoneIncreaseStep);
+                break;
+            case "knowledge":
+                this.scientistProduction = Math.round(this.scientistProduction * 1000 + this.knowledgeIncreaseStep * 1000) / 1000;
+                this.changeCurResourceQuantity("knowledgeTotalProduction", this.curScientistQuantity * this.knowledgeIncreaseStep);
+                break;
+        }
+    }
 }
 
 export default ConfigManager;
