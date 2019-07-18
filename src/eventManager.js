@@ -8,8 +8,8 @@ class EventManager {
         this.moreResourceMsg = "☑ Collect more resources.";
         this.moreKnowledgeMsg = "☑ Collect more knowledge.";
         this.moreScienceBuildingMsg = "☑ Build more campfires or other science buildings.";
-        this.moreMusicClubsMsg = "☑ Build more music clubs or other entertainment buildings.";
-        this.moreYogaClubsMsg = "☑ Build more yoga clubs or other health buildings.";
+        this.moreMusicClubsMsg = "☑ Build more entertainment buildings.";
+        this.moreYogaClubsMsg = "☑ Build more health buildings.";
         this.moreBarrackMsg = "☑ Build more barracks.";
         this.funeralProccessMoreWorkersMsg = "👥👥 One funeral requires 2 workers.";
         this.elvesCantCutTreeMsgPart1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - thank you. And took: ";

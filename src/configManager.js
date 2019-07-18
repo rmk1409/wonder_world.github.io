@@ -9,7 +9,6 @@ class ConfigManager {
         this.WINNER_REQUIREMENTS = 1e6;
         // Flags
         this.showPeopleTableFlag = false;
-        this.scientistPresentFlag = false;
         this.corpsePresentFlag = false;
         this.buildFuneralFlag = false;
         this.showWorkTableFlag = false;
@@ -536,18 +535,18 @@ class ConfigManager {
                 break;
             case "curPop":
                 if (!this.showWorkTableFlag) {
-                    this.pageManager.toggleElement(this.pageManager.workTable);
+                    this.pageManager.toggleElement(this.pageManager.workTable, []);
                     this.showWorkTableFlag = true;
                 }
                 if (!this.showBuildingTableFlag && this.currentPopulation === this.maxPopulation) {
-                    this.pageManager.toggleElement(this.pageManager.buildingTable);
+                    this.pageManager.toggleElement(this.pageManager.buildingTable,[]);
                     this.showBuildingTableFlag = true;
                 }
                 break;
             case "wood":
             case "stone":
                 if (!this.showTechnologyTableFlag && this.woodQuantity > 10 && this.stoneQuantity > 10) {
-                    this.pageManager.toggleElement(this.pageManager.technologyTable);
+                    this.pageManager.toggleElement(this.pageManager.technologyTable, []);
                     this.showTechnologyTableFlag = true;
                 }
                 break;

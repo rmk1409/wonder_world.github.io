@@ -39,39 +39,33 @@ class CitizenManager {
                 switch (name) {
                     case "scientist":
                         if (!(this.configManager.curScientistQuantity < this.configManager.maxScientistQuantity)) {
-                            availabilityFlag = false;
                             this.eventManager.addEvent("more campfires");
                             return;
                         }
                         break;
                     case "warrior":
                         if (!(this.configManager.curWarriorQuantity < this.configManager.maxWarriorQuantity)) {
-                            availabilityFlag = false;
                             this.eventManager.addEvent("more barrack");
                             return;
                         }
                         break;
-                    case "funeral":
-                        if (!(this.configManager.lazyboneQuantity >= num * 2)) {
-                            availabilityFlag = false;
-                            this.eventManager.addEvent("1 funeral process needs 2 workers");
-                            return false;
-                        }
-                        break;
                     case "dj":
                         if (!(this.configManager.curDjQuantity < this.configManager.maxDjQuantity)) {
-                            availabilityFlag = false;
                             this.eventManager.addEvent("more music clubs");
                             return;
                         }
                         break;
                     case "instructor":
                         if (!(this.configManager.curInstructorQuantity < this.configManager.maxInstructorQuantity)) {
-                            availabilityFlag = false;
                             this.eventManager.addEvent("more yoga clubs");
                             return;
                         }
                         break;
+                }
+            } else if (name === 'funeral') {
+                if (this.configManager.lazyboneQuantity < num) {
+                    this.eventManager.addEvent("1 funeral process needs 2 workers");
+                    return false;
                 }
             }
             // remove worker conditions

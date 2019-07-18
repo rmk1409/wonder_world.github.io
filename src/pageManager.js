@@ -275,7 +275,9 @@ class PageManager {
 
     toggleElement(firstElementToShow, otherElementArToShowNew) {
         firstElementToShow.toggle("slow", () => {
-            otherElementArToShowNew.forEach((item) => item.toggle("slow"))
+            if (otherElementArToShowNew) {
+                otherElementArToShowNew.forEach((item) => item.toggle("slow"));
+            }
         });
     }
 
