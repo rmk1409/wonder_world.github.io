@@ -1,10 +1,5 @@
 class PageManager {
-    initialization(gameManager) {
-        this.gameManager = gameManager;
-        this.eventManager = this.gameManager.eventManager;
-        this.configManager = this.gameManager.configManager;
-
-        // HTML Elements
+    constructor() {
         this.userNameElement = $("#user-name");
         this.startAgainButton = $("#start-again-button");
         this.pauseButton = $("#pause-button");
@@ -12,7 +7,6 @@ class PageManager {
         this.starvationWarning = $("#starvation-warning");
         this.notAchievement = $("#not-achievement");
 
-        this.foodImage = $("#food-img");
         this.foodClickButton = $("#food-click-button");
         this.foodQuantityElement = $("#food-quantity");
         this.maxFoodQuantity = $("#max-food-quantity-span");
@@ -259,6 +253,12 @@ class PageManager {
         this.twoSideScrollP = $("#two-side-scroll-p");
         this.architecture4P = $("#architecture-4-p");
         this.bronzeAgeP = $("#bronze-age-p");
+    }
+
+    initialization(gameManager) {
+        this.gameManager = gameManager;
+        this.eventManager = this.gameManager.eventManager;
+        this.configManager = this.gameManager.configManager;
     }
 
     static reloadSite() {

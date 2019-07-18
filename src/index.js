@@ -7,9 +7,9 @@ $(function () {
     gameManager.initialization();
     // CLICK EVENTS
     // 1. CLICK TO THE RESOURCES
-    $(pageManager.foodClickButton).on("click", () => gameManager.clickResource("food", gameManager.configManager.clickEfficiency));
-    $(pageManager.woodClickButton).on("click", () => gameManager.clickResource("wood", gameManager.configManager.clickEfficiency));
-    $(pageManager.stoneClickButton).on("click", () => gameManager.clickResource("stone", gameManager.configManager.clickEfficiency));
+    $(pageManager.foodClickButton).on("click", () => gameManager.clickResourceButton("food", gameManager.configManager.clickEfficiency));
+    $(pageManager.woodClickButton).on("click", () => gameManager.clickResourceButton("wood", gameManager.configManager.clickEfficiency));
+    $(pageManager.stoneClickButton).on("click", () => gameManager.clickResourceButton("stone", gameManager.configManager.clickEfficiency));
     // 2. START AGAIN
     $(pageManager.startAgainButton).on("click", () => gameManager.reloadSite());
     $(pageManager.pauseButton).on("click", () => gameManager.pause());

@@ -1,4 +1,6 @@
-// Create buildings
+/**
+ * Create buildings
+ */
 class BuilderManager {
     initialization(gameManager) {
         this.gameManager = gameManager;
@@ -37,8 +39,13 @@ class BuilderManager {
         ]);
     }
 
+    /**
+     * Trying to build new building
+     * @param buildingType building type
+     * @returns true/false depends on whether building is built.
+     */
     buildNewBuilding(buildingType) {
-        return this.buildingMap.get(buildingType).add();
+        return this.buildingMap.get(buildingType).buildBuilding();
         // this.eventManager.addAchievement("Palace");
         // alert(`Congratulations! You built a palace for yourself!! You are amazing!!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ
         //                 ${this.configManager.userName}, Great job!!`);
@@ -46,6 +53,9 @@ class BuilderManager {
     }
 }
 
+/**
+ * Base class for building
+ */
 class Building {
     constructor(woodPrice, stonePrice, resourceToChangeAr, configManager, eventManager) {
         this.woodPrice = woodPrice;
@@ -56,25 +66,34 @@ class Building {
         this.eventManager = eventManager;
     }
 
-    add() {
-        return this.build(this.woodPrice, this.stonePrice, this.resourceToChangeAr[0], this.resourceToChangeAr[1]);
+    buildBuilding() {
+        return this.tryToBuild();
     }
 
-    build(woodPrice, stonePrice, elementNamesAr, quantityAr) {
-        if (this.configManager.woodQuantity >= woodPrice && this.configManager.stoneQuantity >= stonePrice) {
-            this.configManager.changeCurResourceQuantity("wood", -woodPrice);
-            this.configManager.changeCurResourceQuantity("stone", -stonePrice);
-            for (let i = 0; i < elementNamesAr.length; i++) {
-                this.configManager.changeCurResourceQuantity(elementNamesAr[i], quantityAr[i]);
+    tryToBuild() {
+        let result = true;
+        if (this.checkEnoughResource()) {
+            this.configManager.changeCurResourceQuantity("wood", -this.woodPrice);
+            this.configManager.changeCurResourceQuantity("stone", -this.stonePrice);
+            for (let i = 0; i < this.resourceToChangeAr[0].length; i++) {
+                this.configManager.changeCurResourceQuantity(this.resourceToChangeAr[0][i], this.resourceToChangeAr[1][i]);
             }
-            return true;
         } else {
             this.eventManager.addEvent("more resources");
-            return false;
+            result = false;
         }
+        return result;
+    }
+
+    checkEnoughResource(){
+        return this.configManager.woodQuantity >= this.woodPrice && this.configManager.stoneQuantity >= this.stonePrice;
     }
 }
 
+/**
+ * Class decorator for Building
+ * Add showing new elements on the page.
+ */
 class BuildingWithShowElement {
     constructor(building, pageManager, flag, showElementAr) {
         this.building = building;
@@ -83,8 +102,8 @@ class BuildingWithShowElement {
         this.showElementAr = showElementAr;
     }
 
-    add() {
-        let result = this.building.add();
+    buildBuilding() {
+        let result = this.building.tryToBuild();
         if (result && !this.flag) {
             this.pageManager.showElement(this.showElementAr);
             this.flag = true;

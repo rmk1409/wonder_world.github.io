@@ -1,3 +1,6 @@
+/**
+ * Manage people
+ */
 class CitizenManager {
     initialization(gameManager) {
         this.gameManager = gameManager;
@@ -6,17 +9,21 @@ class CitizenManager {
         this.pageManager = this.gameManager.pageManager;
     }
 
-    addCitizen(num) {
-        this.configManager.changeCurResourceQuantity("curPop", num);
-        this.configManager.changeCurResourceQuantity("curLazy", num);
-        this.configManager.changeCurResourceQuantity("foodTotalProduction", -num);
+    /**
+     * Just add new citizen
+     * @param quantity - how many
+     */
+    addCitizen(quantity) {
+        this.configManager.changeCurResourceQuantity("curPop", quantity);
+        this.configManager.changeCurResourceQuantity("curLazy", quantity);
+        this.configManager.changeCurResourceQuantity("foodTotalProduction", -quantity);
     }
 
-    createCitizen(num) {
-        if (this.configManager.foodQuantity >= this.configManager.citizenCost * num && (this.configManager.currentPopulation + num) <= this.configManager.maxPopulation) {
-            this.configManager.changeCurResourceQuantity("food", -this.configManager.citizenCost * num);
+    tryToCreateCitizen(quantity) {
+        if (this.configManager.foodQuantity >= this.configManager.citizenCost * quantity && (this.configManager.currentPopulation + quantity) <= this.configManager.maxPopulation) {
+            this.configManager.changeCurResourceQuantity("food", -this.configManager.citizenCost * quantity);
 
-            this.addCitizen(num);
+            this.addCitizen(quantity);
 
             // TODO to separate method
             if (this.configManager.currentPopulation <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
@@ -30,13 +37,13 @@ class CitizenManager {
         }
     }
 
-    setWorker(name, num) {
+    setCitizenToWork(workType, quantity) {
         let availabilityFlag = false;
         // add worker conditions
-        if (num > 0) {
-            if (this.configManager.lazyboneQuantity >= num) {
+        if (quantity > 0) {
+            if (this.configManager.lazyboneQuantity >= quantity) {
                 availabilityFlag = true;
-                switch (name) {
+                switch (workType) {
                     case "scientist":
                         if (!(this.configManager.curScientistQuantity < this.configManager.maxScientistQuantity)) {
                             this.eventManager.addEvent("more campfires");
@@ -62,16 +69,16 @@ class CitizenManager {
                         }
                         break;
                 }
-            } else if (name === 'funeral') {
-                if (this.configManager.lazyboneQuantity < num) {
+            } else if (workType === 'funeral') {
+                if (this.configManager.lazyboneQuantity < quantity) {
                     this.eventManager.addEvent("1 funeral process needs 2 workers");
                     return false;
                 }
             }
             // remove worker conditions
-        } else if (num < 0) {
+        } else if (quantity < 0) {
             let workerQuantity;
-            switch (name) {
+            switch (workType) {
                 case "farmer":
                     workerQuantity = this.configManager.farmerQuantity;
                     break;
@@ -89,30 +96,30 @@ class CitizenManager {
                     break;
             }
 
-            if (workerQuantity > 0 /*&& workerQuantity >= num*/) {
+            if (workerQuantity > 0 /*&& workerQuantity >= quantity*/) {
                 availabilityFlag = true;
             }
         }
 
         // main logic
         if (availabilityFlag) {
-            this.configManager.changeCurResourceQuantity("curLazy", -num);
-            this.configManager.changeCurResourceQuantity(name, num);
+            this.configManager.changeCurResourceQuantity("curLazy", -quantity);
+            this.configManager.changeCurResourceQuantity(workType, quantity);
 
             let peopleAmount = this.configManager.currentPopulation;
             let totalAvailableSpaceInClub;
-            switch (name) {
+            switch (workType) {
                 case "farmer":
-                    this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * num);
+                    this.configManager.changeCurResourceQuantity("foodTotalProduction", this.configManager.farmerProduction * quantity);
                     break;
                 case "woodman":
-                    this.configManager.changeCurResourceQuantity("woodTotalProduction", this.configManager.woodmanProduction * num);
+                    this.configManager.changeCurResourceQuantity("woodTotalProduction", this.configManager.woodmanProduction * quantity);
                     break;
                 case "miner":
-                    this.configManager.changeCurResourceQuantity("stoneTotalProduction", this.configManager.minerProduction * num);
+                    this.configManager.changeCurResourceQuantity("stoneTotalProduction", this.configManager.minerProduction * quantity);
                     break;
                 case "scientist":
-                    this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * num);
+                    this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * quantity);
                     break;
                 case "dj":
                     totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub;
@@ -123,7 +130,7 @@ class CitizenManager {
                     }
 
                     if (!this.configManager.djProductivityFlag) {
-                        this.gameManager.changeAllProduction(true);
+                        this.configManager.changeAllProduction(true);
                         this.configManager.djProductivityFlag = true;
                     }
                     break;
@@ -136,7 +143,7 @@ class CitizenManager {
                     }
 
                     if (!this.configManager.instructorProductivityFlag) {
-                        this.gameManager.changeAllProduction(true);
+                        this.configManager.changeAllProduction(true);
                         this.configManager.instructorProductivityFlag = true;
                     }
                     break;
@@ -170,14 +177,14 @@ class CitizenManager {
                 this.configManager.changeCurResourceQuantity("dj", -1);
                 this.configManager.changeCurResourceQuantity("curHappyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!this.configManager.curDjQuantity) {
-                    this.gameManager.changeAllProduction(false);
+                    this.configManager.changeAllProduction(false);
                     this.configManager.djProductivityFlag = false;
                 }
             } else if (this.configManager.curInstructorQuantity) {
                 this.configManager.changeCurResourceQuantity("instructor", -1);
                 this.configManager.changeCurResourceQuantity("curHealthyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!this.configManager.curInstructorQuantity) {
-                    this.gameManager.changeAllProduction(false);
+                    this.configManager.changeAllProduction(false);
                     this.configManager.instructorPresentFlag = false;
                 }
             } else if (this.configManager.leaderQuantity) {
