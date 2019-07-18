@@ -70,102 +70,7 @@ class GameManager {
     }
 
     build(buildingType) {
-        let result = false;
-
-        // TODO change to buildGvave/buildScroll and so on
-        // TODO add map for all this stuff
-        // let buildingMap = new Map([
-        //     ["", new ],
-        // ]);
-        // buildingMap.get(buildingType).add();
-        switch (buildingType) {
-            case "grave":
-                if (this.builderManager.build(10, 10, ["grave", "maxInGraves"], [1, 1])) {
-                    if (!this.configManager.buildFuneralFlag) {
-                        this.pageManager.showElement([this.pageManager.emptyRowBeforeJobFuneral, this.pageManager.jobFuneralRow, this.pageManager.inGravesRow]);
-                        this.configManager.buildFuneralFlag = true;
-                    }
-                    result = true;
-                }
-                break;
-            case "scroll":
-                result = this.builderManager.build(0, 10, ["scroll", "maxKnowledge"], [1, this.configManager.knowledgeInScroll]);
-                break;
-            case "granary":
-                result = this.builderManager.build(50, 50, ["granary", "maxFood"], [1, this.configManager.foodInGranary]);
-                break;
-            case "pit":
-                result = this.builderManager.build(50, 50, ["pit", "maxStone", "maxWood"], [1, this.configManager.resInPit, this.configManager.resInPit]);
-                break;
-            case "tent":
-                result = this.builderManager.build(20, 0, ["tent", "maxPop"], [1, this.configManager.spaceInTent]);
-                break;
-            case "hut":
-                result = this.builderManager.build(50, 20, ["hut", "maxPop"], [1, this.configManager.spaceInHut]);
-                break;
-            case "campfire":
-                if (this.builderManager.build(30, 10, ["campfire", "maxScientistQuantity"], [1, this.configManager.spaceInCamprire])) {
-                    if (!this.configManager.scientistPresentFlag) {
-                        this.configManager.scientistPresentFlag = true;
-                    }
-                    result = true;
-                }
-                break;
-            case "dolmen":
-                if (this.builderManager.build(80, 80, ["dolmen", "maxScientistQuantity"], [1, this.configManager.spaceInDolmen])) {
-                    this.configManager.availableScientistSpaces += this.configManager.spaceInDolmen;
-                    result = true;
-                }
-                break;
-            case "music-club":
-                if (this.builderManager.build(225, 225, ["musicClub", "maxDjQuantity", "maxHappyPeople"], [1, this.configManager.spaceForWorkerInClub,
-                    this.configManager.spaceForPeopleInClub])) {
-                    if (!this.configManager.djPresentFlag) {
-                        this.pageManager.showElement([this.pageManager.emptyRowBeforHappinessRowElement, this.pageManager.happinessRowElement, this.pageManager.emptyRowBeforProductivityRowElement,
-                            this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobDjRowElement]);
-                        this.configManager.djPresentFlag = true;
-                    }
-                    result = true;
-                }
-                break;
-            case "yoga-club":
-                if (this.builderManager.build(225, 225, ["yogaClub", "maxInstructorQuantity", "maxHealthyPeople"], [1, this.configManager.spaceForWorkerInClub,
-                    this.configManager.spaceForPeopleInClub])) {
-                    if (!this.configManager.instructorPresentFlag) {
-                        this.pageManager.showElement([this.pageManager.emptyRowBeforHappinessRowElement, this.pageManager.healthRowElement, this.pageManager.emptyRowBeforProductivityRowElement,
-                            this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobInstructorRowElement]);
-                        this.configManager.instructorPresentFlag = true;
-                    }
-                    result = true;
-                }
-                break;
-            case "palace":
-                if (this.builderManager.build(1000, 1000, ["palace", "dolmen", "musicClub", "yogaClub", "maxScientistQuantity", "maxHappyPeople", "maxHealthyPeople",
-                    "maxDjQuantity", "maxInstructorQuantity"], [1, 5, 5, 5, 5 * this.configManager.spaceInDolmen, 5 * this.configManager.spaceForPeopleInClub, 5 * this.configManager.spaceForPeopleInClub,
-                    5, 5])) {
-                    this.unlockAchievement("Palace");
-                    if (!this.configManager.palacePresentFlag) {
-                        this.eventManager.addAchievement("Palace");
-                        alert(`Congratulations! You built a palace for yourself!! You are amazing!!! \nAlso you've just killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. (￣▽￣)ノ 
-                        ${this.configManager.userName}, Great job!!`);
-                        this.pageManager.showElement([this.pageManager.startAgainButton]);
-                        this.pageManager.buildPalaceButton.prop("disabled", true);
-                        this.configManager.palacePresentFlag = true;
-                    }
-                    result = true;
-                }
-                break;
-            case "barrack":
-                if (this.builderManager.build(200, 100, ["barrack", "maxWarrior"], [1, this.configManager.spaceInBarrack])) {
-                    if (!this.configManager.barrackPresentFlag) {
-                        this.pageManager.showElement([this.pageManager.jobWarriorRow]);
-                        this.configManager.barrackPresentFlag = true;
-                    }
-                    result = true;
-                }
-        }
-
-        return result;
+        return this.builderManager.buildNewBuilding(buildingType);
     }
 
     setWorker(workType, amount) {
@@ -178,8 +83,8 @@ class GameManager {
             case "leader":
                 result = this.citizenManager.setWorker(workType, amount);
                 if (result && !this.configManager.leaderPresentFlag) {
-                    this.pageManager.showElement([this.pageManager.tenWorkTd]);
                     this.pageManager.workTableEmptyTd.attr("colspan", "6");
+                    this.pageManager.showElement([this.pageManager.tenWorkTd]);
 
                     this.configManager.leaderPresentFlag = true;
                 }
@@ -273,8 +178,8 @@ class GameManager {
                 this.scienceManager.research(this.configManager.architecture3Cost, this.pageManager.techArchitecture3Element, [this.pageManager.buildDolmenRow, this.pageManager.architecture3P]);
                 break;
             case "music":
-                this.scienceManager.research(this.configManager.musicCost, this.pageManager.techMusicElement, [this.pageManager.emptyRowBeforeJobInClubElement,
-                    this.pageManager.emptyRowBeforeBuildEfficiency, this.pageManager.buildMusicClubRow, this.pageManager.musicP]);
+                this.scienceManager.research(this.configManager.musicCost, this.pageManager.techMusicElement, [this.pageManager.emptyRowBeforeBuildEfficiency, this.pageManager.buildMusicClubRow,
+                    this.pageManager.musicP]);
                 break;
             case "sport":
                 this.scienceManager.research(this.configManager.sportCost, this.pageManager.techSportElement, [this.pageManager.emptyRowBeforeJobInClubElement,

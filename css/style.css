@@ -1,3 +1,6 @@
+/*html {*/
+    /*height: 100%;*/
+/*}*/
 body {
     background: url("../res/img/common/background-village2.jpg") no-repeat;
     background-size: 100% 100%;
@@ -11,7 +14,7 @@ header img {
 }
 
 #already-known-section img, table img {
-    height: 20px;
+    height: 19px;
 }
 
 table td:first-child img, img{
