@@ -27,10 +27,10 @@ class CitizenManager {
             this.addCitizen(quantity);
 
             // TODO to separate method
-            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
+            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.resourceMap.get("dj").quantity * this.configManager.spaceForPeopleInClub) {
                 this.pageManager.curHappyPeopleElement.text(this.configManager.resourceMap.get("curPop").quantity);
             }
-            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub) {
+            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.resourceMap.get("instructor").quantity * this.configManager.spaceForPeopleInClub) {
                 this.pageManager.curHealthyPeopleElement.text(this.pageManager.curPopulationElement.text());
             }
         } else {
@@ -42,36 +42,36 @@ class CitizenManager {
         let availabilityFlag = false;
         // add worker conditions
         if (quantity > 0) {
-            if (this.configManager.lazyboneQuantity >= quantity) {
+            if (this.configManager.resourceMap.get("curLazy").quantity >= quantity) {
                 availabilityFlag = true;
                 switch (workType) {
                     case "scientist":
-                        if (!(this.configManager.curScientistQuantity < this.configManager.maxScientistQuantity)) {
+                        if (!(this.configManager.resourceMap.get("scientist").quantity < this.configManager.resourceMap.get("maxScientistQuantity").quantity)) {
                             this.eventManager.addEvent("more campfires");
                             return;
                         }
                         break;
-                    case "warrior":
-                        if (!(this.configManager.curWarriorQuantity < this.configManager.maxWarriorQuantity)) {
-                            this.eventManager.addEvent("more barrack");
-                            return;
-                        }
-                        break;
                     case "dj":
-                        if (!(this.configManager.curDjQuantity < this.configManager.maxDjQuantity)) {
+                        if (!(this.configManager.resourceMap.get("dj").quantity < this.configManager.resourceMap.get("maxDjQuantity").quantity)) {
                             this.eventManager.addEvent("more music clubs");
                             return;
                         }
                         break;
                     case "instructor":
-                        if (!(this.configManager.curInstructorQuantity < this.configManager.maxInstructorQuantity)) {
+                        if (!(this.configManager.resourceMap.get("instructor").quantity < this.configManager.resourceMap.get("maxInstructorQuantity").quantity)) {
                             this.eventManager.addEvent("more yoga clubs");
+                            return;
+                        }
+                        break;
+                    case "warrior":
+                        if (!(this.configManager.resourceMap.get("warrior").quantity < this.configManager.resourceMap.get("maxWarrior").quantity)) {
+                            this.eventManager.addEvent("more barrack");
                             return;
                         }
                         break;
                 }
             } else if (workType === 'funeral') {
-                if (this.configManager.lazyboneQuantity < quantity) {
+                if (this.configManager.resourceMap.get("curLazy").quantity < quantity) {
                     this.eventManager.addEvent("1 funeral process needs 2 workers");
                     return false;
                 }
@@ -81,19 +81,19 @@ class CitizenManager {
             let workerQuantity;
             switch (workType) {
                 case "farmer":
-                    workerQuantity = this.configManager.farmerQuantity;
+                    workerQuantity = this.configManager.resourceMap.get("farmer").quantity;
                     break;
                 case "woodman":
-                    workerQuantity = this.configManager.woodmenQuantity;
+                    workerQuantity = this.configManager.resourceMap.get("woodman").quantity;
                     break;
                 case "miner":
-                    workerQuantity = this.configManager.minerQuantity;
+                    workerQuantity = this.configManager.resourceMap.get("miner").quantity;
                     break;
                 case "funeral":
-                    workerQuantity = this.configManager.funeralQuantity;
+                    workerQuantity = this.configManager.resourceMap.get("funeral").quantity;
                     break;
                 case "scientist":
-                    workerQuantity = this.configManager.curScientistQuantity;
+                    workerQuantity = this.configManager.resourceMap.get("scientist").quantity;
                     break;
             }
 
@@ -123,7 +123,7 @@ class CitizenManager {
                     this.configManager.changeCurResourceQuantity("knowledgeTotalProduction", this.configManager.scientistProduction * quantity);
                     break;
                 case "dj":
-                    totalAvailableSpaceInClub = this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub;
+                    totalAvailableSpaceInClub = this.configManager.resourceMap.get("dj").quantity * this.configManager.spaceForPeopleInClub;
                     if (peopleAmount <= totalAvailableSpaceInClub) {
                         this.pageManager.curHappyPeopleElement.text(peopleAmount);
                     } else {
@@ -136,7 +136,7 @@ class CitizenManager {
                     }
                     break;
                 case "instructor":
-                    totalAvailableSpaceInClub = this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub;
+                    totalAvailableSpaceInClub = this.configManager.resourceMap.get("instructor").quantity * this.configManager.spaceForPeopleInClub;
                     if (peopleAmount <= totalAvailableSpaceInClub) {
                         this.pageManager.curHealthyPeopleElement.text(peopleAmount);
                     } else {
@@ -160,46 +160,46 @@ class CitizenManager {
     findPersonToKill() {
         if (this.configManager.resourceMap.get("curPop").quantity > 0) {
             let withDecrease = true;
-            if (this.configManager.lazyboneQuantity) {
+            if (this.configManager.resourceMap.get("curLazy").quantity) {
                 this.configManager.changeCurResourceQuantity("curLazy", -1);
-            } else if (this.configManager.woodmenQuantity) {
+            } else if (this.configManager.resourceMap.get("woodman").quantity) {
                 withDecrease = false;
                 this.killWoodcutter();
-            } else if (this.configManager.minerQuantity) {
+            } else if (this.configManager.resourceMap.get("miner").quantity) {
                 withDecrease = false;
                 this.killMiner();
-            } else if (this.configManager.funeralQuantity) {
+            } else if (this.configManager.resourceMap.get("funeral").quantity) {
                 this.configManager.changeCurResourceQuantity("funeral", -2);
                 this.configManager.changeCurResourceQuantity("curLazy", 1);
-            } else if (this.configManager.curScientistQuantity) {
+            } else if (this.configManager.resourceMap.get("scientist").quantity) {
                 withDecrease = false;
                 this.killScientist();
-            } else if (this.configManager.curDjQuantity) {
+            } else if (this.configManager.resourceMap.get("dj").quantity) {
                 this.configManager.changeCurResourceQuantity("dj", -1);
                 this.configManager.changeCurResourceQuantity("curHappyPeople", -(this.configManager.resourceMap.get("curPop").quantity <= this.configManager.spaceForPeopleInClub ?
                     this.configManager.resourceMap.get("curPop").quantity : (this.configManager.spaceForPeopleInClub - 1)));
-                if (!this.configManager.curDjQuantity) {
+                if (!this.configManager.resourceMap.get("dj").quantity) {
                     this.configManager.changeAllProduction(false);
                     this.configManager.djProductivityFlag = false;
                 }
-            } else if (this.configManager.curInstructorQuantity) {
+            } else if (this.configManager.resourceMap.get("instructor").quantity) {
                 this.configManager.changeCurResourceQuantity("instructor", -1);
                 this.configManager.changeCurResourceQuantity("curHealthyPeople", -(this.configManager.resourceMap.get("curPop").quantity <= this.configManager.spaceForPeopleInClub ?
                     this.configManager.resourceMap.get("curPop").quantity : (this.configManager.spaceForPeopleInClub - 1)));
-                if (!this.configManager.curInstructorQuantity) {
+                if (!this.configManager.resourceMap.get("instructor").quantity) {
                     this.configManager.changeAllProduction(false);
                     this.configManager.instructorPresentFlag = false;
                 }
-            } else if (this.configManager.leaderQuantity) {
+            } else if (this.configManager.resourceMap.get("leader").quantity) {
                 this.configManager.changeCurResourceQuantity("leader", -1);
-                if (!this.configManager.leaderQuantity) {
+                if (!this.configManager.resourceMap.get("leader").quantity) {
                     this.pageManager.hideElement([this.pageManager.tenWorkTd]);
                     this.pageManager.workTableEmptyTd.attr("colspan", "4");
                     this.configManager.leaderPresentFlag = false;
                 }
-            } else if (this.configManager.curWarriorQuantity) {
+            } else if (this.configManager.resourceMap.get("warrior").quantity) {
                 this.configManager.changeCurResourceQuantity("warrior", -1);
-            } else if (this.configManager.farmerQuantity) {
+            } else if (this.configManager.resourceMap.get("farmer").quantity) {
                 withDecrease = false;
                 this.killFarmer();
             }

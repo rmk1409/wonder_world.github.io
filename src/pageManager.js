@@ -286,7 +286,7 @@ class PageManager {
         this.changeColor(this.configManager.resourceMap.get("woodTotalProduction").quantity, this.woodProductionElement);
         this.changeColor(this.configManager.resourceMap.get("stoneTotalProduction").quantity, this.stoneProductionElement);
         this.changeColor(this.configManager.resourceMap.get("knowledgeTotalProduction").quantity, this.knowledgeProductionElement);
-        this.changeColor(this.configManager.lazyboneQuantity, this.curLazybonesElement);
+        this.changeColor(this.configManager.resourceMap.get("curLazy").quantity, this.curLazybonesElement);
     }
 
     changeColor(checkEl, target, button) {

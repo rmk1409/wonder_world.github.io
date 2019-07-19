@@ -219,7 +219,7 @@ class TwoSideScrollResearch extends ResearchWithExtraLogic {
     }
 
     extraLogic() {
-        this.research.configManager.changeCurResourceQuantity("maxKnowledge", this.research.configManager.scrollQuantity * this.research.configManager.knowledgeInScroll);
+        this.research.configManager.changeCurResourceQuantity("maxKnowledge", this.research.configManager.resourceMap.get("scroll").quantity * this.research.configManager.knowledgeInScroll);
         this.research.configManager.knowledgeInScroll *= 2;
         this.research.pageManager.buildScrollDefinition.text("+10 space for knowledge");
         this.research.pageManager.buildScrollButton.text("2-side scroll");

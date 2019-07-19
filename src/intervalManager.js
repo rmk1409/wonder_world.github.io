@@ -77,7 +77,7 @@ class IntervalManager {
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
             let maxFuneral = Math.min.apply(null, [self.configManager.resourceMap.get("maxInGraves").quantity - self.configManager.resourceMap.get("inGraveQuantity").quantity,
-                self.configManager.resourceMap.get("corpse").quantity, self.configManager.funeralQuantity / 2]);
+                self.configManager.resourceMap.get("corpse").quantity, self.configManager.resourceMap.get("funeral").quantity / 2]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
                     self.configManager.changeCurResourceQuantity("corpse", -1);

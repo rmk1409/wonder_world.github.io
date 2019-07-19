@@ -25,6 +25,7 @@ class GameManager {
         this.intervalManager.initialization(this);
 
         this.userKey = "USER_NAME";
+        this.config = "GAME_CONFIG";
     }
 
     initialization() {

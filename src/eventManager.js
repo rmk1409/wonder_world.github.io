@@ -166,7 +166,7 @@ class EventManager {
     }
 
     ufoEvent() {
-        let farmers = this.configManager.farmerQuantity;
+        let farmers = this.configManager.resourceMap.get("farmer").quantity;
         if (farmers > 25) {
             switch (this.getRandomInt(3)) {
                 case 1:
@@ -191,7 +191,7 @@ class EventManager {
     }
 
     farmerEvent() {
-        let farmers = this.configManager.farmerQuantity;
+        let farmers = this.configManager.resourceMap.get("farmer").quantity;
         // this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔 🥝🥝 your people see a lot of new kind of food.") + "</p>");
 
         let food = this.configManager.resourceMap.get("food").quantity;
@@ -223,7 +223,7 @@ class EventManager {
     weatherEvent() {
         // TODO add illness
         let wood = this.configManager.resourceMap.get("wood").quantity;
-        let miners = this.configManager.minerQuantity;
+        let miners = this.configManager.resourceMap.get("miner").quantity;
         switch (this.getRandomInt(2)) {
             // Storm
             case 1:
@@ -260,7 +260,7 @@ class EventManager {
     }
 
     wildAmazonEvent() {
-        let scientists = this.configManager.curScientistQuantity;
+        let scientists = this.configManager.resourceMap.get("scientist").quantity;
         if (scientists > 10) {
             switch (this.getRandomInt(3)) {
                 case 1:
@@ -297,8 +297,8 @@ class EventManager {
                 }
                 break;
             case 2:
-                if (this.configManager.woodmenQuantity > 7) {
-                    let changes = this.configManager.woodmenQuantity;
+                if (this.configManager.resourceMap.get("woodman").quantity > 7) {
+                    let changes = this.configManager.resourceMap.get("woodman").quantity;
                     this.addEvent("elves don't like", changes);
                     for (let i = 0; i < changes; i++) {
                         this.citizenManager.killWoodcutter();
