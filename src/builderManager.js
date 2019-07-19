@@ -86,7 +86,7 @@ class Building {
     }
 
     checkEnoughResource(){
-        return this.configManager.woodQuantity >= this.woodPrice && this.configManager.stoneQuantity >= this.stonePrice;
+        return this.configManager.resourceMap.get("wood").quantity >= this.woodPrice && this.configManager.resourceMap.get("stone").quantity >= this.stonePrice;
     }
 }
 

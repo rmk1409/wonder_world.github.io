@@ -81,13 +81,13 @@ class ChangesResearch {
     tryToResearch() {
         let result = true;
 
-        if (this.configManager.woodQuantity >= this.woodPrice && this.configManager.stoneQuantity >= this.stonePrice) {
+        if (this.configManager.resourceMap.get("wood").quantity >= this.woodPrice && this.configManager.resourceMap.get("stone").quantity >= this.stonePrice) {
             this.configManager.changeCurResourceQuantity("wood", -this.woodPrice);
             this.configManager.changeCurResourceQuantity("stone", -this.stonePrice);
 
             this.eventManager.addAchievement("First Research");
 
-            this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.maxFoodQuantity, this.pageManager.maxWoodQuantityElement,
+            this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.maxFoodQuantityElement, this.pageManager.maxWoodQuantityElement,
                 this.pageManager.maxStoneQuantityElement, this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow, this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow,
                 this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow, this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement, this.pageManager.techArchitectureElement,
                 this.pageManager.alreadyKnownP, this.pageManager.changesP]);
@@ -121,7 +121,7 @@ class Research {
     tryToResearch() {
         let result = true;
 
-        if (this.configManager.knowledgeQuantity >= this.price) {
+        if (this.configManager.resourceMap.get("knowledge").quantity >= this.price) {
             this.configManager.changeCurResourceQuantity("knowledge", -this.price);
             if (this.elementToHide && this.elementToShowAr) {
                 this.pageManager.toggleElement(this.elementToHide, this.elementToShowAr);

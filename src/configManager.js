@@ -24,37 +24,37 @@ class ConfigManager {
         this.palacePresentFlag = false;
         this.starvationAchievementFlag = false;
         // Resources
-        this.foodQuantity = 0;
-        this.foodMaxQuantity = 100;
+        // this.foodQuantity = 0;
+        // this.foodMaxQuantity = 100;
         this.farmerProduction = 1.2;
-        this.foodTotalProduction = 0;
+        // this.foodTotalProduction = 0;
 
-        this.woodQuantity = 0;
-        this.woodMaxQuantity = 100;
+        // this.woodQuantity = 0;
+        // this.woodMaxQuantity = 100;
         this.woodmanProduction = 0.5;
-        this.woodTotalProduction = 0;
+        // this.woodTotalProduction = 0;
 
-        this.stoneQuantity = 0;
-        this.stoneMaxQuantity = 100;
+        // this.stoneQuantity = 0;
+        // this.stoneMaxQuantity = 100;
         this.minerProduction = 0.2;
-        this.stoneTotalProduction = 0;
+        // this.stoneTotalProduction = 0;
 
-        this.knowledgeQuantity = 0;
-        this.knowledgeMaxQuantity = 30;
+        // this.knowledgeQuantity = 0;
+        // this.knowledgeMaxQuantity = 30;
         this.scientistProduction = 0.1;
-        this.knowledgeTotalProduction = 0;
+        // this.knowledgeTotalProduction = 0;
         // People
         this.citizenCost = 10;
-        this.currentPopulation = 0;
-        this.maxPopulation = 5;
-        this.corpseQuantity = 0;
-        this.inGravesQuantity = 0;
-        this.inGravesMaxQuantity = 0;
-        this.currentHappyPeople = 0;
-        this.maxHappyPeople = 0;
-        this.currentHealthyPeople = 0;
-        this.maxHealthyPeople = 0;
-        this.productivity = 100;
+        // this.currentPopulation = 0;
+        // this.maxPopulation = 5;
+        // this.corpseQuantity = 0;
+        // this.inGravesQuantity = 0;
+        // this.inGravesMaxQuantity = 0;
+        // this.currentHappyPeople = 0;
+        // this.maxHappyPeople = 0;
+        // this.currentHealthyPeople = 0;
+        // this.maxHealthyPeople = 0;
+        // this.productivity = 100;
         // Work
         this.lazyboneQuantity = 0;
         this.farmerQuantity = 0;
@@ -120,183 +120,232 @@ class ConfigManager {
     initialization(gameManager) {
         this.gameManager = gameManager;
         this.pageManager = this.gameManager.pageManager;
+
+        this.storageResourceMap = new Map([
+            ["maxFood", new Resource(100, this.pageManager.maxFoodQuantityElement, 0)],
+            ["maxWood", new Resource(100, this.pageManager.maxWoodQuantityElement, 0)],
+            ["maxStone", new Resource(100, this.pageManager.maxStoneQuantityElement, 0)],
+            ["maxKnowledge", new Resource(30, this.pageManager.maxKnowledgeQuantityElement, 0)],
+
+            ["maxPop", new Resource(5, this.pageManager.maxPopulationElement, 0)],
+            ["maxInGraves", new Resource(0, this.pageManager.maxInGravesQuantityElement, 0)],
+            ["maxHappyPeople", new Resource(0, this.pageManager.maxHappyPeopleElement, 0)],
+            ["maxHealthyPeople", new Resource(0, this.pageManager.maxHealthyPeopleElement, 0)],
+            ["maxScientistQuantity", new Resource(0, this.pageManager.maxScientistQuantityElement, 0)],
+            ["maxDjQuantity", new Resource(0, this.pageManager.maxDjQuantityElement, 0)],
+            ["maxInstructorQuantity", new Resource(0, this.pageManager.maxInstructorQuantityElement, 0)],
+            ["maxWarrior", new Resource(0, this.pageManager.maxWarriorQuantityElement, 0)],
+        ]);
+
+        this.resourceMap = new Map([
+            ...this.storageResourceMap,
+            ["food", new Resource(0, this.pageManager.foodQuantityElement, 0, this.storageResourceMap.get("maxFood"))],
+            ["foodTotalProduction", new Resource(0, this.pageManager.foodProductionElement, 1)],
+            ["wood", new Resource(0, this.pageManager.woodQuantityElement, 0, this.storageResourceMap.get("maxWood"))],
+            ["woodTotalProduction", new Resource(0, this.pageManager.woodProductionElement, 1)],
+            ["stone", new Resource(0, this.pageManager.stoneQuantityElement, 0, this.storageResourceMap.get("maxStone"))],
+            ["stoneTotalProduction", new Resource(0, this.pageManager.stoneProductionElement, 1)],
+            ["knowledge", new Resource(0, this.pageManager.knowledgeQuantityElement, 0, this.storageResourceMap.get("maxKnowledge"))],
+            ["knowledgeTotalProduction", new Resource(0, this.pageManager.knowledgeProductionElement, 1)],
+
+            ["curPop", new Resource(0, this.pageManager.curPopulationElement, 0, this.storageResourceMap.get("maxPop"))],
+            ["corpse", new Resource(0, this.pageManager.corpseQuantityElement, 0)],
+            ["inGraveQuantity", new Resource(0, this.pageManager.inGraveQuantityElement, 0, this.storageResourceMap.get("maxInGraves"))],
+            ["curHappyPeople", new Resource(0, this.pageManager.curHappyPeopleElement, 0, this.storageResourceMap.get("maxHappyPeople"))],
+            ["curHealthyPeople", new Resource(0, this.pageManager.curHealthyPeopleElement, 0, this.storageResourceMap.get("maxHealthyPeople"))],
+            ["productivity", new Resource(100, this.pageManager.productivityQuantityElement, 2)],
+
+            ["curLazy", new Resource(0, this.pageManager.curLazybonesElement, 0)],
+            ["farmer", new Resource(0, this.pageManager.farmerQuantityElement, 0)],
+            ["woodman", new Resource(0, this.pageManager.woodmenQuantityElement, 0)],
+            ["miner", new Resource(0, this.pageManager.minerQuantityElement, 0)],
+            ["funeral", new Resource(0, this.pageManager.funeralQuantityElement, 0)],
+            ["scientist", new Resource(0, this.pageManager.curScientistQuantityElement, 0, this.storageResourceMap.get("maxScientistQuantity"))],
+            ["dj", new Resource(0, this.pageManager.djQuantityElement, 0, this.storageResourceMap.get("maxDjQuantity"))],
+            ["instructor", new Resource(0, this.pageManager.instructorQuantityElement, 0, this.storageResourceMap.get("maxInstructorQuantity"))],
+            ["leader", new Resource(0, this.pageManager.leaderQuantityElement, 0)],
+            ["warrior", new Resource(0, this.pageManager.warriorQuantityElement, 0, this.storageResourceMap.get("maxWarrior"))],
+        ]);
     }
 
-    changeCurResourceQuantity(resName, num) {
+    changeCurResourceQuantity(resourceType, quantity) {
         let resource;
         let resourceElement;
         let storageResource;
         let toFixed = 0;
 
-        switch (resName) {
+        switch (resourceType) {
             // Resources
-            case "food":
-                resource = this.foodQuantity;
-                resourceElement = this.pageManager.foodQuantityElement;
-                storageResource = this.foodMaxQuantity;
-                break;
-            case "maxFood":
-                resource = this.foodMaxQuantity;
-                resourceElement = this.pageManager.maxFoodQuantity;
-                break;
-            case "foodTotalProduction":
-                resource = this.foodTotalProduction;
-                resourceElement = this.pageManager.foodProductionElement;
-                toFixed = 1;
-                break;
 
-            case "wood":
-                resource = this.woodQuantity;
-                resourceElement = this.pageManager.woodQuantityElement;
-                storageResource = this.woodMaxQuantity;
-                break;
-            case "maxWood":
-                resource = this.woodMaxQuantity;
-                resourceElement = this.pageManager.maxWoodQuantityElement;
-                break;
-            case "woodTotalProduction":
-                resource = this.woodTotalProduction;
-                resourceElement = this.pageManager.woodProductionElement;
-                toFixed = 1;
-                break;
+            // case "food":
+            //     resource = this.foodQuantity;
+            //     resourceElement = this.pageManager.foodQuantityElement;
+            //     storageResource = this.foodMaxQuantity;
+            //     break;
+            // case "maxFood":
+            //     resource = this.foodMaxQuantity;
+            //     resourceElement = this.pageManager.maxFoodQuantityElement;
+            //     break;
+            // case "foodTotalProduction":
+            //     resource = this.foodTotalProduction;
+            //     resourceElement = this.pageManager.foodProductionElement;
+            //     toFixed = 1;
+            //     break;
 
-            case "stone":
-                resource = this.stoneQuantity;
-                resourceElement = this.pageManager.stoneQuantityElement;
-                storageResource = this.stoneMaxQuantity;
-                break;
-            case "maxStone":
-                resource = this.stoneMaxQuantity;
-                resourceElement = this.pageManager.maxStoneQuantityElement;
-                break;
-            case "stoneTotalProduction":
-                resource = this.stoneTotalProduction;
-                resourceElement = this.pageManager.stoneProductionElement;
-                toFixed = 1;
-                break;
+            // case "wood":
+            //     resource = this.woodQuantity;
+            //     resourceElement = this.pageManager.woodQuantityElement;
+            //     storageResource = this.woodMaxQuantity;
+            //     break;
+            // case "maxWood":
+            //     resource = this.woodMaxQuantity;
+            //     resourceElement = this.pageManager.maxWoodQuantityElement;
+            //     break;
+            // case "woodTotalProduction":
+            //     resource = this.woodTotalProduction;
+            //     resourceElement = this.pageManager.woodProductionElement;
+            //     toFixed = 1;
+            //     break;
 
-            case "knowledge":
-                resource = this.knowledgeQuantity;
-                resourceElement = this.pageManager.knowledgeQuantityElement;
-                storageResource = this.knowledgeMaxQuantity;
-                break;
-            case "maxKnowledge":
-                resource = this.knowledgeMaxQuantity;
-                resourceElement = this.pageManager.maxKnowledgeQuantity;
-                break;
-            case "knowledgeTotalProduction":
-                resource = this.knowledgeTotalProduction;
-                resourceElement = this.pageManager.knowledgeProductionElement;
-                toFixed = 1;
-                break;
+            // case "stone":
+            //     resource = this.stoneQuantity;
+            //     resourceElement = this.pageManager.stoneQuantityElement;
+            //     storageResource = this.stoneMaxQuantity;
+            //     break;
+            // case "maxStone":
+            //     resource = this.stoneMaxQuantity;
+            //     resourceElement = this.pageManager.maxStoneQuantityElement;
+            //     break;
+            // case "stoneTotalProduction":
+            //     resource = this.stoneTotalProduction;
+            //     resourceElement = this.pageManager.stoneProductionElement;
+            //     toFixed = 1;
+            //     break;
+
+            // case "knowledge":
+            //     resource = this.knowledgeQuantity;
+            //     resourceElement = this.pageManager.knowledgeQuantityElement;
+            //     storageResource = this.knowledgeMaxQuantity;
+            //     break;
+            // case "maxKnowledge":
+            //     resource = this.knowledgeMaxQuantity;
+            //     resourceElement = this.pageManager.maxKnowledgeQuantityElement;
+            //     break;
+            // case "knowledgeTotalProduction":
+            //     resource = this.knowledgeTotalProduction;
+            //     resourceElement = this.pageManager.knowledgeProductionElement;
+            //     toFixed = 1;
+            //     break;
 
             // People
-            case "curPop":
-                resource = this.currentPopulation;
-                resourceElement = this.pageManager.curPopulationElement;
-                break;
-            case "maxPop":
-                resource = this.maxPopulation;
-                resourceElement = this.pageManager.maxPopulationElement;
-                break;
+            // case "curPop":
+            //     resource = this.currentPopulation;
+            //     resourceElement = this.pageManager.curPopulationElement;
+            //     break;
+            // case "maxPop":
+            //     resource = this.maxPopulation;
+            //     resourceElement = this.pageManager.maxPopulationElement;
+            //     break;
 
-            case "corpse":
-                resource = this.corpseQuantity;
-                resourceElement = this.pageManager.corpseQuantityElement;
-                break;
-            case "inGraveQuantity":
-                resource = this.inGravesQuantity;
-                resourceElement = this.pageManager.inGraveQuantityElement;
-                break;
-            case "maxInGraves":
-                resource = this.inGravesMaxQuantity;
-                resourceElement = this.pageManager.maxInGravesQuantityElement;
-                break;
-            case "curHappyPeople":
-                resource = this.currentHappyPeople;
-                resourceElement = this.pageManager.curHappyPeopleElement;
-                storageResource = this.maxHappyPeople;
-                break;
-            case "maxHappyPeople":
-                resource = this.maxHappyPeople;
-                resourceElement = this.pageManager.maxHappyPeopleElement;
-                break;
-            case "curHealthyPeople":
-                resource = this.currentHealthyPeople;
-                resourceElement = this.pageManager.curHealthyPeopleElement;
-                storageResource = this.maxHealthyPeople;
-                break;
-            case "maxHealthyPeople":
-                resource = this.maxHealthyPeople;
-                resourceElement = this.pageManager.maxHealthyPeopleElement;
-                break;
-            case "productivity":
-                resource = this.productivity;
-                resourceElement = this.pageManager.productivityQuantityElement;
-                toFixed = 2;
-                break;
+            // case "corpse":
+            //     resource = this.corpseQuantity;
+            //     resourceElement = this.pageManager.corpseQuantityElement;
+            //     break;
+            // case "inGraveQuantity":
+            //     resource = this.inGravesQuantity;
+            //     resourceElement = this.pageManager.inGraveQuantityElement;
+            //     break;
+            // case "maxInGraves":
+            //     resource = this.inGravesMaxQuantity;
+            //     resourceElement = this.pageManager.maxInGravesQuantityElement;
+            //     break;
+
+            // case "curHappyPeople":
+            //     resource = this.currentHappyPeople;
+            //     resourceElement = this.pageManager.curHappyPeopleElement;
+            //     storageResource = this.maxHappyPeople;
+            //     break;
+            // case "maxHappyPeople":
+            //     resource = this.maxHappyPeople;
+            //     resourceElement = this.pageManager.maxHappyPeopleElement;
+            //     break;
+            // case "curHealthyPeople":
+            //     resource = this.currentHealthyPeople;
+            //     resourceElement = this.pageManager.curHealthyPeopleElement;
+            //     storageResource = this.maxHealthyPeople;
+            //     break;
+            // case "maxHealthyPeople":
+            //     resource = this.maxHealthyPeople;
+            //     resourceElement = this.pageManager.maxHealthyPeopleElement;
+            //     break;
+            // case "productivity":
+            //     resource = this.productivity;
+            //     resourceElement = this.pageManager.productivityQuantityElement;
+            //     toFixed = 2;
+            //     break;
 
             // Job
-            case "curLazy":
-                resource = this.lazyboneQuantity;
-                resourceElement = this.pageManager.curLazybonesElement;
-                break;
-            case "farmer":
-                resource = this.farmerQuantity;
-                resourceElement = this.pageManager.farmerQuantityElement;
-                break;
-            case "woodman":
-                resource = this.woodmenQuantity;
-                resourceElement = this.pageManager.woodmenQuantityElement;
-                break;
-            case "miner":
-                resource = this.minerQuantity;
-                resourceElement = this.pageManager.minerQuantityElement;
-                break;
-            case "funeral":
-                resource = this.funeralQuantity;
-                resourceElement = this.pageManager.funeralQuantityElement;
-                break;
-            case "scientist":
-                resource = this.curScientistQuantity;
-                resourceElement = this.pageManager.curScientistQuantityElement;
-                storageResource = this.maxScientistQuantity;
-                break;
-            case "maxScientistQuantity":
-                resource = this.maxScientistQuantity;
-                resourceElement = this.pageManager.maxScientistQuantityElement;
-                break;
-            case "dj":
-                resource = this.curDjQuantity;
-                resourceElement = this.pageManager.djQuantityElement;
-                storageResource = this.maxDjQuantity;
-                break;
-            case "maxDjQuantity":
-                resource = this.maxDjQuantity;
-                resourceElement = this.pageManager.maxDjQuantityElement;
-                break;
-            case "instructor":
-                resource = this.curInstructorQuantity;
-                resourceElement = this.pageManager.instructorQuantityElement;
-                storageResource = this.maxInstructorQuantity;
-                break;
-            case "maxInstructorQuantity":
-                resource = this.maxInstructorQuantity;
-                resourceElement = this.pageManager.maxInstructorQuantityElement;
-                break;
-            case "leader":
-                resource = this.leaderQuantity;
-                resourceElement = this.pageManager.leaderQuantityElement;
-                break;
-            case "warrior":
-                resource = this.curWarriorQuantity;
-                resourceElement = this.pageManager.warriorQuantityElement;
-                storageResource = this.maxWarriorQuantity;
-                break;
-            case "maxWarrior":
-                resource = this.maxWarriorQuantity;
-                resourceElement = this.pageManager.maxWarriorQuantityElement;
-                break;
+
+            // case "curLazy":
+            //     resource = this.lazyboneQuantity;
+            //     resourceElement = this.pageManager.curLazybonesElement;
+            //     break;
+            // case "farmer":
+            //     resource = this.farmerQuantity;
+            //     resourceElement = this.pageManager.farmerQuantityElement;
+            //     break;
+            // case "woodman":
+            //     resource = this.woodmenQuantity;
+            //     resourceElement = this.pageManager.woodmenQuantityElement;
+            //     break;
+            // case "miner":
+            //     resource = this.minerQuantity;
+            //     resourceElement = this.pageManager.minerQuantityElement;
+            //     break;
+            // case "funeral":
+            //     resource = this.funeralQuantity;
+            //     resourceElement = this.pageManager.funeralQuantityElement;
+            //     break;
+            // case "scientist":
+            //     resource = this.curScientistQuantity;
+            //     resourceElement = this.pageManager.curScientistQuantityElement;
+            //     storageResource = this.maxScientistQuantity;
+            //     break;
+            // case "maxScientistQuantity":
+            //     resource = this.maxScientistQuantity;
+            //     resourceElement = this.pageManager.maxScientistQuantityElement;
+            //     break;
+            // case "dj":
+            //     resource = this.curDjQuantity;
+            //     resourceElement = this.pageManager.djQuantityElement;
+            //     storageResource = this.maxDjQuantity;
+            //     break;
+            // case "maxDjQuantity":
+            //     resource = this.maxDjQuantity;
+            //     resourceElement = this.pageManager.maxDjQuantityElement;
+            //     break;
+            // case "instructor":
+            //     resource = this.curInstructorQuantity;
+            //     resourceElement = this.pageManager.instructorQuantityElement;
+            //     storageResource = this.maxInstructorQuantity;
+            //     break;
+            // case "maxInstructorQuantity":
+            //     resource = this.maxInstructorQuantity;
+            //     resourceElement = this.pageManager.maxInstructorQuantityElement;
+            //     break;
+            // case "leader":
+            //     resource = this.leaderQuantity;
+            //     resourceElement = this.pageManager.leaderQuantityElement;
+            //     break;
+            // case "warrior":
+            //     resource = this.curWarriorQuantity;
+            //     resourceElement = this.pageManager.warriorQuantityElement;
+            //     storageResource = this.maxWarriorQuantity;
+            //     break;
+            // case "maxWarrior":
+            //     resource = this.maxWarriorQuantity;
+            //     resourceElement = this.pageManager.maxWarriorQuantityElement;
+            //     break;
 
             // Building
             case "grave":
@@ -353,134 +402,145 @@ class ConfigManager {
                 break;
         }
 
-        resource = (resource * 1e3 + num * 1e3) / 1e3;
-        if (storageResource && resource > storageResource) {
-            resource = storageResource;
-        }
-
-        if (toFixed) {
-            resourceElement.text(resource.toFixed(toFixed));
+        let res = this.resourceMap.get(resourceType);
+        if (res) {
+            res.changeQuantity(quantity);
         } else {
-            resourceElement.text(Math.floor(resource));
+            resource = (resource * 1e3 + quantity * 1e3) / 1e3;
+
+            if (storageResource && resource > storageResource) {
+                resource = storageResource;
+            }
+
+            if (toFixed) {
+                resourceElement.text(resource.toFixed(toFixed));
+            } else {
+                resourceElement.text(Math.floor(resource));
+            }
         }
-        switch (resName) {
+
+        switch (resourceType) {
             // Resources
-            case "food":
-                this.foodQuantity = resource;
-                break;
-            case "maxFood":
-                this.foodMaxQuantity = resource;
-                break;
-            case "foodTotalProduction":
-                this.foodTotalProduction = resource;
-                break;
 
-            case "wood":
-                this.woodQuantity = resource;
-                break;
-            case "maxWood":
-                this.woodMaxQuantity = resource;
-                break;
-            case "woodTotalProduction":
-                this.woodTotalProduction = resource;
-                break;
+            // case "food":
+            //     this.foodQuantity = resource;
+            //     break;
+            // case "maxFood":
+            //     this.foodMaxQuantity = resource;
+            //     break;
+            // case "foodTotalProduction":
+            //     this.foodTotalProduction = resource;
+            //     break;
 
-            case "stone":
-                this.stoneQuantity = resource;
-                break;
-            case "maxStone":
-                this.stoneMaxQuantity = resource;
-                break;
-            case "stoneTotalProduction":
-                this.stoneTotalProduction = resource;
-                break;
+            // case "wood":
+            //     this.woodQuantity = resource;
+            //     break;
+            // case "maxWood":
+            //     this.woodMaxQuantity = resource;
+            //     break;
+            // case "woodTotalProduction":
+            //     this.woodTotalProduction = resource;
+            //     break;
 
-            case "knowledge":
-                this.knowledgeQuantity = resource;
-                break;
-            case "maxKnowledge":
-                this.knowledgeMaxQuantity = resource;
-                break;
-            case "knowledgeTotalProduction":
-                this.knowledgeTotalProduction = resource;
-                break;
+            // case "stone":
+            //     this.stoneQuantity = resource;
+            //     break;
+            // case "maxStone":
+            //     this.stoneMaxQuantity = resource;
+            //     break;
+            // case "stoneTotalProduction":
+            //     this.stoneTotalProduction = resource;
+            //     break;
+
+            // case "knowledge":
+            //     this.knowledgeQuantity = resource;
+            //     break;
+            // case "maxKnowledge":
+            //     this.knowledgeMaxQuantity = resource;
+            //     break;
+            // case "knowledgeTotalProduction":
+            //     this.knowledgeTotalProduction = resource;
+            //     break;
 
             // People
-            case "corpse" :
-                this.corpseQuantity = resource;
-                break;
-            case "curPop":
-                this.currentPopulation = resource;
-                break;
-            case "maxPop":
-                this.maxPopulation = resource;
-                break;
-            case "inGraveQuantity":
-                this.inGravesQuantity = resource;
-                break;
-            case "maxInGraves":
-                this.inGravesMaxQuantity = resource;
-                break;
-            case "curHappyPeople":
-                this.currentHappyPeople = resource;
-                break;
-            case "maxHappyPeople":
-                this.maxHappyPeople = resource;
-                break;
-            case "curHealthyPeople":
-                this.currentHealthyPeople = resource;
-                break;
-            case "maxHealthyPeople":
-                this.maxHealthyPeople = resource;
-                break;
-            case "productivity":
-                this.productivity = resource;
-                break;
+            // case "curPop":
+            //     this.currentPopulation = resource;
+            //     break;
+            // case "maxPop":
+            //     this.maxPopulation = resource;
+            //     break;
+
+            // case "corpse" :
+            //     this.corpseQuantity = resource;
+            //     break;
+            // case "inGraveQuantity":
+            //     this.inGravesQuantity = resource;
+            //     break;
+            // case "maxInGraves":
+            //     this.inGravesMaxQuantity = resource;
+            //     break;
+
+            // case "curHappyPeople":
+            //     this.currentHappyPeople = resource;
+            //     break;
+            // case "maxHappyPeople":
+            //     this.maxHappyPeople = resource;
+            //     break;
+            // case "curHealthyPeople":
+            //     this.currentHealthyPeople = resource;
+            //     break;
+            // case "maxHealthyPeople":
+            //     this.maxHealthyPeople = resource;
+            //     break;
+            // case "productivity":
+            //     this.productivity = resource;
+            //     break;
 
             // Job
-            case "curLazy":
-                this.lazyboneQuantity = resource;
-                break;
 
-            case "farmer":
-                this.farmerQuantity = resource;
-                break;
-            case "woodman":
-                this.woodmenQuantity = resource;
-                break;
-            case "miner":
-                this.minerQuantity = resource;
-                break;
-            case "funeral":
-                this.funeralQuantity = resource;
-                break;
-            case "scientist":
-                this.curScientistQuantity = resource;
-                break;
-            case "maxScientistQuantity":
-                this.maxScientistQuantity = resource;
-                break;
-            case "dj":
-                this.curDjQuantity = resource;
-                break;
-            case "maxDjQuantity":
-                this.maxDjQuantity = resource;
-                break;
-            case "instructor":
-                this.curInstructorQuantity = resource;
-                break;
-            case "maxInstructorQuantity":
-                this.maxInstructorQuantity = resource;
-                break;
-            case "leader":
-                this.leaderQuantity = resource;
-                break;
-            case "warrior":
-                this.curWarriorQuantity = resource;
-                break;
-            case "maxWarrior":
-                this.maxWarriorQuantity = resource;
-                break;
+            // case "curLazy":
+            //     this.lazyboneQuantity = resource;
+            //     break;
+            //
+            // case "farmer":
+            //     this.farmerQuantity = resource;
+            //     break;
+            // case "woodman":
+            //     this.woodmenQuantity = resource;
+            //     break;
+            // case "miner":
+            //     this.minerQuantity = resource;
+            //     break;
+            // case "funeral":
+            //     this.funeralQuantity = resource;
+            //     break;
+            // case "scientist":
+            //     this.curScientistQuantity = resource;
+            //     break;
+            // case "maxScientistQuantity":
+            //     this.maxScientistQuantity = resource;
+            //     break;
+            // case "dj":
+            //     this.curDjQuantity = resource;
+            //     break;
+            // case "maxDjQuantity":
+            //     this.maxDjQuantity = resource;
+            //     break;
+            // case "instructor":
+            //     this.curInstructorQuantity = resource;
+            //     break;
+            // case "maxInstructorQuantity":
+            //     this.maxInstructorQuantity = resource;
+            //     break;
+            // case "leader":
+            //     this.leaderQuantity = resource;
+            //     break;
+            // case "warrior":
+            //     this.curWarriorQuantity = resource;
+            //     break;
+            // case "maxWarrior":
+            //     this.maxWarriorQuantity = resource;
+            //     break;
 
             // Building
             case "grave":
@@ -525,10 +585,11 @@ class ConfigManager {
                 break;
         }
 
+        // TODO move this from here
         // Show tables
-        switch (resName) {
+        switch (resourceType) {
             case "food":
-                if (!this.showPeopleTableFlag && this.foodQuantity > 10) {
+                if (!this.showPeopleTableFlag && this.resourceMap.get("food").quantity > 10) {
                     this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
                     this.showPeopleTableFlag = true;
                 }
@@ -538,14 +599,14 @@ class ConfigManager {
                     this.pageManager.toggleElement(this.pageManager.workTable, []);
                     this.showWorkTableFlag = true;
                 }
-                if (!this.showBuildingTableFlag && this.currentPopulation === this.maxPopulation) {
-                    this.pageManager.toggleElement(this.pageManager.buildingTable,[]);
+                if (!this.showBuildingTableFlag && this.resourceMap.get("curPop").quantity === this.resourceMap.get("maxPop").quantity) {
+                    this.pageManager.toggleElement(this.pageManager.buildingTable, []);
                     this.showBuildingTableFlag = true;
                 }
                 break;
             case "wood":
             case "stone":
-                if (!this.showTechnologyTableFlag && this.woodQuantity > 10 && this.stoneQuantity > 10) {
+                if (!this.showTechnologyTableFlag && this.resourceMap.get("wood").quantity > 10 && this.resourceMap.get("stone").quantity > 10) {
                     this.pageManager.toggleElement(this.pageManager.technologyTable, []);
                     this.showTechnologyTableFlag = true;
                 }
@@ -581,6 +642,29 @@ class ConfigManager {
                 this.scientistProduction = Math.round(this.scientistProduction * 1000 + this.knowledgeIncreaseStep * 1000) / 1000;
                 this.changeCurResourceQuantity("knowledgeTotalProduction", this.curScientistQuantity * this.knowledgeIncreaseStep);
                 break;
+        }
+    }
+}
+
+class Resource {
+    constructor(quantity, element, toFixed, storage) {
+        this.quantity = quantity;
+        this.element = element;
+        this.toFixed = toFixed;
+        this.storage = storage;
+    }
+
+    changeQuantity(quantity) {
+        this.quantity = (this.quantity * 1e3 + quantity * 1e3) / 1e3;
+
+        if (this.storage && this.quantity > this.storage.quantity) {
+            this.quantity = this.storage.quantity;
+        }
+
+        if (this.toFixed) {
+            this.element.text(this.quantity.toFixed(this.toFixed));
+        } else {
+            this.element.text(Math.floor(this.quantity));
         }
     }
 }

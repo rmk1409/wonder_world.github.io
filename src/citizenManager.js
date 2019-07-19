@@ -20,16 +20,17 @@ class CitizenManager {
     }
 
     tryToCreateCitizen(quantity) {
-        if (this.configManager.foodQuantity >= this.configManager.citizenCost * quantity && (this.configManager.currentPopulation + quantity) <= this.configManager.maxPopulation) {
+        if (this.configManager.resourceMap.get("food").quantity >= this.configManager.citizenCost * quantity && (this.configManager.resourceMap.get("curPop").quantity +
+            quantity) <= this.configManager.resourceMap.get("maxPop").quantity) {
             this.configManager.changeCurResourceQuantity("food", -this.configManager.citizenCost * quantity);
 
             this.addCitizen(quantity);
 
             // TODO to separate method
-            if (this.configManager.currentPopulation <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
-                this.pageManager.curHappyPeopleElement.text(this.configManager.currentPopulation);
+            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.curDjQuantity * this.configManager.spaceForPeopleInClub) {
+                this.pageManager.curHappyPeopleElement.text(this.configManager.resourceMap.get("curPop").quantity);
             }
-            if (this.configManager.currentPopulation <= this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub) {
+            if (this.configManager.resourceMap.get("curPop").quantity <= this.configManager.curInstructorQuantity * this.configManager.spaceForPeopleInClub) {
                 this.pageManager.curHealthyPeopleElement.text(this.pageManager.curPopulationElement.text());
             }
         } else {
@@ -106,7 +107,7 @@ class CitizenManager {
             this.configManager.changeCurResourceQuantity("curLazy", -quantity);
             this.configManager.changeCurResourceQuantity(workType, quantity);
 
-            let peopleAmount = this.configManager.currentPopulation;
+            let peopleAmount = this.configManager.resourceMap.get("curPop").quantity;
             let totalAvailableSpaceInClub;
             switch (workType) {
                 case "farmer":
@@ -157,7 +158,7 @@ class CitizenManager {
     }
 
     findPersonToKill() {
-        if (this.configManager.currentPopulation > 0) {
+        if (this.configManager.resourceMap.get("curPop").quantity > 0) {
             let withDecrease = true;
             if (this.configManager.lazyboneQuantity) {
                 this.configManager.changeCurResourceQuantity("curLazy", -1);
@@ -175,14 +176,16 @@ class CitizenManager {
                 this.killScientist();
             } else if (this.configManager.curDjQuantity) {
                 this.configManager.changeCurResourceQuantity("dj", -1);
-                this.configManager.changeCurResourceQuantity("curHappyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
+                this.configManager.changeCurResourceQuantity("curHappyPeople", -(this.configManager.resourceMap.get("curPop").quantity <= this.configManager.spaceForPeopleInClub ?
+                    this.configManager.resourceMap.get("curPop").quantity : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!this.configManager.curDjQuantity) {
                     this.configManager.changeAllProduction(false);
                     this.configManager.djProductivityFlag = false;
                 }
             } else if (this.configManager.curInstructorQuantity) {
                 this.configManager.changeCurResourceQuantity("instructor", -1);
-                this.configManager.changeCurResourceQuantity("curHealthyPeople", -(this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? this.configManager.currentPopulation : (this.configManager.spaceForPeopleInClub - 1)));
+                this.configManager.changeCurResourceQuantity("curHealthyPeople", -(this.configManager.resourceMap.get("curPop").quantity <= this.configManager.spaceForPeopleInClub ?
+                    this.configManager.resourceMap.get("curPop").quantity : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!this.configManager.curInstructorQuantity) {
                     this.configManager.changeAllProduction(false);
                     this.configManager.instructorPresentFlag = false;
@@ -208,7 +211,8 @@ class CitizenManager {
             // TODO move to event logic
         } else {
             this.eventManager.addEvent("death because of zombies");
-            alert(`🧟🧟 ${this.configManager.userName} are amazing, you killed: ${this.configManager.corpseQuantity + this.configManager.inGravesQuantity} people. I believe in you. Please, try again.`);
+            alert(`🧟🧟 ${this.configManager.userName} are amazing, you killed: ${this.configManager.resourceMap.get("corpse").quantity + this.configManager.resourceMap.get("inGraveQuantity").quantity} 
+            people. I believe in you. Please, try again.`);
             this.pageManager.showElement([this.pageManager.startAgainButton]);
         }
     }
@@ -225,7 +229,7 @@ class CitizenManager {
     }
 
     killWoodcutter() {
-        this.killWorker("woodman", "woodTotalProduction", this.configManager.woodTotalProduction);
+        this.killWorker("woodman", "woodTotalProduction", this.configManager.woodmanProduction);
     }
 
     killMiner() {
@@ -242,7 +246,7 @@ class CitizenManager {
 
     killWorker(workerType, totalProduction, curUnitProduction) {
         this.decreasePopulation();
-        this.configManager.changeCurResourceQuantity(workerType,-1);
+        this.configManager.changeCurResourceQuantity(workerType, -1);
         this.configManager.changeCurResourceQuantity(totalProduction, -curUnitProduction);
     }
 }

@@ -9,7 +9,7 @@ class PageManager {
 
         this.foodClickButton = $("#food-click-button");
         this.foodQuantityElement = $("#food-quantity");
-        this.maxFoodQuantity = $("#max-food-quantity-span");
+        this.maxFoodQuantityElement = $("#max-food-quantity-span");
         this.foodProductionElement = $("#food-production-quantity");
 
         this.clickResourceWoodRow = $("#click-resource-wood-row");
@@ -27,7 +27,7 @@ class PageManager {
         this.emptyRowBeforeKnowledge = $("#empty-row-before-knowledge");
         this.knowledgeRow = $("#knowledge-row");
         this.knowledgeQuantityElement = $("#knowledge-quantity");
-        this.maxKnowledgeQuantity = $("#max-knowledge-quantity-span");
+        this.maxKnowledgeQuantityElement = $("#max-knowledge-quantity-span");
         this.knowledgeProductionElement = $("#knowledge-production-quantity");
 
         this.peopleProductivityTable = $("#people-productivity-table");
@@ -282,10 +282,10 @@ class PageManager {
     }
 
     checkProduction() {
-        this.changeColor(this.configManager.foodTotalProduction, this.foodProductionElement, this.addFarmerButton);
-        this.changeColor(this.configManager.woodTotalProduction, this.woodProductionElement);
-        this.changeColor(this.configManager.stoneTotalProduction, this.stoneProductionElement);
-        this.changeColor(this.configManager.knowledgeTotalProduction, this.knowledgeProductionElement);
+        this.changeColor(this.configManager.resourceMap.get("foodTotalProduction").quantity, this.foodProductionElement, this.addFarmerButton);
+        this.changeColor(this.configManager.resourceMap.get("woodTotalProduction").quantity, this.woodProductionElement);
+        this.changeColor(this.configManager.resourceMap.get("stoneTotalProduction").quantity, this.stoneProductionElement);
+        this.changeColor(this.configManager.resourceMap.get("knowledgeTotalProduction").quantity, this.knowledgeProductionElement);
         this.changeColor(this.configManager.lazyboneQuantity, this.curLazybonesElement);
     }
 

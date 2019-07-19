@@ -23,13 +23,13 @@ class IntervalManager {
         let self = this;
         setInterval(function oneStep() {
             // get resources
-            self.configManager.changeCurResourceQuantity("food", self.configManager.foodTotalProduction);
-            self.configManager.changeCurResourceQuantity("wood", self.configManager.woodTotalProduction);
-            self.configManager.changeCurResourceQuantity("stone", self.configManager.stoneTotalProduction);
-            self.configManager.changeCurResourceQuantity("knowledge", self.configManager.knowledgeTotalProduction);
+            self.configManager.changeCurResourceQuantity("food", self.configManager.resourceMap.get("foodTotalProduction").quantity);
+            self.configManager.changeCurResourceQuantity("wood", self.configManager.resourceMap.get("woodTotalProduction").quantity);
+            self.configManager.changeCurResourceQuantity("stone", self.configManager.resourceMap.get("stoneTotalProduction").quantity);
+            self.configManager.changeCurResourceQuantity("knowledge", self.configManager.resourceMap.get("knowledgeTotalProduction").quantity);
 
             //starvation process
-            if (self.configManager.foodQuantity < 0 && self.configManager.currentPopulation > 0) {
+            if (self.configManager.resourceMap.get("food").quantity < 0 && self.configManager.resourceMap.get("curPop") > 0) {
                 self.eventManager.addEvent("starvation");
                 if (!self.configManager.starvationAchievementFlag) {
                     self.eventManager.addAchievement("Starvation");
@@ -40,11 +40,11 @@ class IntervalManager {
                 self.citizenManager.findPersonToKill();
 
                 // Decrease quantity of happy
-                if (self.configManager.currentHappyPeople > self.configManager.currentPopulation) {
+                if (self.configManager.resourceMap.get("curHappyPeople").quantity > self.configManager.resourceMap.get("curPop")) {
                     self.configManager.changeCurResourceQuantity("curHappyPeople", -1);
                 }
                 // and healthy people
-                if (self.configManager.currentHealthyPeople > self.configManager.currentPopulation) {
+                if (self.configManager.resourceMap.get("curHealthyPeople").quantity > self.configManager.resourceMap.get("curPop")) {
                     self.configManager.changeCurResourceQuantity("curHealthyPeople", -1);
                 }
             } else {
@@ -54,7 +54,7 @@ class IntervalManager {
             self.pageManager.checkProduction();
 
             // TODO abundance of food
-            if (!self.configManager.productivityAchievementFlag && self.configManager.productivity >= 190) {
+            if (!self.configManager.productivityAchievementFlag && self.configManager.resourceMap.get("productivity") >= 190) {
                 self.eventManager.addAchievement("Productivity");
                 self.configManager.productivityAchievementFlag = true;
             }
@@ -64,8 +64,9 @@ class IntervalManager {
         }, this.oneStepTime);
         // CHECK WIN CONDITION
         setInterval(function checkWinCondition() {
-            if (self.configManager.knowledgeQuantity >= self.configManager.WINNER_REQUIREMENTS) {
-                if (confirm(`Congratulations! ${self.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.corpseQuantity + self.configManager.inGravesQuantity} people. Great job\n`)) {
+            if (self.configManager.resourceMap.get("knowledge").quantity >= self.configManager.WINNER_REQUIREMENTS) {
+                if (confirm(`Congratulations! ${self.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.resourceMap.get("corpse").quantity 
+                + self.configManager.resourceMap.get("inGraveQuantity").quantity} people. Great job\n`)) {
                     self.gameManager.reloadSite();
                 } else {
                     self.configManager.changeCurResourceQuantity("knowledge", -self.configManager.WINNER_REQUIREMENTS);
@@ -75,8 +76,8 @@ class IntervalManager {
         }, this.oneStepTime * 10);
         // RUN FUNERAL PROCESS
         setInterval(function funeralProcess() {
-            let maxFuneral = Math.min.apply(null, [self.configManager.inGravesMaxQuantity - self.configManager.inGravesQuantity, self.configManager.corpseQuantity,
-                self.configManager.funeralQuantity / 2]);
+            let maxFuneral = Math.min.apply(null, [self.configManager.resourceMap.get("maxInGraves").quantity - self.configManager.resourceMap.get("inGraveQuantity").quantity,
+                self.configManager.resourceMap.get("corpse").quantity, self.configManager.funeralQuantity / 2]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
                     self.configManager.changeCurResourceQuantity("corpse", -1);

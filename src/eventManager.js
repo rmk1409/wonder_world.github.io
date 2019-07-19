@@ -157,7 +157,7 @@ class EventManager {
             // // Laziness/Motivation (-/+productivity)
         ]);
 
-        let eventDiversity = this.configManager.currentPopulation > 20 ? eventMap.size : 1;
+        let eventDiversity = this.configManager.resourceMap.get("curPop").quantity > 20 ? eventMap.size : 1;
         eventMap.get(this.getRandomInt(eventDiversity))();
     }
 
@@ -180,7 +180,7 @@ class EventManager {
                     this.addEvent("nightmare");
                     break;
                 case 3:
-                    let newResources = Math.round(0.6 * this.configManager.stoneQuantity);
+                    let newResources = Math.round(0.6 * this.configManager.resourceMap.get("stone").quantity);
                     this.addEvent("ufo gave an artifact", newResources);
                     this.configManager.changeCurResourceQuantity("stone", newResources);
                     break;
@@ -194,7 +194,7 @@ class EventManager {
         let farmers = this.configManager.farmerQuantity;
         // this.configManager.eventDiv.after("<p>" + this.getMsgWithTime("🥔🥔 🥝🥝 your people see a lot of new kind of food.") + "</p>");
 
-        let food = this.configManager.foodQuantity;
+        let food = this.configManager.resourceMap.get("food").quantity;
         switch (this.getRandomInt(5)) {
             case 1:
                 this.addEvent("potatoes", Math.round(food * 1.8));
@@ -222,7 +222,7 @@ class EventManager {
 
     weatherEvent() {
         // TODO add illness
-        let wood = this.configManager.woodQuantity;
+        let wood = this.configManager.resourceMap.get("wood").quantity;
         let miners = this.configManager.minerQuantity;
         switch (this.getRandomInt(2)) {
             // Storm
@@ -246,7 +246,7 @@ class EventManager {
                             }
                         } else {
 
-                            let newResources = Math.round(0.33 * this.configManager.woodMaxQuantity);
+                            let newResources = Math.round(0.33 * this.configManager.resourceMap.get("maxWood").quantity);
                             this.addEvent("middle earthquake", newResources);
                             this.configManager.changeCurResourceQuantity("wood", newResources);
                         }
@@ -272,7 +272,7 @@ class EventManager {
                     for (let i = 0, amount = killedScientistAmount; i < amount; i++) {
                         this.citizenManager.killScientist();
                     }
-                    this.configManager.changeCurResourceQuantity("knowledge", -this.configManager.knowledgeQuantity * 0.5);
+                    this.configManager.changeCurResourceQuantity("knowledge", -this.configManager.resourceMap.get("knowledge").quantity * 0.5);
                     break;
                 case 3:
                     let newMaleAmount = Math.round(0.25 * scientists);
@@ -288,7 +288,7 @@ class EventManager {
     elfEvent() {
         switch (this.getRandomInt(2)) {
             case 1:
-                let wood = Math.floor(this.configManager.woodQuantity);
+                let wood = Math.floor(this.configManager.resourceMap.get("wood").quantity);
                 if (wood > 20) {
                     this.addEvent("elves can't cut trees", wood);
                     this.configManager.changeCurResourceQuantity("wood", -wood);
@@ -311,7 +311,7 @@ class EventManager {
     }
 
     bloodMoonEvent() {
-        let corpses = this.configManager.corpseQuantity;
+        let corpses = this.configManager.resourceMap.get("corpse").quantity;
         if (corpses) {
             switch (this.getRandomInt(2)) {
                 case 1:
@@ -321,7 +321,7 @@ class EventManager {
                     let wakeUpUndead = Math.round(this.getRandomInt(corpses) / 2);
                     switch (this.getRandomInt(2)) {
                         case 1:
-                            if (wakeUpUndead && this.configManager.currentPopulation) {
+                            if (wakeUpUndead && this.configManager.resourceMap.get("curPop").quantity) {
                                 this.addEvent("white walker killed");
                                 for (let i = 0; i < wakeUpUndead; i++) {
                                     this.citizenManager.findPersonToKill();
@@ -339,7 +339,7 @@ class EventManager {
     }
 
     birthDeathCycleEvent() {
-        let curPop = this.configManager.currentPopulation;
+        let curPop = this.configManager.resourceMap.get("curPop").quantity;
         let changeAmount = Math.round(this.getRandomInt(curPop) * 0.25);
         if (changeAmount) {
             switch (this.getRandomInt(2)) {

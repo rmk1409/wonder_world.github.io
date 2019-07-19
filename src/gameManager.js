@@ -111,10 +111,10 @@ class GameManager {
     }
 
     getFullResources() {
-        this.configManager.changeCurResourceQuantity("food", this.configManager.foodMaxQuantity);
-        this.configManager.changeCurResourceQuantity("wood", this.configManager.woodMaxQuantity);
-        this.configManager.changeCurResourceQuantity("stone", this.configManager.stoneMaxQuantity);
-        this.configManager.changeCurResourceQuantity("knowledge", this.configManager.knowledgeMaxQuantity);
+        this.configManager.changeCurResourceQuantity("food", this.configManager.resourceMap.get("maxFood").quantity);
+        this.configManager.changeCurResourceQuantity("wood", this.configManager.resourceMap.get("maxWood").quantity);
+        this.configManager.changeCurResourceQuantity("stone", this.configManager.resourceMap.get("maxStone").quantity);
+        this.configManager.changeCurResourceQuantity("knowledge", this.configManager.resourceMap.get("maxKnowledge").quantity);
     }
 }
 
