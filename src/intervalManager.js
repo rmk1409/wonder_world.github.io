@@ -29,7 +29,7 @@ class IntervalManager {
             self.configManager.changeCurResourceQuantity("knowledge", self.configManager.resourceMap.get("knowledgeTotalProduction").quantity);
 
             //starvation process
-            if (self.configManager.resourceMap.get("food").quantity < 0 && self.configManager.resourceMap.get("curPop") > 0) {
+            if (self.configManager.resourceMap.get("food").quantity < 0 && self.configManager.resourceMap.get("curPop").quantity > 0) {
                 self.eventManager.addEvent("starvation");
                 if (!self.configManager.starvationAchievementFlag) {
                     self.eventManager.addAchievement("Starvation");
