@@ -1,3 +1,4 @@
+// TODO move all logic of this class to game class
 class IntervalManager {
     constructor() {
         this.gameManager = null;
@@ -9,7 +10,6 @@ class IntervalManager {
         this.oneStepTime = 1e3;
     }
 
-    // TODO move all logic of this class to game class
     initialization(gameManager) {
         this.gameManager = gameManager;
         this.pageManager = this.gameManager.pageManager;
@@ -18,79 +18,112 @@ class IntervalManager {
         this.citizenManager = this.gameManager.citizenManager;
     }
 
+    checkHiddenTables() {
+        // Show tables
+        if (!this.configManager.showPeopleTableFlag && this.configManager.food.quantity > 5) {
+            this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, []);
+            this.configManager.showPeopleTableFlag = true;
+        }
+        if (!this.configManager.showWorkTableFlag && this.configManager.currentPopulation.quantity > 0) {
+            this.pageManager.toggleElement(this.pageManager.workTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
+            this.configManager.showWorkTableFlag = true;
+        }
+        if (!this.configManager.showBuildingTableFlag && this.configManager.currentPopulation.quantity === this.configManager.populationStorage.quantity) {
+            this.pageManager.toggleElement(this.pageManager.buildingTable, []);
+            this.configManager.showBuildingTableFlag = true;
+        }
+        if (!this.configManager.showTechnologyTableFlag && this.configManager.wood.quantity > 14) {
+            this.pageManager.toggleElement(this.pageManager.technologyTable, []);
+            this.configManager.showTechnologyTableFlag = true;
+        }
+    }
+
     runInterval() {
-        //ONE STEP
-        let self = this;
-        setInterval(function oneStep() {
+        this.oneStep();
+        this.checkWinCondition();
+        this.funeralProcess();
+        this.events();
+    }
+
+    oneStep() {
+        setInterval(() => {
             // get resources
-            self.configManager.changeCurResourceQuantity("food", self.configManager.resourceMap.get("foodTotalProduction").quantity);
-            self.configManager.changeCurResourceQuantity("wood", self.configManager.resourceMap.get("woodTotalProduction").quantity);
-            self.configManager.changeCurResourceQuantity("stone", self.configManager.resourceMap.get("stoneTotalProduction").quantity);
-            self.configManager.changeCurResourceQuantity("knowledge", self.configManager.resourceMap.get("knowledgeTotalProduction").quantity);
+            this.configManager.food.changeQuantity(this.configManager.foodTotalProduction.quantity);
+            this.configManager.wood.changeQuantity(this.configManager.woodTotalProduction.quantity);
+            this.configManager.stone.changeQuantity(this.configManager.stoneTotalProduction.quantity);
+            this.configManager.knowledge.changeQuantity(this.configManager.knowledgeTotalProduction.quantity);
+
+            this.checkHiddenTables();
 
             //starvation process
-            if (self.configManager.resourceMap.get("food").quantity < 0 && self.configManager.resourceMap.get("curPop").quantity > 0) {
-                self.eventManager.addEvent("starvation");
-                if (!self.configManager.starvationAchievementFlag) {
-                    self.eventManager.addAchievement("Starvation");
-                    self.configManager.starvationAchievementFlag = true;
+            if (this.configManager.food.quantity < 0 && this.configManager.currentPopulation.quantity > 0) {
+                this.eventManager.addEvent("starvation");
+                if (!this.configManager.starvationAchievementFlag) {
+                    this.eventManager.addAchievement("Starvation");
+                    this.configManager.starvationAchievementFlag = true;
                 }
-                self.pageManager.showElement([self.pageManager.starvationWarning]);
+                this.pageManager.showElement([this.pageManager.starvationWarning]);
 
-                self.citizenManager.findPersonToKill();
+                this.citizenManager.findPersonToKill();
 
                 // Decrease quantity of happy
-                if (self.configManager.resourceMap.get("curHappyPeople").quantity > self.configManager.resourceMap.get("curPop")) {
-                    self.configManager.changeCurResourceQuantity("curHappyPeople", -1);
+                if (this.configManager.currentHappyPeople.quantity > this.configManager.currentPopulation) {
+                    this.configManager.currentHappyPeople(-1);
                 }
                 // and healthy people
-                if (self.configManager.resourceMap.get("curHealthyPeople").quantity > self.configManager.resourceMap.get("curPop")) {
-                    self.configManager.changeCurResourceQuantity("curHealthyPeople", -1);
+                if (this.configManager.currentHealthyPeople.quantity > this.configManager.currentPopulation) {
+                    this.configManager.currentHealthyPeople(-1);
                 }
             } else {
-                self.pageManager.hideElement([self.pageManager.starvationWarning]);
+                this.pageManager.hideElement([this.pageManager.starvationWarning]);
             }
 
-            self.pageManager.checkProduction();
+            this.pageManager.checkProduction();
+            this.pageManager.checkOverpopulated();
 
             // TODO abundance of food
-            if (!self.configManager.productivityAchievementFlag && self.configManager.resourceMap.get("productivity") >= 190) {
-                self.eventManager.addAchievement("Productivity");
-                self.configManager.productivityAchievementFlag = true;
+            if (!this.configManager.productivityAchievementFlag && this.configManager.productivity >= 190) {
+                this.eventManager.addAchievement("Productivity");
+                this.configManager.productivityAchievementFlag = true;
             }
 
             // TODO add more bad events when it isn't focus
             // console.log(document.hasFocus());
         }, this.oneStepTime);
-        // CHECK WIN CONDITION
-        setInterval(function checkWinCondition() {
-            if (self.configManager.resourceMap.get("knowledge").quantity >= self.configManager.WINNER_REQUIREMENTS) {
-                if (confirm(`Congratulations! ${self.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${self.configManager.resourceMap.get("corpse").quantity 
-                + self.configManager.resourceMap.get("inGraveQuantity").quantity} people. Great job\n`)) {
-                    self.gameManager.reloadSite();
+    }
+
+    checkWinCondition() {
+        setInterval(() => {
+            if (this.configManager.knowledge.quantity >= this.configManager.WINNER_REQUIREMENTS) {
+                if (confirm(`Congratulations! ${this.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${this.configManager.corpse.quantity
+                + this.configManager.inGraveQuantity.quantity} people. Great job\n`)) {
+                    this.gameManager.reloadSite();
                 } else {
-                    self.configManager.changeCurResourceQuantity("knowledge", -self.configManager.WINNER_REQUIREMENTS);
-                    self.pageManager.show(self.pageManager.startAgainButton);
+                    this.configManager.knowledge.changeQuantity(-this.configManager.WINNER_REQUIREMENTS);
+                    this.pageManager.show(this.pageManager.startAgainButton);
                 }
             }
         }, this.oneStepTime * 10);
-        // RUN FUNERAL PROCESS
-        setInterval(function funeralProcess() {
-            let maxFuneral = Math.min.apply(null, [self.configManager.resourceMap.get("maxInGraves").quantity - self.configManager.resourceMap.get("inGraveQuantity").quantity,
-                self.configManager.resourceMap.get("corpse").quantity, self.configManager.resourceMap.get("funeral").quantity / 2]);
+    }
+
+    funeralProcess() {
+        setInterval(() => {
+            let maxFuneral = Math.min.apply(null, [this.configManager.corpseStorage.quantity - this.configManager.inGraveQuantity.quantity,
+                this.configManager.corpse.quantity, this.configManager.funeral.quantity / 2]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
-                    self.configManager.changeCurResourceQuantity("corpse", -1);
-                    self.configManager.changeCurResourceQuantity("inGraveQuantity", 1);
+                    this.configManager.corpse.changeQuantity(-1);
+                    this.configManager.inGraveQuantity.changeQuantity(1);
                 }
-                $(self.pageManager.funeralProcessImg).show("slow");
+                $(this.pageManager.funeralProcessImg).show("slow");
             } else {
-                $(self.pageManager.funeralProcessImg).hide("slow");
+                $(this.pageManager.funeralProcessImg).hide("slow");
             }
         }, this.oneStepTime * 5);
+    }
 
-        // Events
-        setInterval(() => self.eventManager.eventHappen(), this.oneStepTime * 30);
+    events() {
+        setInterval(() => this.eventManager.eventHappen(), this.oneStepTime * 30);
     }
 }
 

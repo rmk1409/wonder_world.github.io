@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/rmk1409/wonder_world#readme",
   "devDependencies": {
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5"
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
   }
 }

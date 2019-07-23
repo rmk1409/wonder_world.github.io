@@ -163,10 +163,11 @@ class PageManager {
         this.eventDiv = $("#events-div span");
 
         this.achievementSection = $("#achievement-section");
+        this.gotAchievementQuantitySpan = $("#got-achievement-quantity-span");
         this.ufoAchievement = $("<img alt='alien img' src='res/img/achievement/alien.png' title='Player is an alien'/>");
         this.palaceAchievement = $("<img alt='palace ach img' src='res/img/achievement/blueprint.png' title='Build a palace'/>");
         this.firstResearchAchievement = $("<img alt='first research img' src='res/img/achievement/knowledge.png' title='First research'/>");
-        this.hungerAchievement = $("<img alt='starving img' src='res/img/common/death.png' title='Die of hunger'/>");
+        this.hungerAchievement = $("<img alt='starving img' src='res/img/common/death.png' title='Death from hunger'/>");
         this.productivityAchievement = $("<img alt='productivity img' src='res/img/achievement/speedometer.png' title='Achieve high productivity (more than 190%)'/>");
         this.moreFoodAchievement = $("<img alt='farmer production img' src='res/img/achievement/food.png' title='Even more food, hurray!!! :)'/>");
 
@@ -281,21 +282,26 @@ class PageManager {
         });
     }
 
+    // TODO Involve this when resource is changed
     checkProduction() {
-        this.changeColor(this.configManager.resourceMap.get("foodTotalProduction").quantity, this.foodProductionElement, this.addFarmerButton);
-        this.changeColor(this.configManager.resourceMap.get("woodTotalProduction").quantity, this.woodProductionElement);
-        this.changeColor(this.configManager.resourceMap.get("stoneTotalProduction").quantity, this.stoneProductionElement);
-        this.changeColor(this.configManager.resourceMap.get("knowledgeTotalProduction").quantity, this.knowledgeProductionElement);
-        this.changeColor(this.configManager.resourceMap.get("curLazy").quantity, this.curLazybonesElement);
+        this.changeColor(this.configManager.foodTotalProduction.quantity, this.foodProductionElement, this.addFarmerButton);
+        this.changeColor(this.configManager.woodTotalProduction.quantity, this.woodProductionElement);
+        this.changeColor(this.configManager.stoneTotalProduction.quantity, this.stoneProductionElement);
+        this.changeColor(this.configManager.knowledgeTotalProduction.quantity, this.knowledgeProductionElement);
+        this.changeColor(this.configManager.lazybones.quantity, this.curLazybonesElement);
     }
 
-    changeColor(checkEl, target, button) {
-        if (checkEl > 0) {
+    checkOverpopulated() {
+        this.changeColor(this.configManager.populationStorage.quantity - this.configManager.currentPopulation.quantity - 1, this.maxPopulationElement);
+    }
+
+    changeColor(checkQuantity, target, button) {
+        if (checkQuantity > 0) {
             target.css({"background-color": "#28a745", "border-color": "#28a745", "color": "white"});
             if (!!button) {
                 button.css({"background-color": "#28a745", "border-color": "#28a745", "color": "white"});
             }
-        } else if (checkEl === 0) {
+        } else if (checkQuantity === 0) {
             target.css({"background-color": "", "color": "black"});
         } else {
             target.css({"background-color": "red", "color": "white"});

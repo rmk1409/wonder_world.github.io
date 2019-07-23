@@ -31,13 +31,22 @@ class GameManager {
     initialization() {
         let userName = this.getUserName();
         if (userName === "UFO Alien") {
-            this.unlockAchievement("UFO Alien");
+            this.eventManager.addAchievement("UFO Alien");
         }
 
         this.intervalManager.runInterval();
     }
 
-    getUserName(){
+    // TODO add save/load buttons
+    loadGame() {
+
+    }
+
+    saveGame() {
+
+    }
+
+    getUserName() {
         let userName = localStorage.getItem(this.userKey);
         if (userName) {
             userName = confirm(`＼(￣▽￣)／, are you ${userName}, yes?`) ? userName : prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
@@ -52,7 +61,7 @@ class GameManager {
     }
 
     clickResourceButton(resourceType, quantity) {
-        this.configManager.changeCurResourceQuantity(resourceType, quantity);
+        resourceType.changeQuantity(quantity);
 
         let buttonToBlur = this.pageManager.foodClickButton;
         switch (resourceType) {
@@ -71,24 +80,18 @@ class GameManager {
     }
 
     setWorker(workType, quantity) {
-        let result = false;
-
-        switch (workType) {
-            default:
-                result = this.citizenManager.setCitizenToWork(workType, quantity);
-                break;
-            case "leader":
-                result = this.citizenManager.setCitizenToWork(workType, quantity);
-                if (result && !this.configManager.leaderPresentFlag) {
-                    this.pageManager.workTableEmptyTd.attr("colspan", "6");
-                    this.pageManager.showElement([this.pageManager.tenWorkTd]);
-
-                    this.configManager.leaderPresentFlag = true;
-                }
-                break;
-        }
-
+        let result = this.citizenManager.setCitizenToWork(workType, quantity);
+        this.checkLeaderPresence(result, workType);
         return result;
+    }
+
+    checkLeaderPresence(result, workType) {
+        if (result && workType === this.configManager.leader && !this.configManager.leaderPresentFlag) {
+            this.pageManager.workTableEmptyTd.attr("colspan", "6");
+            this.pageManager.showElement([this.pageManager.tenWorkTd]);
+
+            this.configManager.leaderPresentFlag = true;
+        }
     }
 
     build(buildingType) {
@@ -96,11 +99,7 @@ class GameManager {
     }
 
     research(name) {
-        return this.scienceManager.researchFromGame(name);
-    }
-
-    unlockAchievement(achievementType) {
-        this.eventManager.addAchievement(achievementType);
+        return this.scienceManager.research(name);
     }
 
     reloadSite() {
@@ -112,10 +111,10 @@ class GameManager {
     }
 
     getFullResources() {
-        this.configManager.changeCurResourceQuantity("food", this.configManager.resourceMap.get("maxFood").quantity);
-        this.configManager.changeCurResourceQuantity("wood", this.configManager.resourceMap.get("maxWood").quantity);
-        this.configManager.changeCurResourceQuantity("stone", this.configManager.resourceMap.get("maxStone").quantity);
-        this.configManager.changeCurResourceQuantity("knowledge", this.configManager.resourceMap.get("maxKnowledge").quantity);
+        this.configManager.food.changeQuantity(this.configManager.foodStorage.quantity);
+        this.configManager.wood.changeQuantity(this.configManager.woodStorage.quantity);
+        this.configManager.stone.changeQuantity(this.configManager.stoneStorage.quantity);
+        this.configManager.knowledge.changeQuantity(this.configManager.knowledgeStorage.quantity);
     }
 }
 

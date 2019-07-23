@@ -14,29 +14,31 @@ class ScienceManager {
             ["agriculture", new AgricultureResearch(
                 new Research(this.configManager.agricultureCost, this.pageManager.techAgricultureElement, [this.pageManager.agricultureP], this.configManager, this.pageManager, this.eventManager)
             )],
-            ["architecture", new Research(this.configManager.architectureCost, this.pageManager.techArchitectureElement, [this.pageManager.buildHutRow, this.pageManager.architectureP], this.configManager,
-                this.pageManager, this.eventManager)],
+            ["architecture", new Research(this.configManager.architectureCost, this.pageManager.techArchitectureElement, [this.pageManager.buildHutRow, this.pageManager.architectureP],
+                this.configManager, this.pageManager, this.eventManager)],
             ["funeral", new Research(this.configManager.funeralCost, this.pageManager.techFuneralElement, [this.pageManager.buildScrollRow, this.pageManager.buildGraveRow,
                 this.pageManager.emptyRowBeforePopulationBuilding, this.pageManager.techChanges2Element, this.pageManager.funeralP], this.configManager, this.pageManager, this.eventManager)],
             ["changes2", new Research(this.configManager.changes2Cost, this.pageManager.techChanges2Element, [this.pageManager.pauseButton, this.pageManager.techAgriculture2Element,
-                this.pageManager.techArchitecture2Element, this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P], this.configManager, this.pageManager, this.eventManager)],
+                this.pageManager.techArchitecture2Element, this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P], this.configManager, this.pageManager,
+                this.eventManager)],
             ["leadership", new Research(this.configManager.leadershipCost, this.pageManager.techLeadershipElement, [this.pageManager.emptyRowBeforeJobLeader, this.pageManager.leaderRow,
                 this.pageManager.leadershipP], this.configManager, this.pageManager, this.eventManager)],
             ["agriculture2", new Agriculture2Research(
                 new Research(this.configManager.agriculture2Cost, this.pageManager.techAgriculture2Element, [this.pageManager.agriculture2P], this.configManager, this.pageManager, this.eventManager)
             )],
-            ["architecture2", new Research(this.configManager.architecture2Cost, this.pageManager.techArchitecture2Element, [this.pageManager.buildPitRow, this.pageManager.architecture2P], this.configManager,
-                this.pageManager, this.eventManager)],
+            ["architecture2", new Research(this.configManager.architecture2Cost, this.pageManager.techArchitecture2Element, [this.pageManager.buildPitRow, this.pageManager.architecture2P],
+                this.configManager, this.pageManager, this.eventManager)],
             ["stone age", new Research(this.configManager.stoneAgeCost, this.pageManager.techStoneAgeElement, [this.pageManager.buildGranaryRow, this.pageManager.techArchitecture3Element,
                 this.pageManager.techMusicElement, this.pageManager.techSportElement, this.pageManager.techToolElement, this.pageManager.stoneAgeP], this.configManager, this.pageManager, this.eventManager)],
-            ["architecture3", new Research(this.configManager.architecture3Cost, this.pageManager.techArchitecture3Element, [this.pageManager.buildDolmenRow, this.pageManager.architecture3P], this.configManager,
-                this.pageManager, this.eventManager)],
+            ["architecture3", new Research(this.configManager.architecture3Cost, this.pageManager.techArchitecture3Element, [this.pageManager.buildDolmenRow, this.pageManager.architecture3P],
+                this.configManager, this.pageManager, this.eventManager)],
             ["music", new Research(this.configManager.musicCost, this.pageManager.techMusicElement, [this.pageManager.emptyRowBeforeBuildEfficiency, this.pageManager.buildMusicClubRow,
                 this.pageManager.musicP], this.configManager, this.pageManager, this.eventManager)],
             ["sport", new Research(this.configManager.sportCost, this.pageManager.techSportElement, [this.pageManager.emptyRowBeforeJobInClubElement,
                 this.pageManager.emptyRowBeforeBuildEfficiency, this.pageManager.buildYogaClubRow, this.pageManager.sportP], this.configManager, this.pageManager, this.eventManager)],
             ["tool", new Research(this.configManager.toolCost, this.pageManager.techToolElement, [this.pageManager.techAxeElement, this.pageManager.techPickaxeElement,
-                this.pageManager.techHoeElement, this.pageManager.techAncientWeaponElement, this.pageManager.techArchitecture4Element, this.pageManager.toolP], this.configManager, this.pageManager, this.eventManager)],
+                this.pageManager.techHoeElement, this.pageManager.techAncientWeaponElement, this.pageManager.techArchitecture4Element, this.pageManager.toolP], this.configManager, this.pageManager,
+                this.eventManager)],
             ["weapon", new Research(this.configManager.ancientWeaponCost, this.pageManager.techAncientWeaponElement, [this.pageManager.emptyRowbeforeBuildWar,
                 this.pageManager.buildBarrackRow, this.pageManager.tech2sideScrollElement, this.pageManager.weaponP], this.configManager, this.pageManager, this.eventManager)],
             ["hoe", new HoeResearch(
@@ -49,14 +51,15 @@ class ScienceManager {
                 new Research(this.configManager.pickaxeCost, this.pageManager.techPickaxeElement, [this.pageManager.pickAxeP], this.configManager, this.pageManager, this.eventManager)
             )],
             ["2 side scroll", new TwoSideScrollResearch(
-                new Research(this.configManager.bothSideScrollCost, this.pageManager.tech2sideScrollElement, [this.pageManager.twoSideScrollP], this.configManager, this.pageManager, this.eventManager)
+                new Research(this.configManager.bothSideScrollCost, this.pageManager.tech2sideScrollElement, [this.pageManager.twoSideScrollP], this.configManager, this.pageManager,
+                    this.eventManager)
             )],
             ["architecture4", new Research(this.configManager.architecture4Cost, this.pageManager.techArchitecture4Element, [this.pageManager.buildPalaceRow, this.pageManager.techBronzeAgeElement,
                 this.pageManager.architecture4P], this.configManager, this.pageManager, this.eventManager)],
         ]);
     }
 
-    researchFromGame(name) {
+    research(name) {
         this.researchMap.get(name).conductResearch();
     }
 }
@@ -81,16 +84,16 @@ class ChangesResearch {
     tryToResearch() {
         let result = true;
 
-        if (this.configManager.resourceMap.get("wood").quantity >= this.woodPrice && this.configManager.resourceMap.get("stone").quantity >= this.stonePrice) {
-            this.configManager.changeCurResourceQuantity("wood", -this.woodPrice);
-            this.configManager.changeCurResourceQuantity("stone", -this.stonePrice);
+        if (this.configManager.wood.quantity >= this.woodPrice && this.configManager.stone.quantity >= this.stonePrice) {
+            this.configManager.wood.changeQuantity(-this.woodPrice);
+            this.configManager.stone.changeQuantity(-this.stonePrice);
 
             this.eventManager.addAchievement("First Research");
 
             this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.maxFoodQuantityElement, this.pageManager.maxWoodQuantityElement,
                 this.pageManager.maxStoneQuantityElement, this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow, this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow,
-                this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow, this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement, this.pageManager.techArchitectureElement,
-                this.pageManager.alreadyKnownP, this.pageManager.changesP]);
+                this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow, this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement,
+                this.pageManager.techArchitectureElement, this.pageManager.alreadyKnownP, this.pageManager.changesP]);
         } else {
             this.eventManager.addEvent("more resources");
             result = false;
@@ -121,8 +124,8 @@ class Research {
     tryToResearch() {
         let result = true;
 
-        if (this.configManager.resourceMap.get("knowledge").quantity >= this.price) {
-            this.configManager.changeCurResourceQuantity("knowledge", -this.price);
+        if (this.configManager.knowledge.quantity >= this.price) {
+            this.configManager.knowledge.changeQuantity(-this.price);
             if (this.elementToHide && this.elementToShowAr) {
                 this.pageManager.toggleElement(this.elementToHide, this.elementToShowAr);
             }
@@ -187,7 +190,7 @@ class HoeResearch extends ResearchWithExtraLogic {
     extraLogic() {
         this.research.configManager.foodIncreaseStep = 0.1;
         this.research.configManager.changeProduction("food", true);
-        this.research.configManager.changeCurResourceQuantity("productivity", 6.25);
+        this.research.configManager.productivity.changeQuantity(6.25);
     }
 }
 
@@ -198,7 +201,7 @@ class AxeResearch extends ResearchWithExtraLogic {
 
     extraLogic() {
         this.research.configManager.changeProduction("wood", true);
-        this.research.configManager.changeCurResourceQuantity("productivity", 6.25);
+        this.research.configManager.productivity.changeQuantity(6.25);
     }
 }
 
@@ -209,7 +212,7 @@ class PickAxeResearch extends ResearchWithExtraLogic {
 
     extraLogic() {
         this.research.configManager.changeProduction("stone", true);
-        this.research.configManager.changeCurResourceQuantity("productivity", 6.25);
+        this.research.configManager.productivity.changeQuantity(6.25);
     }
 }
 
@@ -219,9 +222,9 @@ class TwoSideScrollResearch extends ResearchWithExtraLogic {
     }
 
     extraLogic() {
-        this.research.configManager.changeCurResourceQuantity("maxKnowledge", this.research.configManager.resourceMap.get("scroll").quantity * this.research.configManager.knowledgeInScroll);
-        this.research.configManager.knowledgeInScroll *= 2;
-        this.research.pageManager.buildScrollDefinition.text("+10 space for knowledge");
+        this.research.configManager.knowledgeStorage.changeQuantity(this.research.configManager.scroll.quantity * this.research.configManager.knowledgeInScroll.quantity);
+        this.research.configManager.knowledgeInScroll.changeQuantity(5);
+        this.research.configManager.gameManager.builderManager.buildingMap.get("scroll").resourceToChangeAr[1][1] = this.research.configManager.knowledgeInScroll.quantity;
         this.research.pageManager.buildScrollButton.text("2-side scroll");
     }
 }
