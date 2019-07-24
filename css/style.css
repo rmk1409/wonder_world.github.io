@@ -25,9 +25,10 @@ table td:first-child img, img {
 
 #funeral-process-img {
     position: absolute;
-    top: 562px;
-    left: 505px;
+    top: 707px;
+    left: 295px;
     height: 40px;
+    z-index: 1;
 }
 
 table td:first-child {
@@ -113,7 +114,6 @@ button.btn {
     position: absolute;
     left: 300px;
     top: 9px;
-    opacity: 0.01;
 }
 
 table {
