@@ -35,7 +35,7 @@ class BuilderManager {
                 this.pageManager, this.configManager.instructorPresentFlag, [this.pageManager.emptyRowBeforHappinessRowElement, this.pageManager.healthRowElement,
                     this.pageManager.emptyRowBeforProductivityRowElement, this.pageManager.productivityRowElement, this.pageManager.emptyRowBeforeJobInClubElement, this.pageManager.jobInstructorRowElement])],
             ["palace", new BuildingWithShowElement(
-                new Building(1000, 1000, [[this.configManager.palace, this.configManager.dolmen, this.configManager.musicClub,
+                new Building(1e3, 1e3, [[this.configManager.palace, this.configManager.dolmen, this.configManager.musicClub,
                     this.configManager.yogaClub, this.configManager.scientistStorage, this.configManager.happyPeopleStorage, this.configManager.healthyPeopleStorage, this.configManager.djStorage,
                     this.configManager.instructorStorage], [1, 5, 5, 5, 5 * this.configManager.spaceInDolmen, 5 * this.configManager.spaceForPeopleInClub, 5 * this.configManager.spaceForPeopleInClub,
                     5, 5]], this.configManager, this.eventManager),
@@ -53,9 +53,12 @@ class BuilderManager {
      * @returns true/false depends on whether building is built.
      */
     buildNewBuilding(buildingType) {
-        this.checkPalaceAchievement(buildingType);
+        let result = this.buildingMap.get(buildingType).buildBuilding()
+        if (result) {
+            this.checkPalaceAchievement(buildingType);
+        }
 
-        return this.buildingMap.get(buildingType).buildBuilding();
+        return result;
     }
 
     checkPalaceAchievement(buildingType) {
