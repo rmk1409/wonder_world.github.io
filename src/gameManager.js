@@ -87,7 +87,7 @@ class GameManager {
 
     checkLeaderPresence(result, workType) {
         if (result && workType === this.configManager.leader && !this.configManager.leaderPresentFlag) {
-            this.pageManager.workTableEmptyTd.attr("colspan", "6");
+            this.pageManager.workTableEmptyTd.attr("colspan", "7");
             this.pageManager.showElement([this.pageManager.tenWorkTd]);
 
             this.configManager.leaderPresentFlag = true;

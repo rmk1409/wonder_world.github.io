@@ -48,13 +48,13 @@
                         <td><span id="food-production-span"><span id="food-production-quantity">0</span>/sec</span></td>
                     </tr>
                     <tr id="click-resource-wood-row">
-                        <td><img alt ="branch img" src="res/img/common/branch.png"></td>
+                        <td><img alt ="branch img" src="res/img/common/branch.png" title="Wood"></td>
                         <td><button type="button" class="btn btn-info btn-sm" title="Click to get some wood" id="wood-click-button">Get <img alt ="branch img" src="res/img/common/branch.png"></button></td>
                         <td><span id="wood-quantity">0</span>/<span id="max-wood-quantity-span">100</span></td>
                         <td><span id="wood-production-span"><span id="wood-production-quantity">0</span>/sec</span></td>
                     </tr>
                     <tr id="click-resource-stone-row">
-                        <td><img alt="stone img" src="res/img/common/stone.png"></td>
+                        <td><img alt="stone img" src="res/img/common/stone.png" title="Stone"></td>
                         <td><button type="button" class="btn btn-info btn-sm" title="Click to get some stones" id="stone-click-button">Get <img alt="stone img" src="res/img/common/stone.png"></button></td>
                         <td><span id="stone-quantity">0</span>/<span id="max-stone-quantity-span">100</span></td>
                         <td><span id="stone-production-span"><span id="stone-production-quantity">0</span>/sec</span></td>
@@ -67,7 +67,7 @@
                 </tbody>
                 <tbody>
                     <tr id="knowledge-row">
-                        <td><img alt="knowledge img" src="res/img/common/knowledge.png"></td>
+                        <td><img alt="knowledge img" src="res/img/common/knowledge.png" title="Knowledge"></td>
                         <td>
                             <p><i>Citizens produce it</i></p>
                         </td>
@@ -87,19 +87,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><img alt="citizen img" src="res/img/common/team.png"></td>
+                        <td><img alt="citizen img" src="res/img/common/team.png" title="Citizen"></td>
                         <td><button type="button" class="btn btn-info btn-sm"  title="Spend 10 food to create a new citizen" id="create-worker-button">New citizen</button><!--<button type="button" id="create-10-worker-button">+10</button>--></td>
                         <td><span id="citizen-cost">10</span> <img alt="food img" src="res/img/common/berry.png"></td>
                         <td><span id="current-population">0</span>/<span id="max-population">5</span></td>
                     </tr>
                     <tr id="corpse-row">
-                        <td><img alt="corpse img" src="res/img/common/corpse.png" /></td>
+                        <td><img alt="corpse img" src="res/img/common/corpse.png" title="Corpse"/></td>
                         <td>RIP(not buried)</td>
                         <td>-</td>
                         <td id="corpse-quantity">0</td>
                     </tr>
                     <tr id="in-graves-row">
-                        <td><img alt="grave img" src="res/img/changes/grave.png" /></td>
+                        <td><img alt="grave img" src="res/img/changes/grave.png" title="Grave"/></td>
                         <td>In graves</td>
                         <td>-</td>
                         <td><span id="in-graves-quantity">0</span>/<span id="max-in-graves-quantity">0</span></td>
@@ -108,13 +108,13 @@
                         <td colspan="4"></td>
                     </tr>
                     <tr id="happiness-row">
-                        <td><img alt="happy img" src="res/img/common/happy.png" /></td>
+                        <td><img alt="happy img" src="res/img/common/happy.png" title="Happiness"/></td>
                         <td>Happiness</td>
                         <td>-</td>
                         <td><span id="current-happy-people">0</span>/<span id="max-happy-people">0</span></td>
                     </tr>
                     <tr id="health-row">
-                        <td><img alt="health img" src="res/img/common/warrior-pose.png" /></td>
+                        <td><img alt="health img" src="res/img/common/warrior-pose.png" title="Health"/></td>
                         <td>Health</td>
                         <td>-</td>
                         <td><span id="current-healthy-people">0</span>/<span id="max-healthy-people">0</span></td>
@@ -123,7 +123,7 @@
                         <td colspan="4"></td>
                     </tr>
                     <tr id="productivity-row">
-                        <td><img alt="productivity img" src="res/img/common/productivity.png" /></td>
+                        <td><img alt="productivity img" src="res/img/common/productivity.png" title="Productivity"/></td>
                         <td>Productivity</td>
                         <td>-</td>
                         <td><span id="productivity-quantity">100</span>%</td>
@@ -143,15 +143,16 @@
                 <caption>Work</caption>
                 <thead class="thead-dark">
                     <tr>
+                        <th></th>
                         <th>Speciality</th>
                         <th class="ten-work-td"></th>
-                        <th colspan="4"></th>
+                        <th colspan="3"></th>
                         <th class="ten-work-td"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><img src="res/img/worker/barista.png" alt="lazybones worker"/></td>
+                        <td><img src="res/img/worker/barista.png" alt="lazybones worker" title="Lazybones"/></td>
                         <td>Lazybones</td>
                         <td class="empty-td ten-work-td"></td>
                         <td class="empty-td one-work-td"></td>
@@ -160,10 +161,10 @@
                         <td class="empty-td ten-work-td"></td>
                     </tr>
                     <tr class="empty-row table-primary">
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr>
-                        <td><img src="res/img/worker/farmer.png" alt="farmer worker"/></td>
+                        <td><img src="res/img/worker/farmer.png" alt="farmer worker" title="Farmer"/></td>
                         <td title="Automatically gather food">Farmers:</td>
                         <td class="ten-work-td"><button type="button" class="btn btn-danger" title="Remove 10 workers" id="remove-10-farmer-button">&lt;&lt;</button></td>
                         <td><button type="button" class="btn btn-danger btn-sm" title="Remove a worker" id="remove-farmer-button">&lt;</button></td>
@@ -172,7 +173,7 @@
                         <td class="ten-work-td"><button type="button" class="btn btn-success" title="Add 10 worker" id="add-10-farmer-button">&gt;&gt;</button></td>
                     </tr>
                     <tr>
-                        <td><img src="res/img/worker/lumberjack%20(1).png" alt="lumberjack worker"/></td>
+                        <td><img src="res/img/worker/lumberjack%20(1).png" alt="lumberjack worker" title="Woodman"/></td>
                         <td title="Automatically cut wood">Woodmen:</td>
                         <td class="ten-work-td"><button type="button" class="btn btn-danger" title="Remove 10 workers" id="remove-10-woodcutter-button">&lt;&lt;</button></td>
                         <td><button type="button" class="btn btn-danger btn-sm" title="Remove a worker" id="remove-woodcutter-button">&lt;</button></td>
@@ -181,7 +182,7 @@
                         <td class="ten-work-td"><button type="button" class="btn btn-success" title="Add 10 worker" id="add-10-woodcutter-button">&gt;&gt;</button></td>
                     </tr>
                     <tr>
-                        <td><img src="res/img/worker/miner.png" alt="miner worker"/></td>
+                        <td><img src="res/img/worker/miner.png" alt="miner worker" title="Miner"/></td>
                         <td title="Automatically mine stone">Miners:</td>
                         <td class="ten-work-td"><button type="button" class="btn btn-danger" title="Remove 10 workers" id="remove-10-miner-button">&lt;&lt;</button></td>
                         <td><button type="button" class="btn btn-danger btn-sm" title="Remove a worker" id="remove-miner-button">&lt;</button></td>
@@ -190,10 +191,10 @@
                         <td class="ten-work-td"><button type="button" class="btn btn-success" title="Add 10 worker" id="add-10-miner-button">&gt;&gt;</button></td>
                     </tr>
                     <tr id="empty-row-before-job-scientist" class="empty-row table-primary">
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr id="job-scientist-row">
-                        <td><img src="res/img/worker/einstein.png" alt="scientist worker"/></td>
+                        <td><img src="res/img/worker/einstein.png" alt="scientist worker" title="Scientist"/></td>
                         <td title="Produce knowledge">Scientists:</td>
                         <td class="ten-work-td"><button type="button" class="btn btn-danger" title="Remove 10 workers" id="remove-10-scientist-button">&lt;&lt;</button></td>
                         <td><button type="button" class="btn btn-danger btn-sm" title="Remove a worker" id="remove-scientist-button">&lt;</button></td>
@@ -202,10 +203,10 @@
                         <td class="ten-work-td"><button type="button" class="btn btn-success" title="Add 10 worker" id="add-10-scientist-button">&gt;&gt;</button></td>
                     </tr>
                     <tr id="empty-row-before-job-funeral" class="empty-row table-primary">
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr id="job-funeral-process-row">
-                        <td><img src="res/img/worker/people.png" alt="funeral worker"/></td>
+                        <td><img src="res/img/worker/people.png" alt="funeral worker" title="Funeral"/></td>
                         <td title="2 people needs to dig graves">Funeral(x2):</td>
                         <td class="empty-td ten-work-td"></td>
                         <!--<td><button type="button" title="Remove 10 workers" id="remove-10-funeral-process-button">&lt;&lt;</button></td>-->
@@ -216,10 +217,10 @@
                         <!--<td><button type="button" title="Add 10 worker" id="add-10-funeral-process-button">&gt;&gt;</button></td>-->
                     </tr>
                     <tr id="empty-row-before-job-in-club" class="empty-row table-primary">
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr id="job-dj-row">
-                        <td><img src="res/img/worker/singer.png" alt="dj worker"/></td>
+                        <td><img src="res/img/worker/singer.png" alt="dj worker" title="Musician"/></td>
                         <td title="Increase people productivity by increasing their happiness">Ancient Djs:</td>
                         <td></td>
                         <td class="empty-td ten-work-td"></td>
@@ -229,7 +230,7 @@
                         <!--<td><button type="button" title="Add 10 worker" id="add-10-dj-button">&gt;&gt;</button></td>-->
                     </tr>
                     <tr id="job-instructor-row">
-                        <td><img src="res/img/worker/gymnast-girl.png" alt="instructor worker"/></td>
+                        <td><img src="res/img/worker/gymnast-girl.png" alt="instructor worker" title="Instructor"/></td>
                         <td title="Increase people productivity by increasing their health">Instructors:</td>
                         <td></td>
                         <td class="empty-td ten-work-td"></td>
@@ -239,10 +240,10 @@
                         <!--<td><button type="button" title="add 10 worker" id="add-10-instructor-button">&gt;&gt;</button></td>-->
                     </tr>
                     <tr id="empty-row-before-job-leader" class="empty-row table-primary">
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr id="job-leader-row">
-                        <td><img src="res/img/worker/meeting.png" alt="leader worker"/></td>
+                        <td><img src="res/img/worker/meeting.png" alt="leader worker" title="Leader"/></td>
                         <td title="Allows to group people">Leaders:</td>
                         <td class="empty-td ten-work-td"></td>
                         <td class="empty-td"></td>
@@ -252,7 +253,7 @@
                         <!--<td><button type="button" title="Add 10 worker" id="add-10-leader-button">&gt;&gt;</button></td>-->
                     </tr>
                     <tr id="job-warrior-row">
-                        <td><img src="res/img/worker/troglodyte%20(1).png" alt="warrior worker"/></td>
+                        <td><img src="res/img/worker/troglodyte%20(1).png" alt="warrior worker" title="Warrior"/></td>
                         <td title="Can protect and fight">Warriors:</td>
                         <td class="empty-td ten-work-td"></td>
                         <td class="empty-td ten-work-td"></td>
@@ -274,28 +275,28 @@
                 </thead>
                 <tbody id="build-table-tbody-storage">
                     <tr id="build-grave-row">
-                        <td><img alt="grave img" src="res/img/changes/grave.png" /></td>
+                        <td><img alt="grave img" src="res/img/changes/grave.png" title="Grave"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+1 empty grave" id="build-grave-button">Grave</button></td>
                         <td><span id="grave-quantity">0</span></td>
                         <td>10<img alt ="branch img" src="res/img/common/branch.png"> 10<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>+1 empty grave</td>
                     </tr>
                     <tr id="build-scroll-row">
-                        <td><img alt="scroll img" src="res/img/changes/scroll.png" /></td>
+                        <td><img alt="scroll img" src="res/img/changes/scroll.png" title="Scroll"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+5 space for knowledge" id="build-scroll-button">Scroll</button></td>
                         <td><span id="scroll-quantity">0</span></td>
                         <td>10<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>+<span id="build-scroll-definition">5</span> space for <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                     </tr>
                     <tr id="build-storage-granary-row">
-                        <td><img alt="granary img" src="res/img/stone%20age/granary.png" /></td>
+                        <td><img alt="granary img" src="res/img/stone%20age/granary.png" title="Granary"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+50 max food" id="build-storage-granary-button">Granary</button></td>
                         <td><span id="granary-quantity">0</span></td>
                         <td>50<img alt ="branch img" src="res/img/common/branch.png"> 50<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>+50 max food</td>
                     </tr>
                     <tr id="build-storage-pit-row">
-                        <td><img alt="pit img" src="res/img/changes2/pit.png" /></td>
+                        <td><img alt="pit img" src="res/img/changes2/pit.png" title="Pit"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+50 max for wood/stone" id="build-storage-pit-button">Pit</button></td>
                         <td><span id="pit-quantity">0</span></td>
                         <td>50<img alt ="branch img" src="res/img/common/branch.png"> 50<img alt="stone img" src="res/img/common/stone.png"></td>
@@ -307,14 +308,14 @@
                         <td colspan="5"></td>
                     </tr>
                     <tr>
-                        <td><img alt="tent img" src="res/img/common/tent.png" /></td>
+                        <td><img alt="tent img" src="res/img/common/tent.png" title="Tent"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+2 max population" id="build-tent-button">Tent</button></td>
                         <td><span id="tent-quantity">0</span></td>
                         <td>20<img alt ="branch img" src="res/img/common/branch.png"></td>
                         <td>+2 max population</td>
                     </tr>
                     <tr id="build-population-hut-row">
-                        <td><img alt="hut img" src="res/img/changes/hut.png" /></td>
+                        <td><img alt="hut img" src="res/img/changes/hut.png" title="Hut"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+5 max population" id="build-hut-button">Hut</button></td>
                         <td><span id="hut-quantity">0</span></td>
                         <td>50<img alt ="branch img" src="res/img/common/branch.png"> 20<img alt="stone img" src="res/img/common/stone.png"></td>
@@ -326,14 +327,14 @@
                         <td colspan="5"></td>
                     </tr>
                     <tr id="build-knowledge-campfire-row">
-                        <td><img alt="campfire img" src="res/img/changes/campfire.png" /></td>
+                        <td><img alt="campfire img" src="res/img/changes/campfire.png" title="Campfire"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+2 scientists" id="build-campfire-button">Campfire</button></td>
                         <td><span id="campfire-quantity">0</span></td>
                         <td>30<img alt ="branch img" src="res/img/common/branch.png"> 10<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>+2 scientists</td>
                     </tr>
                     <tr id="build-knowledge-dolmen-row">
-                        <td><img alt="dolmen img" src="res/img/stone%20age/dolmen.png" /></td>
+                        <td><img alt="dolmen img" src="res/img/stone%20age/dolmen.png" title="Dolmen"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+5 spaces in school" id="build-dolmen-button">Dolmen</button></td>
                         <td><span id="dolmen-quantity">0</span></td>
                         <td>80<img alt ="branch img" src="res/img/common/branch.png"> 80<img alt="stone img" src="res/img/common/stone.png"></td>
@@ -353,21 +354,21 @@
                         <td colspan="5"></td>
                     </tr>
                     <tr id="build-music-club-row">
-                        <td><img alt="music img" src="res/img/stone%20age/guitar.png" /></td>
+                        <td><img alt="music img" src="res/img/stone%20age/guitar.png" title="Music club"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="1 Dj makes 25 happy people" id="build-music-club-button">Music club</button></td>
                         <td><span id="music-club-quantity">0</span></td>
                         <td>225<img alt ="branch img" src="res/img/common/branch.png"> 225<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>1 Dj(25 happy people)</td>
                     </tr>
                     <tr id="build-yoga-club-row">
-                        <td><img alt="yoga img" src="res/img/stone%20age/yoga.png" /></td>
+                        <td><img alt="yoga img" src="res/img/stone%20age/yoga.png" title="Yoga club"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="1 Instructor makes 25 healthy people" id="build-yoga-club-button">Yoga club</button></td>
                         <td><span id="yoga-club-quantity">0</span></td>
                         <td>225<img alt ="branch img" src="res/img/common/branch.png"> 225<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>1 Instructor(25 healthy people)</td>
                     </tr>
                     <tr id="build-palace-row">
-                        <td><img alt="palace img" src="res/img/stone%20age/palace.png" /></td>
+                        <td><img alt="palace img" src="res/img/stone%20age/palace.png" title="Palace"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+5 dolmens/sport/music clubs" id="build-palace-button">Palace</button></td>
                         <td><span id="palace-quantity">0</span></td>
                         <td>1k<img alt ="branch img" src="res/img/common/branch.png"> 1k<img alt="stone img" src="res/img/common/stone.png"></td>
@@ -379,7 +380,7 @@
                         <td colspan="5"></td>
                     </tr>
                     <tr id="build-war-barrack-row">
-                        <td><img alt="barrack img" src="res/img/stone%20age/barrack.png" /></td>
+                        <td><img alt="barrack img" src="res/img/stone%20age/barrack.png" title="Barrack"/></td>
                         <td><button type="button" class="btn btn-primary btn-sm" title="+10 warriors" id="build-barrack-button">Barrack</button></td>
                         <td><span id="barrack-quantity">0</span></td>
                         <td>200<img alt ="branch img" src="res/img/common/branch.png"> 100<img alt="stone img" src="res/img/common/stone.png"></td>
@@ -409,121 +410,121 @@
                 </thead>
                 <tbody>
                     <tr id="tech-changes-row">
-                        <td><img alt="changes img" src="res/img/common/changes.png"/></td>
+                        <td><img alt="changes img" src="res/img/common/changes.png" title="Changes"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock buildings and upgrades" id="tech-changes-button">Changes</button></td>
                         <td>10<img alt ="branch img" src="res/img/common/branch.png"> 10<img alt="stone img" src="res/img/common/stone.png"></td>
                         <td>Unlock buildings and upgrades</td>
                     </tr>
                     <tr id="tech-agriculture-row">
-                        <td><img alt="agriculture img" src="res/img/changes/agriculture.png"/></td>
+                        <td><img alt="agriculture img" src="res/img/changes/agriculture.png" title="Agriculture"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Improve ways to get food" id="tech-agriculture-button">Agriculture</button></td>
                         <td>30 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Increase farmer(<img alt="food img" src="res/img/common/berry.png">) production</td>
                     </tr>
                     <tr id="tech-architecture-row">
-                        <td><img alt="architecture img" src="res/img/changes/sketch.png"/></td>
+                        <td><img alt="architecture img" src="res/img/changes/sketch.png" title="Architecture"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock new place for sleeping" id="tech-architecture-button">Architecture</button></td>
                         <td>30 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock new buildings</td>
                     </tr>
                     <tr id="tech-funeral-row">
-                        <td><img alt="funeral img" src="res/img/common/funeral.png"/></td>
+                        <td><img alt="funeral img" src="res/img/common/funeral.png" title="Funeral"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock funeral process" id="tech-funeral-button">Funeral</button></td>
                         <td>30 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock funeral process</td>
                     </tr>
                     <tr id="tech-changes2-row">
-                        <td><img alt="changes img" src="res/img/common/changes.png" /></td>
+                        <td><img alt="changes img" src="res/img/common/changes.png" title="Changes II"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="More buildings and upgrades (II)" id="tech-changes2-button">Changes II</button></td>
                         <td>75 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>More buildings and upgrades (II)</td>
                     </tr>
                     <tr id="tech-leadership-row">
-                        <td><img alt="leadership img" src="res/img/changes2/leadership.png" /></td>
+                        <td><img alt="leadership img" src="res/img/changes2/leadership.png" title="Leadership"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Allows to group people" id="tech-leadership-button">Leadership</button></td>
                         <td>100 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Allows to group people</td>
                     </tr>
                     <tr id="tech-agriculture-2-row">
-                        <td><img alt="agriculture img" src="res/img/changes/agriculture.png" /></td>
+                        <td><img alt="agriculture img" src="res/img/changes/agriculture.png" title="Agriculture"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Improve ways to get food (II)" id="tech-agriculture-2-button">Agriculture II</button></td>
                         <td>100 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Increase farmer(<img alt="food img" src="res/img/common/berry.png">) production (II)</td>
                     </tr>
                     <tr id="tech-architecture-2-row">
-                        <td><img alt="architecture img" src="res/img/changes/sketch.png" /></td>
+                        <td><img alt="architecture img" src="res/img/changes/sketch.png" title="Architecture II"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock new buildings" id="tech-architecture-2-button">Architecture II</button></td>
                         <td>100 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock new buildings (II)</td>
                     </tr>
                     <tr id="tech-stone-age-row">
-                        <td><img alt="stone age img" src="res/img/changes2/troglodyte.png" /></td>
+                        <td><img alt="stone age img" src="res/img/changes2/troglodyte.png" title="Stone age"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Go to another age" id="tech-stone-age-button">Stone age</button></td>
                         <td>300 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Welcome to 2.5 millions y.a.</td>
                     </tr>
                     <tr id="tech-architecture-3-row">
-                        <td><img alt="architecture img" src="res/img/changes/sketch.png" /></td>
+                        <td><img alt="architecture img" src="res/img/changes/sketch.png" title="Architecture III"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock new place for sleeping" id="tech-architecture-3-button">Architecture III</button></td>
                         <td>250 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock new buildings (III)</td>
                     </tr>
                     <tr id="tech-music-row">
-                        <td><img alt="music img" src="res/img/stone%20age/music.png" /></td>
+                        <td><img alt="music img" src="res/img/stone%20age/music.png" title="Music"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock musical instruments" id="tech-music-button">Music</button></td>
                         <td>250 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock musical instruments</td>
                     </tr>
                     <tr id="tech-sport-row">
-                        <td><img alt="sport img" src="res/img/stone%20age/stretching-exercises.png" /></td>
+                        <td><img alt="sport img" src="res/img/stone%20age/stretching-exercises.png" title="Sport"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock ways to increase health" id="tech-sport-button">Sport</button></td>
                         <td>250 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock ways to increase health</td>
                     </tr>
                     <tr id="tech-tools-row">
-                        <td><img alt="tool img" src="res/img/stone%20age/tools.png" /></td>
+                        <td><img alt="tool img" src="res/img/stone%20age/tools.png" title="Tools"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock different tools/gadgets" id="tech-tools-button">Tools</button></td>
                         <td>250 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock different tools/gadgets</td>
                     </tr>
                     <tr id="tech-weapon-row">
-                        <td><img alt="weapon img" src="res/img/stone%20age/spear.png" /></td>
+                        <td><img alt="weapon img" src="res/img/stone%20age/spear.png" title="Weapon"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Unlock ancient weapon" id="tech-ancient-weapon-button">Ancient weapon</button></td>
                         <td>350 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Unlock tools to protect and to fight</td>
                     </tr>
                     <tr id="tech-hoe-row">
-                        <td><img alt="hoe img" src="res/img/stone%20age/hoe.png" /></td>
+                        <td><img alt="hoe img" src="res/img/stone%20age/hoe.png" title="Hoe"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Increase food production" id="tech-hoe-button">Hoe</button></td>
                         <td>300 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Increase <img alt="food img" src="res/img/common/berry.png"> production</td>
                     </tr>
                     <tr id="tech-axe-row">
-                        <td><img alt="axe img" src="res/img/stone%20age/axe.png" /></td>
+                        <td><img alt="axe img" src="res/img/stone%20age/axe.png" title="Axe"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Increase wood production" id="tech-axe-button">Axe</button></td>
                         <td>300 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Increase <img alt ="branch img" src="res/img/common/branch.png"> production</td>
                     </tr>
                     <tr id="tech-pickaxe-row">
-                        <td><img alt="pickaxe img" src="res/img/stone%20age/pickaxe.png" /></td>
+                        <td><img alt="pickaxe img" src="res/img/stone%20age/pickaxe.png" title="Pickaxe"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Increase stone production" id="tech-pickaxe-button">Pickaxe</button></td>
                         <td>300 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Increase <img alt="stone img" src="res/img/common/stone.png"> production</td>
                     </tr>
                     <tr id="tech-2-side-scroll-row">
-                        <td><img alt="scroll img" src="res/img/changes/scroll.png"></td>
+                        <td><img alt="scroll img" src="res/img/changes/scroll.png" title="2 side scroll"></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Allows to use another side of scroll" id="tech-2-side-scroll-button">2-side scrolls</button></td>
                         <td>10 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Allows to use another side of scroll</td>
                     </tr>
                     <tr id="tech-architecture-4-row">
-                        <td><img alt="architecture img" src="res/img/changes/sketch.png" /></td>
+                        <td><img alt="architecture img" src="res/img/changes/sketch.png" title="Architecture IV"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="More buildings (IV)" id="tech-architecture-4-button">Architecture IV</button></td>
                         <td>900 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>More buildings (IV)</td>
                     </tr>
                     <tr id="tech-bronze-age-row">
-                        <td><img alt="orc img" src="res/img/stone%20age/orc.png" /></td>
+                        <td><img alt="orc img" src="res/img/stone%20age/orc.png" title="Bronze age"/></td>
                         <td><button type="button" class="btn btn-warning btn-sm" title="Coming soon" id="tech-bronze-age-button">Bronze age</button></td>
                         <td>3_000 <img alt="knowledge img" src="res/img/common/knowledge.png"></td>
                         <td>Coming soon</td>

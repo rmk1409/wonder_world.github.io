@@ -196,7 +196,7 @@ class CitizenManager {
                 this.configManager.leader.changeQuantity(-1);
                 if (!this.configManager.leader.quantity) {
                     this.pageManager.hideElement([this.pageManager.tenWorkTd]);
-                    this.pageManager.workTableEmptyTd.attr("colspan", "4");
+                    this.pageManager.workTableEmptyTd.attr("colspan", "5");
                     this.configManager.leaderPresentFlag = false;
                 }
             } else if (this.configManager.warrior.quantity) {

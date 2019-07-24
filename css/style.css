@@ -35,11 +35,10 @@ table td:first-child img, img {
 
 table td:first-child {
     width: 7%;
-    text-align: left;
 }
 
 #work-table td:nth-child(2) {
-    width: 35%;
+    width: 17%;
 }
 
 

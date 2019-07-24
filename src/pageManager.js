@@ -165,7 +165,7 @@ class PageManager {
         this.achievementSection = $("#achievement-section");
         this.gotAchievementQuantitySpan = $("#got-achievement-quantity-span");
         this.ufoAchievement = $("<img alt='alien img' src='res/img/achievement/alien.png' title='Player is an alien'/>");
-        this.palaceAchievement = $("<img alt='palace ach img' src='res/img/achievement/blueprint.png' title='Build a palace'/>");
+        this.palaceAchievement = $("<img alt='palace ach img' src='res/img/stone%20age/palace.png' title='Build a palace'/>");
         this.firstResearchAchievement = $("<img alt='first research img' src='res/img/achievement/knowledge.png' title='First research'/>");
         this.hungerAchievement = $("<img alt='starving img' src='res/img/common/death.png' title='Death from hunger'/>");
         this.productivityAchievement = $("<img alt='productivity img' src='res/img/achievement/speedometer.png' title='Achieve high productivity (more than 190%)'/>");
