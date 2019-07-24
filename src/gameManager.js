@@ -53,6 +53,7 @@ class GameManager {
         } else {
             userName = prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
         }
+        userName = userName.charAt(0).toUpperCase() + userName.slice(1);
         this.configManager.userName = userName;
 
         localStorage.setItem(this.userKey, userName);

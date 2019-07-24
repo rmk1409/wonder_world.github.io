@@ -1,6 +1,3 @@
-/*html {*/
-/*height: 100%;*/
-/*}*/
 body {
     background: url("../res/img/common/wide-wallpaper-1920x1080-018-opacity-75.jpg") no-repeat;
     background-size: 100% 100%;
@@ -159,6 +156,10 @@ td {
     font-size: 10px;
 }
 
+#work-table {
+    width: fit-content;
+}
+
 #click-resource-table td:nth-child(3),
 #people-productivity-table td:nth-child(3) {
     min-width: 90px;
@@ -220,8 +221,4 @@ a img {
 
 table caption {
     color: white;
-}
-
-#technology-table caption {
-    color: grey;
 }
