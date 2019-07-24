@@ -4,23 +4,29 @@ body {
     margin: 0 20px 0 20px !important;
 }
 
+/*Img*/
+
 header img {
     opacity: 0.7;
     width: 525px;
     height: 130px;
 }
 
-#already-known-section img, table img {
+table img {
     height: 19px;
 }
 
-table td:first-child img, img {
+table td:first-child img {
     height: 35px;
 }
 
 #achievement-section img {
     height: 25px;
     margin-right: 5px;
+}
+
+#starvation-warning img {
+    width: 40px;
 }
 
 #funeral-process-img {
@@ -31,18 +37,11 @@ table td:first-child img, img {
     z-index: 1;
 }
 
-table td:first-child {
-    width: 7%;
+table td:nth-child(2) {
+    text-align: left;
+    font-style: italic;
 }
 
-#work-table td:nth-child(2) {
-    width: 17%;
-}
-
-
-#starvation-warning img {
-    width: 40px;
-}
 
 div#events-div div {
     padding: 5px 8px;
@@ -50,11 +49,8 @@ div#events-div div {
 
 button {
     width: 135px;
-    border-radius: 30%;
-    background-color: white;
     height: auto;
-    font-weight: bold;
-    box-shadow: 0 0 5px 1px black;
+    box-shadow: 0 0 8px 1px black;
 }
 
 button.btn {
@@ -64,6 +60,12 @@ button.btn {
 #pause-button {
     float: right;
     width: 40px;
+}
+
+#getFullButton {
+    position: absolute;
+    left: 300px;
+    top: 9px;
 }
 
 #pause-button img {
@@ -110,12 +112,6 @@ button.btn {
     }
 }
 
-#getFullButton {
-    position: absolute;
-    left: 300px;
-    top: 9px;
-}
-
 table {
     opacity: 0.8;
 }
@@ -134,20 +130,12 @@ th {
     text-align: center !important;
 }
 
-#work-table th:nth-child(4) {
-    width: 10%;
-}
-
-#building-table td:nth-child(3) {
-    min-width: 20px;
-}
-
 td {
     text-align: right;
 }
 
-.one-work-td, .ten-work-td {
-    width: 7%;
+td:first-child {
+    text-align: left;
 }
 
 #work-table button {
@@ -158,11 +146,6 @@ td {
 
 #work-table {
     width: fit-content;
-}
-
-#click-resource-table td:nth-child(3),
-#people-productivity-table td:nth-child(3) {
-    min-width: 90px;
 }
 
 #building-table td:last-child,
@@ -207,7 +190,7 @@ td {
     font-size: 11px;
 }
 
-/* TEST */
+/* Yandex Metrica */
 a img {
     position: absolute;
     left: 455px;
