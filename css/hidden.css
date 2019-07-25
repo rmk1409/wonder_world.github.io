@@ -6,11 +6,9 @@
 }
 
 /*RESOURCES*/
-#max-food-quantity-span,
 #click-resource-wood-row,
-#max-wood-quantity-span,
 #click-resource-stone-row,
-#max-stone-quantity-span,
+#click-resource-stone-row,
 #empty-row-before-knowledge,
 #knowledge-row {
     display: none;

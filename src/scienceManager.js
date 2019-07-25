@@ -90,10 +90,9 @@ class ChangesResearch {
 
             this.eventManager.addAchievement("First Research");
 
-            this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.maxFoodQuantityElement, this.pageManager.maxWoodQuantityElement,
-                this.pageManager.maxStoneQuantityElement, this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow, this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow,
-                this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow, this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement,
-                this.pageManager.techArchitectureElement, this.pageManager.alreadyKnownP, this.pageManager.changesP]);
+            this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow,
+                this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow, this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow,
+                this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement, this.pageManager.techArchitectureElement, this.pageManager.alreadyKnownP, this.pageManager.changesP]);
         } else {
             this.eventManager.addEvent("more resources");
             result = false;
