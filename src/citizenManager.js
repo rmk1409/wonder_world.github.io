@@ -21,7 +21,7 @@ class CitizenManager {
 
     checkCitizenCost(quantity) {
         let result = true;
-        if (this.configManager.food.quantity <= this.configManager.citizenCost * quantity) {
+        if (this.configManager.food.quantity < this.configManager.citizenCost * quantity) {
             result = false;
             this.eventManager.addEvent("not enough food");
         }

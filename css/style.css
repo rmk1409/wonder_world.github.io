@@ -17,21 +17,18 @@ header img {
     height: 25px;
 }
 
-table img {
-    height: 19px;
+table td:first-child img,
+#starvation-warning img {
+    height: 35px;
 }
 
-table td:first-child img {
-    height: 35px;
+table img {
+    height: 19px;
 }
 
 #achievement-section img {
     height: 25px;
     margin-right: 5px;
-}
-
-#starvation-warning img {
-    width: 40px;
 }
 
 #funeral-process-img {
@@ -118,7 +115,7 @@ button.btn {
 }
 
 table {
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
 table caption {
@@ -195,6 +192,10 @@ td:first-child {
     font-size: 11px;
 }
 
+#starvation-warning {
+    padding: 10px;
+}
+
 /* Yandex Metrica */
 a img {
     position: absolute;
@@ -204,9 +205,30 @@ a img {
 }
 
 .alert {
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 table caption {
     color: white;
+}
+
+#click-resource-table td:nth-child(3),
+#building-table td:nth-child(3) {
+    text-align: left;
+}
+
+#create-new-citizen-td {
+    text-align: center;
+}
+
+h2 {
+    color: #efca0f;
+}
+
+table:hover {
+    opacity: 0.9;
+}
+
+.alert:hover {
+    opacity: 1;
 }
