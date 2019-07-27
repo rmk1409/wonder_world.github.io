@@ -5,12 +5,12 @@ class EventManager {
         this.okMsg = "Everything is ok. Let s relax. ☕";
         this.lackLazyboneMsg = "👷‍♂️👷‍♂ Find more lazybones.";
         this.starvationMsg = "🍽️🍽️ HELP!!! We don't have enough food. :(";
-        this.moreResourceMsg = "☑ Collect more resources.";
-        this.moreKnowledgeMsg = "☑ Collect more knowledge.";
-        this.moreScienceBuildingMsg = "☑ Build more science buildings.";
-        this.moreMusicClubsMsg = "☑ Build more entertainment buildings.";
-        this.moreYogaClubsMsg = "☑ Build more health buildings.";
-        this.moreBarrackMsg = "☑ Build more barracks.";
+        this.moreResourceMsg = "&#9888; Collect more resources.";
+        this.moreKnowledgeMsg = "&#9888; Collect more knowledge.";
+        this.moreScienceBuildingMsg = "&#9888; Build more science buildings.";
+        this.moreMusicClubsMsg = "&#9888; Build more entertainment buildings.";
+        this.moreYogaClubsMsg = "&#9888; Build more health buildings.";
+        this.moreBarrackMsg = "&#9888; Build more barracks.";
         this.funeralProccessMoreWorkersMsg = "👥👥 One funeral requires 2 workers.";
         this.elvesCantCutTreeMsgPart1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - THANK YOU. And took: ";
         this.elvesCantCutTreePart2 = " of your wood.";
@@ -30,7 +30,7 @@ class EventManager {
         // Statuses
         this.successStatus = "success";
         this.primaryStatus = "primary";
-        this.warningStatus = "warning";
+        this.warningStatus = "dark";
         this.dangerStatus = "danger";
     }
 
@@ -47,8 +47,8 @@ class EventManager {
             ["ok", [this.okMsg, this.successStatus]],
             ["starvation", [this.starvationMsg, this.dangerStatus]],
             // lack of resource
-            ["not enough food", ["☑ You need more food.", this.warningStatus]],
-            ["not enough houses", ["☑ You need more houses.", this.warningStatus]],
+            ["not enough food", ["&#9888; You need more food.", this.warningStatus]],
+            ["not enough houses", ["&#9888; You need more houses.", this.warningStatus]],
             ["more resources", [this.moreResourceMsg, this.warningStatus]],
             ["more knowledge", [this.moreKnowledgeMsg, this.warningStatus]],
             // lack of building
@@ -85,7 +85,7 @@ class EventManager {
             ["big earthquake", [`🧶 ☹ There was a big earthquake. Unfortunately it killed: ${changes} of your miners.`, this.dangerStatus]],
             // amazon
             ["amazons brought", [`👧👧👧👧 Amazons brought a few males to your people . ${changes} new free people.`, this.successStatus]],
-            ["amazons are there", ["Your people saw a lot of beautiful wild amazons 👧👧👧", this.primaryStatus]],
+            ["amazons are there", ["People saw a lot of beautiful wild amazons 👧👧👧", this.primaryStatus]],
             ["amazons speaking", ["👧👧👧 Your people communicated a bit with Amazons.", this.primaryStatus]],
             ["amazons kidnapped", [`👧👧👧👧 Wild Amazons kidnapped some of your people. Than they brought ${changes} male corpses back, you see smiles on corpse's faces.`, this.dangerStatus]],
             // elf
