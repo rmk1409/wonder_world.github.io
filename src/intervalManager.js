@@ -42,7 +42,7 @@ class IntervalManager {
         this.oneStep(this.oneStepTime);
         this.checkWinCondition(this.oneStepTime * 10);
         this.funeralProcess(this.oneStepTime * 5);
-        this.events(this.oneStepTime * 5);
+        this.events(this.oneStepTime * 30);
     }
 
     oneStep(timeout) {
