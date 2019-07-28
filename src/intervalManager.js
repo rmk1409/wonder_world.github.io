@@ -39,13 +39,13 @@ class IntervalManager {
     }
 
     runInterval() {
-        this.oneStep();
-        this.checkWinCondition();
-        this.funeralProcess();
-        this.events();
+        this.oneStep(this.oneStepTime);
+        this.checkWinCondition(this.oneStepTime * 10);
+        this.funeralProcess(this.oneStepTime * 5);
+        this.events(this.oneStepTime * 5);
     }
 
-    oneStep() {
+    oneStep(timeout) {
         setInterval(() => {
             // get resources
             this.configManager.food.changeQuantity(this.configManager.foodTotalProduction.quantity);
@@ -89,10 +89,10 @@ class IntervalManager {
 
             // TODO add more bad events when it isn't focus
             // console.log(document.hasFocus());
-        }, this.oneStepTime);
+        }, timeout);
     }
 
-    checkWinCondition() {
+    checkWinCondition(timeout) {
         setInterval(() => {
             if (this.configManager.knowledge.quantity >= this.configManager.WINNER_REQUIREMENTS) {
                 if (confirm(`Congratulations! ${this.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${this.configManager.corpse.quantity
@@ -100,13 +100,12 @@ class IntervalManager {
                     this.gameManager.reloadSite();
                 } else {
                     this.configManager.knowledge.changeQuantity(-this.configManager.WINNER_REQUIREMENTS);
-                    this.pageManager.show(this.pageManager.startAgainButton);
                 }
             }
-        }, this.oneStepTime * 10);
+        }, timeout);
     }
 
-    funeralProcess() {
+    funeralProcess(timeout) {
         setInterval(() => {
             let maxFuneral = Math.min.apply(null, [this.configManager.corpseStorage.quantity - this.configManager.inGraveQuantity.quantity,
                 this.configManager.corpse.quantity, this.configManager.funeral.quantity / 2]);
@@ -119,11 +118,11 @@ class IntervalManager {
             } else {
                 $(this.pageManager.funeralProcessImg).hide("slow");
             }
-        }, this.oneStepTime * 5);
+        }, timeout);
     }
 
-    events() {
-        setInterval(() => this.eventManager.eventHappen(), this.oneStepTime * 30);
+    events(timeout) {
+        setInterval(() => this.eventManager.eventHappen(), timeout);
     }
 }
 

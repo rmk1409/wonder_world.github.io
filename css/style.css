@@ -225,7 +225,7 @@ h2 {
     color: #efca0f;
 }
 
-table:hover {
+table:hover, header img:hover {
     opacity: 0.9;
 }
 

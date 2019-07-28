@@ -39,7 +39,7 @@ class BuilderManager {
                     this.configManager.yogaClub, this.configManager.scientistStorage, this.configManager.happyPeopleStorage, this.configManager.healthyPeopleStorage, this.configManager.djStorage,
                     this.configManager.instructorStorage], [1, 5, 5, 5, 5 * this.configManager.spaceInDolmen, 5 * this.configManager.spaceForPeopleInClub, 5 * this.configManager.spaceForPeopleInClub,
                     5, 5]], this.configManager, this.eventManager),
-                this.pageManager, this.configManager.palacePresentFlag, [this.pageManager.startAgainButton])],
+                this.pageManager, this.configManager.palacePresentFlag, [])],
             ["barrack", new BuildingWithShowElement(
                 new Building(200, 100, [[this.configManager.barrack, this.configManager.warriorStorage], [1, this.configManager.spaceInBarrack]], this.configManager,
                     this.eventManager),

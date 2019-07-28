@@ -18,7 +18,7 @@ class ScienceManager {
                 this.configManager, this.pageManager, this.eventManager)],
             ["funeral", new Research(this.configManager.funeralCost, this.pageManager.techFuneralElement, [this.pageManager.buildScrollRow, this.pageManager.buildGraveRow,
                 this.pageManager.emptyRowBeforePopulationBuilding, this.pageManager.techChanges2Element, this.pageManager.funeralP], this.configManager, this.pageManager, this.eventManager)],
-            ["changes2", new Research(this.configManager.changes2Cost, this.pageManager.techChanges2Element, [this.pageManager.pauseButton, this.pageManager.techAgriculture2Element,
+            ["changes2", new Research(this.configManager.changes2Cost, this.pageManager.techChanges2Element, [this.pageManager.techAgriculture2Element,
                 this.pageManager.techArchitecture2Element, this.pageManager.techLeadershipElement, this.pageManager.techStoneAgeElement, this.pageManager.changes2P], this.configManager, this.pageManager,
                 this.eventManager)],
             ["leadership", new Research(this.configManager.leadershipCost, this.pageManager.techLeadershipElement, [this.pageManager.emptyRowBeforeJobLeader, this.pageManager.leaderRow,

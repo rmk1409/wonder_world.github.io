@@ -3,8 +3,8 @@ class EventManager {
     constructor() {
         // Msg's
         this.okMsg = "Everything is ok. Let s relax. ☕";
-        this.lackLazyboneMsg = "👷‍♂️👷‍♂ Find more lazybones.";
-        this.starvationMsg = "🍽️🍽️ HELP!!! We don't have enough food. :(";
+        this.lackLazyboneMsg = "&#9888; Find more lazybones. 👷‍♂";
+        this.starvationMsg = "🍽️ HELP!!! We don't have enough food. :(";
         this.moreResourceMsg = "&#9888; Collect more resources.";
         this.moreKnowledgeMsg = "&#9888; Collect more knowledge.";
         this.moreScienceBuildingMsg = "&#9888; Build more science buildings.";
@@ -16,13 +16,13 @@ class EventManager {
         this.elvesCantCutTreePart2 = " of your wood.";
         this.elvesAreDisappointed = "🧝🧝 You don t have wood. Elves are disappointed of us.. :((";
         this.elvesLike = "🧝🧝 Main Elf said - we like you.";
-        this.nightmareMsg = "👩‍🌾👩‍🌾 👾👾 Your farmers said that they saw strange nightmares.";
+        this.nightmareMsg = "👩‍🌾👩‍🌾  Your farmers said that they saw strange nightmares. 👾👾";
         this.strangeInTheSkiesMsg = "👩‍🌾👩‍🌾 Your farmers said that they saw something strange in the skies. You said - ha, rich imagination";
         this.ufoKilledMsgPart1 = "🛸 Ufo Aliens tried to improve your human beings, but it wasn't successful. Unfortunately they killed: ";
         this.ufoKilledMsgPart2 = " of your farmers. Maybe in the next time.";
         this.ufoArtifactMsgPart1 = "🛸 Ufo gave to you a mighty artifact, but your people don't know how to apply this and they just exchanged it with more advanced civilization for: ";
         this.ufoArtifactMsgPart2 = " stones.";
-        this.overturnedCorpsesMsg = "🧑🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination";
+        this.overturnedCorpsesMsg = "🧑🧑 Your people said that corpses overturned during the last full moon night. You said - ha, rich imagination";
         this.foolMoonMsg = "Your people like fool moon this night 🌘";
         this.deathBecauseOfZombie = "🌘🧛 You people died because of too many zombies.";
         this.newAchievement = "🙊🙈🙉 Get a new achievement.";
@@ -39,6 +39,8 @@ class EventManager {
         this.pageManager = this.gameManager.pageManager;
         this.configManager = this.gameManager.configManager;
         this.citizenManager = this.gameManager.citizenManager;
+
+        this.hiddenButtons = [this.pageManager.startAgainButton, this.pageManager.pauseButton];
     }
 
     addEvent(what, changes) {
@@ -61,6 +63,7 @@ class EventManager {
             ["1 funeral process needs 2 workers", [this.funeralProccessMoreWorkersMsg, this.warningStatus]],
             // event
             // ufo
+            ["ufo gave an useful artifact", [`🛸🛸 gives a mighty artifact and your people made a new button from it.&#128526&#128526`, this.successStatus]],
             ["ufo gave an artifact", [`${this.ufoArtifactMsgPart1} ${changes} ${this.ufoArtifactMsgPart2}`, this.successStatus]],
             ["strange in the skies", [this.strangeInTheSkiesMsg, this.primaryStatus]],
             ["nightmare", [this.nightmareMsg, this.primaryStatus]],
@@ -115,7 +118,7 @@ class EventManager {
         this.pageManager.hideElement([this.pageManager.notAchievement]);
 
         // TODO move map from here
-        let imgAchievMap = new Map([
+        let achievementImgMap = new Map([
             ["UFO Alien", this.pageManager.ufoAchievement],
             ["Palace", this.pageManager.palaceAchievement],
             ["First Research", this.pageManager.firstResearchAchievement],
@@ -123,15 +126,15 @@ class EventManager {
             ["Productivity", this.pageManager.productivityAchievement],
             ["More Food", this.pageManager.moreFoodAchievement]
         ]);
-        let imgAchiev = imgAchievMap.get(what);
+        let achievementImg = achievementImgMap.get(what);
 
-        if (imgAchiev) {
+        if (achievementImg) {
             this.pageManager.gotAchievementQuantitySpan.text(+this.pageManager.gotAchievementQuantitySpan.text() + 1);
 
-            this.pageManager.achievementSection.append(imgAchiev);
+            this.pageManager.achievementSection.append(achievementImg);
             let event = $(`<div class="alert alert-${this.successStatus}" role="alert"><span>${this.getMsgWithTime(this.newAchievement)}</span></div>`);
             this.pageManager.eventDiv.after(event);
-            this.pageManager.showElement([event, imgAchiev]);
+            this.pageManager.showElement([event, achievementImg]);
 
             $("#events-div").animate({scrollTop: 0}, "fast")
         }
@@ -185,9 +188,14 @@ class EventManager {
                     this.addEvent("nightmare");
                     break;
                 case 3:
-                    let newResources = Math.round(0.6 * this.configManager.stone.quantity);
-                    this.addEvent("ufo gave an artifact", newResources);
-                    this.configManager.stone.changeQuantity(newResources);
+                    if (this.hiddenButtons.length > 0) {
+                        this.addEvent("ufo gave an useful artifact");
+                        this.hiddenButtons.pop().slideToggle('slow');
+                    } else {
+                        let newResources = Math.round(0.6 * this.configManager.stone.quantity);
+                        this.addEvent("ufo gave an artifact", newResources);
+                        this.configManager.stone.changeQuantity(newResources);
+                    }
                     break;
             }
         } else {

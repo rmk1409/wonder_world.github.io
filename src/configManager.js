@@ -175,8 +175,12 @@ class Resource {
     changeQuantity(quantity) {
         this.quantity = (this.quantity * 1e3 + quantity * 1e3) / 1e3;
 
-        if (this.storage && this.quantity > this.storage.quantity) {
-            this.quantity = this.storage.quantity;
+        if (this.storage) {
+            if (this.quantity > this.storage.quantity) {
+                this.quantity = this.storage.quantity;
+            } else if (this.quantity < -1) {
+                this.quantity = -1;
+            }
         }
 
         if (this.toFixed) {
