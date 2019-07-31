@@ -185,6 +185,7 @@ button#pause-button {
 #events-section {
     max-height: 200px;
     overflow: hidden;
+    padding: 10px;
 }
 
 #events-section:hover {
