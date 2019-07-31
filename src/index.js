@@ -98,8 +98,4 @@ $(function () {
     $(pageManager.researchPickaxeButton).on("click", () => gameManager.research("pickaxe"));
     $(pageManager.research2sideScrollButton).on("click", () => gameManager.research("2 side scroll"));
     $(pageManager.researchArchitecture4Button).on("click", () => gameManager.research("architecture4"));
-    // Already known technologies
-    $(pageManager.alreadyKnownP).on("click", function slideToggleSection() {
-        pageManager.alreadyKnownSection.slideToggle("fast");
-    });
 });

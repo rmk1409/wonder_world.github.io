@@ -105,7 +105,7 @@ class EventManager {
         let status = msgElem[1];
 
         if (msg) {
-            let event = $(`<div class="alert alert-${status}" role="alert"><span>${this.getMsgWithTime(msg)}</span></div>`);
+            let event = $(`<div class="alert alert-${status}" role="alert">${this.getMsgWithTime(msg)}</div>`);
             this.pageManager.eventDiv.after(event);
             this.pageManager.showElement([event]);
 

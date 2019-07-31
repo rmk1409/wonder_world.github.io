@@ -231,29 +231,6 @@ class PageManager {
 
         this.techBronzeAgeElement = $("#tech-bronze-age-row");
         this.researchBronzeAgeButton = $("#tech-bronze-age-button");
-
-        this.alreadyKnownP = $("#already-known-p");
-        this.alreadyKnownSection = $("#already-known-section");
-        this.changesP = $("#changes-p");
-        this.agricultureP = $("#agriculture-p");
-        this.architectureP = $("#architecture-p");
-        this.funeralP = $("#funeral-p");
-        this.changes2P = $("#changes-2-p");
-        this.agriculture2P = $("#agriculture-2-p");
-        this.architecture2P = $("#architecture-2-p");
-        this.leadershipP = $("#leadership-p");
-        this.stoneAgeP = $("#stone-age-p");
-        this.architecture3P = $("#architecture-3-p");
-        this.musicP = $("#music-p");
-        this.sportP = $("#sport-p");
-        this.toolP = $("#tools-p");
-        this.weaponP = $("#weapon-p");
-        this.hoeP = $("#hoe-p");
-        this.axeP = $("#axe-p");
-        this.pickAxeP = $("#pickaxe-p");
-        this.twoSideScrollP = $("#two-side-scroll-p");
-        this.architecture4P = $("#architecture-4-p");
-        this.bronzeAgeP = $("#bronze-age-p");
     }
 
     initialization(gameManager) {

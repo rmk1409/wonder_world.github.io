@@ -4,75 +4,6 @@ body {
     margin: 0 20px 0 20px !important;
 }
 
-/*Img*/
-
-header > img {
-    opacity: 0.7;
-    width: 525px;
-    height: 130px;
-}
-
-
-#goal-div img {
-    height: 25px;
-}
-
-table td:first-child img,
-#starvation-warning img {
-    height: 35px;
-}
-
-table img {
-    height: 19px;
-}
-
-#achievement-section img {
-    height: 25px;
-    margin-right: 5px;
-}
-
-#funeral-process-img {
-    position: absolute;
-    top: 707px;
-    left: 295px;
-    height: 40px;
-    z-index: 1;
-}
-
-#work-table td:nth-child(2),
-#building-table td:nth-child(4){
-    font-style: italic;
-}
-
-td:nth-child(2) {
-    text-align: left;
-}
-
-
-div#events-section div {
-    padding: 5px 8px;
-}
-
-button {
-    width: 135px;
-    height: auto;
-    box-shadow: 0 0 3px 3px lightgoldenrodyellow;
-}
-
-button.btn {
-    padding: 3px;
-}
-
-#getFullButton {
-    position: absolute;
-    left: 300px;
-    top: 9px;
-}
-
-#pause-button img {
-    height: 21px;
-}
-
 .game-container {
     display: flex;
     flex-wrap: wrap;
@@ -113,13 +44,72 @@ section#achievement-technology-section {
     }
 }
 
+h2 {
+    color: #efca0f;
+}
+
+/*IMAGES*/
+header > img {
+    opacity: 0.7;
+    width: 525px;
+    height: 130px;
+}
+
+
+#goal-div img {
+    height: 25px;
+}
+
+table td:first-child img,
+#starvation-warning img {
+    height: 35px;
+}
+
+table img {
+    height: 19px;
+}
+
+#achievement-section img {
+    height: 25px;
+    margin-right: 5px;
+}
+
+#funeral-process-img {
+    position: absolute;
+    top: 707px;
+    left: 295px;
+    height: 40px;
+    z-index: 1;
+}
+
+#pause-button img {
+    height: 21px;
+}
+
+/* Yandex Metrica */
+a img {
+    position: absolute;
+    left: 455px;
+    top: 35px;
+    opacity: 0.05;
+}
+
+/*TABLES*/
+table:hover, header img:hover {
+    opacity: 0.9;
+}
+
 table {
     opacity: 0.75;
 }
 
+#work-table {
+    width: fit-content;
+}
+
 table caption {
     caption-side: top;
-    text-align: left;
+    color: white;
 }
 
 table td, table th {
@@ -131,12 +121,34 @@ th {
     text-align: center !important;
 }
 
-td {
+#create-new-citizen-td {
+    text-align: center;
+}
+
+td:last-child,
+#work-table td:nth-child(5){
     text-align: right;
 }
 
-td:first-child {
-    text-align: left;
+#building-table td:last-child,
+#technology-table td:last-child,
+#work-table td:nth-child(2),
+#building-table td:nth-child(4) {
+    font-style: italic;
+}
+
+.table-primary td {
+    padding: 1px !important;
+}
+
+/*BUTTONS*/
+button {
+    width: 135px;
+    box-shadow: 0 0 3px 3px lightgoldenrodyellow;
+}
+
+button.btn {
+    padding: 3px;
 }
 
 #work-table button {
@@ -145,97 +157,15 @@ td:first-child {
     font-size: 10px;
 }
 
-#work-table {
-    width: fit-content;
-}
-
-#building-table td:last-child,
-#technology-table td:last-child {
-    font-style: italic;
-}
-
-.table-primary td {
-    padding: 1px !important;
-}
-
-/* EVENTS */
-#events-section {
-    max-height: 200px;
-    overflow: hidden;
-}
-
-#events-section div {
-    display: none;
-    margin: 0 0 2px 0 !important;
-}
-
-#events-section:hover {
-    overflow-y: auto;
-}
-
-#events-section > * {
-    max-width: 480px;
-}
-
-
-#already-known-p {
-    cursor: pointer;
-}
-
-/* @MAIL */
-#author {
+#getFullButton {
     position: absolute;
-    left: 200px;
-    top: 110px;
-    font-style: italic;
-    font-size: 11px;
-}
-
-#starvation-warning {
-    padding: 10px;
+    left: 300px;
+    top: 9px;
 }
 
 #create-10-worker-button {
     width: fit-content;
     border-radius: 37%;
-}
-
-/* Yandex Metrica */
-a img {
-    position: absolute;
-    left: 455px;
-    top: 35px;
-    opacity: 0.05;
-}
-
-.alert {
-    opacity: 0.8;
-}
-
-table caption {
-    color: white;
-}
-
-#click-resource-table td:nth-child(3),
-#building-table td:nth-child(3),
-#people-productivity-table td:nth-child(3) {
-    text-align: left;
-}
-
-#create-new-citizen-td {
-    text-align: center;
-}
-
-h2 {
-    color: #efca0f;
-}
-
-table:hover, header img:hover {
-    opacity: 0.9;
-}
-
-.alert:hover {
-    opacity: 1;
 }
 
 #menu-button-section {
@@ -249,4 +179,42 @@ table:hover, header img:hover {
 
 button#pause-button {
     max-width: 40px;
+}
+
+/* EVENTS */
+#events-section {
+    max-height: 200px;
+    overflow: hidden;
+}
+
+#events-section:hover {
+    overflow-y: auto;
+}
+
+#events-section div {
+    display: none;
+    margin: 0 0 2px 0 !important;
+    max-width: 480px;
+    padding: 5px 8px;
+}
+
+.alert {
+    opacity: 0.8;
+}
+
+.alert:hover {
+    opacity: 1;
+}
+
+#starvation-warning {
+    padding: 10px;
+}
+
+/*OTHERS*/
+#author {
+    position: absolute;
+    left: 200px;
+    top: 110px;
+    font-style: italic;
+    font-size: 11px;
 }
