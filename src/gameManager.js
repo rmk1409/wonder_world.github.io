@@ -35,6 +35,7 @@ class GameManager {
         }
 
         this.intervalManager.runInterval();
+        this.runTooltips();
     }
 
     // TODO add save/load buttons
@@ -116,6 +117,10 @@ class GameManager {
         this.configManager.wood.changeQuantity(this.configManager.woodStorage.quantity);
         this.configManager.stone.changeQuantity(this.configManager.stoneStorage.quantity);
         this.configManager.knowledge.changeQuantity(this.configManager.knowledgeStorage.quantity);
+    }
+
+    runTooltips() {
+        $('[data-toggle="tooltip"]').tooltip();
     }
 }
 
