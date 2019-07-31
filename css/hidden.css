@@ -1,5 +1,8 @@
 #start-again-button,
 #pause-button,
+#load-button,
+#save-button,
+#create-10-worker-button,
 #funeral-process-img,
 #starvation-warning {
     display: none;

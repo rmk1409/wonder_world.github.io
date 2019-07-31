@@ -109,7 +109,7 @@ class EventManager {
             this.pageManager.eventDiv.after(event);
             this.pageManager.showElement([event]);
 
-            $("#events-div").animate({scrollTop: 0}, "fast")
+            $("#events-section").animate({scrollTop: 0}, "fast")
         }
     }
 
@@ -136,7 +136,7 @@ class EventManager {
             this.pageManager.eventDiv.after(event);
             this.pageManager.showElement([event, achievementImg]);
 
-            $("#events-div").animate({scrollTop: 0}, "fast")
+            $("#events-section").animate({scrollTop: 0}, "fast")
         }
     }
 

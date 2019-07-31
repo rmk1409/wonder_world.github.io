@@ -6,7 +6,7 @@ body {
 
 /*Img*/
 
-header img {
+header > img {
     opacity: 0.7;
     width: 525px;
     height: 130px;
@@ -39,29 +39,28 @@ table img {
     z-index: 1;
 }
 
-table td:nth-child(2) {
-    text-align: left;
+#work-table td:nth-child(2),
+#building-table td:nth-child(4){
     font-style: italic;
 }
 
+td:nth-child(2) {
+    text-align: left;
+}
 
-div#events-div div {
+
+div#events-section div {
     padding: 5px 8px;
 }
 
 button {
     width: 135px;
     height: auto;
-    box-shadow: 0 0 8px 1px black;
+    box-shadow: 0 0 3px 3px lightgoldenrodyellow;
 }
 
 button.btn {
     padding: 3px;
-}
-
-#pause-button {
-    float: right;
-    width: 40px;
 }
 
 #getFullButton {
@@ -80,18 +79,18 @@ button.btn {
     justify-content: space-between;
 }
 
-.section:nth-child(1) {
+section#resource-people-section {
     flex: 1 auto;
     max-width: 355px;
 }
 
-.section:nth-child(2) {
+section#work-building-section {
     flex: 2 auto;
     max-width: 600px;
     margin-left: 5px;
 }
 
-.section:nth-child(3) {
+section#achievement-technology-section {
     flex: 1 2;
     max-width: 500px;
     margin-left: 5px;
@@ -160,21 +159,21 @@ td:first-child {
 }
 
 /* EVENTS */
-#events-div {
+#events-section {
     max-height: 200px;
     overflow: hidden;
 }
 
-#events-div div {
+#events-section div {
     display: none;
     margin: 0 0 2px 0 !important;
 }
 
-#events-div:hover {
+#events-section:hover {
     overflow-y: auto;
 }
 
-#events-div > * {
+#events-section > * {
     max-width: 480px;
 }
 
@@ -196,6 +195,11 @@ td:first-child {
     padding: 10px;
 }
 
+#create-10-worker-button {
+    width: fit-content;
+    border-radius: 37%;
+}
+
 /* Yandex Metrica */
 a img {
     position: absolute;
@@ -213,7 +217,8 @@ table caption {
 }
 
 #click-resource-table td:nth-child(3),
-#building-table td:nth-child(3) {
+#building-table td:nth-child(3),
+#people-productivity-table td:nth-child(3) {
     text-align: left;
 }
 
@@ -231,4 +236,17 @@ table:hover, header img:hover {
 
 .alert:hover {
     opacity: 1;
+}
+
+#menu-button-section {
+    display: flex;
+}
+
+#menu-button-section button{
+    max-width: 95px;
+    margin: 5px;
+}
+
+button#pause-button {
+    max-width: 40px;
 }

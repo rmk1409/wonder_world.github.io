@@ -160,7 +160,7 @@ class PageManager {
         this.buildBarrackRow = $("#build-war-barrack-row");
         this.barrackQuantityElement = $("#barrack-quantity");
 
-        this.eventDiv = $("#events-div span");
+        this.eventDiv = $("#events-section span");
 
         this.achievementSection = $("#achievement-section");
         this.gotAchievementQuantitySpan = $("#got-achievement-quantity-span");
@@ -302,7 +302,7 @@ class PageManager {
                 button.css({"background-color": "#28a745", "border-color": "#28a745", "color": "white"});
             }
         } else if (checkQuantity === 0) {
-            target.css({"background-color": "", "color": "black"});
+            target.css({"background-color": "", "color": "white"});
         } else {
             target.css({"background-color": "red", "color": "white"});
             if (!!button) {

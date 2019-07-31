@@ -64,7 +64,7 @@ class BuilderManager {
     checkPalaceAchievement(buildingType) {
         if (!this.configManager.palacePresentFlag && "palace" === buildingType) {
             this.eventManager.addAchievement("Palace");
-            alert(`Congratulations! You built a palace for yourself!! You are amazing!!! \nAlso you've just killed: ${this.configManager.corpse.quantity
+            alert(`You are amazing!!! Congratulations! You built a palace for yourself!! \nAlso you've just killed: ${this.configManager.corpse.quantity
             + this.configManager.inGraveQuantity.quantity} people. (￣▽￣)ノ ${this.configManager.userName}, Great job!!`);
             this.pageManager.buildPalaceButton.prop("disabled", true);
         }

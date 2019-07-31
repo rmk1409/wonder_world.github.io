@@ -40,9 +40,9 @@ class IntervalManager {
 
     runInterval() {
         this.oneStep(this.oneStepTime);
-        this.checkWinCondition(this.oneStepTime * 10);
-        this.funeralProcess(this.oneStepTime * 5);
         this.events(this.oneStepTime * 30);
+        this.funeralProcess(this.oneStepTime * 5);
+        this.checkWinCondition(this.oneStepTime * 10);
     }
 
     oneStep(timeout) {
@@ -95,7 +95,7 @@ class IntervalManager {
     checkWinCondition(timeout) {
         setInterval(() => {
             if (this.configManager.knowledge.quantity >= this.configManager.WINNER_REQUIREMENTS) {
-                if (confirm(`Congratulations! ${this.configManager.userName} are amazing! You collected a lot of knowledge!! \nAlso you've killed: ${this.configManager.corpse.quantity
+                if (confirm(`${this.configManager.userName} are amazing! Congratulations! You collected a lot of knowledge!! \nAlso you've killed: ${this.configManager.corpse.quantity
                 + this.configManager.inGraveQuantity.quantity} people. Great job\n`)) {
                     this.gameManager.reloadSite();
                 } else {
