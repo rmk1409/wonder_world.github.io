@@ -109,7 +109,13 @@ class GameManager {
     }
 
     pause() {
-        alert("...pause. ");
+        $("body").css({"opacity": "0.1"});
+        setTimeout(()=>{
+            alert("...pause. ");
+        }, 100);
+        setTimeout(()=>{
+            $("body").css({"opacity": "1"});
+        }, 300);
     }
 
     getFullResources() {
