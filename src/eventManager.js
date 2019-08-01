@@ -40,7 +40,7 @@ class EventManager {
         this.configManager = this.gameManager.configManager;
         this.citizenManager = this.gameManager.citizenManager;
 
-        this.hiddenButtons = [this.pageManager.startAgainButton, this.pageManager.pauseButton];
+        this.hiddenButtons = [this.pageManager.startAgainButton];
     }
 
     addEvent(what, changes) {
