@@ -23,6 +23,7 @@ class IntervalManager {
         if (!this.configManager.showPeopleTableFlag && this.configManager.food.quantity > 5) {
             this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, []);
             this.configManager.showPeopleTableFlag = true;
+            $('#citizen-modal').modal();
         }
         if (!this.configManager.showWorkTableFlag && this.configManager.currentPopulation.quantity > 0) {
             this.pageManager.toggleElement(this.pageManager.workTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
@@ -31,10 +32,12 @@ class IntervalManager {
         if (!this.configManager.showBuildingTableFlag && this.configManager.currentPopulation.quantity === this.configManager.populationStorage.quantity) {
             this.pageManager.toggleElement(this.pageManager.buildingTable, []);
             this.configManager.showBuildingTableFlag = true;
+            $('#building-modal').modal();
         }
         if (!this.configManager.showTechnologyTableFlag && this.configManager.wood.quantity > 14) {
             this.pageManager.toggleElement(this.pageManager.technologyTable, []);
             this.configManager.showTechnologyTableFlag = true;
+            $('#technology-modal').modal();
         }
     }
 

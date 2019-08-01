@@ -29,13 +29,11 @@ class GameManager {
     }
 
     initialization() {
-        let userName = this.getUserName();
-        if (userName === "UFO Alien") {
-            this.eventManager.addAchievement("UFO Alien");
+        let userName = localStorage.getItem(this.userKey);
+        if (userName) {
+            $("#user-name-input").attr("value", userName);
         }
-
-        this.intervalManager.runInterval();
-        this.runTooltips();
+        this.runUserNameModal();
     }
 
     // TODO add save/load buttons
@@ -47,19 +45,37 @@ class GameManager {
 
     }
 
-    getUserName() {
-        let userName = localStorage.getItem(this.userKey);
-        if (userName) {
-            userName = confirm(`＼(￣▽￣)／, are you ${userName}, yes?`) ? userName : prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
-        } else {
-            userName = prompt("＼(￣▽￣)／ Great person, say me, what is your name?") || "UFO Alien";
+    runUserNameModal() {
+        $('#user-name-modal').on('shown.bs.modal', ()=> {
+            $('#user-name-input').trigger('focus')
+        });
+
+        $('#user-name-modal').modal();
+
+        $("#user-name-input").on('keyup', (e)=>{
+            if (e.key === "Enter") {
+                this.getUserNameFromModal();
+                $('#user-name-modal').modal('toggle');
+            }
+        });
+    }
+
+    getUserNameFromModal() {
+        let userName = $("#user-name-input").val().trim();
+        userName = userName || "No named";
+        if (userName === "UFO Alien") {
+            this.eventManager.addAchievement("UFO Alien");
         }
         userName = userName.charAt(0).toUpperCase() + userName.slice(1);
         this.configManager.userName = userName;
 
         localStorage.setItem(this.userKey, userName);
         this.pageManager.userNameElement.text(userName);
-        return userName;
+
+        this.intervalManager.runInterval();
+        this.runTooltips();
+
+        $('#get-food-modal').modal();
     }
 
     clickResourceButton(resourceType, quantity) {
@@ -110,10 +126,10 @@ class GameManager {
 
     pause() {
         $("body").css({"opacity": "0.1"});
-        setTimeout(()=>{
+        setTimeout(() => {
             alert("...pause. ");
         }, 100);
-        setTimeout(()=>{
+        setTimeout(() => {
             $("body").css({"opacity": "1"});
         }, 300);
     }

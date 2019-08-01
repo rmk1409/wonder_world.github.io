@@ -6,6 +6,7 @@ $(function () {
     let pageManager = gameManager.pageManager;
     gameManager.initialization();
     // CLICK EVENTS
+    $("#user-name-input-button").on("click", ()=> gameManager.getUserNameFromModal());
     // 1. CLICK TO THE RESOURCES
     $(pageManager.foodClickButton).on("click", () => gameManager.clickResourceButton(gameManager.configManager.food, gameManager.configManager.clickEfficiency));
     $(pageManager.woodClickButton).on("click", () => gameManager.clickResourceButton(gameManager.configManager.wood, gameManager.configManager.clickEfficiency));

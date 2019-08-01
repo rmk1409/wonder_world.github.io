@@ -219,3 +219,7 @@ button#pause-button {
     font-style: italic;
     font-size: 11px;
 }
+
+.modal img {
+    max-width: 450px;
+}

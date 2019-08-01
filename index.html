@@ -15,31 +15,31 @@
 <body>
     <!--    Yandex -->
     <!-- Yandex.Metrika informer -->
-    <a href="https://metrika.yandex.ru/stat/?id=54145261&amp;from=informer"
-       target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/54145261/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-                                           style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="54145261" data-lang="ru" /></a>
+    <!--<a href="https://metrika.yandex.ru/stat/?id=54145261&amp;from=informer"-->
+       <!--target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/54145261/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"-->
+                                           <!--style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="54145261" data-lang="ru" /></a>-->
     <!-- /Yandex.Metrika informer -->
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    <!--<script type="text/javascript">-->
+        <!--(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};-->
+            <!--m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})-->
+        <!--(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");-->
 
-        ym(54145261, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/54145261" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!--ym(54145261, "init", {-->
+            <!--clickmap:true,-->
+            <!--trackLinks:true,-->
+            <!--accurateTrackBounce:true,-->
+            <!--webvisor:true-->
+        <!--});-->
+    <!--</script>-->
+    <!--<noscript><div><img src="https://mc.yandex.ru/watch/54145261" style="position:absolute; left:-9999px;" alt="" /></div></noscript>-->
     <!-- /Yandex.Metrika counter -->
     <!-- Yandex-->
 
     <header>
         <img alt="header img" src="res/img/common/header.jpg">
         <div id="goal-div" class="alert alert-primary" role="alert" data-toggle="tooltip" title="You goal">
-            Your today's target is: a)Build a palace or b)Collect 1 million <img alt="knowledge img" src="res/img/common/knowledge.png">.
+            Your today's target is: a)Build a palace <img src="res/img/stone%20age/palace.png" alt="palace img"> or b)Collect 1 million <img src="res/img/common/knowledge.png" alt="knowledge img">.
         </div>
     </header>
     <hr>
@@ -594,6 +594,125 @@
     <!--<embed src="res/music/erik-jackson-with-new-eyes-original-mix(mp3novinki.net).mp3" width="180" height="90" loop="true"-->
     <!--autostart="true" hidden="true"/>-->
 
+    <!-- Modal -->
+    <div  id="user-name-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">＼(￣▽￣)／ Great person, say me, what is your name?</h4>
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">&times;</span>-->
+                    <!--</button>-->
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="user-name-input" class="form-control-label">User name:</label>
+                            <input id="user-name-input" type="text" class="form-control">
+                            <input type="text" style="display: none;">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="user-name-input-button" type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="get-food-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="getFoodModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="getFoodModalLabel">＼(￣▽￣)／ It's time to get some food.</h4>
+                </div>
+                <div class="modal-body">
+                    <figure>
+                        <figcaption>Collect some food by clicking the button.</figcaption>
+                        <img src="res/img/instruction/Screenshot_1.png" alt="Getting food...1">
+                    </figure>
+                    <figure>
+                        <figcaption>15-20 will be enough.</figcaption>
+                        <img src="res/img/instruction/Screenshot_2.png" alt="Getting food...2">
+                    </figure>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="citizen-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="citizenModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="citizenModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Citizens.</h4>
+                </div>
+                <div class="modal-body">
+                    <figure>
+                        <figcaption>When you have enough food you can create a new citizen</figcaption>
+                        <img src="res/img/instruction/Screenshot_3.png" alt="Create citizen...1">
+                    </figure>
+                    <figure>
+                        <figcaption>Each citizen eats some food every second.</figcaption>
+                        <img src="res/img/instruction/Screenshot_4.png" alt="Create citizen...2">
+                    </figure>
+                    <figure>
+                        <figcaption>You can send them to work for example as a farmers.</figcaption>
+                        <img src="res/img/instruction/Screenshot_5.png" alt="Create citizen...3">
+                    </figure>
+                    <figure>
+                        <figcaption>After that your citizens will produce resources automatically.</figcaption>
+                        <img src="res/img/instruction/Screenshot_8.png" alt="Create citizen...4">
+                    </figure>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="building-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buildingModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="buildingModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Buildings.</h4>
+                </div>
+                <div class="modal-body">
+                    <figure>
+                        <figcaption>When you have enough resources you can build new buildings.</figcaption>
+                        <img src="res/img/instruction/Screenshot_7.png" alt="Build building...1">
+                    </figure>
+                    <p>Each building gives you some bonuses, which you can read.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="technology-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="technologyModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="technologyModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about technologies.</h4>
+                </div>
+                <div class="modal-body">
+                    <figure>
+                        <figcaption>When you have enough knowledge you can conduct a research.</figcaption>
+                        <img src="res/img/instruction/Screenshot_6.png" alt="Conduct a research...1">
+                    </figure>
+                    <p>Each research opens you new opportunities or bonuses.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
