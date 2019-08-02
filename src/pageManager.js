@@ -261,15 +261,15 @@ class PageManager {
 
     // TODO Involve this when resource is changed
     checkProduction() {
-        this.changeColor(this.configManager.foodTotalProduction.quantity, this.foodProductionElement, this.addFarmerButton);
-        this.changeColor(this.configManager.woodTotalProduction.quantity, this.woodProductionElement);
-        this.changeColor(this.configManager.stoneTotalProduction.quantity, this.stoneProductionElement);
-        this.changeColor(this.configManager.knowledgeTotalProduction.quantity, this.knowledgeProductionElement);
-        this.changeColor(this.configManager.lazybones.quantity, this.curLazybonesElement);
+        this.changeColor(+this.configManager.foodTotalProduction, this.foodProductionElement, this.addFarmerButton);
+        this.changeColor(+this.configManager.woodTotalProduction, this.woodProductionElement);
+        this.changeColor(+this.configManager.stoneTotalProduction, this.stoneProductionElement);
+        this.changeColor(+this.configManager.knowledgeTotalProduction, this.knowledgeProductionElement);
+        this.changeColor(+this.configManager.lazybones, this.curLazybonesElement);
     }
 
     checkOverpopulated() {
-        this.changeColor(this.configManager.populationStorage.quantity - this.configManager.currentPopulation.quantity - 1, this.maxPopulationElement);
+        this.changeColor(+this.configManager.populationStorage - +this.configManager.currentPopulation - 1, this.maxPopulationElement);
     }
 
     changeColor(checkQuantity, target, button) {

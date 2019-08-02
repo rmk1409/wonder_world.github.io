@@ -25,7 +25,7 @@ class GameManager {
         this.intervalManager.initialization(this);
 
         this.userKey = "USER_NAME";
-        this.config = "GAME_CONFIG";
+        this.gameKey = "GAME_MANAGER";
     }
 
     initialization() {
@@ -34,15 +34,6 @@ class GameManager {
             $("#user-name-input").attr("value", userName);
         }
         this.runUserNameModal();
-    }
-
-    // TODO add save/load buttons
-    loadGame() {
-
-    }
-
-    saveGame() {
-
     }
 
     runUserNameModal() {
@@ -79,7 +70,7 @@ class GameManager {
     }
 
     clickResourceButton(resourceType, quantity) {
-        resourceType.changeQuantity(quantity);
+        resourceType.changeValue(quantity);
 
         let buttonToBlur = this.pageManager.foodClickButton;
         switch (resourceType) {
@@ -135,10 +126,10 @@ class GameManager {
     }
 
     getFullResources() {
-        this.configManager.food.changeQuantity(this.configManager.foodStorage.quantity);
-        this.configManager.wood.changeQuantity(this.configManager.woodStorage.quantity);
-        this.configManager.stone.changeQuantity(this.configManager.stoneStorage.quantity);
-        this.configManager.knowledge.changeQuantity(this.configManager.knowledgeStorage.quantity);
+        this.configManager.food.changeValue(+this.configManager.foodStorage);
+        this.configManager.wood.changeValue(+this.configManager.woodStorage);
+        this.configManager.stone.changeValue(+this.configManager.stoneStorage);
+        this.configManager.knowledge.changeValue(+this.configManager.knowledgeStorage);
     }
 
     runTooltips() {

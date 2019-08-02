@@ -12,7 +12,7 @@ class BuilderManager {
             ["grave", new BuildingWithShowElement(
                 new Building(10, 10, [[this.configManager.grave, this.configManager.corpseStorage], [1, 1]], this.configManager, this.eventManager),
                 this.pageManager, this.configManager.buildFuneralFlag, [this.pageManager.emptyRowBeforeJobFuneral, this.pageManager.jobFuneralRow, this.pageManager.inGravesRow])],
-            ["scroll", new Building(0, 10, [[this.configManager.scroll, this.configManager.knowledgeStorage], [1, this.configManager.knowledgeInScroll.quantity]],
+            ["scroll", new Building(0, 10, [[this.configManager.scroll, this.configManager.knowledgeStorage], [1, +this.configManager.knowledgeInScroll]],
                 this.configManager, this.eventManager)],
             ["granary", new Building(50, 50, [[this.configManager.granary, this.configManager.foodStorage], [1, this.configManager.foodInGranary]], this.configManager,
                 this.eventManager)],
@@ -64,8 +64,8 @@ class BuilderManager {
     checkPalaceAchievement(buildingType) {
         if (!this.configManager.palacePresentFlag && "palace" === buildingType) {
             this.eventManager.addAchievement("Palace");
-            alert(`You are amazing!!! Congratulations! You built a palace for yourself!! \nAlso you've just killed: ${this.configManager.corpse.quantity
-            + this.configManager.inGraveQuantity.quantity} people. (￣▽￣)ノ ${this.configManager.userName}, Great job!!`);
+            alert(`You are amazing!!! Congratulations! You built a palace for yourself!! \nAlso you've just killed: ${+this.configManager.corpse
+            + +this.configManager.inGraveQuantity} people. (￣▽￣)ノ ${this.configManager.userName}, Great job!!`);
             this.pageManager.buildPalaceButton.prop("disabled", true);
         }
     }
@@ -91,10 +91,10 @@ class Building {
     tryToBuild() {
         let result = true;
         if (this.checkEnoughResource()) {
-            this.configManager.wood.changeQuantity(-this.woodPrice);
-            this.configManager.stone.changeQuantity(-this.stonePrice);
+            this.configManager.wood.changeValue(-this.woodPrice);
+            this.configManager.stone.changeValue(-this.stonePrice);
             for (let i = 0; i < this.resourceToChangeAr[0].length; i++) {
-                this.resourceToChangeAr[0][i].changeQuantity(this.resourceToChangeAr[1][i]);
+                this.resourceToChangeAr[0][i].changeValue(this.resourceToChangeAr[1][i]);
             }
         } else {
             this.eventManager.addEvent("more resources");
@@ -104,7 +104,7 @@ class Building {
     }
 
     checkEnoughResource() {
-        return this.configManager.wood.quantity >= this.woodPrice && this.configManager.stone.quantity >= this.stonePrice;
+        return +this.configManager.wood >= this.woodPrice && +this.configManager.stone >= this.stonePrice;
     }
 }
 

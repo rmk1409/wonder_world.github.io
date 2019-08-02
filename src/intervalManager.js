@@ -20,21 +20,21 @@ class IntervalManager {
 
     checkHiddenTables() {
         // Show tables
-        if (!this.configManager.showPeopleTableFlag && this.configManager.food.quantity > 5) {
+        if (!this.configManager.showPeopleTableFlag && +this.configManager.food > 5) {
             this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, []);
             this.configManager.showPeopleTableFlag = true;
             $('#citizen-modal').modal();
         }
-        if (!this.configManager.showWorkTableFlag && this.configManager.currentPopulation.quantity > 0) {
+        if (!this.configManager.showWorkTableFlag && +this.configManager.currentPopulation > 0) {
             this.pageManager.toggleElement(this.pageManager.workTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
             this.configManager.showWorkTableFlag = true;
         }
-        if (!this.configManager.showBuildingTableFlag && this.configManager.currentPopulation.quantity === this.configManager.populationStorage.quantity) {
+        if (!this.configManager.showBuildingTableFlag && +this.configManager.currentPopulation === +this.configManager.populationStorage) {
             this.pageManager.toggleElement(this.pageManager.buildingTable, []);
             this.configManager.showBuildingTableFlag = true;
             $('#building-modal').modal();
         }
-        if (!this.configManager.showTechnologyTableFlag && this.configManager.wood.quantity > 14) {
+        if (!this.configManager.showTechnologyTableFlag && +this.configManager.wood > 14) {
             this.pageManager.toggleElement(this.pageManager.technologyTable, []);
             this.configManager.showTechnologyTableFlag = true;
             $('#technology-modal').modal();
@@ -51,15 +51,15 @@ class IntervalManager {
     oneStep(timeout) {
         setInterval(() => {
             // get resources
-            this.configManager.food.changeQuantity(this.configManager.foodTotalProduction.quantity);
-            this.configManager.wood.changeQuantity(this.configManager.woodTotalProduction.quantity);
-            this.configManager.stone.changeQuantity(this.configManager.stoneTotalProduction.quantity);
-            this.configManager.knowledge.changeQuantity(this.configManager.knowledgeTotalProduction.quantity);
+            this.configManager.food.changeValue(+this.configManager.foodTotalProduction);
+            this.configManager.wood.changeValue(+this.configManager.woodTotalProduction);
+            this.configManager.stone.changeValue(+this.configManager.stoneTotalProduction);
+            this.configManager.knowledge.changeValue(+this.configManager.knowledgeTotalProduction);
 
             this.checkHiddenTables();
 
             //starvation process
-            if (this.configManager.food.quantity < 0 && this.configManager.currentPopulation.quantity > 0) {
+            if (+this.configManager.food < 0 && +this.configManager.currentPopulation > 0) {
                 this.eventManager.addEvent("starvation");
                 if (!this.configManager.starvationAchievementFlag) {
                     this.eventManager.addAchievement("Starvation");
@@ -70,11 +70,11 @@ class IntervalManager {
                 this.citizenManager.findPersonToKill();
 
                 // Decrease quantity of happy
-                if (this.configManager.currentHappyPeople.quantity > this.configManager.currentPopulation) {
+                if (+this.configManager.currentHappyPeople > this.configManager.currentPopulation) {
                     this.configManager.currentHappyPeople(-1);
                 }
                 // and healthy people
-                if (this.configManager.currentHealthyPeople.quantity > this.configManager.currentPopulation) {
+                if (+this.configManager.currentHealthyPeople > this.configManager.currentPopulation) {
                     this.configManager.currentHealthyPeople(-1);
                 }
             } else {
@@ -97,12 +97,12 @@ class IntervalManager {
 
     checkWinCondition(timeout) {
         setInterval(() => {
-            if (this.configManager.knowledge.quantity >= this.configManager.WINNER_REQUIREMENTS) {
-                if (confirm(`${this.configManager.userName} are amazing! Congratulations! You collected a lot of knowledge!! \nAlso you've killed: ${this.configManager.corpse.quantity
-                + this.configManager.inGraveQuantity.quantity} people. Great job\n`)) {
+            if (+this.configManager.knowledge >= this.configManager.WINNER_REQUIREMENTS) {
+                if (confirm(`${this.configManager.userName} are amazing! Congratulations! You collected a lot of knowledge!! \nAlso you've killed: ${+this.configManager.corpse
+                + +this.configManager.inGraveQuantity} people. Great job\n`)) {
                     this.gameManager.reloadSite();
                 } else {
-                    this.configManager.knowledge.changeQuantity(-this.configManager.WINNER_REQUIREMENTS);
+                    this.configManager.knowledge.changeValue(-this.configManager.WINNER_REQUIREMENTS);
                 }
             }
         }, timeout);
@@ -110,12 +110,12 @@ class IntervalManager {
 
     funeralProcess(timeout) {
         setInterval(() => {
-            let maxFuneral = Math.min.apply(null, [this.configManager.corpseStorage.quantity - this.configManager.inGraveQuantity.quantity,
-                this.configManager.corpse.quantity, this.configManager.funeral.quantity / 2]);
+            let maxFuneral = Math.min.apply(null, [+this.configManager.corpseStorage - +this.configManager.inGraveQuantity,
+                +this.configManager.corpse, +this.configManager.funeral / 2]);
             if (maxFuneral) {
                 for (let i = 0; i < maxFuneral; i++) {
-                    this.configManager.corpse.changeQuantity(-1);
-                    this.configManager.inGraveQuantity.changeQuantity(1);
+                    this.configManager.corpse.changeValue(-1);
+                    this.configManager.inGraveQuantity.changeValue(1);
                 }
                 $(this.pageManager.funeralProcessImg).show("slow");
             } else {

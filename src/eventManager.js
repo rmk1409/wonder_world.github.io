@@ -164,7 +164,7 @@ class EventManager {
             // // Laziness/Motivation (-/+productivity)
         ]);
 
-        let eventDiversity = this.configManager.currentPopulation.quantity > 20 ? eventMap.size : 1;
+        let eventDiversity = +this.configManager.currentPopulation > 20 ? eventMap.size : 1;
         eventMap.get(this.getRandomInt(eventDiversity))();
     }
 
@@ -174,7 +174,7 @@ class EventManager {
 
     ufoEvent() {
         // TODO add "ufo gave mighty artifact - button"
-        let farmerQuantity = this.configManager.farmer.quantity;
+        let farmerQuantity = +this.configManager.farmer;
         if (farmerQuantity > 25) {
             switch (this.getRandomInt(3)) {
                 case 1:
@@ -192,9 +192,9 @@ class EventManager {
                         this.addEvent("ufo gave an useful artifact");
                         this.hiddenButtons.pop().slideToggle('slow');
                     } else {
-                        let newResources = Math.round(0.6 * this.configManager.stone.quantity);
+                        let newResources = Math.round(0.6 * +this.configManager.stone);
                         this.addEvent("ufo gave an artifact", newResources);
-                        this.configManager.stone.changeQuantity(newResources);
+                        this.configManager.stone.changeValue(newResources);
                     }
                     break;
             }
@@ -204,13 +204,13 @@ class EventManager {
     }
 
     farmerEvent() {
-        let farmerQuantity = this.configManager.farmer.quantity;
+        let farmerQuantity = +this.configManager.farmer;
 
-        let foodQuantity = this.configManager.food.quantity;
+        let foodQuantity = +this.configManager.food;
         switch (this.getRandomInt(5)) {
             case 1:
                 this.addEvent("potatoes", Math.round(foodQuantity * 1.8));
-                this.configManager.food.changeQuantity(Math.round(foodQuantity * 1.8));
+                this.configManager.food.changeValue(Math.round(foodQuantity * 1.8));
                 break;
             case 2:
                 this.addEvent("assassin rabbits", Math.round(this.getRandomInt(farmerQuantity) * 0.15));
@@ -223,26 +223,26 @@ class EventManager {
                 break;
             case 4:
                 this.addEvent("kiwi", Math.round(foodQuantity * 2.5));
-                this.configManager.food.changeQuantity(Math.round(foodQuantity * 2.5));
+                this.configManager.food.changeValue(Math.round(foodQuantity * 2.5));
                 break;
             case 5:
                 this.addEvent("rats", Math.round(foodQuantity * 0.9));
-                this.configManager.food.changeQuantity(-Math.round(foodQuantity * 0.9));
+                this.configManager.food.changeValue(-Math.round(foodQuantity * 0.9));
                 break;
         }
     }
 
     weatherEvent() {
         // TODO add illness
-        let woodQuantity = this.configManager.wood.quantity;
-        let minerQuantity = this.configManager.miner.quantity;
+        let woodQuantity = +this.configManager.wood;
+        let minerQuantity = +this.configManager.miner;
         switch (this.getRandomInt(2)) {
             // Storm
             case 1:
                 if (woodQuantity > 20) {
                     let lostWoodQuantity = Math.round(woodQuantity * 0.3);
                     this.addEvent("storm", lostWoodQuantity);
-                    this.configManager.wood.changeQuantity(-lostWoodQuantity);
+                    this.configManager.wood.changeValue(-lostWoodQuantity);
                 } else {
                     this.addEvent("small rain");
                 }
@@ -258,9 +258,9 @@ class EventManager {
                                 this.citizenManager.killMiner();
                             }
                         } else {
-                            let newResourceQuantity = Math.round(0.33 * this.configManager.woodStorage.quantity);
+                            let newResourceQuantity = Math.round(0.33 * +this.configManager.woodStorage);
                             this.addEvent("middle earthquake", newResourceQuantity);
-                            this.configManager.wood.changeQuantity(newResourceQuantity);
+                            this.configManager.wood.changeValue(newResourceQuantity);
                         }
                         break;
                     case 2:
@@ -272,7 +272,7 @@ class EventManager {
     }
 
     wildAmazonEvent() {
-        let scientistQuantity = this.configManager.scientist.quantity;
+        let scientistQuantity = +this.configManager.scientist;
         if (scientistQuantity > 10) {
             switch (this.getRandomInt(3)) {
                 case 1:
@@ -284,7 +284,7 @@ class EventManager {
                     for (let i = 0, amount = killedScientistQuantity; i < amount; i++) {
                         this.citizenManager.killScientist();
                     }
-                    this.configManager.knowledge.changeQuantity(-this.configManager.knowledge.quantity * 0.5);
+                    this.configManager.knowledge.changeValue(-+this.configManager.knowledge * 0.5);
                     break;
                 case 3:
                     let newMaleQuantity = Math.round(0.25 * scientistQuantity);
@@ -300,17 +300,17 @@ class EventManager {
     elfEvent() {
         switch (this.getRandomInt(2)) {
             case 1:
-                let woodQuantity = Math.floor(this.configManager.wood.quantity);
+                let woodQuantity = Math.floor(+this.configManager.wood);
                 if (woodQuantity > 20) {
                     this.addEvent("elves can't cut trees", woodQuantity);
-                    this.configManager.wood.changeQuantity(-woodQuantity);
+                    this.configManager.wood.changeValue(-woodQuantity);
                 } else {
                     this.addEvent("elves are disappointed");
                 }
                 break;
             case 2:
-                if (this.configManager.woodman.quantity > 7) {
-                    let killedWoodmanQuantity = Math.floor(this.configManager.woodman.quantity * 0.9);
+                if (+this.configManager.woodman > 7) {
+                    let killedWoodmanQuantity = Math.floor(+this.configManager.woodman * 0.9);
                     this.addEvent("elves don't like", killedWoodmanQuantity);
                     for (let i = 0; i < killedWoodmanQuantity; i++) {
                         this.citizenManager.killWoodcutter();
@@ -323,7 +323,7 @@ class EventManager {
     }
 
     bloodMoonEvent() {
-        let corpseQuantity = this.configManager.corpse.quantity;
+        let corpseQuantity = +this.configManager.corpse;
         if (corpseQuantity) {
             switch (this.getRandomInt(2)) {
                 case 1:
@@ -333,9 +333,9 @@ class EventManager {
                     let zombieQuantity = Math.round(this.getRandomInt(corpseQuantity) / 2);
                     switch (this.getRandomInt(2)) {
                         case 1:
-                            if (zombieQuantity && this.configManager.currentPopulation.quantity) {
+                            if (zombieQuantity && +this.configManager.currentPopulation) {
                                 this.addEvent("white walker killed");
-                                let killedCitizenQuantity = this.configManager.currentPopulation.quantity > zombieQuantity ? zombieQuantity : zombieQuantity + 1;
+                                let killedCitizenQuantity = +this.configManager.currentPopulation > zombieQuantity ? zombieQuantity : zombieQuantity + 1;
                                 for (let i = 0; i < killedCitizenQuantity; i++) {
                                     this.citizenManager.findPersonToKill();
                                 }
@@ -352,7 +352,7 @@ class EventManager {
     }
 
     birthDeathCycleEvent() {
-        let currentPopulationQuantity = this.configManager.currentPopulation.quantity;
+        let currentPopulationQuantity = +this.configManager.currentPopulation;
         let changeQuantity = Math.floor(this.getRandomInt(currentPopulationQuantity) * 0.2);
         if (changeQuantity) {
             switch (this.getRandomInt(2)) {

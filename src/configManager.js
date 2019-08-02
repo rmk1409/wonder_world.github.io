@@ -57,83 +57,146 @@ class ConfigManager {
         this.bothSideScrollCost = 10;
         this.architecture4Cost = 900;
         this.bronzeAgeCost = 3e3;
+
+        // for saving/loading
+        this.initialValueMap = new Map([
+            ["foodStorage", 100],
+            ["food", 0],
+            ["foodTotalProduction", 0],
+
+            ["woodStorage", 100],
+            ["wood", 0],
+            ["woodTotalProduction", 0],
+
+            ["stoneStorage", 100],
+            ["stone", 0],
+            ["stoneTotalProduction", 0],
+
+            ["knowledgeStorage", 30],
+            ["knowledge", 0],
+            ["knowledgeTotalProduction", 0],
+
+            ["populationStorage", 5],
+            ["currentPopulation", 0],
+            ["corpse", 0],
+            ["corpseStorage", 0],
+            ["inGraveQuantity", 0],
+            ["happyPeopleStorage", 0],
+            ["currentHappyPeople", 0],
+            ["healthyPeopleStorage", 0],
+            ["currentHealthyPeople", 0],
+            ["productivity", 100],
+
+            ["lazybones", 0],
+            ["farmer", 0],
+            ["woodman", 0],
+            ["miner", 0],
+            ["funeral", 0],
+            ["scientistStorage", 0],
+            ["scientist", 0],
+            ["djStorage", 0],
+            ["dj", 0],
+            ["instructorStorage", 0],
+            ["instructor", 0],
+            ["leader", 0],
+            ["warriorStorage", 0],
+            ["warrior", 0],
+
+            ["grave", 0],
+            ["scroll", 0],
+            ["granary", 0],
+            ["pit", 0],
+            ["tent", 0],
+            ["hut", 0],
+            ["campfire", 0],
+            ["dolmen", 0],
+            ["musicClub", 0],
+            ["yogaClub", 0],
+            ["palace", 0],
+            ["barrack", 0],
+
+            ["knowledgeInScroll", 5]
+        ]);
     }
 
     initialization(gameManager) {
-        this.gameManager = gameManager;
-        this.pageManager = this.gameManager.pageManager;
+        let pageManager = gameManager.pageManager;
 
         // Resources
-        this.foodStorage = new Resource(100, this.pageManager.maxFoodQuantityElement, 0);
-        this.food = new Resource(0, this.pageManager.foodQuantityElement, 0, this.foodStorage);
+        this.foodStorage = new Resource(this.initialValueMap.get("foodStorage"), pageManager.maxFoodQuantityElement, 0);
+        this.food = new Resource(this.initialValueMap.get("food"), pageManager.foodQuantityElement, 0, this.foodStorage);
         this.farmerProduction = 1.2;
-        this.foodTotalProduction = new Resource(0, this.pageManager.foodProductionElement, 1);
+        this.foodTotalProduction = new Resource(this.initialValueMap.get("foodTotalProduction"), pageManager.foodProductionElement, 1);
 
-        this.woodStorage = new Resource(100, this.pageManager.maxWoodQuantityElement, 0);
-        this.wood = new Resource(0, this.pageManager.woodQuantityElement, 0, this.woodStorage);
+        this.woodStorage = new Resource(this.initialValueMap.get("woodStorage"), pageManager.maxWoodQuantityElement, 0);
+        this.wood = new Resource(this.initialValueMap.get("wood"), pageManager.woodQuantityElement, 0, this.woodStorage);
         this.woodmanProduction = 0.5;
-        this.woodTotalProduction = new Resource(0, this.pageManager.woodProductionElement, 1);
+        this.woodTotalProduction = new Resource(this.initialValueMap.get("woodTotalProduction"), pageManager.woodProductionElement, 1);
 
-        this.stoneStorage = new Resource(100, this.pageManager.maxStoneQuantityElement, 0);
-        this.stone = new Resource(0, this.pageManager.stoneQuantityElement, 0, this.stoneStorage);
+        this.stoneStorage = new Resource(this.initialValueMap.get("stoneStorage"), pageManager.maxStoneQuantityElement, 0);
+        this.stone = new Resource(this.initialValueMap.get("stone"), pageManager.stoneQuantityElement, 0, this.stoneStorage);
         this.minerProduction = 0.2;
-        this.stoneTotalProduction = new Resource(0, this.pageManager.stoneProductionElement, 1);
+        this.stoneTotalProduction = new Resource(this.initialValueMap.get("stoneTotalProduction"), pageManager.stoneProductionElement, 1);
 
-        this.knowledgeStorage = new Resource(30, this.pageManager.maxKnowledgeQuantityElement, 0);
-        this.knowledge = new Resource(0, this.pageManager.knowledgeQuantityElement, 0, this.knowledgeStorage);
+        this.knowledgeStorage = new Resource(this.initialValueMap.get("knowledgeStorage"), pageManager.maxKnowledgeQuantityElement, 0);
+        this.knowledge = new Resource(this.initialValueMap.get("knowledge"), pageManager.knowledgeQuantityElement, 0, this.knowledgeStorage);
         this.scientistProduction = 0.1;
-        this.knowledgeTotalProduction = new Resource(0, this.pageManager.knowledgeProductionElement, 1);
+        this.knowledgeTotalProduction = new Resource(this.initialValueMap.get("knowledgeTotalProduction"), pageManager.knowledgeProductionElement, 1);
 
         // People
         this.citizenCost = 10;
-        this.populationStorage = new Resource(5, this.pageManager.maxPopulationElement, 0);
-        this.currentPopulation = new Resource(0, this.pageManager.curPopulationElement, 0, this.populationStorage);
-        this.corpse = new Resource(0, this.pageManager.corpseQuantityElement, 0);
-        this.corpseStorage = new Resource(0, this.pageManager.maxInGravesQuantityElement, 0);
-        this.inGraveQuantity = new Resource(0, this.pageManager.inGraveQuantityElement, 0, this.corpseStorage);
-        this.happyPeopleStorage = new Resource(0, this.pageManager.maxHappyPeopleElement, 0);
-        this.currentHappyPeople = new Resource(0, this.pageManager.curHappyPeopleElement, 0, this.happyPeopleStorage);
-        this.healthyPeopleStorage = new Resource(0, this.pageManager.maxHealthyPeopleElement, 0);
-        this.currentHealthyPeople = new Resource(0, this.pageManager.curHealthyPeopleElement, 0, this.healthyPeopleStorage);
-        this.productivity = new Resource(100, this.pageManager.productivityQuantityElement, 2);
+        this.populationStorage = new Resource(this.initialValueMap.get("populationStorage"), pageManager.maxPopulationElement, 0);
+        this.currentPopulation = new Resource(this.initialValueMap.get("currentPopulation"), pageManager.curPopulationElement, 0, this.populationStorage);
+        this.corpse = new Resource(this.initialValueMap.get("corpse"), pageManager.corpseQuantityElement, 0);
+        this.corpseStorage = new Resource(this.initialValueMap.get("corpseStorage"), pageManager.maxInGravesQuantityElement, 0);
+        this.inGraveQuantity = new Resource(this.initialValueMap.get("inGraveQuantity"), pageManager.inGraveQuantityElement, 0, this.corpseStorage);
+        this.happyPeopleStorage = new Resource(this.initialValueMap.get("happyPeopleStorage"), pageManager.maxHappyPeopleElement, 0);
+        this.currentHappyPeople = new Resource(this.initialValueMap.get("currentHappyPeople"), pageManager.curHappyPeopleElement, 0, this.happyPeopleStorage);
+        this.healthyPeopleStorage = new Resource(this.initialValueMap.get("healthyPeopleStorage"), pageManager.maxHealthyPeopleElement, 0);
+        this.currentHealthyPeople = new Resource(this.initialValueMap.get("currentHealthyPeople"), pageManager.curHealthyPeopleElement, 0, this.healthyPeopleStorage);
+        this.productivity = new Resource(this.initialValueMap.get("productivity"), pageManager.productivityQuantityElement, 2);
 
         // Work
-        this.lazybones = new Resource(0, this.pageManager.curLazybonesElement, 0);
-        this.farmer = new Resource(0, this.pageManager.farmerQuantityElement, 0);
-        this.woodman = new Resource(0, this.pageManager.woodmenQuantityElement, 0);
-        this.miner = new Resource(0, this.pageManager.minerQuantityElement, 0);
-        this.funeral = new Resource(0, this.pageManager.funeralQuantityElement, 0);
-        this.scientistStorage = new Resource(0, this.pageManager.maxScientistQuantityElement, 0);
-        this.scientist = new Resource(0, this.pageManager.curScientistQuantityElement, 0, this.scientistStorage);
-        this.djStorage = new Resource(0, this.pageManager.maxDjQuantityElement, 0);
-        this.dj = new Resource(0, this.pageManager.djQuantityElement, 0, this.djStorage);
-        this.instructorStorage = new Resource(0, this.pageManager.maxInstructorQuantityElement, 0);
-        this.instructor = new Resource(0, this.pageManager.instructorQuantityElement, 0, this.instructorStorage);
-        this.leader = new Resource(0, this.pageManager.leaderQuantityElement, 0);
-        this.warriorStorage = new Resource(0, this.pageManager.maxWarriorQuantityElement, 0);
-        this.warrior = new Resource(0, this.pageManager.warriorQuantityElement, 0, this.warriorStorage);
+        this.lazybones = new Resource(this.initialValueMap.get("lazybones"), pageManager.curLazybonesElement, 0);
+        this.farmer = new Resource(this.initialValueMap.get("farmer"), pageManager.farmerQuantityElement, 0);
+        this.woodman = new Resource(this.initialValueMap.get("woodman"), pageManager.woodmenQuantityElement, 0);
+        this.miner = new Resource(this.initialValueMap.get("miner"), pageManager.minerQuantityElement, 0);
+        this.funeral = new Resource(this.initialValueMap.get("funeral"), pageManager.funeralQuantityElement, 0);
+        this.scientistStorage = new Resource(this.initialValueMap.get("scientistStorage"), pageManager.maxScientistQuantityElement, 0);
+        this.scientist = new Resource(this.initialValueMap.get("scientist"), pageManager.curScientistQuantityElement, 0, this.scientistStorage);
+        this.djStorage = new Resource(this.initialValueMap.get("djStorage"), pageManager.maxDjQuantityElement, 0);
+        this.dj = new Resource(this.initialValueMap.get("dj"), pageManager.djQuantityElement, 0, this.djStorage);
+        this.instructorStorage = new Resource(this.initialValueMap.get("instructorStorage"), pageManager.maxInstructorQuantityElement, 0);
+        this.instructor = new Resource(this.initialValueMap.get("instructor"), pageManager.instructorQuantityElement, 0, this.instructorStorage);
+        this.leader = new Resource(this.initialValueMap.get("leader"), pageManager.leaderQuantityElement, 0);
+        this.warriorStorage = new Resource(this.initialValueMap.get("warriorStorage"), pageManager.maxWarriorQuantityElement, 0);
+        this.warrior = new Resource(this.initialValueMap.get("warrior"), pageManager.warriorQuantityElement, 0, this.warriorStorage);
 
         // Buildings
-        this.grave = new Resource(0, this.pageManager.graveQuantityElement, 0);
-        this.scroll = new Resource(0, this.pageManager.scrollQuantityElement, 0);
-        this.granary = new Resource(0, this.pageManager.granaryQuantityElement, 0);
-        this.pit = new Resource(0, this.pageManager.pitQuantityElement, 0);
-        this.tent = new Resource(0, this.pageManager.tentQuantityElement, 0);
-        this.hut = new Resource(0, this.pageManager.hutQuantityElement, 0);
-        this.campfire = new Resource(0, this.pageManager.campfireQuantityElement, 0);
-        this.dolmen = new Resource(0, this.pageManager.dolmenQuantityElement, 0);
-        this.musicClub = new Resource(0, this.pageManager.musicClubQuantityElement, 0);
-        this.yogaClub = new Resource(0, this.pageManager.yogaClubQuantityElement, 0);
-        this.palace = new Resource(0, this.pageManager.palaceQuantityElement, 0);
-        this.barrack = new Resource(0, this.pageManager.barrackQuantityElement, 0);
+        this.grave = new Resource(this.initialValueMap.get("grave"), pageManager.graveQuantityElement, 0);
+        this.scroll = new Resource(this.initialValueMap.get("scroll"), pageManager.scrollQuantityElement, 0);
+        this.granary = new Resource(this.initialValueMap.get("granary"), pageManager.granaryQuantityElement, 0);
+        this.pit = new Resource(this.initialValueMap.get("pit"), pageManager.pitQuantityElement, 0);
+        this.tent = new Resource(this.initialValueMap.get("tent"), pageManager.tentQuantityElement, 0);
+        this.hut = new Resource(this.initialValueMap.get("hut"), pageManager.hutQuantityElement, 0);
+        this.campfire = new Resource(this.initialValueMap.get("campfire"), pageManager.campfireQuantityElement, 0);
+        this.dolmen = new Resource(this.initialValueMap.get("dolmen"), pageManager.dolmenQuantityElement, 0);
+        this.musicClub = new Resource(this.initialValueMap.get("musicClub"), pageManager.musicClubQuantityElement, 0);
+        this.yogaClub = new Resource(this.initialValueMap.get("yogaClub"), pageManager.yogaClubQuantityElement, 0);
+        this.palace = new Resource(this.initialValueMap.get("palace"), pageManager.palaceQuantityElement, 0);
+        this.barrack = new Resource(this.initialValueMap.get("barrack"), pageManager.barrackQuantityElement, 0);
 
         // Building benefit
-        this.knowledgeInScroll = new Resource(5, this.pageManager.buildScrollDefinition, 0);
+        this.knowledgeInScroll = new Resource(this.initialValueMap.get("knowledgeInScroll"), pageManager.buildScrollDefinition, 0);
+
+        // this.resourceMap = new Map([
+        //     [,],
+        // ]);
     }
 
     changeAllProduction(increase) {
         let mathSign = increase ? 1 : -1;
-        this.productivity.changeQuantity(mathSign * 25);
+        this.productivity.changeValue(mathSign * 25);
         this.changeProduction("food", increase);
         this.changeProduction("wood", increase);
         this.changeProduction("stone", increase);
@@ -146,19 +209,19 @@ class ConfigManager {
         switch (what) {
             case "food":
                 this.farmerProduction = Math.round(this.farmerProduction * 1000 + multiply * this.foodIncreaseStep * 1000) / 1000;
-                this.foodTotalProduction.changeQuantity(multiply * this.farmer.quantity * this.foodIncreaseStep);
+                this.foodTotalProduction.changeValue(multiply * +this.farmer * this.foodIncreaseStep);
                 break;
             case "wood":
                 this.woodmanProduction = Math.round(this.woodmanProduction * 1000 + multiply * this.woodIncreaseStep * 1000) / 1000;
-                this.woodTotalProduction.changeQuantity(multiply * this.woodman.quantity * this.woodIncreaseStep);
+                this.woodTotalProduction.changeValue(multiply * +this.woodman * this.woodIncreaseStep);
                 break;
             case "stone":
                 this.minerProduction = Math.round(this.minerProduction * 1000 + multiply * this.stoneIncreaseStep * 1000) / 1000;
-                this.stoneTotalProduction.changeQuantity(multiply * this.miner.quantity * this.stoneIncreaseStep);
+                this.stoneTotalProduction.changeValue(multiply * +this.miner * this.stoneIncreaseStep);
                 break;
             case "knowledge":
                 this.scientistProduction = Math.round(this.scientistProduction * 1000 + this.knowledgeIncreaseStep * 1000) / 1000;
-                this.knowledgeTotalProduction.changeQuantity(this.scientist.quantity * this.knowledgeIncreaseStep);
+                this.knowledgeTotalProduction.changeValue(+this.scientist * this.knowledgeIncreaseStep);
                 break;
         }
     }
@@ -166,27 +229,45 @@ class ConfigManager {
 
 class Resource {
     constructor(quantity, element, toFixed, storage) {
-        this.quantity = quantity;
+        this.value = quantity;
         this.element = element;
         this.toFixed = toFixed;
         this.storage = storage;
     }
 
-    changeQuantity(quantity) {
-        this.quantity = (this.quantity * 1e3 + quantity * 1e3) / 1e3;
+    changeValue(quantity) {
+        this.value = (this.value * 1e3 + quantity * 1e3) / 1e3;
 
+        this.checkStorage();
+        this.fixValue();
+    }
+
+    setQuantity(value) {
+        this.value = value;
+
+        this.checkStorage();
+        this.fixValue();
+    }
+
+    valueOf() {
+        return this.value;
+    }
+
+    checkStorage() {
         if (this.storage) {
-            if (this.quantity > this.storage.quantity) {
-                this.quantity = this.storage.quantity;
-            } else if (this.quantity < -1) {
-                this.quantity = -1;
+            if (this.value > this.storage.value) {
+                this.value = this.storage.value;
+            } else if (this.value < -1) {
+                this.value = -1;
             }
         }
+    }
 
+    fixValue() {
         if (this.toFixed) {
-            this.element.text(this.quantity.toFixed(this.toFixed));
+            this.element.text(this.value.toFixed(this.toFixed));
         } else {
-            this.element.text(Math.floor(this.quantity));
+            this.element.text(Math.floor(this.value));
         }
     }
 }
