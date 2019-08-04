@@ -4,21 +4,109 @@ $(function () {
     "use strict";
     let gameManager = new GameManager();
     let pageManager = gameManager.pageManager;
+
+
+
     gameManager.initialization();
     initClickEvent();
 
-    $("#save-button").on("click", ()=>{
+    $("#save-button").on("click", () => {
+        runSaveLoadModal();
+
+        $("#in-game-load-button").prop("disabled", false);
+
+        let valMap = gameManager.configManager.initialValueMap;
+
+        for (let [k] of valMap) {
+            valMap.set(k, +gameManager.configManager[k]);
+        }
+
+        localStorage.setItem("INITIAL_VALUE_MAP", JSON.stringify(Array.from(valMap.entries())));
         localStorage.setItem("CONFIG_MANAGER", JSON.stringify(gameManager.configManager));
+        localStorage.setItem("ELEMENT_TO_SHOW", JSON.stringify(pageManager.showElementArray));
+        localStorage.setItem("ELEMENT_TO_HIDE", JSON.stringify(pageManager.hideElementArray));
+
+        // let id = $(this).attr("id");
     });
 
-    $("#load-button").on("click", ()=>{
-        let configManagerJson = JSON.parse(localStorage.getItem("CONFIG_MANAGER"));
-
+    $("#in-game-load-button").on("click", () => {
+        loadGame();
     });
+
+    $("#main-menu-load-button").on("click", ()=> {
+        gameManager.getUserNameFromModal();
+        loadGame();
+    });
+
+    function loadGame() {
+        runSaveLoadModal();
+        $("#events-section div").remove();
+
+        let valMap = gameManager.configManager.initialValueMap = new Map(JSON.parse(localStorage.getItem("INITIAL_VALUE_MAP")));
+        let confManager = JSON.parse(localStorage.getItem("CONFIG_MANAGER"));
+        let elementToShowArray = pageManager.showElementArray = JSON.parse(localStorage.getItem("ELEMENT_TO_SHOW"));
+        let elementToHideArray = pageManager.hideElementArray = JSON.parse(localStorage.getItem("ELEMENT_TO_HIDE"));
+
+        // set Primitives
+        Object.keys(confManager).forEach((item) => {
+            if (typeof confManager[item] !== 'object') {
+                gameManager.configManager[item] = confManager[item];
+            }
+        });
+        // set values to Resource objects
+        for (let [k, v] of valMap) {
+            gameManager.configManager[k].setValue(v);
+        }
+
+        pageManager.showElement(elementToShowArray.map((item) => $(`#${item}`)));
+        pageManager.hideElement(elementToHideArray.map((item) => $(`#${item}`)));
+        if (+gameManager.configManager.leader) {
+            $(".ten-work-td").slideDown("slow");
+        } else {
+            $(".ten-work-td").slideUp("slow");
+        }
+    }
+
+    function runSaveLoadModal() {
+        let funnyPhrases = [
+            "Adding Vanilla Flavor to Ice Giants",
+            "All races of Norrath will learn to work together",
+            "Attaching Beards to Dwarves",
+            "Creating Randomly Generated Feature",
+            "Delivering the Lion Meat to Halas",
+            "Doing The Impossible",
+            "Dusting Off Spellbooks",
+            "Ensuring Everything Works Perfektly",
+            "Ensuring Gnomes Are Still Short",
+            "If You Squeeze Dark Elves You Don't Get Wine",
+            "Outfitting Pigs With Wings",
+            "Refreshing Death Touch Ammunition",
+            "Sanding Wood Elves... now 34% smoother.",
+            "Sharpening Swords",
+            "Starching High Elf Robes",
+            "Stringing Bows",
+            "Stupidificationing Ogres",
+            "Warning: Half Elves Are Now .49999 Elves.",
+            "Whacking Trolls With Ugly Stick",
+            "Load not interesting stuff",
+        ];
+        $("#save-load-modal").modal();
+        let progress = 0;
+        let id = setInterval(() => {
+            if (progress > 100) {
+                progress = 0;
+                clearInterval(id);
+                $("#save-load-modal").modal("toggle");
+            }
+            $(".progress-bar").css("width", progress + "%").text(progress + "%");
+            progress += gameManager.eventManager.getRandomInt(20);
+            $("#progress-p").text(funnyPhrases[gameManager.eventManager.getRandomInt(funnyPhrases.length-1)]);
+        }, 600);
+    }
 
     function initClickEvent() {
         // CLICK EVENTS
-        $("#user-name-input-button").on("click", () => gameManager.getUserNameFromModal());
+        // $("#user-name-input-button").on("click", () => gameManager.getUserNameFromModal());
         // 1. CLICK TO THE RESOURCES
         $(pageManager.foodClickButton).on("click", () => gameManager.clickResourceButton(gameManager.configManager.food, gameManager.configManager.clickEfficiency));
         $(pageManager.woodClickButton).on("click", () => gameManager.clickResourceButton(gameManager.configManager.wood, gameManager.configManager.clickEfficiency));

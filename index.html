@@ -153,15 +153,15 @@
                 </tbody>
             </table>
             <section id="menu-button-section">
-                <button type="button" id="load-button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="right" title="Load a game">Load GAME</button>
+                <button type="button" id="in-game-load-button" class="btn btn-secondary btn-sm load-button" data-toggle="tooltip" data-placement="right" title="Load a game">Load GAME</button>
                 <button type="button" id="pause-button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="right" title="Pause the game"><img src="res/img/changes2/pause-hand-drawn-symbol-white.png" alt="pause img"></button>
                 <button type="button" id="save-button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="right" title="Save a game">Save GAME</button>
                 <button type="button" id="start-again-button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="right" title="Start a new game">Start again</button>
             </section>
 
-            <!--<button type="button" id="getFullButton">Test</button>-->
+<!--            <button type="button" id="getFullButton">Test</button>-->
             <img src="res/img/worker/funeral%20(3).png" id="funeral-process-img" alt="funeral img"/>
-            <p id="author">August 3, 2019, made by Alex/Igor/Max, tested by Andrew.</p>
+            <p id="author" data-toggle="tooltip" title="updated in August 4, 2019.">August 4, 2019, made by Alex/Igor/Max, tested by Andrew.</p>
         </section>
 
         <section id="work-building-section">
@@ -477,7 +477,7 @@
                     </tr>
                     <tr id="tech-architecture-row">
                         <td><img src="res/img/changes/sketch-white.png" alt="architecture img" data-toggle="tooltip" data-placement="right" title="Architecture"/></td>
-                        <td><button type="button" id="tech-architecture-button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Unlock new place for sleeping">Architecture</button></td>
+                        <td><button type="button" id="tech-architecture-button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Unlock new buildings">Architecture</button></td>
                         <td>Unlock new buildings</td>
                         <td>30 <img src="res/img/common/knowledge.png" alt="knowledge img"></td>
                     </tr>
@@ -519,7 +519,7 @@
                     </tr>
                     <tr id="tech-architecture-3-row">
                         <td><img src="res/img/changes/sketch-white.png" alt="architecture img" data-toggle="tooltip" data-placement="right" title="Architecture III"/></td>
-                        <td><button type="button" id="tech-architecture-3-button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Unlock new place for sleeping">Architecture III</button></td>
+                        <td><button type="button" id="tech-architecture-3-button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Unlock new buildings">Architecture III</button></td>
                         <td>Unlock new buildings (III)</td>
                         <td>250 <img src="res/img/common/knowledge.png" alt="knowledge img"></td>
                     </tr>
@@ -595,11 +595,11 @@
     <!--autostart="true" hidden="true"/>-->
 
     <!-- Modal -->
-    <div  id="user-name-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div id="main-menu-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content text-light bg-dark">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">＼(￣▽￣)／ Great person, say me, what is your name?</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">＼(￣▽￣)／ Hi boss, say me your name</h4>
                     <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
                         <!--<span aria-hidden="true">&times;</span>-->
                     <!--</button>-->
@@ -614,7 +614,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button id="user-name-input-button" type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                    <button type="button" id="main-menu-load-button" class="btn btn-primary load-button" data-dismiss="modal">Load</button>
+                    <button id="main-menu-new-game-button" type="button" class="btn btn-primary" data-dismiss="modal">New</button>
                 </div>
             </div>
         </div>
@@ -624,7 +625,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content text-light bg-dark">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="getFoodModalLabel">＼(￣▽￣)／ It's time to get some food.</h4>
+                    <h4 class="modal-title" id="getFoodModalLabel">＼(￣▽￣)／ It's time to get some food</h4>
                 </div>
                 <div class="modal-body">
                     <figure>
@@ -635,6 +636,7 @@
                         <figcaption>15-20 will be enough.</figcaption>
                         <img src="res/img/instruction/Screenshot_2.png" alt="Getting food...2">
                     </figure>
+                    <p>If you understand everything, click ok</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
@@ -647,7 +649,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content text-light bg-dark">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="citizenModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Citizens.</h4>
+                    <h4 class="modal-title" id="citizenModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Citizens</h4>
                 </div>
                 <div class="modal-body">
                     <figure>
@@ -666,6 +668,7 @@
                         <figcaption>After that your citizens will produce resources automatically.</figcaption>
                         <img src="res/img/instruction/Screenshot_8.png" alt="Create citizen...4">
                     </figure>
+                    <p>If you understand everything, click ok</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
@@ -678,7 +681,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content text-light bg-dark">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="buildingModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Buildings.</h4>
+                    <h4 class="modal-title" id="buildingModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about Buildings</h4>
                 </div>
                 <div class="modal-body">
                     <figure>
@@ -686,6 +689,7 @@
                         <img src="res/img/instruction/Screenshot_7.png" alt="Build building...1">
                     </figure>
                     <p>Each building gives you special bonus, which you can read.</p>
+                    <p>If you understand everything, click ok</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
@@ -698,7 +702,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content text-light bg-dark">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="technologyModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about technologies.</h4>
+                    <h4 class="modal-title" id="technologyModalLabel">＼(￣▽￣)／ Hi, boss. Let's talk about technologies</h4>
                 </div>
                 <div class="modal-body">
                     <figure>
@@ -706,9 +710,30 @@
                         <img src="res/img/instruction/Screenshot_6.png" alt="Conduct a research...1">
                     </figure>
                     <p>Each research opens you new opportunities or bonuses.</p>
+                    <p>If you understand everything, click ok</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="save-load-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="saveLoadModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-light bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="saveLoadModalLabel">＼(￣▽￣)／ Hi, boss. Please wait a bit</h4>
+                </div>
+                <div class="modal-body">
+                    <figure>
+                        <figcaption>Wonder World, 2019.</figcaption>
+                        <img src="res/img/common/wide-wallpaper-1920x1080-018.jpg" alt="In process...">
+                    </figure>
+                    <p><i id="progress-p"></i></p>
+                    <div class="progress">
+                        <div class="progress-bar bg-success progress-bar-animated progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
                 </div>
             </div>
         </div>

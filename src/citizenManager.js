@@ -52,13 +52,13 @@ class CitizenManager {
 
     setHappyPeople() {
         if (+this.configManager.currentPopulation <= +this.configManager.dj * this.configManager.spaceForPeopleInClub) {
-            this.pageManager.curHappyPeopleElement.text(+this.configManager.currentPopulation );
+            this.configManager.currentHappyPeople.setValue(+this.configManager.currentPopulation);
         }
     }
 
     setHealthyPeople() {
         if (+this.configManager.currentPopulation <= +this.configManager.instructor * this.configManager.spaceForPeopleInClub) {
-            this.pageManager.curHealthyPeopleElement.text(this.pageManager.curPopulationElement.text());
+            this.configManager.currentHealthyPeople.setValue(+this.configManager.currentPopulation);
         }
     }
 
@@ -132,11 +132,8 @@ class CitizenManager {
         } else if (workType === this.configManager.dj) {
             let peopleAmount = +this.configManager.currentPopulation;
             let totalAvailableSpaceInClub = +this.configManager.dj * this.configManager.spaceForPeopleInClub;
-            if (peopleAmount <= totalAvailableSpaceInClub) {
-                this.pageManager.curHappyPeopleElement.text(peopleAmount);
-            } else {
-                this.pageManager.curHappyPeopleElement.text(totalAvailableSpaceInClub);
-            }
+            let curHappyPeople = peopleAmount <= totalAvailableSpaceInClub ? peopleAmount : totalAvailableSpaceInClub;
+            this.configManager.currentHappyPeople.setValue(curHappyPeople);
 
             if (!this.configManager.djProductivityFlag) {
                 this.configManager.changeAllProduction(true);
@@ -145,11 +142,8 @@ class CitizenManager {
         } else if (workType === this.configManager.instructor) {
             let peopleAmount = +this.configManager.currentPopulation;
             let totalAvailableSpaceInClub = +this.configManager.instructor * this.configManager.spaceForPeopleInClub;
-            if (peopleAmount <= totalAvailableSpaceInClub) {
-                this.pageManager.curHealthyPeopleElement.text(peopleAmount);
-            } else {
-                this.pageManager.curHealthyPeopleElement.text(totalAvailableSpaceInClub);
-            }
+            let curHealthyPeople = peopleAmount <= totalAvailableSpaceInClub? peopleAmount: totalAvailableSpaceInClub;
+            this.configManager.currentHealthyPeople.setValue(curHealthyPeople);
 
             if (!this.configManager.instructorProductivityFlag) {
                 this.configManager.changeAllProduction(true);
@@ -160,7 +154,7 @@ class CitizenManager {
 
     // TODO Try to refactor this part in the next time
     findPersonToKill() {
-        if (+this.configManager.currentPopulation> 0) {
+        if (+this.configManager.currentPopulation > 0) {
             let withDecrease = true;
             if (+this.configManager.lazybones) {
                 this.configManager.lazybones.changeValue(-1);
@@ -178,7 +172,7 @@ class CitizenManager {
                 this.killScientist();
             } else if (+this.configManager.dj) {
                 this.configManager.dj.changeValue(-1);
-                this.configManager.currentHappyPeople.changeValue(-(+this.configManager.currentPopulation<= this.configManager.spaceForPeopleInClub ? +this.configManager.currentPopulation
+                this.configManager.currentHappyPeople.changeValue(-(+this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? +this.configManager.currentPopulation
                     : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!+this.configManager.dj) {
                     this.configManager.changeAllProduction(false);
@@ -186,7 +180,7 @@ class CitizenManager {
                 }
             } else if (+this.configManager.instructor) {
                 this.configManager.instructor.changeValue(-1);
-                this.configManager.currentHealthyPeople.changeValue(-(+this.configManager.currentPopulation<= this.configManager.spaceForPeopleInClub ? +this.configManager.currentPopulation
+                this.configManager.currentHealthyPeople.changeValue(-(+this.configManager.currentPopulation <= this.configManager.spaceForPeopleInClub ? +this.configManager.currentPopulation
                     : (this.configManager.spaceForPeopleInClub - 1)));
                 if (!+this.configManager.instructor) {
                     this.configManager.changeAllProduction(false);

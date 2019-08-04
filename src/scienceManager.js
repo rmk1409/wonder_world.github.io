@@ -89,7 +89,7 @@ class ChangesResearch {
 
             this.eventManager.addAchievement("First Research");
 
-            this.pageManager.toggleElement(this.pageManager.techChangesElement, [this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow,
+            this.pageManager.hideFirstShowSecond(this.pageManager.techChangesElement, [this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow,
                 this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow, this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow,
                 this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement, this.pageManager.techArchitectureElement]);
         } else {
@@ -125,7 +125,7 @@ class Research {
         if (+this.configManager.knowledge >= this.price) {
             this.configManager.knowledge.changeValue(-this.price);
             if (this.elementToHide && this.elementToShowAr) {
-                this.pageManager.toggleElement(this.elementToHide, this.elementToShowAr);
+                this.pageManager.hideFirstShowSecond(this.elementToHide, this.elementToShowAr);
             }
         } else {
             this.eventManager.addEvent("more knowledge");

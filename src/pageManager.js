@@ -1,8 +1,10 @@
 class PageManager {
     constructor() {
         this.userNameElement = $("#user-name");
-        this.startAgainButton = $("#start-again-button");
         this.pauseButton = $("#pause-button");
+        this.saveButton = $("#save-button");
+        this.loadButton = $("#in-game-load-button");
+        this.startAgainButton = $("#start-again-button");
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
         this.notAchievement = $("#not-achievement");
@@ -237,26 +239,121 @@ class PageManager {
         this.gameManager = gameManager;
         this.eventManager = this.gameManager.eventManager;
         this.configManager = this.gameManager.configManager;
+
+        // for saving/loading
+        this.showElementArray = [];
+        this.hideElementArray = [
+            // "start-again-button",
+            // "in-game-load-button",
+            // "save-button",
+            "create-10-worker-button",
+            // "funeral-process-img",
+            // "starvation-warning",
+
+            "click-resource-wood-row",
+            "click-resource-stone-row",
+            "empty-row-before-knowledge",
+            "knowledge-row",
+
+            "people-productivity-table",
+            "corpse-row",
+            "in-graves-row",
+            "empty-row-before-happiness",
+            "happiness-row",
+            "health-row",
+            "empty-row-before-productivity",
+            "productivity-row",
+
+            "work-table",
+            // ".ten-work-td",
+            "empty-row-before-job-funeral",
+            "job-funeral-process-row",
+            "empty-row-before-job-scientist",
+            "job-scientist-row",
+            "empty-row-before-job-leader",
+            "job-leader-row",
+            "job-warrior-row",
+            "empty-row-before-job-in-club",
+            "job-dj-row",
+            "job-instructor-row",
+
+            "building-table",
+            "build-grave-row",
+            "build-population-tent-row",
+            "build-scroll-row",
+            "build-storage-granary-row",
+            "build-storage-pit-row",
+            "empty-row-before-population-building",
+            "build-population-hut-row",
+            "build-knowledge-campfire-row",
+            "build-knowledge-dolmen-row",
+            "empty-row-before-knowledge-building",
+            "build-knowledge-parthenon-row",
+            "empty-row-before-build-club",
+            "build-music-club-row",
+            "build-yoga-club-row",
+            "build-palace-row",
+            "empty-row-before-build-war",
+            "build-war-barrack-row",
+
+            "technology-table",
+            "tech-changes-row",
+            "tech-agriculture-row",
+            "tech-architecture-row",
+            "tech-funeral-row",
+            "tech-changes2-row",
+            "tech-leadership-row",
+            "tech-agriculture-2-row",
+            "tech-architecture-2-row",
+            "tech-stone-age-row",
+            "tech-architecture-3-row",
+            "tech-music-row",
+            "tech-sport-row",
+            "tech-tools-row",
+            "tech-hoe-row",
+            "tech-axe-row",
+            "tech-pickaxe-row",
+            "tech-weapon-row",
+            "tech-2-side-scroll-row",
+            "tech-architecture-4-row",
+            "tech-bronze-age-row",
+        ];
+    }
+
+    hideElement(ar) {
+        ar.forEach((item) => {
+            item.hide("slow");
+            let index = this.showElementArray.indexOf(item.attr("id"));
+            if (index !== -1) {
+                this.showElementArray.splice(index, 1);
+                this.hideElementArray.push(item.attr("id"));
+            }
+        });
+    }
+
+    showElement(ar) {
+        ar.forEach((item) => {
+            item.show("slow");
+            let index = this.hideElementArray.indexOf(item.attr("id"));
+            if (index !== -1) {
+                this.hideElementArray.splice(index, 1);
+                this.showElementArray.push(item.attr("id"));
+            }
+        });
+    }
+
+    hideFirstShowSecond(firstElementToHide, newElementArToShow) {
+        firstElementToHide.hide("slow", () => this.showElement(newElementArToShow));
+
+        let index = this.showElementArray.indexOf(firstElementToHide.attr("id"));
+        if (index !== -1) {
+            this.showElementArray.splice(index, 1);
+            this.hideElementArray.push(firstElementToHide.attr("id"));
+        }
     }
 
     static reloadSite() {
         document.location.reload(true);
-    }
-
-    showElement(ar) {
-        ar.forEach((item) => item.show("slow"));
-    }
-
-    hideElement(ar) {
-        ar.forEach((item) => item.hide("slow"));
-    }
-
-    toggleElement(firstElementToShow, otherElementArToShowNew) {
-        firstElementToShow.toggle("slow", () => {
-            if (otherElementArToShowNew) {
-                otherElementArToShowNew.forEach((item) => item.toggle("slow"));
-            }
-        });
     }
 
     // TODO Involve this when resource is changed

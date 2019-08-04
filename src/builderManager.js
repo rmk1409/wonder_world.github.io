@@ -66,7 +66,7 @@ class BuilderManager {
             this.eventManager.addAchievement("Palace");
             alert(`You are amazing!!! Congratulations! You built a palace for yourself!! \nAlso you've just killed: ${+this.configManager.corpse
             + +this.configManager.inGraveQuantity} people. (￣▽￣)ノ ${this.configManager.userName}, Great job!!`);
-            this.pageManager.buildPalaceButton.prop("disabled", true);
+            this.pageManager.buildPalaceButton.blur().prop("disabled", true).tooltip('hide');
         }
     }
 }

@@ -25,7 +25,6 @@ class GameManager {
         this.intervalManager.initialization(this);
 
         this.userKey = "USER_NAME";
-        this.gameKey = "GAME_MANAGER";
     }
 
     initialization() {
@@ -33,21 +32,31 @@ class GameManager {
         if (userName) {
             $("#user-name-input").attr("value", userName);
         }
-        this.runUserNameModal();
+        if (!localStorage.getItem("INITIAL_VALUE_MAP")){
+            $("#main-menu-load-button").prop("disabled", true);
+            $("#in-game-load-button").prop("disabled", true);
+        }
+        this.runMainMenuModal();
     }
 
-    runUserNameModal() {
-        $('#user-name-modal').on('shown.bs.modal', ()=> {
+    runMainMenuModal() {
+        $('#main-menu-modal').on('shown.bs.modal', ()=> {
             $('#user-name-input').trigger('focus')
         });
-
-        $('#user-name-modal').modal();
+        $('#main-menu-modal').modal();
 
         $("#user-name-input").on('keyup', (e)=>{
             if (e.key === "Enter") {
                 this.getUserNameFromModal();
-                $('#user-name-modal').modal('toggle');
+                $('#main-menu-modal').modal('toggle');
+                $('#get-food-modal').modal();
             }
+        });
+
+        $("#main-menu-new-game-button").on("click", ()=>{
+            this.getUserNameFromModal();
+            $('#main-menu-modal').modal('toggle');
+            $('#get-food-modal').modal();
         });
     }
 
@@ -65,8 +74,6 @@ class GameManager {
 
         this.intervalManager.runInterval();
         this.runTooltips();
-
-        $('#get-food-modal').modal();
     }
 
     clickResourceButton(resourceType, quantity) {

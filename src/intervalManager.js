@@ -21,21 +21,21 @@ class IntervalManager {
     checkHiddenTables() {
         // Show tables
         if (!this.configManager.showPeopleTableFlag && +this.configManager.food > 5) {
-            this.pageManager.toggleElement(this.pageManager.peopleProductivityTable, []);
+            this.pageManager.showElement([this.pageManager.peopleProductivityTable]);
             this.configManager.showPeopleTableFlag = true;
             $('#citizen-modal').modal();
         }
         if (!this.configManager.showWorkTableFlag && +this.configManager.currentPopulation > 0) {
-            this.pageManager.toggleElement(this.pageManager.workTable, [this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
+            this.pageManager.showElement([this.pageManager.workTable, this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
             this.configManager.showWorkTableFlag = true;
         }
         if (!this.configManager.showBuildingTableFlag && +this.configManager.currentPopulation === +this.configManager.populationStorage) {
-            this.pageManager.toggleElement(this.pageManager.buildingTable, []);
+            this.pageManager.showElement([this.pageManager.buildingTable]);
             this.configManager.showBuildingTableFlag = true;
             $('#building-modal').modal();
         }
         if (!this.configManager.showTechnologyTableFlag && +this.configManager.wood > 14) {
-            this.pageManager.toggleElement(this.pageManager.technologyTable, []);
+            this.pageManager.showElement([this.pageManager.technologyTable, this.pageManager.techChangesElement]);
             this.configManager.showTechnologyTableFlag = true;
             $('#technology-modal').modal();
         }
@@ -65,7 +65,7 @@ class IntervalManager {
                     this.eventManager.addAchievement("Starvation");
                     this.configManager.starvationAchievementFlag = true;
                 }
-                this.pageManager.showElement([this.pageManager.starvationWarning]);
+                this.pageManager.starvationWarning.show("slow");
 
                 this.citizenManager.findPersonToKill();
 
@@ -78,7 +78,7 @@ class IntervalManager {
                     this.configManager.currentHealthyPeople(-1);
                 }
             } else {
-                this.pageManager.hideElement([this.pageManager.starvationWarning]);
+                this.pageManager.starvationWarning.hide("slow");
             }
 
             this.pageManager.checkProduction();

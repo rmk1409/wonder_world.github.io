@@ -1,6 +1,7 @@
 #start-again-button,
-#load-button,
+#in-game-load-button,
 #save-button,
+#pause-button,
 #create-10-worker-button,
 #funeral-process-img,
 #starvation-warning {
@@ -9,7 +10,6 @@
 
 /*RESOURCES*/
 #click-resource-wood-row,
-#click-resource-stone-row,
 #click-resource-stone-row,
 #empty-row-before-knowledge,
 #knowledge-row {
@@ -87,30 +87,5 @@
 #tech-2-side-scroll-row,
 #tech-architecture-4-row,
 #tech-bronze-age-row {
-    display: none;
-}
-
-/* ALREADY KNOWN TECHNOLOGIES*/
-#already-known-p,
-#changes-p,
-#agriculture-p,
-#architecture-p,
-#funeral-p,
-#changes-2-p,
-#agriculture-2-p,
-#architecture-2-p,
-#leadership-p,
-#stone-age-p,
-#architecture-3-p,
-#music-p,
-#sport-p,
-#tools-p,
-#weapon-p,
-#hoe-p,
-#axe-p,
-#pickaxe-p,
-#two-side-scroll-p,
-#architecture-4-p,
-#bronze-age-p {
     display: none;
 }

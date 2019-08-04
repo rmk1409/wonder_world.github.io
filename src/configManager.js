@@ -58,6 +58,7 @@ class ConfigManager {
         this.architecture4Cost = 900;
         this.bronzeAgeCost = 3e3;
 
+        // TODO change to JSON
         // for saving/loading
         this.initialValueMap = new Map([
             ["foodStorage", 100],
@@ -242,7 +243,7 @@ class Resource {
         this.fixValue();
     }
 
-    setQuantity(value) {
+    setValue(value) {
         this.value = value;
 
         this.checkStorage();

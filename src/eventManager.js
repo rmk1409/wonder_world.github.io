@@ -40,7 +40,7 @@ class EventManager {
         this.configManager = this.gameManager.configManager;
         this.citizenManager = this.gameManager.citizenManager;
 
-        this.hiddenButtons = [this.pageManager.startAgainButton];
+        this.hiddenButtons = [this.pageManager.startAgainButton, this.pageManager.loadButton, this.pageManager.saveButton, this.pageManager.pauseButton];
     }
 
     addEvent(what, changes) {
@@ -107,7 +107,7 @@ class EventManager {
         if (msg) {
             let event = $(`<div class="alert alert-${status}" role="alert">${this.getMsgWithTime(msg)}</div>`);
             this.pageManager.eventDiv.after(event);
-            this.pageManager.showElement([event]);
+            event.show("slow");
 
             $("#events-section").animate({scrollTop: 0}, "fast")
         }
@@ -134,7 +134,7 @@ class EventManager {
             this.pageManager.achievementSection.append(achievementImg);
             let event = $(`<div class="alert alert-${this.successStatus}" role="alert"><span>${this.getMsgWithTime(this.newAchievement)}</span></div>`);
             this.pageManager.eventDiv.after(event);
-            this.pageManager.showElement([event, achievementImg]);
+            event.show("slow", () => achievementImg.show("slow"));
 
             $("#events-section").animate({scrollTop: 0}, "fast")
         }
@@ -165,6 +165,8 @@ class EventManager {
         ]);
 
         let eventDiversity = +this.configManager.currentPopulation > 20 ? eventMap.size : 1;
+        // for test
+        // let eventDiversity = 2;
         eventMap.get(this.getRandomInt(eventDiversity))();
     }
 
@@ -173,9 +175,12 @@ class EventManager {
     }
 
     ufoEvent() {
-        // TODO add "ufo gave mighty artifact - button"
         let farmerQuantity = +this.configManager.farmer;
-        if (farmerQuantity > 25) {
+        if (this.hiddenButtons.length) {
+            this.addEvent("ufo gave an useful artifact");
+            this.hiddenButtons.pop().show('slow');
+
+        } else if (farmerQuantity > 25) {
             switch (this.getRandomInt(3)) {
                 case 1:
                     let killedFarmerQuantity = Math.round(0.1 * farmerQuantity);
@@ -188,14 +193,9 @@ class EventManager {
                     this.addEvent("nightmare");
                     break;
                 case 3:
-                    if (this.hiddenButtons.length > 0) {
-                        this.addEvent("ufo gave an useful artifact");
-                        this.hiddenButtons.pop().slideToggle('slow');
-                    } else {
-                        let newResources = Math.round(0.6 * +this.configManager.stone);
-                        this.addEvent("ufo gave an artifact", newResources);
-                        this.configManager.stone.changeValue(newResources);
-                    }
+                    let newResources = Math.round(0.6 * +this.configManager.stone);
+                    this.addEvent("ufo gave an artifact", newResources);
+                    this.configManager.stone.changeValue(newResources);
                     break;
             }
         } else {
