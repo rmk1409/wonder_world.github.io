@@ -54,7 +54,7 @@ class BuilderManager {
      */
     buildNewBuilding(buildingType) {
         let result = this.buildingMap.get(buildingType).buildBuilding()
-        if (result) {
+        if (!this.configManager.palacePresentFlag && result) {
             this.checkPalaceAchievement(buildingType);
         }
 
@@ -63,7 +63,7 @@ class BuilderManager {
 
     checkPalaceAchievement(buildingType) {
         if (!this.configManager.palacePresentFlag && "palace" === buildingType) {
-            this.eventManager.addAchievement("Palace");
+            this.eventManager.showAchievementToUser("Palace");
             alert(`You are amazing!!! Congratulations! You built a palace for yourself!! \nAlso you've just killed: ${+this.configManager.corpse
             + +this.configManager.inGraveQuantity} people. (￣▽￣)ノ ${this.configManager.userName}, Great job!!`);
             this.pageManager.buildPalaceButton.blur().prop("disabled", true).tooltip('hide');
@@ -80,6 +80,7 @@ class Building {
         this.stonePrice = stonePrice;
 
         this.resourceToChangeAr = resourceToChangeAr;
+
         this.configManager = configManager;
         this.eventManager = eventManager;
     }
@@ -90,16 +91,19 @@ class Building {
 
     tryToBuild() {
         let result = true;
+
         if (this.checkEnoughResource()) {
             this.configManager.wood.changeValue(-this.woodPrice);
             this.configManager.stone.changeValue(-this.stonePrice);
+
             for (let i = 0; i < this.resourceToChangeAr[0].length; i++) {
                 this.resourceToChangeAr[0][i].changeValue(this.resourceToChangeAr[1][i]);
             }
         } else {
-            this.eventManager.addEvent("more resources");
+            this.eventManager.showEventMsgToUser("more resources");
             result = false;
         }
+
         return result;
     }
 
@@ -115,6 +119,7 @@ class Building {
 class BuildingWithShowElement {
     constructor(building, pageManager, flag, showElementAr) {
         this.building = building;
+
         this.pageManager = pageManager;
         this.flag = flag;
         this.showElementAr = showElementAr;
@@ -122,7 +127,7 @@ class BuildingWithShowElement {
 
     buildBuilding() {
         let result = this.building.tryToBuild();
-        if (result && !this.flag) {
+        if (!this.flag && result) {
             this.pageManager.showElement(this.showElementAr);
             this.flag = true;
         }

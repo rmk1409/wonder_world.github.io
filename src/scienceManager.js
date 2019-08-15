@@ -87,13 +87,13 @@ class ChangesResearch {
             this.configManager.wood.changeValue(-this.woodPrice);
             this.configManager.stone.changeValue(-this.stonePrice);
 
-            this.eventManager.addAchievement("First Research");
+            this.eventManager.showAchievementToUser("First Research");
 
             this.pageManager.hideFirstShowSecond(this.pageManager.techChangesElement, [this.pageManager.emptyRowBeforeKnowledge, this.pageManager.knowledgeRow,
                 this.pageManager.emptyRowBeforeJobScientist, this.pageManager.jobScientistRow, this.pageManager.emptyRowBeforeBuildKnowlegde, this.pageManager.buildCampfireRow,
                 this.pageManager.techAgricultureElement, this.pageManager.techFuneralElement, this.pageManager.techArchitectureElement]);
         } else {
-            this.eventManager.addEvent("more resources");
+            this.eventManager.showEventMsgToUser("more resources");
             result = false;
         }
 
@@ -128,7 +128,7 @@ class Research {
                 this.pageManager.hideFirstShowSecond(this.elementToHide, this.elementToShowAr);
             }
         } else {
-            this.eventManager.addEvent("more knowledge");
+            this.eventManager.showEventMsgToUser("more knowledge");
             result = false;
         }
 
@@ -176,7 +176,7 @@ class Agriculture2Research extends ResearchWithExtraLogic {
 
     extraLogic() {
         this.research.configManager.changeProduction("food", true);
-        this.research.eventManager.addAchievement("More Food");
+        this.research.eventManager.showAchievementToUser("More Food");
     }
 }
 

@@ -1,4 +1,6 @@
-// TODO move all logic of this class to game class
+// TODO move all logic of this class to game class or to somewhere else
+import PageManager from "./pageManager";
+
 class IntervalManager {
     constructor() {
         this.gameManager = null;
@@ -18,35 +20,16 @@ class IntervalManager {
         this.citizenManager = this.gameManager.citizenManager;
     }
 
-    checkHiddenTables() {
-        // Show tables
-        if (!this.configManager.showPeopleTableFlag && +this.configManager.food > 5) {
-            this.pageManager.showElement([this.pageManager.peopleProductivityTable]);
-            this.configManager.showPeopleTableFlag = true;
-            $('#citizen-modal').modal();
-        }
-        if (!this.configManager.showWorkTableFlag && +this.configManager.currentPopulation > 0) {
-            this.pageManager.showElement([this.pageManager.workTable, this.pageManager.clickResourceWoodRow, this.pageManager.clickResourceStoneRow]);
-            this.configManager.showWorkTableFlag = true;
-        }
-        if (!this.configManager.showBuildingTableFlag && +this.configManager.currentPopulation === +this.configManager.populationStorage) {
-            this.pageManager.showElement([this.pageManager.buildingTable]);
-            this.configManager.showBuildingTableFlag = true;
-            $('#building-modal').modal();
-        }
-        if (!this.configManager.showTechnologyTableFlag && +this.configManager.wood > 14) {
-            this.pageManager.showElement([this.pageManager.technologyTable, this.pageManager.techChangesElement]);
-            this.configManager.showTechnologyTableFlag = true;
-            $('#technology-modal').modal();
-        }
-    }
-
     runInterval() {
         this.oneStep(this.oneStepTime);
         this.events(this.oneStepTime * 30);
         this.funeralProcess(this.oneStepTime * 5);
         this.checkWinCondition(this.oneStepTime * 10);
+
+        // TODO move from here, add flag
+        this.scouting(this.oneStepTime / 8);
     }
+
 
     oneStep(timeout) {
         setInterval(() => {
@@ -56,13 +39,13 @@ class IntervalManager {
             this.configManager.stone.changeValue(+this.configManager.stoneTotalProduction);
             this.configManager.knowledge.changeValue(+this.configManager.knowledgeTotalProduction);
 
-            this.checkHiddenTables();
+            this.pageManager.checkHiddenTables();
 
             //starvation process
             if (+this.configManager.food < 0 && +this.configManager.currentPopulation > 0) {
-                this.eventManager.addEvent("starvation");
+                this.eventManager.showEventMsgToUser("starvation");
                 if (!this.configManager.starvationAchievementFlag) {
-                    this.eventManager.addAchievement("Starvation");
+                    this.eventManager.showAchievementToUser("Starvation");
                     this.configManager.starvationAchievementFlag = true;
                 }
                 this.pageManager.starvationWarning.show("slow");
@@ -86,12 +69,14 @@ class IntervalManager {
 
             // TODO abundance of food
             if (!this.configManager.productivityAchievementFlag && this.configManager.productivity >= 190) {
-                this.eventManager.addAchievement("Productivity");
+                this.eventManager.showAchievementToUser("Productivity");
                 this.configManager.productivityAchievementFlag = true;
             }
 
             // TODO add more bad events when it isn't focus
             // console.log(document.hasFocus());
+
+            $("#total-power-span").text(+this.configManager.warrior);
         }, timeout);
     }
 
@@ -100,7 +85,7 @@ class IntervalManager {
             if (+this.configManager.knowledge >= this.configManager.WINNER_REQUIREMENTS) {
                 if (confirm(`${this.configManager.userName} are amazing! Congratulations! You collected a lot of knowledge!! \nAlso you've killed: ${+this.configManager.corpse
                 + +this.configManager.inGraveQuantity} people. Great job\n`)) {
-                    this.gameManager.reloadSite();
+                    PageManager.reloadSite();
                 } else {
                     this.configManager.knowledge.changeValue(-this.configManager.WINNER_REQUIREMENTS);
                 }
@@ -126,6 +111,22 @@ class IntervalManager {
 
     events(timeout) {
         setInterval(() => this.eventManager.eventHappen(), timeout);
+    }
+
+    // TODO move this from here
+    scouting(timeout) {
+        setInterval(() => {
+            let progress = +$("#scout-progress").attr('aria-valuenow');
+            progress += +this.configManager.scout / 8;
+            // progress += +this.configManager.scout / 32;
+            if (progress > 100) {
+                progress = 0;
+                this.eventManager.scoutEvent();
+            }
+
+            $("#scout-progress").attr('aria-valuenow', progress);
+            $("#scout-progress").css("width", progress + "%");
+        }, timeout);
     }
 }
 

@@ -4,10 +4,31 @@ class PageManager {
         this.pauseButton = $("#pause-button");
         this.saveButton = $("#save-button");
         this.loadButton = $("#in-game-load-button");
+        this.mainMenuLoadButton = $("#main-menu-load-button");
         this.startAgainButton = $("#start-again-button");
         this.getFullButton = $("#getFullButton");
         this.starvationWarning = $("#starvation-warning");
         this.notAchievement = $("#not-achievement");
+
+        this.unknownRadioButton = $("#unknown-radio-div");
+        this.elfRadioButton = $("#elf-radio-div");
+        this.dwarfRadioButton = $("#dwarf-radio-div");
+        this.ufoRadioButton = $("#ufo-radio-div");
+        this.dragonRadioButton = $("#dragon-radio-div");
+        this.humanRadioButton = $("#human-radio-div");
+        this.amazonRadioButton = $("#amazon-radio-div");
+        this.spartaRadioButton = $("#sparta-radio-div");
+        this.orcRadioButton = $("#orc-radio-div");
+
+        this.scoutRadioButtons = $(".form-check-input");
+        this.scoutProgressBar = $("#scout-progress");
+
+        this.attackDiv = $("#attack-div");
+        this.attackProgressBarSection = $("#attack-section");
+        this.totalPowerSpan = $("#total-power-span");
+        this.attackI = $("#attack-i");
+        this.yourPowerProgressBar = $("#your-power-progress-bar");
+        this.enemyPowerProgressBar = $("#enemy-power-progress-bar");
 
         this.foodClickButton = $("#food-click-button");
         this.foodQuantityElement = $("#food-quantity");
@@ -62,25 +83,24 @@ class PageManager {
         this.curLazybonesElement = $("#lazybone-quantity");
 
         this.add10FarmerButton = $("#add-10-farmer-button");
-
         this.addFarmerButton = $("#add-farmer-button");
         this.removeFarmerButton = $("#remove-farmer-button");
         this.remove10FarmerButton = $("#remove-10-farmer-button");
         this.farmerQuantityElement = $("#farmer-quantity");
-        this.add10WoodmanButton = $("#add-10-woodcutter-button");
 
+        this.add10WoodmanButton = $("#add-10-woodcutter-button");
         this.addWoodmanButton = $("#add-woodcutter-button");
         this.removeWoodmanButton = $("#remove-woodcutter-button");
         this.remove10WoodmanButton = $("#remove-10-woodcutter-button");
         this.woodmenQuantityElement = $("#woodcutter-quantity");
-        this.add10MinerButton = $("#add-10-miner-button");
 
+        this.add10MinerButton = $("#add-10-miner-button");
         this.addMinerButton = $("#add-miner-button");
         this.removeMinerButton = $("#remove-miner-button");
         this.remove10MinerButton = $("#remove-10-miner-button");
         this.minerQuantityElement = $("#miner-quantity");
-        this.add10ScientistButton = $("#add-10-scientist-button");
 
+        this.add10ScientistButton = $("#add-10-scientist-button");
         this.addScientistButton = $("#add-scientist-button");
         this.removeScientistButton = $("#remove-scientist-button");
         this.remove10ScientistButton = $("#remove-10-scientist-button");
@@ -88,15 +108,15 @@ class PageManager {
         this.jobScientistRow = $("#job-scientist-row");
         this.curScientistQuantityElement = $("#scientist-quantity");
         this.maxScientistQuantityElement = $("#max-scientist-quantity");
-        this.emptyRowBeforeJobFuneral = $("#empty-row-before-job-funeral");
 
+        this.emptyRowBeforeJobFuneral = $("#empty-row-before-job-funeral");
         this.addFuneralButton = $("#add-funeral-button");
         this.removeFuneralButton = $("#remove-funeral-button");
         this.jobFuneralRow = $("#job-funeral-process-row");
         this.funeralQuantityElement = $("#funeral-process-quantity");
         this.funeralProcessImg = $("#funeral-process-img");
-        this.emptyRowBeforeJobInClubElement = $("#empty-row-before-job-in-club");
 
+        this.emptyRowBeforeJobInClubElement = $("#empty-row-before-job-in-club");
         this.jobDjRowElement = $("#job-dj-row");
         this.djQuantityElement = $("#dj-quantity");
         this.maxDjQuantityElement = $("#max-dj-quantity");
@@ -105,20 +125,26 @@ class PageManager {
         this.maxInstructorQuantityElement = $("#max-instructor-quantity");
         this.instructorQuantityElement = $("#instructor-quantity");
         this.addInstructorButton = $("#add-instructor-button");
-        this.emptyRowBeforeJobLeader = $("#empty-row-before-job-leader");
 
+        this.emptyRowBeforeJobLeader = $("#empty-row-before-job-leader");
         this.leaderRow = $("#job-leader-row");
         this.leaderQuantityElement = $("#leader-quantity");
         this.addLeaderButton = $("#add-leader-button");
-        this.jobWarriorRow = $("#job-warrior-row");
 
+        this.add10ScoutButton = $("#add-10-scout-button");
+        this.addScoutButton = $("#add-scout-button");
+        this.removeScoutButton = $("#remove-scout-button");
+        this.remove10ScoutButton = $("#remove-10-scout-button");
+        this.scoutQuantityElement = $("#scout-quantity");
+
+        this.jobWarriorRow = $("#job-warrior-row");
         this.addWarriorButton = $("#add-warrior-button");
         this.warriorQuantityElement = $("#warrior-quantity");
         this.maxWarriorQuantityElement = $("#max-warrior-quantity");
-        this.buildGraveButton = $("#build-grave-button");
 
         this.buildingTable = $("#building-table");
         this.buildGraveRow = $("#build-grave-row");
+        this.buildGraveButton = $("#build-grave-button");
         this.graveQuantityElement = $("#grave-quantity");
         this.buildScrollRow = $("#build-scroll-row");
         this.buildScrollButton = $("#build-scroll-button");
@@ -356,7 +382,16 @@ class PageManager {
         document.location.reload(true);
     }
 
-    // TODO Involve this when resource is changed
+    pause() {
+        $("body").css({"opacity": "0.1"});
+        setTimeout(() => {
+            alert("...pause. ");
+        }, 100);
+        setTimeout(() => {
+            $("body").css({"opacity": "1"});
+        }, 300);
+    }
+
     checkProduction() {
         this.changeColor(+this.configManager.foodTotalProduction, this.foodProductionElement, this.addFarmerButton);
         this.changeColor(+this.configManager.woodTotalProduction, this.woodProductionElement);
@@ -382,6 +417,112 @@ class PageManager {
             if (!!button) {
                 button.css({"background-color": "green", "border-color": "red"});
             }
+        }
+    }
+
+    changeUI() {
+        $("#nav-tab").show("slow");
+
+        this.peopleProductivityTable.hide("slow", () => {
+            this.moveTable("people-productivity-table", "nav-people");
+        });
+        this.peopleProductivityTable.show("slow");
+        this.moveTable("work-table", "nav-work");
+    }
+
+    moveTable(table, to) {
+        $("#" + table + " caption").hide("slow", () => {
+            $("#" + table + " caption").remove();
+        });
+
+        let element = $("#" + table);
+        element.detach();
+        $("#" + to).append(element);
+    }
+
+    runMainMenuModal() {
+        $('#main-menu-modal').on('shown.bs.modal', ()=> {
+            $('#user-name-input').trigger('focus')
+        });
+        $('#main-menu-modal').modal();
+
+        $("#user-name-input").on('keyup', (e)=>{
+            if (e.key === "Enter") {
+                this.getUserNameFromModal();
+                $('#main-menu-modal').modal('toggle');
+                // $('#get-food-modal').modal();
+            }
+        });
+
+        $("#main-menu-new-game-button").on("click", ()=>{
+            this.getUserNameFromModal();
+            $('#main-menu-modal').modal('toggle');
+        });
+    }
+
+    getUserNameFromModal() {
+        let userName = $("#user-name-input").val().trim();
+        userName = userName || "No named";
+        if (userName === "UFO Alien") {
+            this.eventManager.showAchievementToUser("UFO Alien");
+        }
+        userName = userName.charAt(0).toUpperCase() + userName.slice(1);
+        this.configManager.userName = userName;
+
+        localStorage.setItem(this.configManager.userKey, userName);
+        this.userNameElement.text(userName);
+
+        this.gameManager.intervalManager.runInterval();
+        this.runTooltips();
+    }
+
+    runTooltips() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    clickResourceButton(resourceType, quantity) {
+        resourceType.changeValue(quantity);
+
+        let buttonToBlur = this.pageManager.foodClickButton;
+        switch (resourceType) {
+            case "wood":
+                buttonToBlur = this.pageManager.woodClickButton;
+                break;
+            case "stone":
+                buttonToBlur = this.pageManager.stoneClickButton;
+                break;
+        }
+        buttonToBlur.blur();
+    }
+
+    checkLeaderPresence(result, workType) {
+        if (!this.configManager.leaderPresentFlag && workType === this.configManager.leader && result) {
+            this.pageManager.workTableEmptyTd.attr("colspan", "7");
+            this.pageManager.showElement([this.pageManager.tenWorkTd]);
+
+            this.configManager.leaderPresentFlag = true;
+        }
+    }
+
+    checkHiddenTables() {
+        if (!this.configManager.showPeopleTableFlag && +this.configManager.food > 5) {
+            this.showElement([this.peopleProductivityTable]);
+            this.configManager.showPeopleTableFlag = true;
+            $('#citizen-modal').modal();
+        }
+        if (!this.configManager.showWorkTableFlag && +this.configManager.currentPopulation > 0) {
+            this.showElement([this.workTable, this.clickResourceWoodRow, this.clickResourceStoneRow]);
+            this.configManager.showWorkTableFlag = true;
+        }
+        if (!this.configManager.showBuildingTableFlag && +this.configManager.currentPopulation === +this.configManager.populationStorage) {
+            this.showElement([this.buildingTable]);
+            this.configManager.showBuildingTableFlag = true;
+            $('#building-modal').modal();
+        }
+        if (!this.configManager.showTechnologyTableFlag && +this.configManager.wood > 14) {
+            this.showElement([this.technologyTable, this.techChangesElement]);
+            this.configManager.showTechnologyTableFlag = true;
+            $('#technology-modal').modal();
         }
     }
 }

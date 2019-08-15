@@ -1,12 +1,15 @@
 class ConfigManager {
     constructor() {
+        this.userKey = "USER_NAME";
         this.userName = "";
+
         this.foodIncreaseStep = 0.15;
         this.woodIncreaseStep = 0.125;
         this.stoneIncreaseStep = 0.05;
         this.knowledgeIncreaseStep = 0.025;
         this.clickEfficiency = 1;
         this.WINNER_REQUIREMENTS = 1e6;
+
         // Flags
         this.showPeopleTableFlag = false;
         this.corpsePresenceFlag = false;
@@ -100,6 +103,7 @@ class ConfigManager {
             ["instructorStorage", 0],
             ["instructor", 0],
             ["leader", 0],
+            ["scout", 30],
             ["warriorStorage", 0],
             ["warrior", 0],
 
@@ -170,6 +174,7 @@ class ConfigManager {
         this.instructorStorage = new Resource(this.initialValueMap.get("instructorStorage"), pageManager.maxInstructorQuantityElement, 0);
         this.instructor = new Resource(this.initialValueMap.get("instructor"), pageManager.instructorQuantityElement, 0, this.instructorStorage);
         this.leader = new Resource(this.initialValueMap.get("leader"), pageManager.leaderQuantityElement, 0);
+        this.scout = new Resource(this.initialValueMap.get("scout"), pageManager.scoutQuantityElement, 0);
         this.warriorStorage = new Resource(this.initialValueMap.get("warriorStorage"), pageManager.maxWarriorQuantityElement, 0);
         this.warrior = new Resource(this.initialValueMap.get("warrior"), pageManager.warriorQuantityElement, 0, this.warriorStorage);
 
@@ -189,10 +194,6 @@ class ConfigManager {
 
         // Building benefit
         this.knowledgeInScroll = new Resource(this.initialValueMap.get("knowledgeInScroll"), pageManager.buildScrollDefinition, 0);
-
-        // this.resourceMap = new Map([
-        //     [,],
-        // ]);
     }
 
     changeAllProduction(increase) {
@@ -209,28 +210,35 @@ class ConfigManager {
         let multiply = increase ? 1 : -1;
         switch (what) {
             case "food":
-                this.farmerProduction = Math.round(this.farmerProduction * 1000 + multiply * this.foodIncreaseStep * 1000) / 1000;
+                this.farmerProduction = Math.round(this.farmerProduction * 1e3 + multiply * this.foodIncreaseStep * 1e3) / 1e3;
                 this.foodTotalProduction.changeValue(multiply * +this.farmer * this.foodIncreaseStep);
                 break;
             case "wood":
-                this.woodmanProduction = Math.round(this.woodmanProduction * 1000 + multiply * this.woodIncreaseStep * 1000) / 1000;
+                this.woodmanProduction = Math.round(this.woodmanProduction * 1e3 + multiply * this.woodIncreaseStep * 1e3) / 1e3;
                 this.woodTotalProduction.changeValue(multiply * +this.woodman * this.woodIncreaseStep);
                 break;
             case "stone":
-                this.minerProduction = Math.round(this.minerProduction * 1000 + multiply * this.stoneIncreaseStep * 1000) / 1000;
+                this.minerProduction = Math.round(this.minerProduction * 1e3 + multiply * this.stoneIncreaseStep * 1e3) / 1e3;
                 this.stoneTotalProduction.changeValue(multiply * +this.miner * this.stoneIncreaseStep);
                 break;
             case "knowledge":
-                this.scientistProduction = Math.round(this.scientistProduction * 1000 + this.knowledgeIncreaseStep * 1000) / 1000;
+                this.scientistProduction = Math.round(this.scientistProduction * 1e3 + this.knowledgeIncreaseStep * 1e3) / 1e3;
                 this.knowledgeTotalProduction.changeValue(+this.scientist * this.knowledgeIncreaseStep);
                 break;
         }
     }
+
+    getFullResources() {
+        this.food.changeValue(+this.foodStorage);
+        this.wood.changeValue(+this.woodStorage);
+        this.stone.changeValue(+this.stoneStorage);
+        this.knowledge.changeValue(+this.knowledgeStorage);
+    }
 }
 
 class Resource {
-    constructor(quantity, element, toFixed, storage) {
-        this.value = quantity;
+    constructor(value, element, toFixed, storage) {
+        this.value = value;
         this.element = element;
         this.toFixed = toFixed;
         this.storage = storage;
@@ -239,37 +247,47 @@ class Resource {
     changeValue(quantity) {
         this.value = (this.value * 1e3 + quantity * 1e3) / 1e3;
 
-        this.checkStorage();
         this.fixValue();
     }
 
     setValue(value) {
         this.value = value;
 
-        this.checkStorage();
         this.fixValue();
     }
 
-    valueOf() {
-        return this.value;
+    fixValue() {
+        this.fixToStorage();
+        this.fixNegativeValue();
+        this.fixPrecision();
     }
 
-    checkStorage() {
-        if (this.storage) {
-            if (this.value > this.storage.value) {
-                this.value = this.storage.value;
-            } else if (this.value < -1) {
-                this.value = -1;
-            }
+    fixToStorage() {
+        if (this.storage && this.checkMax()) {
+            this.value = this.storage.value;
         }
     }
 
-    fixValue() {
+    checkMax() {
+        return this.value >= this.storage.value;
+    }
+
+    fixPrecision() {
         if (this.toFixed) {
             this.element.text(this.value.toFixed(this.toFixed));
         } else {
             this.element.text(Math.floor(this.value));
         }
+    }
+
+    fixNegativeValue() {
+        if (!isNaN(this.value) && this.value < -0.1) {
+            this.value = -0.1;
+        }
+    }
+
+    valueOf() {
+        return this.value;
     }
 }
 
