@@ -17,49 +17,72 @@ class ConfigManager {
 
         this.showWorkTableFlag = false;
         this.leaderPresentFlag = false;
+        this.leaderPresent2Flag = false;
+        this.leaderPresent2ResearchFlag = false;
         this.djPresentFlag = false;
         this.djProductivityFlag = false;
         this.instructorPresentFlag = false;
         this.instructorProductivityFlag = false;
+        this.writerPresentFlag = false;
 
         this.showBuildingTableFlag = false;
         this.barrackPresentFlag = false;
         this.palacePresentFlag = false;
+        this.armoryPresentFlag = false;
         this.showTechnologyTableFlag = false;
+        this.showPetTableFlag = false;
         this.productivityAchievementFlag = false;
         this.starvationAchievementFlag = false;
+
+        this.scoutingResearchFlag = false;
 
         // Building benefit
         this.foodInGranary = 50;
         this.resInPit = 50;
         this.spaceInTent = 2;
         this.spaceInHut = 5;
+        this.spaceInDuplex = 20;
         this.spaceInCamprire = 2;
         this.spaceInDolmen = 5;
+        this.spaceInParthenon = 12;
+        this.spaceInLibrary = 1;
         this.spaceForWorkerInClub = 1;
         this.spaceForPeopleInClub = 25;
         this.spaceInPalace = 5;
         this.spaceInBarrack = 10;
-        // Technology Cost
+        // TECHNOLOGY COST
+        // changes
         this.agricultureCost = 30;
         this.architectureCost = 30;
         this.funeralCost = 30;
+        // changes2
         this.changes2Cost = 75;
         this.leadershipCost = 100;
         this.agriculture2Cost = 100;
         this.architecture2Cost = 100;
+        // stone age
         this.stoneAgeCost = 300;
         this.architecture3Cost = 250;
         this.musicCost = 250;
         this.sportCost = 250;
         this.toolCost = 250;
-        this.ancientWeaponCost = 350;
         this.hoeCost = 300;
         this.axeCost = 300;
         this.pickaxeCost = 300;
         this.bothSideScrollCost = 10;
-        this.architecture4Cost = 900;
-        this.bronzeAgeCost = 3e3;
+        // bronze age
+        this.bronzeAgeCost = 12e2;
+        this.architecture4Cost = 1e3;
+        this.wheelCost = 1e3;
+        this.agriculture3Cost = 15e2;
+        this.leadership2Cost = 15e2;
+        this.packagingCost = 15e2;
+        this.scoutingCost = 15e2;
+        this.ancientWeaponCost = 2e3;
+        this.architecture5Cost = 25e2;
+        this.domesticationCost = 5e3;
+        this.mysticismCost = 5e3;
+        this.toolAgeCost = 5e3;
 
         // TODO change to JSON
         // for saving/loading
@@ -79,6 +102,10 @@ class ConfigManager {
             ["knowledgeStorage", 30],
             ["knowledge", 0],
             ["knowledgeTotalProduction", 0],
+            ["scrollTotalProduction", 0],
+
+            ["weapon", 0],
+            ["weaponTotalProduction", 0],
 
             ["populationStorage", 5],
             ["currentPopulation", 0],
@@ -91,6 +118,11 @@ class ConfigManager {
             ["currentHealthyPeople", 0],
             ["productivity", 100],
 
+            ["dragon", 0],
+            ["dragonTotalConsumption", 0],
+            ["cat", 0],
+            ["catTotalConsumption", 0],
+
             ["lazybones", 0],
             ["farmer", 0],
             ["woodman", 0],
@@ -98,29 +130,39 @@ class ConfigManager {
             ["funeral", 0],
             ["scientistStorage", 0],
             ["scientist", 0],
+            ["writerStorage", 0],
+            ["writer", 0],
             ["djStorage", 0],
             ["dj", 0],
             ["instructorStorage", 0],
             ["instructor", 0],
             ["leader", 0],
-            ["scout", 30],
+            ["scout", 0],
+            ["weaponMasterStorage", 0],
+            ["weaponMaster", 0],
             ["warriorStorage", 0],
             ["warrior", 0],
 
             ["grave", 0],
+            ["graveyard", 0],
             ["scroll", 0],
             ["granary", 0],
             ["pit", 0],
             ["tent", 0],
             ["hut", 0],
+            ["duplex", 0],
             ["campfire", 0],
             ["dolmen", 0],
+            ["parthenon", 0],
+            ["library", 0],
             ["musicClub", 0],
             ["yogaClub", 0],
             ["palace", 0],
+            ["armory", 0],
             ["barrack", 0],
 
-            ["knowledgeInScroll", 5]
+            ["knowledgeInScroll", 5],
+            ["resourcesInStorage", 50],
         ]);
     }
 
@@ -147,6 +189,11 @@ class ConfigManager {
         this.knowledge = new Resource(this.initialValueMap.get("knowledge"), pageManager.knowledgeQuantityElement, 0, this.knowledgeStorage);
         this.scientistProduction = 0.1;
         this.knowledgeTotalProduction = new Resource(this.initialValueMap.get("knowledgeTotalProduction"), pageManager.knowledgeProductionElement, 1);
+        this.scrollTotalProduction = new Resource(this.initialValueMap.get("scrollTotalProduction"), pageManager.scrollProductionElement, 1);
+
+        this.weapon = new Resource(this.initialValueMap.get("weapon"), pageManager.weaponQuantityElement, 0);
+        this.weaponMasterProduction = 0.2;
+        this.weaponTotalProduction = new Resource(this.initialValueMap.get("weaponTotalProduction"), pageManager.weaponProductionElement, 1);
 
         // People
         this.citizenCost = 10;
@@ -161,6 +208,12 @@ class ConfigManager {
         this.currentHealthyPeople = new Resource(this.initialValueMap.get("currentHealthyPeople"), pageManager.curHealthyPeopleElement, 0, this.healthyPeopleStorage);
         this.productivity = new Resource(this.initialValueMap.get("productivity"), pageManager.productivityQuantityElement, 2);
 
+        // Pet
+        this.dragon = new Resource(this.initialValueMap.get("dragon"), pageManager.curDragonElement, 0);
+        this.dragonTotalConsumption = new Resource(this.initialValueMap.get("dragonTotalConsumption"), pageManager.dragonConsumptionElement, 1);
+        this.cat = new Resource(this.initialValueMap.get("cat"), pageManager.curCatElement, 0);
+        this.catTotalConsumption = new Resource(this.initialValueMap.get("catTotalConsumption"), pageManager.catConsumptionElement, 1);
+
         // Work
         this.lazybones = new Resource(this.initialValueMap.get("lazybones"), pageManager.curLazybonesElement, 0);
         this.farmer = new Resource(this.initialValueMap.get("farmer"), pageManager.farmerQuantityElement, 0);
@@ -169,31 +222,41 @@ class ConfigManager {
         this.funeral = new Resource(this.initialValueMap.get("funeral"), pageManager.funeralQuantityElement, 0);
         this.scientistStorage = new Resource(this.initialValueMap.get("scientistStorage"), pageManager.maxScientistQuantityElement, 0);
         this.scientist = new Resource(this.initialValueMap.get("scientist"), pageManager.curScientistQuantityElement, 0, this.scientistStorage);
+        this.writerStorage = new Resource(this.initialValueMap.get("writerStorage"), pageManager.maxWriterQuantityElement, 0);
+        this.writer = new Resource(this.initialValueMap.get("writer"), pageManager.curWriterQuantityElement, 0, this.writerStorage);
         this.djStorage = new Resource(this.initialValueMap.get("djStorage"), pageManager.maxDjQuantityElement, 0);
         this.dj = new Resource(this.initialValueMap.get("dj"), pageManager.djQuantityElement, 0, this.djStorage);
         this.instructorStorage = new Resource(this.initialValueMap.get("instructorStorage"), pageManager.maxInstructorQuantityElement, 0);
         this.instructor = new Resource(this.initialValueMap.get("instructor"), pageManager.instructorQuantityElement, 0, this.instructorStorage);
         this.leader = new Resource(this.initialValueMap.get("leader"), pageManager.leaderQuantityElement, 0);
         this.scout = new Resource(this.initialValueMap.get("scout"), pageManager.scoutQuantityElement, 0);
+        this.weaponMasterStorage = new Resource(this.initialValueMap.get("weaponMasterStorage"), pageManager.maxWeaponMasterQuantityElement, 0);
+        this.weaponMaster = new Resource(this.initialValueMap.get("weaponMaster"), pageManager.weaponMasterQuantityElement, 0, this.weaponMasterStorage);
         this.warriorStorage = new Resource(this.initialValueMap.get("warriorStorage"), pageManager.maxWarriorQuantityElement, 0);
         this.warrior = new Resource(this.initialValueMap.get("warrior"), pageManager.warriorQuantityElement, 0, this.warriorStorage);
 
         // Buildings
         this.grave = new Resource(this.initialValueMap.get("grave"), pageManager.graveQuantityElement, 0);
+        this.graveyard = new Resource(this.initialValueMap.get("graveyard"), pageManager.graveyardQuantityElement, 0);
         this.scroll = new Resource(this.initialValueMap.get("scroll"), pageManager.scrollQuantityElement, 0);
         this.granary = new Resource(this.initialValueMap.get("granary"), pageManager.granaryQuantityElement, 0);
         this.pit = new Resource(this.initialValueMap.get("pit"), pageManager.pitQuantityElement, 0);
         this.tent = new Resource(this.initialValueMap.get("tent"), pageManager.tentQuantityElement, 0);
         this.hut = new Resource(this.initialValueMap.get("hut"), pageManager.hutQuantityElement, 0);
+        this.duplex = new Resource(this.initialValueMap.get("duplex"), pageManager.duplexQuantityElement, 0);
         this.campfire = new Resource(this.initialValueMap.get("campfire"), pageManager.campfireQuantityElement, 0);
         this.dolmen = new Resource(this.initialValueMap.get("dolmen"), pageManager.dolmenQuantityElement, 0);
+        this.parthenon = new Resource(this.initialValueMap.get("parthenon"), pageManager.parthenonQuantityElement, 0);
+        this.library = new Resource(this.initialValueMap.get("library"), pageManager.libraryQuantityElement, 0);
         this.musicClub = new Resource(this.initialValueMap.get("musicClub"), pageManager.musicClubQuantityElement, 0);
         this.yogaClub = new Resource(this.initialValueMap.get("yogaClub"), pageManager.yogaClubQuantityElement, 0);
         this.palace = new Resource(this.initialValueMap.get("palace"), pageManager.palaceQuantityElement, 0);
+        this.armory = new Resource(this.initialValueMap.get("armory"), pageManager.armoryQuantityElement, 0);
         this.barrack = new Resource(this.initialValueMap.get("barrack"), pageManager.barrackQuantityElement, 0);
 
         // Building benefit
-        this.knowledgeInScroll = new Resource(this.initialValueMap.get("knowledgeInScroll"), pageManager.buildScrollDefinition, 0);
+        this.knowledgeInScroll = new Resource(this.initialValueMap.get("knowledgeInScroll"), undefined, 0);
+        this.resourcesInStorage = new Resource(this.initialValueMap.get("resourcesInStorage"), undefined, 0);
     }
 
     changeAllProduction(increase) {
@@ -232,7 +295,12 @@ class ConfigManager {
         this.food.changeValue(+this.foodStorage);
         this.wood.changeValue(+this.woodStorage);
         this.stone.changeValue(+this.stoneStorage);
+
         this.knowledge.changeValue(+this.knowledgeStorage);
+
+        this.weapon.changeValue(10);
+
+        $("#audio-game-over")[0].play();
     }
 }
 
@@ -258,31 +326,26 @@ class Resource {
 
     fixValue() {
         this.fixToStorage();
-        this.fixNegativeValue();
         this.fixPrecision();
     }
 
     fixToStorage() {
-        if (this.storage && this.checkMax()) {
+        if (this.storage && this.isMaxStorage()) {
             this.value = this.storage.value;
         }
     }
 
-    checkMax() {
+    isMaxStorage() {
         return this.value >= this.storage.value;
     }
 
     fixPrecision() {
-        if (this.toFixed) {
-            this.element.text(this.value.toFixed(this.toFixed));
-        } else {
-            this.element.text(Math.floor(this.value));
-        }
-    }
-
-    fixNegativeValue() {
-        if (!isNaN(this.value) && this.value < -0.1) {
-            this.value = -0.1;
+        if (this.element) {
+            if (this.toFixed) {
+                this.element.text(this.value.toFixed(this.toFixed));
+            } else {
+                this.element.text(Math.floor(this.value));
+            }
         }
     }
 

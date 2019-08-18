@@ -47,10 +47,12 @@ class GameManager {
     }
 
     build(buildingType) {
+        $("#audio-build")[0].play();
         return this.builderManager.buildNewBuilding(buildingType);
     }
 
     research(name) {
+        $("#audio-tech")[0].play();
         return this.scienceManager.research(name);
     }
 }

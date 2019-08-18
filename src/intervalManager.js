@@ -26,6 +26,8 @@ class IntervalManager {
         this.funeralProcess(this.oneStepTime * 5);
         this.checkWinCondition(this.oneStepTime * 10);
 
+        this.writerInterval(this.oneStepTime * 5);
+
         // TODO move from here, add flag
         this.scouting(this.oneStepTime / 8);
     }
@@ -33,16 +35,42 @@ class IntervalManager {
 
     oneStep(timeout) {
         setInterval(() => {
-            // get resources
+            // RESOURCES
+            // FOOD
             this.configManager.food.changeValue(+this.configManager.foodTotalProduction);
-            this.configManager.wood.changeValue(+this.configManager.woodTotalProduction);
-            this.configManager.stone.changeValue(+this.configManager.stoneTotalProduction);
+            // WOOD
+            let enoughWoodFlag = +this.configManager.wood + +this.configManager.woodTotalProduction >= 0;
+            if (enoughWoodFlag) {
+                this.configManager.wood.changeValue(+this.configManager.woodTotalProduction);
+            }
+            // STONE
+            let enoughStoneFlag = +this.configManager.stone + +this.configManager.stoneTotalProduction >= 0;
+            if (enoughStoneFlag) {
+                this.configManager.stone.changeValue(+this.configManager.stoneTotalProduction);
+            }
+            // KNOWLEDGE
             this.configManager.knowledge.changeValue(+this.configManager.knowledgeTotalProduction);
+            // WEAPON
+            if (+this.configManager.weaponTotalProduction > 0) {
+                if (enoughWoodFlag && enoughStoneFlag) {
+                    this.configManager.weapon.changeValue(+this.configManager.weaponTotalProduction);
+                } else {
+                    this.eventManager.showMsgToUser("To produce weapon you need more wood or stones", this.eventManager.warningStatus);
+                }
+            }
 
             this.pageManager.checkHiddenTables();
 
+            // checkZombieApocalypse
+            if (+this.configManager.food < 0 && +this.configManager.cat && +this.configManager.currentPopulation < 20) {
+                $("#cat-apocalypse-modal").modal();
+                this.pageManager.startAgainButton.show("slow");
+            }
+
             //starvation process
             if (+this.configManager.food < 0 && +this.configManager.currentPopulation > 0) {
+                this.configManager.food.setValue(0);
+
                 this.eventManager.showEventMsgToUser("starvation");
                 if (!this.configManager.starvationAchievementFlag) {
                     this.eventManager.showAchievementToUser("Starvation");
@@ -50,25 +78,27 @@ class IntervalManager {
                 }
                 this.pageManager.starvationWarning.show("slow");
 
-                this.citizenManager.findPersonToKill();
+                let deathQuantity = 1 + -Math.floor(+this.configManager.foodTotalProduction);
+                deathQuantity = deathQuantity > +this.configManager.currentPopulation ? +this.configManager.currentPopulation : deathQuantity;
+                deathQuantity = deathQuantity < 2 ? deathQuantity : Math.floor(deathQuantity / 2);
+                for (let i = 0; i < deathQuantity; i++) {
+                    this.citizenManager.findPersonToKill();
+                }
 
                 // Decrease quantity of happy
                 if (+this.configManager.currentHappyPeople > this.configManager.currentPopulation) {
-                    this.configManager.currentHappyPeople(-1);
+                    this.configManager.currentHappyPeople.changeValue(-deathQuantity);
                 }
                 // and healthy people
                 if (+this.configManager.currentHealthyPeople > this.configManager.currentPopulation) {
-                    this.configManager.currentHealthyPeople(-1);
+                    this.configManager.currentHealthyPeople.changeValue(-deathQuantity);
                 }
             } else {
                 this.pageManager.starvationWarning.hide("slow");
             }
 
-            this.pageManager.checkProduction();
-            this.pageManager.checkOverpopulated();
-
-            // TODO abundance of food
-            if (!this.configManager.productivityAchievementFlag && this.configManager.productivity >= 190) {
+            // TODO add abundance of food
+            if (!this.configManager.productivityAchievementFlag && +this.configManager.productivity >= 190) {
                 this.eventManager.showAchievementToUser("Productivity");
                 this.configManager.productivityAchievementFlag = true;
             }
@@ -77,6 +107,9 @@ class IntervalManager {
             // console.log(document.hasFocus());
 
             $("#total-power-span").text(+this.configManager.warrior);
+
+            this.pageManager.checkProduction();
+            this.pageManager.checkOverpopulated();
         }, timeout);
     }
 
@@ -116,16 +149,35 @@ class IntervalManager {
     // TODO move this from here
     scouting(timeout) {
         setInterval(() => {
-            let progress = +$("#scout-progress").attr('aria-valuenow');
-            progress += +this.configManager.scout / 8;
-            // progress += +this.configManager.scout / 32;
-            if (progress > 100) {
-                progress = 0;
-                this.eventManager.scoutEvent();
-            }
+            if (+this.configManager.scout) {
+                let progress = +$("#scout-progress").attr('aria-valuenow');
+                // progress += +this.configManager.scout / 8;
+                progress += +this.configManager.scout / 32;
+                if (progress > 100) {
+                    progress = 0;
+                    this.eventManager.scoutEvent();
+                }
 
-            $("#scout-progress").attr('aria-valuenow', progress);
-            $("#scout-progress").css("width", progress + "%");
+                $("#scout-progress").attr('aria-valuenow', progress);
+                $("#scout-progress").css("width", progress + "%");
+            }
+        }, timeout);
+    }
+
+    writerInterval(timeout) {
+        setInterval(() => {
+            let writers = +this.configManager.writer;
+            if (writers) {
+                let stoneQuantity = +this.configManager.stone;
+                if (stoneQuantity >= 10) {
+                    let actualNewScrolls = writers * 10 <= stoneQuantity ? writers : Math.floor(stoneQuantity / writers);
+                    for (let i = 0; i < actualNewScrolls; i++) {
+                        this.gameManager.builderManager.buildNewBuilding("scroll");
+                    }
+                } else {
+                    this.eventManager.showMsgToUser("Writer needs at least 10 stone to produce Scrolls", this.eventManager.warningStatus);
+                }
+            }
         }, timeout);
     }
 }

@@ -19,6 +19,8 @@ class CitizenManager {
             this.setHappyPeople();
             this.setHealthyPeople();
 
+            this.pageManager.checkProduction();
+            this.pageManager.checkOverpopulated();
             result = true;
         }
 
@@ -48,10 +50,11 @@ class CitizenManager {
      * @param quantity - how many
      */
     addCitizen(quantity) {
-        this.configManager.currentPopulation.storage.changeValue(quantity);
+        let previousValue = +this.configManager.currentPopulation.storage;
+        this.configManager.currentPopulation.storage.setValue(Number.MAX_SAFE_INTEGER);
         this.configManager.currentPopulation.changeValue(quantity);
         // It allows to pass current population storage limit
-        this.configManager.currentPopulation.storage.changeValue(-quantity);
+        this.configManager.currentPopulation.storage.setValue(previousValue);
 
         this.configManager.lazybones.changeValue(quantity);
         this.configManager.foodTotalProduction.changeValue(-quantity);
@@ -70,11 +73,11 @@ class CitizenManager {
     }
 
     setCitizenToWork(workType, quantity) {
-        let result = false;
-        if (this.checkOpportunityToSetCitizen(workType, quantity)) {
+        let result = this.checkOpportunityToSetCitizen(workType, quantity);
+        if (result) {
             this.setWorker(workType, quantity);
             this.pageManager.checkLeaderPresence(result, workType);
-            result = true;
+            this.pageManager.checkLeaderPresence2(result, workType);
         }
         return result;
     }
@@ -82,21 +85,31 @@ class CitizenManager {
     checkOpportunityToSetCitizen(workType, quantity) {
         let result = false;
 
+        // add worker
         if (quantity > 0) {
             if (this.checkLazybonesPresence()) {
                 if (+this.configManager.lazybones >= quantity) {
                     // check enough buildings
-                    if (workType === this.configManager.scientist && this.configManager.scientist.checkMax()) {
+                    if (workType === this.configManager.scientist && this.configManager.scientist.isMaxStorage()) {
                         this.eventManager.showEventMsgToUser("more campfires");
                         return result;
-                    } else if (workType === this.configManager.dj && this.configManager.dj.checkMax()) {
+                    } else if (workType === this.configManager.writer && this.configManager.writer.isMaxStorage()) {
+                        this.eventManager.showEventMsgToUser("more libraries");
+                        return result;
+                    } else if (workType === this.configManager.dj && this.configManager.dj.isMaxStorage()) {
                         this.eventManager.showEventMsgToUser("more music clubs");
                         return result;
-                    } else if (workType === this.configManager.instructor && this.configManager.instructor.checkMax()) {
+                    } else if (workType === this.configManager.instructor && this.configManager.instructor.isMaxStorage()) {
                         this.eventManager.showEventMsgToUser("more yoga clubs");
                         return result;
-                    } else if (workType === this.configManager.warrior && this.configManager.warrior.checkMax()) {
+                    } else if (workType === this.configManager.weaponMaster && this.configManager.weaponMaster.isMaxStorage()) {
+                        this.eventManager.showEventMsgToUser("more armory");
+                        return result;
+                    } else if (workType === this.configManager.warrior && this.configManager.warrior.isMaxStorage()) {
                         this.eventManager.showEventMsgToUser("more barrack");
+                        return result;
+                    } else if (workType === this.configManager.warrior && quantity > +this.configManager.weapon) {
+                        this.eventManager.showEventMsgToUser("weapon lack");
                         return result;
                     }
 
@@ -108,7 +121,8 @@ class CitizenManager {
 
                 result = true;
             }
-            // set worker
+
+            // remove worker
         } else if (+workType) {
             result = true;
         }
@@ -138,6 +152,14 @@ class CitizenManager {
             this.configManager.stoneTotalProduction.changeValue(this.configManager.minerProduction * quantity);
         } else if (workType === this.configManager.scientist) {
             this.configManager.knowledgeTotalProduction.changeValue(this.configManager.scientistProduction * quantity);
+        } else if (workType === this.configManager.writer) {
+            this.configManager.scrollTotalProduction.changeValue(0.2 * quantity);
+        } else if (workType === this.configManager.weaponMaster) {
+            this.configManager.weaponTotalProduction.changeValue(this.configManager.weaponMasterProduction * quantity);
+            this.configManager.woodTotalProduction.changeValue(-0.2 * quantity);
+            this.configManager.stoneTotalProduction.changeValue(-0.2 * quantity);
+        } else if (workType === this.configManager.warrior) {
+            this.configManager.weapon.changeValue(-quantity);
         } else if (workType === this.configManager.dj) {
             let peopleAmount = +this.configManager.currentPopulation;
             let totalAvailableSpaceInClub = +this.configManager.dj * this.configManager.spaceForPeopleInClub;
@@ -159,13 +181,18 @@ class CitizenManager {
                 this.configManager.instructorProductivityFlag = true;
             }
         }
+
+        this.pageManager.checkProduction();
     }
 
     // TODO Try to refactor this part in the next time (create new classes for citizens, for jobs, extend from Resource)
     findPersonToKill() {
+        $("#audio-no")[0].play();
+
         let withDecrease = true;
         if (+this.configManager.lazybones) {
-            this.configManager.lazybones.changeValue(-1);
+            withDecrease = false;
+            this.killLazybone();
         } else if (+this.configManager.woodman) {
             withDecrease = false;
             this.killWoodcutter();
@@ -196,11 +223,30 @@ class CitizenManager {
             }
         } else if (+this.configManager.leader) {
             this.configManager.leader.changeValue(-1);
-            if (!+this.configManager.leader) {
-                this.pageManager.hideElement([this.pageManager.tenWorkTd]);
+            if (!this.configManager.leaderPresent2ResearchFlag && this.pageManager.addLeaderButton.css("display") === "none") {
+                this.pageManager.addLeaderButton.show("slow");
+            }
+            if (+this.configManager.leader < 10 && this.configManager.leaderPresent2Flag) {
+                // this.pageManager.hideElement([this.pageManager.maxWorkTd]);
+                this.pageManager.maxWorkTd.slideUp("slow");
+                this.pageManager.workTableEmptyTd.attr("colspan", "7");
+                this.configManager.leaderPresent2Flag = false;
+            }
+            if (!+this.configManager.leader && this.configManager.leaderPresentFlag) {
+                // this.pageManager.hideElement([this.pageManager.tenWorkTd]);
+                this.pageManager.tenWorkTd.slideUp("slow");
                 this.pageManager.workTableEmptyTd.attr("colspan", "5");
                 this.configManager.leaderPresentFlag = false;
             }
+        } else if (+this.configManager.writer) {
+            withDecrease = false;
+            this.killWorker(this.configManager.writer);
+        } else if (+this.configManager.weaponMaster) {
+            withDecrease = false;
+            this.killWorker(this.configManager.weaponMaster);
+        } else if (+this.configManager.scout) {
+            withDecrease = false;
+            this.killWorker(this.configManager.scout);
         } else if (+this.configManager.warrior) {
             withDecrease = false;
             this.killWarrior();
@@ -212,6 +258,14 @@ class CitizenManager {
         if (withDecrease) {
             this.decreasePopulation();
         }
+
+        this.pageManager.checkProduction();
+        this.pageManager.checkOverpopulated();
+    }
+
+    killLazybone() {
+        this.decreasePopulation();
+        this.configManager.lazybones.changeValue(-1);
     }
 
     killWarrior() {
@@ -235,11 +289,16 @@ class CitizenManager {
         this.killWorker(this.configManager.scientist, this.configManager.knowledgeTotalProduction, this.configManager.scientistProduction);
     }
 
-    killWorker(workerType, totalProduction, curUnitProduction) {
-        this.decreasePopulation();
+    // killWorker(workerType, totalProduction, curUnitProduction) {
+    //     this.decreasePopulation();
+    //
+    //     workerType.changeValue(-1);
+    //     totalProduction.changeValue(-curUnitProduction);
+    // }
 
-        workerType.changeValue(-1);
-        totalProduction.changeValue(-curUnitProduction);
+    killWorker(workerType) {
+        this.setCitizenToWork(workerType, -1);
+        this.killLazybone();
     }
 
     decreasePopulation() {

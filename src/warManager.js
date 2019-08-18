@@ -6,8 +6,9 @@ class WarManager {
     }
 
     attackEvent(event) {
+        $("#audio-attack")[0].play();
         if (+this.gameManager.pageManager.totalPowerSpan.text() === 0) {
-            this.gameManager.eventManager.showMsgToUser(`Lack of attack power, find more warrior.`, this.gameManager.eventManager.warningStatus);
+            this.gameManager.eventManager.showMsgToUser(`Lack of attack power, find more warriors.`, this.gameManager.eventManager.warningStatus);
         } else {
             this.gameManager.pageManager.attackDiv.hide("slow");
 

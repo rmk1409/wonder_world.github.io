@@ -76,8 +76,8 @@ table img {
 
 #funeral-process-img {
     position: absolute;
-    top: 707px;
-    left: 295px;
+    top: 265px;
+    left: 390px;
     height: 40px;
     z-index: 1;
 }
@@ -89,13 +89,14 @@ table img {
 /* Yandex Metrica */
 a img {
     position: absolute;
-    left: 455px;
+    left: 465px;
     top: 35px;
-    opacity: 0.05;
+    opacity: 0.1;
 }
 
 /*TABLES*/
-table:hover, header img:hover {
+table:hover, header img:hover,
+#author:hover {
     opacity: 0.9;
 }
 
@@ -105,7 +106,7 @@ table {
 
 #work-table,
 #world-table,
-.tab-content #people-productivity-table{
+.tab-content #people-productivity-table {
     width: fit-content;
 }
 
@@ -128,7 +129,7 @@ th {
 }
 
 td:last-child,
-#work-table td:nth-child(5){
+#work-table td:nth-child(5) {
     text-align: right;
 }
 
@@ -166,16 +167,17 @@ button.btn {
     top: 9px;
 }
 
-#create-10-worker-button {
+#create-worker-button,
+#create-10-worker-button,
+#create-max-worker-button {
     width: fit-content;
-    border-radius: 37%;
 }
 
 #menu-button-section {
     display: flex;
 }
 
-#menu-button-section button{
+#menu-button-section button {
     max-width: 95px;
     margin: 5px;
 }
@@ -221,6 +223,11 @@ button#pause-button {
     top: 110px;
     font-style: italic;
     font-size: 11px;
+    opacity: 0.7;
+    color: white;
+    background: #676757;
+    padding: 2px 10px;
+    border-radius: 5%;
 }
 
 .modal img {
@@ -229,4 +236,31 @@ button#pause-button {
 
 #nav-world .progress {
     height: 7px;
+}
+
+#scout-div img {
+    height: 32px;
+}
+
+#attack-div button {
+    margin: 5px;
+}
+
+.highlight {
+    box-shadow: 0 0 3px 3px #5b65e0;
+}
+
+.highlight2 {
+    box-shadow: 0 0 3px 3px #b53b3b;
+}
+
+#build-palace-last-msg {
+    white-space: pre-wrap;
+}
+
+#build-palace-modal .close,
+#zombie-apocalypse-modal .close,
+#cat-apocalypse-modal .close {
+    width: auto;
+    box-shadow: none;
 }

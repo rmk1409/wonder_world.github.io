@@ -8,9 +8,12 @@ class EventManager {
         this.moreResourceMsg = "&#9888; Collect more resources.";
         this.moreKnowledgeMsg = "&#9888; Collect more knowledge.";
         this.moreScienceBuildingMsg = "&#9888; Build more science buildings.";
+        this.moreLibraryBuildingMsg = "&#9888; Build more library buildings.";
         this.moreMusicClubsMsg = "&#9888; Build more entertainment buildings.";
         this.moreYogaClubsMsg = "&#9888; Build more health buildings.";
+        this.moreArmoryMsg = "&#9888; Build more armory buildings.";
         this.moreBarrackMsg = "&#9888; Build more barracks.";
+        this.moreWeaponMsg = "&#9888; Produce more weapon.";
         this.funeralProccessMoreWorkersMsg = "👥👥 One funeral requires 2 workers.";
         // this.elvesCantCutTreeMsgPart1 = "🧝🧝 Elves can't cut trees, so sometimes they take it from the others. They said - THANK YOU. And took: ";
         // this.elvesCantCutTreePart2 = " of your wood.";
@@ -49,7 +52,8 @@ class EventManager {
             [5, () => this.wildAmazonEvent()],
             [6, () => this.elfEvent()],
             [7, () => this.bloodMoonEvent()],
-            [8, () => this.birthDeathCycleEvent()]
+            [8, () => this.birthDeathCycleEvent()],
+            [9, () => this.petsEvent()]
 
             // // Drought (-foodProduction)
             // // Animals (-citizen quantity)
@@ -73,6 +77,7 @@ class EventManager {
     }
 
     showEventMsgToUser(what, changes) {
+        $("#audio-no")[0].play();
         // TODO think about this map...
         let msgMap = new Map([
             // ["ok", [this.okMsg, this.successStatus]],
@@ -84,9 +89,12 @@ class EventManager {
             ["more knowledge", [this.moreKnowledgeMsg, this.warningStatus]],
             // lack of building
             ["more campfires", [this.moreScienceBuildingMsg, this.warningStatus]],
+            ["more libraries", [this.moreLibraryBuildingMsg, this.warningStatus]],
             ["more music clubs", [this.moreMusicClubsMsg, this.warningStatus]],
             ["more yoga clubs", [this.moreYogaClubsMsg, this.warningStatus]],
+            ["more armory", [this.moreArmoryMsg, this.warningStatus]],
             ["more barrack", [this.moreBarrackMsg, this.warningStatus]],
+            ["weapon lack", [this.moreWeaponMsg, this.warningStatus]],
             // lack of free workers
             ["lack of lazybones", [this.lackLazyboneMsg, this.warningStatus]],
             ["1 funeral process needs 2 workers", [this.funeralProccessMoreWorkersMsg, this.warningStatus]],
@@ -148,11 +156,17 @@ class EventManager {
         let status = msgElem[1];
 
         if (msg) {
-            let event = $(`<div class="alert alert-${status}" role="alert">${EventManager.getMsgWithTime(msg)}</div>`);
+            let event = $(`<div class="alert alert-${status} highlight2" role="alert">${EventManager.getMsgWithTime(msg)}</div>`);
             this.pageManager.eventDiv.after(event);
             event.show("slow");
 
             $("#events-section").animate({scrollTop: 0}, "fast")
+
+            $('#events-section div.highlight2').hover(
+                function () {
+                    $(this).removeClass('highlight2');
+                }
+            );
         }
     }
 
@@ -166,6 +180,7 @@ class EventManager {
     }
 
     showAchievementToUser(what) {
+        $("#audio-build-achievement")[0].play();
         // TODO add flag
         this.pageManager.hideElement([this.pageManager.notAchievement]);
 
@@ -189,21 +204,24 @@ class EventManager {
     }
 
     eventHappen() {
-        let eventDiversity = +this.configManager.currentPopulation > 20 ? this.eventMap.size : 1;
         // FOR TEST
-        // let eventDiversity = 2;
+        // this.eventMap.get(9)();
+
+        let eventDiversity = +this.configManager.currentPopulation > 20 ? this.eventMap.size : 1;
         this.eventMap.get(EventManager.getRandomInt(eventDiversity))();
     }
 
     nothingHappenEvent() {
         // this.showEventMsgToUser("ok");
+        $("#audio-ok")[0].play();
         this.showMsgToUser("Everything is ok. Let s relax. ☕", this.successStatus);
     }
 
     ufoEvent() {
+        $("#audio-ufo")[0].play();
         let farmerQuantity = +this.configManager.farmer;
         if (this.hiddenButtons.length) {
-            this.hiddenButtons.pop().show('slow');
+            this.pageManager.showElement([this.hiddenButtons.pop()]);
             // this.showEventMsgToUser("ufo gave an useful artifact");
             this.showMsgToUser("`🛸 Ufo gives a mighty artifact and your people made a new button from it.&#128526&#128526`", this.successStatus);
         } else if (farmerQuantity > 25) {
@@ -237,9 +255,11 @@ class EventManager {
     }
 
     farmerEvent() {
+        $("#audio-farmer")[0].play();
         let farmerQuantity = +this.configManager.farmer;
 
         let foodQuantity = +this.configManager.food;
+        let changes;
         switch (EventManager.getRandomInt(5)) {
             case 1:
                 this.configManager.food.changeValue(Math.round(foodQuantity * 1.8));
@@ -259,7 +279,7 @@ class EventManager {
                 this.showMsgToUser("🐰🐰🐰 Farmers saw the wild rabbits.", this.primaryStatus);
                 break;
             case 4:
-                let changes = Math.round(foodQuantity * 2.5);
+                changes = Math.round(foodQuantity * 2.5);
                 this.configManager.food.changeValue(changes);
                 // this.showEventMsgToUser("kiwi", Math.round(foodQuantity * 2.5));
                 this.showMsgToUser(`👩‍🌾👩‍🌾 Farmers found ${changes} kiwi fruits.🥝🥝🥝🥝`, this.successStatus);
@@ -274,6 +294,7 @@ class EventManager {
     }
 
     weatherEvent() {
+        $("#audio-weather")[0].play();
         // TODO add illness
         let woodQuantity = +this.configManager.wood;
         switch (EventManager.getRandomInt(2)) {
@@ -318,6 +339,7 @@ class EventManager {
     }
 
     wildAmazonEvent() {
+        $("#audio-amazon")[0].play();
         let scientistQuantity = +this.configManager.scientist;
         if (scientistQuantity > 10) {
             switch (EventManager.getRandomInt(3)) {
@@ -349,6 +371,7 @@ class EventManager {
     }
 
     elfEvent() {
+        $("#audio-elf")[0].play();
         switch (EventManager.getRandomInt(2)) {
             case 1:
                 let woodQuantity = Math.floor(+this.configManager.wood);
@@ -380,6 +403,7 @@ class EventManager {
     }
 
     bloodMoonEvent() {
+        $("#audio-blood-moon")[0].play();
         let corpseQuantity = +this.configManager.corpse;
         if (corpseQuantity) {
             switch (EventManager.getRandomInt(2)) {
@@ -398,16 +422,14 @@ class EventManager {
                                     this.citizenManager.findPersonToKill();
                                 }
                                 // this.showEventMsgToUser("white walker killed");
-                                this.showMsgToUser("🧛🧛 Some zombies woke up and killed a few of your people. Than they went back. You have more corpses.");
+                                this.showMsgToUser("🧛🧛 Some zombies woke up and killed a few of your people. Than they went back. You have more corpses."
+                                    , this.dangerStatus);
                                 if (!+this.configManager.currentPopulation) {
                                     setTimeout(() => {
                                         // this.eventManager.showEventMsgToUser("death because of zombies");
                                         this.showMsgToUser("🌘🧛 You people died because of too many zombies.", this.dangerStatus);
-                                        alert(`🧟🧟 ${this.configManager.userName} are amazing, you killed: ${+this.configManager.corpse
-                                        + +this.configManager.inGraveQuantity} people. I believe in you. Please, try again.`);
-
-                                        // TODO check this
-                                        this.pageManager.showElement([this.pageManager.startAgainButton]);
+                                        $("#zombie-apocalypse-modal").modal();
+                                        this.pageManager.startAgainButton.show("slow");
                                     }, 500);
                                 }
                             }
@@ -426,6 +448,7 @@ class EventManager {
     }
 
     birthDeathCycleEvent() {
+        $("#audio-birth-cycle")[0].play();
         let changeQuantity = Math.floor(EventManager.getRandomInt(+this.configManager.currentPopulation) * 0.2);
         if (changeQuantity) {
             switch (EventManager.getRandomInt(2)) {
@@ -451,7 +474,7 @@ class EventManager {
             case "around":
                 switch (EventManager.getRandomInt(2)) {
                     case 1:
-                        let changes = EventManager.getRandomInt(Math.floor(+this.configManager.knowledge));
+                        let changes = EventManager.getRandomInt(Math.floor(+this.configManager.knowledge/3));
                         this.configManager.knowledge.changeValue(changes);
                         // this.showEventMsgToUser("better knowledge land", changes);
                         this.showMsgToUser(`Now your people know their land better. 🐾 🗺 Your people get ${changes} knowledge because of scouts.`, this.successStatus);
@@ -478,6 +501,21 @@ class EventManager {
         }
     }
 
+    petsEvent() {
+        $("#audio-pet")[0].play();
+        let catQuantity = +this.configManager.cat;
+        if (catQuantity) {
+            let changes = EventManager.getRandomInt(catQuantity) * 2;
+            this.configManager.cat.changeValue(changes);
+            this.configManager.foodTotalProduction.changeValue(-changes * 0.1);
+            this.configManager.catTotalConsumption.changeValue(-changes * 0.1);
+
+            this.showMsgToUser("Your cats bred a bit. You have more beautiful kittens. 🐈🐈🐈", this.warningStatus);
+        } else {
+            this.showMsgToUser("Your people saw beautiful cats walking around.🐈🐈", this.primaryStatus);
+        }
+    }
+
     generateFoundPlace(who) {
         let text = this.generatePlaceName(who);
         this.generateButton(text);
@@ -492,8 +530,10 @@ class EventManager {
         } else if (random < 25) {
             text = who.includes("dragon") ? "middle cave" : "city";
         }
+        who = who.includes("dragon") ? "" : who;
 
-        text = `${who.charAt(0).toUpperCase()}${who.slice(1)} ${text}`;
+        text = `${who} ${text}`.trim();
+        text = `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 
         return text;
     }
@@ -505,7 +545,7 @@ class EventManager {
                 element.remove();
             });
         }
-        let newElement = `<button style="display: none">${text}</button>`;
+        let newElement = `<button class="btn btn-dark" style="display: none">${text}</button>`;
         $("#attack-div br").after(newElement);
         $("#attack-div button").first().show("slow");
     }
@@ -543,7 +583,7 @@ class EventManager {
             case "Ufo":
                 this.configManager.knowledge.setValue(0);
                 // this.showEventMsgToUser("attack ufo");
-                this.showMsgToUser(`You warriors feared to attack this mighty civilization. After your attack at Ufo, they takes some of your knowledge.`);
+                this.showMsgToUser(`You warriors feared to attack this mighty civilization. After your attack at Ufo, they takes some of your knowledge.`, this.warningStatus);
                 break;
         }
     }
@@ -551,7 +591,7 @@ class EventManager {
     // TODO finish this
     battleResultEvent(who, win) {
         if (win) {
-            let changes = 0;
+            let changes;
             switch (who.split(" ")[0]) {
                 case "Orc":
                     if (who.includes("village")) {
@@ -562,25 +602,29 @@ class EventManager {
                         //    TODO finish this section;
                     }
                     this.configManager.wood.changeValue(changes);
-                    // this.showEventMsgToUser("win the battle", changes);
                     this.showMsgToUser(`You won the battle with the orcs and got ${changes} of wood.`, this.successStatus);
                     break;
                 case "Sparta":
-                    // this.showEventMsgToUser("win sparta");
                     this.showMsgToUser(`You win the battle and can be proud of yourself.`, this.successStatus);
                     break;
                 //    TODO add dragon eggs
-                case "Dragon":
+                case "Small":
+                case "Middle":
+                case "Big":
                     changes = 0;
-                    if (who.includes("small")) {
+                    if (who.includes("Small")) {
                         changes = EventManager.getRandomInt(1500) + 10;
-                    } else if (who.includes("middle")) {
+                    } else if (who.includes("Middle")) {
                         changes = EventManager.getRandomInt(15000) + 200;
                     } else {
                         //    TODO finish this section;
                     }
-                    // this.showEventMsgToUser("win the dragon", changes);
-                    this.showMsgToUser(`You won dragons, got their gold, gems and other treasures. Summary you got ${changes} of gold.`, this.successStatus);
+                    // TODO add eggs
+                    let dragonEggQuantity = Math.floor(changes / 100) + 1;
+                    this.configManager.dragon.changeValue(dragonEggQuantity);
+                    this.configManager.foodTotalProduction.changeValue(-dragonEggQuantity * 2);
+                    this.configManager.dragonTotalConsumption.changeValue(-dragonEggQuantity * 2);
+                    this.showMsgToUser(`You won dragons, got their gold, gems and other treasures. Summary you got ${changes} of gold. Also you've found ${dragonEggQuantity} newborn dragons.`, this.successStatus);
                     break;
                 case "Dwarf":
                     changes = 0;
@@ -592,13 +636,15 @@ class EventManager {
                         //    TODO finish this section;
                     }
                     this.configManager.stone.changeValue(changes);
-                    // this.showEventMsgToUser("attack dwarf", changes);
                     this.showMsgToUser(`You won the battle with the dwarves and got ${changes} of stone.`, this.successStatus);
                     break;
-                //    TODO add cats
                 case "Elf":
-                    // this.showEventMsgToUser("attack elves");
-                    this.showMsgToUser(`Elves had a lot of different resources and artifacts, but your warriors got craziness and burnt every useful stuff.`);
+                    let catQuantity = EventManager.getRandomInt(15);
+                    this.configManager.cat.changeValue(catQuantity);
+                    this.configManager.foodTotalProduction.changeValue(-catQuantity * 0.1);
+                    this.configManager.catTotalConsumption.changeValue(-catQuantity * 0.1);
+                    this.showMsgToUser(`Elves had a lot of different resources and artifacts, but your warriors got craziness and burnt every useful stuff. But you've taken ${catQuantity} kittens from them.`
+                        , this.successStatus);
                     break;
             }
         } else {
