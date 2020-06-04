@@ -1,4 +1,4 @@
-# wonder_world.github.io
+# http://wonder-world.space/
 Strategy-clicker game(html, css, bootstrap, js, jQuery)
 
-Try to get the highest score. http://rmk1409.github.io/wonder_world
+Try to get the highest score. http://wonder-world.space/
